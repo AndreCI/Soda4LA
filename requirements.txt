@@ -1,6 +1,4 @@
 future==0.17.1
 mido==1.2.9
 numpy
-PyAudio
 pyFluidSynth
-pymongo

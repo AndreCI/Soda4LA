@@ -1,15 +1,5 @@
 import csv
 
-import pymongo
-
-
-
-class database():
-    def __init__(self):
-        self.client = pymongo.MongoClient(port=27017)
-        self.db = self.client.S4L.Tamagocours
-        self.index = 0
-
 class CSVWrapper():
     def __init__(self, path):
         self.csvfile = open(path)

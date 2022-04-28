@@ -6,7 +6,7 @@ import fluidsynth
 
 import tamagocours_database
 from MIDIcontroller import MIDIController
-from app_setup import SOUNDFONT1, SOUNDFONT2, DATA_PATH
+from app_setup import SOUNDFONT1, SOUNDFONT2, DATA_PATH, SOUNDFONT4
 
 import numpy as np
 from pyaudio import PyAudio, paContinue, paInt16
@@ -26,9 +26,9 @@ class StreamProcessor(object):
 
     def __init__(self):
         self.controller = MIDIController()
-        self._synth = FluidSynth(track=0, soundfont= SOUNDFONT1)
+        self._synth = FluidSynth(track=0, soundfont= SOUNDFONT4)
         self.synth3 = fluidsynth.Synth()
-        self._synth2 = FluidSynth(track=1, soundfont=SOUNDFONT2)
+        self._synth2 = FluidSynth(track=1, soundfont=SOUNDFONT4)
         self._synth.load_misc()
         self._synth2.load_misc()
         seq = fluidsynth.Sequencer()

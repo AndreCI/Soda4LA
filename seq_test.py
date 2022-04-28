@@ -4,7 +4,7 @@ import time
 import fluidsynth
 from ctypes import *
 
-from app_setup import SOUNDFONT1, SOUNDFONT2
+from app_setup import SOUNDFONT1, SOUNDFONT2, SOUNDFONT4
 
 seqduration = 1000
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # you might have to use other drivers:
     # fs.start(driver="alsa", midi_driver="alsa_seq")
 
-    sfid = fs.sfload(SOUNDFONT1)
+    sfid = fs.sfload(SOUNDFONT4)
     fs.program_select(0, sfid, 0, 0)
     fs.program_select(1, sfid, 0, 0)  # use the same program for channel 2 for cheapness
 

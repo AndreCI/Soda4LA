@@ -46,7 +46,7 @@ def test_playing():
     fs = fluidsynth.Synth()
     fs.start()
 
-    sfid = fs.sfload("FluidR3_GM2-2.SF2")
+    sfid = fs.sfload("FluidR3_GM2-2.sf2")
     fs.program_select(0, sfid, 0, 0)
 
     fs.noteon(0, 60, 30)
@@ -64,7 +64,7 @@ def test_playing():
 
 def test_returning_data():
     fs = fluidsynth.Synth()
-    sfid = fs.sfload("FluidR3_GM2-2.SF2")
+    sfid = fs.sfload("FluidR3_GM2-2.sf2")
     fs.program_select(0, sfid, 0, 0)
 
     fs.noteon(0, 60, 30)

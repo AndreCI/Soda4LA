@@ -13,7 +13,8 @@ RING_BUFFER_SIZE = 40
 FRAMES_PER_BUFFER = 4096
 SAMPLE_RATE = 44100
 
-soundfont_path = "C:/users/Andre/Documents/GitHub/rtmonoaudio2midi/data/soundfonts/"
+soundfont_path = "data/soundfonts/"
 SOUNDFONT1 = soundfont_path + "Chemical_Clarinet_MDX7.sf2"
 SOUNDFONT3 = soundfont_path + "Recorder_Soprano.sf2"
 SOUNDFONT2 = soundfont_path + "Warm_Lead_MDX7.sf2"
+SOUNDFONT4 = soundfont_path + "FluidR3_GM2-2.sf2"
