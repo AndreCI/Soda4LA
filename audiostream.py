@@ -4,19 +4,12 @@ from collections import deque
 
 import fluidsynth
 
-import tamagocours_database
-from MIDIcontroller import MIDIController
-from app_setup import SOUNDFONT1, SOUNDFONT2, DATA_PATH, SOUNDFONT4
+from Ctrls.MIDI_controller import MIDICtrl
+from app_setup import SF_Chemclarinet, SF_Warmlead, SF_Default
 
 import numpy as np
 from pyaudio import PyAudio, paContinue, paInt16
 
-from app_setup import (
-    RING_BUFFER_SIZE,
-    SAMPLE_RATE,
-    THRESHOLD_MULTIPLIER,
-    THRESHOLD_WINDOW_SIZE,
-    WINDOW_SIZE)
 from midi import hz_to_midi, RTNote
 from synth import FluidSynth
 
@@ -25,10 +18,10 @@ class StreamProcessor(object):
     FREQS_BUF_SIZE = 11
 
     def __init__(self):
-        self.controller = MIDIController()
-        self._synth = FluidSynth(track=0, soundfont= SOUNDFONT4)
+        self.controller = MIDICtrl()
+        self._synth = FluidSynth(track=0, soundfont= SF_Default)
         self.synth3 = fluidsynth.Synth()
-        self._synth2 = FluidSynth(track=1, soundfont=SOUNDFONT4)
+        self._synth2 = FluidSynth(track=1, soundfont=SF_Default)
         self._synth.load_misc()
         self._synth2.load_misc()
         seq = fluidsynth.Sequencer()

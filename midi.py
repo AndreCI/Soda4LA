@@ -6,7 +6,7 @@ from mido import Message, MetaMessage, MidiFile
 from mido.midifiles import MidiTrack
 
 
-Note = namedtuple('Note', ['value', 'velocity', 'position_in_sec', 'duration'])
+#Note = namedtuple('Note', ['value', 'velocity', 'position_in_sec', 'duration'])
 RTNote = namedtuple('RTNote', ['value', 'velocity', 'duration'])
 
 

@@ -1,19 +1,19 @@
 import fluidsynth
 import time
 
-from app_setup import SOUNDFONT1, SOUNDFONT2
+from app_setup import SF_Chemclarinet, SF_Warmlead
 
 
 class FluidSynth(object):
 
     def __init__(self, track=0, soundfont=None, *a, **k):
         super(FluidSynth, *a, **k)
-        self._soundfont = soundfont if soundfont is not None else SOUNDFONT2
+        self._soundfont = soundfont if soundfont is not None else SF_Warmlead
         self.track = track
 
     def load_misc(self):
 
-        self.fs = fluidsynth.Synth()
+        self.fs = fluidsynth.Synth(gain=0.2)
         self.fs.start()
 
         self.sfid = self.fs.sfload(self._soundfont)
