@@ -1,0 +1,67 @@
+from tkinter import Toplevel, Button, Listbox, END
+from tkinter.ttk import Frame, Combobox
+
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_KEYS
+
+
+class ParameterMappingView(Toplevel):
+    def __init__(self, ctrl, **kwargs):
+        Toplevel.__init__(self, **kwargs)
+        self.ctrl = ctrl
+        self.fmode = True
+        self.title("Mapping for {}".format(self.ctrl.key))
+        self.geometry('450x400')
+        self.create_widgets()
+        self.setup_widgets()
+
+    def create_widgets(self):
+        self.main_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.pickKeyCombobox = Combobox(self.main_frame, values=MOCKUP_KEYS)
+        self.pickKeyCombobox.current(0)
+        self.pickFilterButton = Button(self.main_frame, text="Pick Filter")
+        self.switchModeButton = Button(self.main_frame, text="Handpick Mode", command=self.switch_mode)
+
+        self.function_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.pickFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_KEYS)
+        self.pickKeyCombobox.current(0)
+
+        self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.parameterListBox = Listbox(self.handpick_frame)
+        self.valueListBox = Listbox(self.handpick_frame)
+        for item in ["one", "two", "three", "four"]:
+            self.parameterListBox.insert(END, item)
+            self.valueListBox.insert(END, item)
+
+        self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
+        self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
+
+    def setup_widgets(self):
+        self.main_frame.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.pickKeyCombobox.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.pickFilterButton.grid(column=1, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.switchModeButton.grid(column=2, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+        self.function_frame.grid(column=0, row=1,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.pickFunctionCombobox.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+        self.parameterListBox.grid(column=0, row=0,pady=DEFAULT_PADY, padx=0)
+        self.valueListBox.grid(column=1, row=0,pady=DEFAULT_PADY, padx=0)
+
+        self.exit_frame.grid(column=0, row=2,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.validateButton.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.cancelButton.grid(column=1, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+    def switch_mode(self):
+        self.fmode = not self.fmode
+        self.switchModeButton.configure(text=("Handpick Mode" if self.fmode else "Function Mode"))
+        if(self.fmode):
+            self.handpick_frame.grid_forget()
+            self.function_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        else:
+            self.function_frame.grid_forget()
+            self.handpick_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+    def destroy(self) -> None:
+        self.ctrl.remove_window()
+        super().destroy()

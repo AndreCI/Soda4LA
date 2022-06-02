@@ -39,4 +39,4 @@ class StreamProcessor(object):
 
 if __name__ == '__main__':
     stream_proc = StreamProcessor()
-    #stream_proc.run()
+    stream_proc.run()
