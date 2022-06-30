@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Ctrls.data_controller import data_ctrl
+from Ctrls.data_controller import DataCtrl
 from Models.Note import Note, CNote, CNote_to_TNote
 from app_setup import *
 from midi import hz_to_midi, RTNote
@@ -8,7 +8,8 @@ from midi import hz_to_midi, RTNote
 
 class MIDICtrl():
     def __init__(self):
-        self.data_ctrl = data_ctrl(DATA_PATH)
+        self.data_ctrl = DataCtrl()
+        self.data_ctrl.setup(DATA_PATH)
         self.value_encoding = VALUE_encoding
         self.timing_span =1
         self.duration = 100

@@ -11,6 +11,12 @@ from Views.track_midi_view import TrackMidiView
 
 
 class SonificationView(ttk.Frame):
+    """
+    Main view for the sonification process, handling both configuration and midi representation of the loaded data.
+    Modules: list of tracks, each with their own config and midi view.
+    view to control the start, pause and stop of the current music
+    view to configurate time settings
+    """
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         self.config=True
@@ -29,6 +35,7 @@ class SonificationView(ttk.Frame):
         self.play_button = tk.Button(self.audio_view, text="Play", command=self.play)
         self.pause_button = tk.Button(self.audio_view, text="Pause", command=self.pause)
         self.stop_button = tk.Button(self.audio_view, text="Stop", command=self.stop)
+        self.generate_button = tk.Button(self.audio_view, text="Generate", command=self.generate)
         self.track_config_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.track_midi_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         #self.timeSettingView = TimeSettingView(self)
@@ -41,8 +48,11 @@ class SonificationView(ttk.Frame):
         self.play_button.grid(column=0, row=0)
         self.pause_button.grid(column=1, row=0)
         self.stop_button.grid(column=2, row=0)
+        self.generate_button.grid(column=3, row=0)
         self.track_config_frame.grid(column=1, row=1, rowspan=10, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
+    def generate(self):
+        self.ctrl.generate()
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
@@ -54,7 +64,7 @@ class SonificationView(ttk.Frame):
         for i, t in enumerate(self.trackConfigViews):
             t.grid(column=i, row=0, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
         for i, t in enumerate(self.trackMidiViews):
-            t.grid(column=i, row=0, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+            t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
     def add_track(self):
         tctrl = self.ctrl.add_track()

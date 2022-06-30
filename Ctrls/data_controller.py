@@ -1,23 +1,49 @@
 import csv
 from datetime import datetime
 
-from app_setup import MAX_SAMPLE
+from Utils.constants import MOCKUP_KEYS
+from app_setup import MAX_SAMPLE, DATA_PATH
 
 
-class data_ctrl():
-    def __init__(self, path):
-        self.csvfile = open(path)
-        self.reader = csv.reader(self.csvfile)
-        self.header = self.reader.__next__()
-        self.data = []
-        for d in self.reader:
-            self.data.append(d)
-        self.index = 0
-        self.set_data_timespan(MAX_SAMPLE)
+class DataCtrl():
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        """
+        instantiation, unique
+        """
+        if (cls._instance is None):
+            cls._instance = super(DataCtrl, cls).__new__(cls, *args, **kwargs)
+            cls.init = False
+        return cls._instance
+
+    def setup(cls, path):
+        cls.init = True
+        cls.csvfile = open(path)
+        cls.reader = csv.reader(cls.csvfile)
+        cls.header = cls.reader.__next__()
+        cls.data = []
+        for d in cls.reader:
+            cls.data.append(d)
+        cls.index = 0
+        cls.set_data_timespan(MAX_SAMPLE)
+
+    def get_variables(self):
+        if(not self.init):
+            return MOCKUP_KEYS
+        return self.header
+
+    def get_variables_instances(self, variable):
+        idx = self.header.index(variable)
+        instances = []
+        for d in self.data:
+            if(d[idx] not in instances):
+                instances.append(d[idx])
+        return instances
 
     def get_next(self):
         d = self.data[self.index]
-        self.index+=1
+        self.index += 1
         return d
 
     def get_data_timespan(self, data):
@@ -33,7 +59,7 @@ class data_ctrl():
         self.timing_span = timedelta.total_seconds()
 
     def get_deltatime(self, current_date, min_date=None):
-        if(min_date==None):
+        if (min_date == None):
             min_t = self.get_datetime(self.data[0][4])
         else:
             min_t = self.get_datetime(min_date)
@@ -48,9 +74,10 @@ class data_ctrl():
 
 
 if __name__ == '__main__':
-    db = data_ctrl("data/tamagocours/TraceTamagoAvril2015_codagechat.xls - Feuille1.csv")
+    db = DataCtrl()
+    db.setup(DATA_PATH)
+    print(db.get_variables())
+    print(db.get_variables_instances("actionType"))
     for i in range(10):
         print(db.get_next())
     db.csvfile.close()
-
-

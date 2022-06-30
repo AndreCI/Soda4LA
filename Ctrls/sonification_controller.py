@@ -33,3 +33,6 @@ class SonificationCtrl():
         pass
     def stop(self):
         pass
+
+    def generate(self):
+        pass

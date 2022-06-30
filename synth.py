@@ -1,7 +1,7 @@
 import fluidsynth
 import time
 
-from app_setup import SF_Chemclarinet, SF_Warmlead
+from app_setup import SF_Chemclarinet, SF_Warmlead, SF_Default
 
 
 class FluidSynth(object):
@@ -46,7 +46,7 @@ def test_playing():
     fs = fluidsynth.Synth()
     fs.start()
 
-    sfid = fs.sfload("FluidR3_GM2-2.sf2")
+    sfid = fs.sfload(SF_Default)
     fs.program_select(0, sfid, 0, 0)
 
     fs.noteon(0, 60, 30)
@@ -64,7 +64,7 @@ def test_playing():
 
 def test_returning_data():
     fs = fluidsynth.Synth()
-    sfid = fs.sfload("FluidR3_GM2-2.sf2")
+    sfid = fs.sfload(SF_Default)
     fs.program_select(0, sfid, 0, 0)
 
     fs.noteon(0, 60, 30)

@@ -4,7 +4,7 @@ from Utils.constants import DEFAULT_BGCOLOR, DEFAULT_PADX, DEFAULT_PADY, TFRAME_
 
 class NoteView(ttk.Frame):
     """
-
+    View of a single note, reprensented as a rectangle on a grid. Each instance must be linked to a specific note
     """
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)

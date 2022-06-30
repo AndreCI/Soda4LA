@@ -1,10 +1,17 @@
+from Ctrls.data_controller import DataCtrl
 from Views.parameter_mapping_view import ParameterMappingView
 
 
 class ParameterMappingCtrl:
+    
     def __init__(self, key):
+        self.db = DataCtrl()
         self.key = key
         self.view = None
+        self.selectedVar = None
+
+    def get_variables_instances(self):
+        return self.db.get_variables_instances(self.selectedVar)
 
     def show_window(self):
         if(self.view == None):

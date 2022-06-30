@@ -9,9 +9,9 @@ DEFAULT_PADY = (5, 5)
 DEFAULT_BGCOLOR = 'blue'
 
 TFRAME_STYLE = {"DEFAULT" : ["TFrame", "green"],
-                "TRACK": ["Trackframe.TFrame", "red"],
-                "CONFIG": ["Configframe.TFrame", "blue"],
+                "TRACK": ["Trackframe.TFrame", "grey"],
+                "CONFIG": ["Configframe.TFrame", "grey"],
                 "TRACK_COLLECTION": ["TCollection.TFrame", "cyan"],
-                "NOTE": ["TNote.TFrame", "green"],
-                "PARAMETER_MAPPING": ["TPMapping.TFrame", "green"]
+                "NOTE": ["TNote.TFrame", "grey"],
+                "PARAMETER_MAPPING": ["TPMapping.TFrame", "grey"]
                 }

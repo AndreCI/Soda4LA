@@ -1,13 +1,20 @@
+import struct
 import tkinter as tk
 
 from tkinter import ttk
 
+from Ctrls.data_controller import DataCtrl
 from Ctrls.track_controller import TrackCtrl
 from Utils.constants import DEFAULT_PADDING, DEFAULT_BGCOLOR, TFRAME_STYLE
 from Views.sonification_view import SonificationView
+from app_setup import DATA_PATH
 
 
 class MainView(tk.Tk):
+    """"
+    Main view, contains all the others modules and submodules. Progam starts here.
+    Modules: sonification view, menubar
+    """
     def __init__(self):
         tk.Tk.__init__(self)
         self.title("Soda4LA")
@@ -24,7 +31,7 @@ class MainView(tk.Tk):
     def setup_menu(self):
         self.menubar = tk.Menu(self)
         filemenu = tk.Menu(self.menubar, tearoff=0)
-        filemenu.add_command(label="Load data")
+        filemenu.add_command(label="Load data", command=self.load_data)
         # filemenu.add_command(label="Save")
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=self.quit)
@@ -34,21 +41,28 @@ class MainView(tk.Tk):
         helpmenu.add_command(label="About")
         self.menubar.add_cascade(label="Help", menu=helpmenu)
 
+    def load_data(self):
+        db = DataCtrl()
+        db.setup(DATA_PATH)
+
     def create_widgets(self):
-        #self.mainframe = ttk.Frame(self, padding="3 3 12 12")
+        # self.mainframe = ttk.Frame(self, padding="3 3 12 12")
         self.sonificationView = SonificationView(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
 
-        #self.sonificationView.create_widgets()
+        # self.sonificationView.create_widgets()
 
     def setup_widgets(self):
-        #self.mainframe.grid(column=0, row=0)
-        #self.columnconfigure(0, weight=1)
-        #self.rowconfigure(0, weight=1)
+        # self.mainframe.grid(column=0, row=0)
+        # self.columnconfigure(0, weight=1)
+        # self.rowconfigure(0, weight=1)
         self.sonificationView.grid(column=0, row=0)
 
     def setup_controller(self, controller):
         pass
 
+
 if __name__ == "__main__":
+    print(struct.calcsize("P")*8)
+
     mv = MainView()
     mv.mainloop()

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import struct
 import time
 import fluidsynth
 from ctypes import *
@@ -69,6 +69,7 @@ def seq_callback(time, event, seq, data):
 
 
 if __name__ == "__main__":
+
     global sequencer, fs, mySeqID, mySeqID2, synthSeqID, now
     fs = fluidsynth.Synth()
     fs.start()
