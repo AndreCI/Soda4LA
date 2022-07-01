@@ -8,8 +8,7 @@ from app_setup import SF_Soprano, SF_Default, SAMPLE_PER_DURATION
 
 class SeqCtrl(object):
     """
-    Create music based on note passed on it. Notes must be passed at regular interval into a buffer.
-    Wrap fluidsynth synth
+
     """
     def __init__(self, soundfonts, sequence_duration=1000):
         self.synth = fluidsynth.Synth()
