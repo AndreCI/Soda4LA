@@ -14,9 +14,9 @@ class TrackCtrl():
         self.midi_view = None
         self.config_view = None
         self.muted = False
-        self.mapping_windows = {}
+        self.encoding_windows = {}
         for k in ENCODING_OPTIONS:
-            self.mapping_windows[k] = ParameterEncodingCtrl(var=k)
+            self.encoding_windows[k] = ParameterEncodingCtrl(var=k)
 
     def setup(self, config_view, midi_view):
         self.config_view = config_view
@@ -34,9 +34,9 @@ class TrackCtrl():
         self.muted = not self.muted
 
     def remove(self):
-        for winctrl in self.mapping_windows.values():
+        for winctrl in self.encoding_windows.values():
             winctrl.destroy()
         self.sonification_ctrl.remove_track(self)
 
-    def open_mapping(self, key):
-        self.mapping_windows[key].show_window()
+    def open_mapping(self, var):
+        self.encoding_windows[var].show_window()

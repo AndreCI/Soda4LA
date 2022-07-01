@@ -53,7 +53,7 @@ class SeqCtrl(object):
         for note in self.next_notes:
             print(note)
             self.sequencer.note(int(self.now + self.seqduration * note.tfactor),
-                                channel=note.channel, key=note.var, duration=note.duration, velocity=note.velocity,
+                                channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
                                 dest=self.synthSeq_id)
         self.next_notes = []
         self.schedule_next_callback()
