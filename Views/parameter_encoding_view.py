@@ -5,15 +5,15 @@ from Ctrls.data_controller import DataCtrl
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_KEYS
 
 
-class ParameterMappingView(Toplevel):
+class ParameterEncodingView(Toplevel):
     """"
-    View for mapping variables to an encoding. started from track_config_view, and linked to a specific parameter of a note (value, duration, velocity)
+    View for encoding variables to an encoding. started from track_config_view, and linked to a specific parameter of a note (value, duration, velocity)
     """
     def __init__(self, ctrl, **kwargs):
         Toplevel.__init__(self, **kwargs)
         self.ctrl = ctrl
         self.fmode = True
-        self.title("Mapping for {}".format(self.ctrl.key))
+        self.title("Encoding+ for {}".format(self.ctrl.key))
         self.geometry('450x400')
         self.create_widgets()
         self.setup_widgets()

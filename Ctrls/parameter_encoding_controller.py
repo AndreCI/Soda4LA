@@ -1,5 +1,5 @@
 from Ctrls.data_controller import DataCtrl
-from Views.parameter_mapping_view import ParameterMappingView
+from Views.parameter_encoding_view import ParameterEncodingView
 
 
 class ParameterEncodingCtrl:
@@ -17,7 +17,7 @@ class ParameterEncodingCtrl:
 
     def show_window(self):
         if(self.view == None):
-            self.view = ParameterMappingView(self)
+            self.view = ParameterEncodingView(self)
         self.view.focus_set()
 
     def validate(self):

@@ -4,7 +4,7 @@ from tkinter.ttk import Combobox
 from Ctrls.data_controller import DataCtrl
 from Utils.constants import DEFAULT_BGCOLOR, DEFAULT_PADX, DEFAULT_PADY, TFRAME_STYLE, MOCKUP_KEYS, SOUNDFONT_KEYS, \
     MAPPING_OPTIONS
-from Views.parameter_mapping_view import ParameterMappingView
+from Views.parameter_encoding_view import ParameterEncodingView
 
 
 class TrackConfigView(ttk.Frame):
@@ -22,7 +22,7 @@ class TrackConfigView(ttk.Frame):
 
 
     def create_widgets(self):
-        self.pickSoundfontButton = Combobox(self, values = SOUNDFONT_KEYS)#, padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.pickSoundfontButton = Combobox(self, values=SOUNDFONT_KEYS)#, padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
         self.pickKeyListbox = Combobox(self, values=self.db.get_variables())
         self.pickSoundfontButton.current(0)
         self.pickKeyListbox.current(0)

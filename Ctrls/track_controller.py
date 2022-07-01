@@ -1,7 +1,7 @@
-from Ctrls.parameter_mapping_controller import ParameterEncodingCtrl
+from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.Track import Track
 from Utils.constants import MAPPING_OPTIONS
-from Views.parameter_mapping_view import ParameterMappingView
+from Views.parameter_encoding_view import ParameterEncodingView
 
 
 class TrackCtrl():
