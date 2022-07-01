@@ -1,10 +1,11 @@
 
 DATA_PATH= "data/tamagocours/Tamagocours.csv"
 soundfont_path = "data/soundfonts/"
+
+SF_Default = soundfont_path + "Jazz_Guitar.sf2"#"FluidR3_GM2-2.sf2"
 SF_Chemclarinet = soundfont_path + "Chemical_Clarinet_MDX7.sf2"
 SF_Soprano = soundfont_path + "Recorder_Soprano.sf2"
 SF_Warmlead = soundfont_path + "Warm_Lead_MDX7.sf2"
-SF_Default = soundfont_path + "Jazz_Guitar.sf2"#"FluidR3_GM2-2.sf2"
 SF_Cleanguitar = soundfont_path + "Clean_Guitar.sf2"
 SF_Jazzguitar = soundfont_path + "Jazz_Guitar.sf2"
 

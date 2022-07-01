@@ -49,7 +49,7 @@ class TrackConfigView(ttk.Frame):
         self.deleteButton.grid(column=3, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def map_durations(self):
-        self.ctrl.open_mapping("duration")
+        self.ctrl.open_mapping("duration") #TODO this sends a command to ctrl, but it opens a view. proper?
 
     def map_values(self):
         self.ctrl.open_mapping("value")

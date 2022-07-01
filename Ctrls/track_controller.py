@@ -3,6 +3,7 @@ from Models.Track import Track
 from Utils.constants import ENCODING_OPTIONS
 
 
+#TODO move data to model object
 class TrackCtrl():
     """
     Controller for a track. each track have its own ctrl and its own views.

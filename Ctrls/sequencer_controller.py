@@ -7,9 +7,10 @@ from Utils.constants import SF_Default
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
 
+#TODO separate ctrl and model. should be a model?
 class SeqCtrl(object):
     """
-
+    Wrapper for fluidsynth, notes can be buffered at regular interval using threads and callbacks. can be started and paused.
     """
 
     def __init__(self, soundfonts, sequence_duration=1000):

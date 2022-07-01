@@ -1,3 +1,7 @@
+"""
+Constants linked to music generation
+"""
+
 
 TIMING="timed"
 TOTAL_DURATION = 2000

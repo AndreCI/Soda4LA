@@ -1,6 +1,7 @@
 from Ctrls.track_controller import TrackCtrl
 
 
+#TODO move data to model object
 class SonificationCtrl():
     """
     Controller for the sonification process. It is unique and uses other ctrls. It is linked to sonification_view

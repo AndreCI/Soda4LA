@@ -13,7 +13,7 @@ class ParameterEncodingCtrl:
         self.view = None
         self.selectedVar = None
 
-    def get_variables_instances(self):
+    def get_variables_instances(self): #TODO move to a model
         return self.db.get_variables_instances(self.selectedVar)
 
     def show_window(self):

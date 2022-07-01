@@ -11,8 +11,8 @@ class ParameterEncodingView(Toplevel):
 
     def __init__(self, ctrl, **kwargs):
         Toplevel.__init__(self, **kwargs)
-        self.ctrl = ctrl
-        self.fmode = True
+        self.ctrl = ctrl #TODO: should not use ctrl but give it command. Should use model to get data
+        self.fmode = False
         self.title("Encoding+ for {}".format(self.ctrl.var))
         self.geometry('450x400')
         self.create_widgets()
@@ -22,7 +22,7 @@ class ParameterEncodingView(Toplevel):
         self.ctrl.selectedVar = self.selectVarCB.get()
         self.parameterListBox.delete(0, END)
         self.valueListBox.delete(0, END)
-        for i, item in enumerate(self.ctrl.get_variables_instances()):
+        for i, item in enumerate(self.ctrl.get_variables_instances()): #TODO should use model rather than ctrl
             self.parameterListBox.insert(END, item)
             self.valueListBox.insert(END, i)
 
@@ -32,11 +32,11 @@ class ParameterEncodingView(Toplevel):
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectVarCB.current(0)
         self.ctrl.selectedVar = self.selectVarCB.get()
-        self.pickFilterButton = Button(self.main_frame, text="Pick Filter")
-        self.switchModeButton = Button(self.main_frame, text="Handpick Mode", command=self.switch_mode)
+        self.selectFilterButton = Button(self.main_frame, text="Select Filter")
+        self.switchModeButton = Button(self.main_frame, text="Function Mode", command=self.switch_mode)
 
         self.function_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        self.pickFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_VARS)
+        self.selectFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_VARS)
         self.selectVarCB.current(0)
 
         self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
@@ -53,11 +53,11 @@ class ParameterEncodingView(Toplevel):
     def setup_widgets(self):
         self.main_frame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.selectVarCB.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.pickFilterButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.selectFilterButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.switchModeButton.grid(column=2, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.function_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.pickFunctionCombobox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.handpick_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.selectFunctionCombobox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
         self.parameterListBox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=0)
         self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)

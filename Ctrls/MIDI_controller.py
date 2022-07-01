@@ -4,6 +4,7 @@ from Utils.constants import *
 from Utils.sound_setup import *
 
 
+#TODO rework, this should modify a model object based on views commands
 class MIDICtrl():
     """"
     Controller for midi protocols, transforming data into proper midi encoding

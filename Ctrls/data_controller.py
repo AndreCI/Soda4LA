@@ -5,10 +5,10 @@ from Utils.constants import DATA_PATH
 from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
 
-
+#TODO should be a model? with a ctrl attached?
 class DataCtrl():
     """"
-    Load data into its model class
+    Data csv wrapper, offers additional information such as a list of all instances of a variable
     """
     _instance = None
 
@@ -18,11 +18,11 @@ class DataCtrl():
         """
         if (cls._instance is None):
             cls._instance = super(DataCtrl, cls).__new__(cls, *args, **kwargs)
-            cls.init = False
+            cls.initialized = False
         return cls._instance
 
     def setup(cls, path):
-        cls.init = True
+        cls.initialized = True
         cls.csvfile = open(path)
         cls.reader = csv.reader(cls.csvfile)
         cls.header = cls.reader.__next__()
@@ -33,7 +33,7 @@ class DataCtrl():
         cls.set_data_timespan(MAX_SAMPLE)
 
     def get_variables(self):
-        if(not self.init):
+        if(not self.initialized):
             return MOCKUP_VARS
         return self.header
 
