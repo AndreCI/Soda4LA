@@ -1,11 +1,8 @@
-from tkinter import ttk
 import tkinter as tk
+from tkinter import ttk
 
 from Ctrls.sonification_controller import SonificationCtrl
-from Ctrls.track_controller import TrackCtrl
-from Utils.constants import DEFAULT_BGCOLOR, DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
-from Views.control_sound_view import ControlSoundView
-from Views.time_setting_view import TimeSettingView
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -17,15 +14,15 @@ class SonificationView(ttk.Frame):
     view to control the start, pause and stop of the current music
     view to configurate time settings
     """
+
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        self.config=True
+        self.config = True
         self.ctrl = SonificationCtrl(view=self)
         self.trackConfigViews = []
         self.trackMidiViews = []
         self.create_widgets()
         self.setup_widgets()
-
 
     def create_widgets(self):
         self.switch_view_button = tk.Button(self, text="Change view", command=self.switch_view)
@@ -38,13 +35,13 @@ class SonificationView(ttk.Frame):
         self.generate_button = tk.Button(self.audio_view, text="Generate", command=self.generate)
         self.track_config_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.track_midi_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        #self.timeSettingView = TimeSettingView(self)
+        # self.timeSettingView = TimeSettingView(self)
 
     def setup_widgets(self):
         self.switch_view_button.grid(column=0, row=0)
         self.time_setting_button.grid(column=0, row=1)
         self.add_track_button.grid(column=0, row=2)
-        self.audio_view.grid(column=1, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.audio_view.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.play_button.grid(column=0, row=0)
         self.pause_button.grid(column=1, row=0)
         self.stop_button.grid(column=2, row=0)
@@ -68,8 +65,10 @@ class SonificationView(ttk.Frame):
 
     def add_track(self):
         tctrl = self.ctrl.add_track()
-        config_view = TrackConfigView(self.track_config_frame, ctrl=tctrl, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK"][0])
-        midi_view = TrackMidiView(self.track_midi_frame, ctrl=tctrl, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK"][0])
+        config_view = TrackConfigView(self.track_config_frame, ctrl=tctrl, padding=DEFAULT_PADDING,
+                                      style=TFRAME_STYLE["TRACK"][0])
+        midi_view = TrackMidiView(self.track_midi_frame, ctrl=tctrl, padding=DEFAULT_PADDING,
+                                  style=TFRAME_STYLE["TRACK"][0])
         tctrl.setup(config_view, midi_view)
 
         self.reset_track_view()
@@ -103,4 +102,3 @@ class SonificationView(ttk.Frame):
 
     def open_time_setting(self):
         pass
-

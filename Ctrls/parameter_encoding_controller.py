@@ -6,9 +6,10 @@ class ParameterEncodingCtrl:
     """
     Controller for the encoding view
     """
-    def __init__(self, key):
+
+    def __init__(self, var):
         self.db = DataCtrl()
-        self.key = key
+        self.var = var
         self.view = None
         self.selectedVar = None
 
@@ -16,7 +17,7 @@ class ParameterEncodingCtrl:
         return self.db.get_variables_instances(self.selectedVar)
 
     def show_window(self):
-        if(self.view == None):
+        if (self.view == None):
             self.view = ParameterEncodingView(self)
         self.view.focus_set()
 
@@ -24,7 +25,7 @@ class ParameterEncodingCtrl:
         self.view.destroy()
 
     def destroy(self):
-        if(self.view != None):
+        if (self.view != None):
             self.view.destroy()
 
     def remove_window(self):

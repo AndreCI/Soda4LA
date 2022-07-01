@@ -1,7 +1,6 @@
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.Track import Track
-from Utils.constants import MAPPING_OPTIONS
-from Views.parameter_encoding_view import ParameterEncodingView
+from Utils.constants import ENCODING_OPTIONS
 
 
 class TrackCtrl():
@@ -16,8 +15,8 @@ class TrackCtrl():
         self.config_view = None
         self.muted = False
         self.mapping_windows = {}
-        for k in MAPPING_OPTIONS:
-            self.mapping_windows[k] = ParameterEncodingCtrl(key=k)
+        for k in ENCODING_OPTIONS:
+            self.mapping_windows[k] = ParameterEncodingCtrl(var=k)
 
     def setup(self, config_view, midi_view):
         self.config_view = config_view
@@ -26,9 +25,9 @@ class TrackCtrl():
 
     def change_gain(self, gain):
         self.local_gain = gain
-        if(self.midi_view.local_gain_slider.get() != gain):
+        if (self.midi_view.local_gain_slider.get() != gain):
             self.midi_view.local_gain_slider.set(gain)
-        if(self.config_view.local_gain_slider.get() != gain):
+        if (self.config_view.local_gain_slider.get() != gain):
             self.config_view.local_gain_slider.set(gain)
 
     def mute_track(self):

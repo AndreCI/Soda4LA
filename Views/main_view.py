@@ -1,13 +1,10 @@
-import struct
 import tkinter as tk
-
 from tkinter import ttk
 
 from Ctrls.data_controller import DataCtrl
-from Ctrls.track_controller import TrackCtrl
-from Utils.constants import DEFAULT_PADDING, DEFAULT_BGCOLOR, TFRAME_STYLE
+from Utils.constants import DATA_PATH
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
 from Views.sonification_view import SonificationView
-from app_setup import DATA_PATH
 
 
 class MainView(tk.Tk):
@@ -62,7 +59,5 @@ class MainView(tk.Tk):
 
 
 if __name__ == "__main__":
-    print(struct.calcsize("P")*8)
-
     mv = MainView()
     mv.mainloop()

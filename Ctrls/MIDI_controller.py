@@ -1,23 +1,21 @@
-from datetime import datetime
-
 from Ctrls.data_controller import DataCtrl
-from Models.Note import Note, CNote, CNote_to_TNote
-from app_setup import *
-from midi import hz_to_midi, RTNote
+from Models.Note import CNote, CNote_to_TNote
+from Utils.constants import *
+from Utils.sound_setup import *
 
 
 class MIDICtrl():
     """"
     Controller for midi protocols, transforming data into proper midi encoding
     """
+
     def __init__(self):
         self.data_ctrl = DataCtrl()
         self.data_ctrl.setup(DATA_PATH)
         self.value_encoding = VALUE_encoding
-        self.timing_span =1
+        self.timing_span = 1
         self.duration = 100
         self.velocity = 100
-
 
     def assign_time(self, data):
         """
@@ -33,7 +31,7 @@ class MIDICtrl():
 
     def assign_value(self, data):
         value = self.value_encoding["default"][0]
-        if(data[2] in self.value_encoding):
+        if (data[2] in self.value_encoding):
             value = self.value_encoding[data[2]][0]
         else:
             print("encoding not found: " + data[2])
@@ -44,7 +42,7 @@ class MIDICtrl():
 
     def assign_channel(self, data):
         value = self.value_encoding["default"][1]
-        if(data[2] in self.value_encoding):
+        if (data[2] in self.value_encoding):
             value = self.value_encoding[data[2]][1]
         else:
             print("encoding not found: " + data[2])
@@ -60,14 +58,15 @@ class MIDICtrl():
         return notes
 
     def process_next_note(self, data):
-        return CNote(self.assign_channel(data), self.assign_value(data), self.assign_velocity(data), self.assign_duration(data))
+        return CNote(self.assign_channel(data), self.assign_value(data), self.assign_velocity(data),
+                     self.assign_duration(data))
 
     def process_next_note_timed(self, data):
         return CNote_to_TNote(self.process_next_note(data), self.assign_time(data))
 
     def get_next_note(self):
         data = self.data_ctrl.get_next()
-        if(TIMING=="auto"):
+        if (TIMING == "auto"):
             return self.process_next_note(data)
         else:
             return self.process_next_note_timed(data)

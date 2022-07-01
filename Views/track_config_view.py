@@ -1,10 +1,8 @@
-from tkinter import ttk, Button, Scale, Listbox, END, Entry, Label
+from tkinter import ttk, Button, Scale, Entry, Label
 from tkinter.ttk import Combobox
 
 from Ctrls.data_controller import DataCtrl
-from Utils.constants import DEFAULT_BGCOLOR, DEFAULT_PADX, DEFAULT_PADY, TFRAME_STYLE, MOCKUP_KEYS, SOUNDFONT_KEYS, \
-    MAPPING_OPTIONS
-from Views.parameter_encoding_view import ParameterEncodingView
+from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONT
 
 
 class TrackConfigView(ttk.Frame):
@@ -13,6 +11,7 @@ class TrackConfigView(ttk.Frame):
     each track independantly with buttons and sliders.
     View to export/import a specific track
     """
+
     def __init__(self, parent, ctrl=None, **kwargs):
         super().__init__(parent, **kwargs)
         self.db = DataCtrl()
@@ -20,9 +19,8 @@ class TrackConfigView(ttk.Frame):
         self.create_widgets()
         self.setup_widgets()
 
-
     def create_widgets(self):
-        self.pickSoundfontButton = Combobox(self, values=SOUNDFONT_KEYS)#, padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.pickSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
         self.pickKeyListbox = Combobox(self, values=self.db.get_variables())
         self.pickSoundfontButton.current(0)
         self.pickKeyListbox.current(0)
@@ -33,13 +31,13 @@ class TrackConfigView(ttk.Frame):
         self.exportButton = Button(self, text="Export")
         self.importButton = Button(self, text="Import")
         self.deleteButton = Button(self, text="Delete track", command=self.ctrl.remove)
-        self.local_gain_slider = Scale(self, from_=0, to=100, sliderrelief='solid', command=self.ctrl.change_gain) #flat, groove, raised, ridge, solid, sunken
+        self.local_gain_slider = Scale(self, from_=0, to=100, sliderrelief='solid',
+                                       command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
 
     def setup_widgets(self):
         self.pickKeyListbox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.pickSoundfontButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.local_gain_slider.grid(column=2, row=0, rowspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-
 
         self.filterLabel.grid(column=0, row=1, columnspan=1, pady=DEFAULT_PADY)
         self.filterEntry.grid(column=1, row=1, columnspan=1, pady=DEFAULT_PADY)
@@ -50,13 +48,11 @@ class TrackConfigView(ttk.Frame):
         # self.importButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.deleteButton.grid(column=3, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-
-
     def map_durations(self):
         self.ctrl.open_mapping("duration")
+
     def map_values(self):
         self.ctrl.open_mapping("value")
-
 
     def setup_controller(self, controller):
         self.ctrl = controller

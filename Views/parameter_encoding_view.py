@@ -1,19 +1,19 @@
 from tkinter import Toplevel, Button, Listbox, END
 from tkinter.ttk import Frame, Combobox
 
-from Ctrls.data_controller import DataCtrl
-from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_KEYS
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_VARS
 
 
 class ParameterEncodingView(Toplevel):
     """"
     View for encoding variables to an encoding. started from track_config_view, and linked to a specific parameter of a note (value, duration, velocity)
     """
+
     def __init__(self, ctrl, **kwargs):
         Toplevel.__init__(self, **kwargs)
         self.ctrl = ctrl
         self.fmode = True
-        self.title("Encoding+ for {}".format(self.ctrl.key))
+        self.title("Encoding+ for {}".format(self.ctrl.var))
         self.geometry('450x400')
         self.create_widgets()
         self.setup_widgets()
@@ -36,7 +36,7 @@ class ParameterEncodingView(Toplevel):
         self.switchModeButton = Button(self.main_frame, text="Handpick Mode", command=self.switch_mode)
 
         self.function_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        self.pickFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_KEYS)
+        self.pickFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_VARS)
         self.selectVarCB.current(0)
 
         self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
@@ -51,25 +51,25 @@ class ParameterEncodingView(Toplevel):
         self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
 
     def setup_widgets(self):
-        self.main_frame.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.main_frame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.selectVarCB.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.pickFilterButton.grid(column=1, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.switchModeButton.grid(column=2, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.pickFilterButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.switchModeButton.grid(column=2, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.function_frame.grid(column=0, row=1,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.pickFunctionCombobox.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.function_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.pickFunctionCombobox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.parameterListBox.grid(column=0, row=0,pady=DEFAULT_PADY, padx=0)
-        self.valueListBox.grid(column=1, row=0,pady=DEFAULT_PADY, padx=0)
+        self.parameterListBox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=0)
+        self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)
 
-        self.exit_frame.grid(column=0, row=2,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.validateButton.grid(column=0, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.cancelButton.grid(column=1, row=0,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.exit_frame.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def switch_mode(self):
         self.fmode = not self.fmode
         self.switchModeButton.configure(text=("Handpick Mode" if self.fmode else "Function Mode"))
-        if(self.fmode):
+        if (self.fmode):
             self.handpick_frame.grid_forget()
             self.function_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         else:

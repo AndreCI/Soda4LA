@@ -1,8 +1,9 @@
 import csv
 from datetime import datetime
 
-from Utils.constants import MOCKUP_KEYS
-from app_setup import MAX_SAMPLE, DATA_PATH
+from Utils.constants import DATA_PATH
+from Utils.constants import MOCKUP_VARS
+from Utils.sound_setup import MAX_SAMPLE
 
 
 class DataCtrl():
@@ -33,7 +34,7 @@ class DataCtrl():
 
     def get_variables(self):
         if(not self.init):
-            return MOCKUP_KEYS
+            return MOCKUP_VARS
         return self.header
 
     def get_variables_instances(self, variable):

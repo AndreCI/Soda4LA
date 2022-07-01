@@ -8,6 +8,7 @@ class TrackMidiView(ttk.Frame):
     View module for tracks in midi mode. Each track should have its own view. Midi view enables the user to see notes
     inside a track and to modifiy specific parameters (such as gain) to update the song in real time
     """
+
     def __init__(self, parent, ctrl=None, **kwargs):
         super().__init__(parent, **kwargs)
         self.ctrl = ctrl
@@ -17,13 +18,14 @@ class TrackMidiView(ttk.Frame):
 
     def create_widgets(self):
         self.local_gain_slider = Scale(self, from_=0, to=100,
-                                       sliderrelief='solid', command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
+                                       sliderrelief='solid',
+                                       command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
         self.mute_button = Button(self, text="Mute")
         self.notes = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["NOTE"][0])
 
     def setup_widgets(self):
         self.local_gain_slider.grid(column=0, row=0, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.mute_button.grid(column=2, row=0,  pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.mute_button.grid(column=2, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def setup_controller(self, controller):
         self.ctrl = controller

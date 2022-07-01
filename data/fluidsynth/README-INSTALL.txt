@@ -14,3 +14,9 @@ fluidsynth: warning: sequencer: Usage of the system timer has been deprecated!
 
 Also build from source using https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake#building-with-msys2-on-windows
 Did it help?
+
+
+
+UBUNTU
+install fluidsynth using apt-get install, then update ld_library_path to specify where it is
+fluidsynth synth must be started by specififing the alsa driver, see https://github.com/nwhitehead/pyfluidsynth/issues/22

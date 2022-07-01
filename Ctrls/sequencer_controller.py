@@ -3,13 +3,15 @@ import time
 import fluidsynth
 
 from Models.Note import TNote
-from app_setup import SF_Soprano, SF_Default, SAMPLE_PER_DURATION
+from Utils.constants import SF_Default
+from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
 
 class SeqCtrl(object):
     """
 
     """
+
     def __init__(self, soundfonts, sequence_duration=1000):
         self.synth = fluidsynth.Synth()
         self.seqduration = sequence_duration
@@ -31,7 +33,7 @@ class SeqCtrl(object):
         self.sequencer = fluidsynth.Sequencer()
         self.now = self.sequencer.get_tick()
         self.synthSeq_id = self.sequencer.register_fluidsynth(self.synth)
-        #for callback in callbacks:
+        # for callback in callbacks:
         self.seq_ids.append(self.sequencer.register_client("callback", self.seq_callback))
 
     def schedule_next_callback(self):
@@ -46,12 +48,13 @@ class SeqCtrl(object):
         self.next_notes.append(note)
 
     def schedule_next_sequence(self):
-        self.next_notes = self.buffer_notes[:SAMPLE_PER_DURATION]
-        self.buffer_notes = self.buffer_notes[SAMPLE_PER_DURATION:]
+        self.next_notes = self.buffer_notes[:SAMPLE_PER_TIME_LENGTH]
+        self.buffer_notes = self.buffer_notes[SAMPLE_PER_TIME_LENGTH:]
         for note in self.next_notes:
             print(note)
             self.sequencer.note(int(self.now + self.seqduration * note.tfactor),
-                                channel=note.channel, key=note.key, duration=note.duration, velocity=note.velocity, dest=self.synthSeq_id)
+                                channel=note.channel, key=note.var, duration=note.duration, velocity=note.velocity,
+                                dest=self.synthSeq_id)
         self.next_notes = []
         self.schedule_next_callback()
         self.now += self.seqduration
@@ -68,9 +71,8 @@ class SeqCtrl(object):
         self.synth.delete()
 
 
-
 if __name__ == "__main__":
-    seq = SeqCtrl([{"soundfont":SF_Default, "channel":0}])
-    seq.setup_notes([TNote(velocity=60, duration=80, tfactor=1/4, key=60)])
+    seq = SeqCtrl([{"soundfont": SF_Default, "channel": 0}])
+    seq.setup_notes([TNote(velocity=60, duration=80, tfactor=1 / 4, key=60)])
     seq.schedule_next_sequence()
     time.sleep(10)

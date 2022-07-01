@@ -12,7 +12,7 @@ class SonificationCtrl():
         instantiation, unique
         :param view: sonification_view
         """
-        if(cls._instance is None):
+        if (cls._instance is None):
             cls._instance = super(SonificationCtrl, cls).__new__(cls, *args, **kwargs)
             cls.tracks = []
             cls.view = view
@@ -29,8 +29,10 @@ class SonificationCtrl():
 
     def play(self):
         pass
+
     def pause(self):
         pass
+
     def stop(self):
         pass
 

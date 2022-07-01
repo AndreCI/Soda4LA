@@ -4,7 +4,7 @@ import time
 import fluidsynth
 from ctypes import *
 
-from app_setup import SF_Chemclarinet, SF_Warmlead, SF_Default, SF_Soprano
+from Utils.constants import SF_Chemclarinet, SF_Warmlead, SF_Default, SF_Soprano
 
 seqduration = 1000
 
