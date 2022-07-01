@@ -7,6 +7,9 @@ from app_setup import SF_Soprano, SF_Default, SAMPLE_PER_DURATION
 
 
 class SeqCtrl(object):
+    """
+
+    """
     def __init__(self, soundfonts, sequence_duration=1000):
         self.synth = fluidsynth.Synth()
         self.seqduration = sequence_duration

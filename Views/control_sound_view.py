@@ -2,6 +2,9 @@ from tkinter import ttk
 
 
 class ControlSoundView(ttk.Frame):
+    """
+    Controller
+    """
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         self.create_widgets()

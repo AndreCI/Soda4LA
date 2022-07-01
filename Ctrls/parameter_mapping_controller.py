@@ -2,8 +2,10 @@ from Ctrls.data_controller import DataCtrl
 from Views.parameter_mapping_view import ParameterMappingView
 
 
-class ParameterMappingCtrl:
-    
+class ParameterEncodingCtrl:
+    """
+    Controller for the encoding view
+    """
     def __init__(self, key):
         self.db = DataCtrl()
         self.key = key

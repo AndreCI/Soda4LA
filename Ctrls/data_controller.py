@@ -6,6 +6,9 @@ from app_setup import MAX_SAMPLE, DATA_PATH
 
 
 class DataCtrl():
+    """"
+    Load data into its model class
+    """
     _instance = None
 
     def __new__(cls, *args, **kwargs):

@@ -1,4 +1,4 @@
-from Ctrls.parameter_mapping_controller import ParameterMappingCtrl
+from Ctrls.parameter_mapping_controller import ParameterEncodingCtrl
 from Models.Track import Track
 from Utils.constants import MAPPING_OPTIONS
 from Views.parameter_mapping_view import ParameterMappingView
@@ -17,7 +17,7 @@ class TrackCtrl():
         self.muted = False
         self.mapping_windows = {}
         for k in MAPPING_OPTIONS:
-            self.mapping_windows[k] = ParameterMappingCtrl(key=k)
+            self.mapping_windows[k] = ParameterEncodingCtrl(key=k)
 
     def setup(self, config_view, midi_view):
         self.config_view = config_view

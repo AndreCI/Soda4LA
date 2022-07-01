@@ -7,6 +7,9 @@ from midi import hz_to_midi, RTNote
 
 
 class MIDICtrl():
+    """"
+    Controller for midi protocols, transforming data into proper midi encoding
+    """
     def __init__(self):
         self.data_ctrl = DataCtrl()
         self.data_ctrl.setup(DATA_PATH)
@@ -17,7 +20,10 @@ class MIDICtrl():
 
 
     def assign_time(self, data):
-        """Return a value between [0-1], where 0 is at the start of the sequence and 1 at the end"""
+        """
+        Return a value between [0-1], where 0 is at the start of the music and 1 at the end.
+        Independant of the total duration of the end music.
+        """
         current_t = self.data_ctrl.get_deltatime(data[4], self.timing_start)
         timing = (current_t.total_seconds()) / self.timing_span
         return timing
