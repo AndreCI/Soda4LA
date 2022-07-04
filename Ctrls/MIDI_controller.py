@@ -1,5 +1,5 @@
 from Ctrls.data_controller import DataCtrl
-from Models.Note import CNote, CNote_to_TNote
+from Models.note_model import CNote, CNote_to_TNote
 from Utils.constants import *
 from Utils.sound_setup import *
 

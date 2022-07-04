@@ -3,7 +3,7 @@ import time
 
 from Ctrls.MIDI_controller import MIDICtrl
 from Ctrls.sequencer_controller import SeqCtrl
-from Models.Note import *
+from Models.note_model import *
 from Utils.constants import *
 from Utils.sound_setup import *
 

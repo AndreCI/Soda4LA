@@ -9,10 +9,16 @@ class TrackMidiView(ttk.Frame):
     inside a track and to modifiy specific parameters (such as gain) to update the song in real time
     """
 
-    def __init__(self, parent, ctrl=None, **kwargs):
+    def __init__(self, parent, ctrl, model, **kwargs):
         super().__init__(parent, **kwargs)
+        #ctrl and model
         self.ctrl = ctrl
+        self.model = model
+
+        #view data
         self.note_view = []
+
+        #setup
         self.create_widgets()
         self.setup_widgets()
 

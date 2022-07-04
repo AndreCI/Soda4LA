@@ -6,32 +6,38 @@ from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT
 
 class ParameterEncodingView(Toplevel):
     """"
-    View for encoding variables to an encoding. started from track_config_view, and linked to a specific parameter of a note (value, duration, velocity)
+    View for encoding variables. started from track_config_view, and linked to a specific parameter of a note (value, duration, velocity)
     """
 
-    def __init__(self, ctrl, **kwargs):
+    def __init__(self, ctrl, model, **kwargs):
         Toplevel.__init__(self, **kwargs)
-        self.ctrl = ctrl #TODO: should not use ctrl but give it command. Should use model to get data
+        #ctrl and model
+        self.ctrl = ctrl
+        self.model = model
+
+        #View data
         self.fmode = False
-        self.title("Encoding+ for {}".format(self.ctrl.var))
+        self.title("Encoding for {}".format(self.model.encoded_var))
         self.geometry('450x400')
+
+        #setup view
         self.create_widgets()
         self.setup_widgets()
 
     def select_variable(self, event):
-        self.ctrl.selectedVar = self.selectVarCB.get()
+        self.ctrl.assign_main_var(self.selectVarCB.get())
         self.parameterListBox.delete(0, END)
         self.valueListBox.delete(0, END)
-        for i, item in enumerate(self.ctrl.get_variables_instances()): #TODO should use model rather than ctrl
+        for i, item in enumerate(self.model.get_variables_instances()):
             self.parameterListBox.insert(END, item)
             self.valueListBox.insert(END, i)
 
     def create_widgets(self):
         self.main_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        self.selectVarCB = Combobox(self.main_frame, values=self.ctrl.db.get_variables())
+        self.selectVarCB = Combobox(self.main_frame, values=self.model.datas.get_variables())
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectVarCB.current(0)
-        self.ctrl.selectedVar = self.selectVarCB.get()
+        self.ctrl.assign_main_var(self.selectVarCB.get())
         self.selectFilterButton = Button(self.main_frame, text="Select Filter")
         self.switchModeButton = Button(self.main_frame, text="Function Mode", command=self.switch_mode)
 
@@ -42,7 +48,7 @@ class ParameterEncodingView(Toplevel):
         self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.parameterListBox = Listbox(self.handpick_frame)
         self.valueListBox = Listbox(self.handpick_frame)
-        for i, item in enumerate(self.ctrl.get_variables_instances()):
+        for i, item in enumerate(self.model.get_variables_instances()):
             self.parameterListBox.insert(END, item)
             self.valueListBox.insert(END, i)
 

@@ -7,26 +7,24 @@ class ParameterEncodingCtrl:
     Controller for the encoding view
     """
 
-    def __init__(self, var):
-        self.db = DataCtrl()
-        self.var = var
-        self.view = None
-        self.selectedVar = None
+    def __init__(self, model):
+        #Model
+        self.model = model
 
-    def get_variables_instances(self): #TODO move to a model
-        return self.db.get_variables_instances(self.selectedVar)
+    def assign_main_var(self, main_var):
+        self.model.main_var = main_var
 
     def show_window(self):
-        if (self.view == None):
-            self.view = ParameterEncodingView(self)
-        self.view.focus_set()
+        if (self.model.pe_view == None):
+            self.model.pe_view = ParameterEncodingView(self, self.model)
+        self.model.pe_view.focus_set()
 
     def validate(self):
-        self.view.destroy()
+        self.model.pe_view.destroy()
 
     def destroy(self):
-        if (self.view != None):
-            self.view.destroy()
+        if (self.model.pe_view != None):
+            self.model.pe_view.destroy()
 
     def remove_window(self):
-        self.view = None
+        self.model.pe_view = None

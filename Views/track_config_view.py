@@ -2,6 +2,7 @@ from tkinter import ttk, Button, Scale, Entry, Label
 from tkinter.ttk import Combobox
 
 from Ctrls.data_controller import DataCtrl
+from Models.data_model import Data
 from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONT
 
 
@@ -12,16 +13,22 @@ class TrackConfigView(ttk.Frame):
     View to export/import a specific track
     """
 
-    def __init__(self, parent, ctrl=None, **kwargs):
+    def __init__(self, parent, ctrl, model, **kwargs):
         super().__init__(parent, **kwargs)
-        self.db = DataCtrl()
+        #Ctrl and model
+        self.model = model
         self.ctrl = ctrl
+
+        #View data
+        self.data = Data()
+
+        #setup view
         self.create_widgets()
         self.setup_widgets()
 
     def create_widgets(self):
         self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
-        self.selectVarListBox = Combobox(self, values=self.db.get_variables())
+        self.selectVarListBox = Combobox(self, values=self.data.get_variables())
         self.selectSoundfontButton.current(0)
         self.selectVarListBox.current(0)
         self.filterEntry = Entry(self)
@@ -49,10 +56,10 @@ class TrackConfigView(ttk.Frame):
         self.deleteButton.grid(column=3, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def map_durations(self):
-        self.ctrl.open_mapping("duration") #TODO this sends a command to ctrl, but it opens a view. proper?
+        self.ctrl.open_encoding("duration")
 
     def map_values(self):
-        self.ctrl.open_mapping("value")
+        self.ctrl.open_encoding("value")
 
     def setup_controller(self, controller):
         self.ctrl = controller

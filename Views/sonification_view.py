@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from Ctrls.sonification_controller import SonificationCtrl
+from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
@@ -17,17 +17,24 @@ class SonificationView(ttk.Frame):
 
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
+        #Ctrl and model
+        self.model = Music()
+        self.ctrl = self.model.ctrl
+        self.ctrl.model.sonification_view = self
+
+        #View data
         self.config = True
-        self.ctrl = SonificationCtrl(view=self)
         self.trackConfigViews = []
         self.trackMidiViews = []
+
+        #setup view
         self.create_widgets()
         self.setup_widgets()
 
     def create_widgets(self):
         self.switch_view_button = tk.Button(self, text="Change view", command=self.switch_view)
         self.time_setting_button = tk.Button(self, text="Time Settings", command=self.open_time_setting)
-        self.add_track_button = tk.Button(self, text="Add track", command=self.add_track)
+        self.add_track_button = tk.Button(self, text="Add track", command=self.ctrl.create_track)
         self.audio_view = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.play_button = tk.Button(self.audio_view, text="Play", command=self.play)
         self.pause_button = tk.Button(self.audio_view, text="Pause", command=self.pause)
@@ -63,23 +70,22 @@ class SonificationView(ttk.Frame):
         for i, t in enumerate(self.trackMidiViews):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
-    def add_track(self):
-        tctrl = self.ctrl.add_track()
-        config_view = TrackConfigView(self.track_config_frame, ctrl=tctrl, padding=DEFAULT_PADDING,
+    def add_track(self, track):
+        config_view = TrackConfigView(self.track_config_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                       style=TFRAME_STYLE["TRACK"][0])
-        midi_view = TrackMidiView(self.track_midi_frame, ctrl=tctrl, padding=DEFAULT_PADDING,
+        midi_view = TrackMidiView(self.track_midi_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                   style=TFRAME_STYLE["TRACK"][0])
-        tctrl.setup(config_view, midi_view)
+        track.ctrl.setup(config_view, midi_view)
 
         self.reset_track_view()
         self.trackConfigViews.append(config_view)
         self.trackMidiViews.append(midi_view)
         self.setup_track_view()
 
-    def remove_track(self, config_view, midi_view):
+    def remove_track(self, track):
         self.reset_track_view()
-        self.trackConfigViews.remove(config_view)
-        self.trackMidiViews.remove(midi_view)
+        self.trackConfigViews.remove(track.config_view)
+        self.trackMidiViews.remove(track.midi_view)
         self.setup_track_view()
 
     def switch_view(self):

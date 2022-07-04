@@ -2,7 +2,7 @@ import time
 
 import fluidsynth
 
-from Models.Note import TNote
+from Models.note_model import TNote
 from Utils.constants import SF_Default
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 

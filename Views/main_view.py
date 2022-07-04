@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from Ctrls.data_controller import DataCtrl
+from Models.data_model import Data
 from Utils.constants import DATA_PATH
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
 from Views.sonification_view import SonificationView
@@ -39,7 +40,7 @@ class MainView(tk.Tk):
         self.menubar.add_cascade(label="Help", menu=helpmenu)
 
     def load_data(self):
-        db = DataCtrl()
+        db = Data()
         db.setup(DATA_PATH)
 
     def create_widgets(self):
