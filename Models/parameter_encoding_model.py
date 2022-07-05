@@ -15,7 +15,10 @@ class ParameterEncoding():
         self.encoded_var=encoded_var
         if(self.encoded_var not in ENCODING_OPTIONS):
             raise NotImplementedError("{} not in encoding options".format(self.encoded_var))
-        self.main_var = None
+        self.mainVar = None
+        self.handpicked = True
+        self.handpickEncoding = {}
+        self.filter = None
 
         #Others Models
         self.datas = Data()
@@ -24,7 +27,16 @@ class ParameterEncoding():
         self.ctrl = ParameterEncodingCtrl(self)
 
         #Views
-        self.pe_view = None
+        self.peView = None
+
+    def assign_encoding(self, variables, values):
+        if(len(variables) != len(values)):
+            raise ValueError()
+        for var, val in zip(variables, values):
+            self.handpickEncoding[var] = val
+
+    def assign_filter(self, filter):
+        self.filter = filter
 
     def get_variables_instances(self):
-        return self.datas.get_variables_instances(self.main_var)
+        return self.datas.get_variables_instances(self.mainVar)

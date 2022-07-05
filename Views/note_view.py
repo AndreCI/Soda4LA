@@ -16,6 +16,3 @@ class NoteView(ttk.Frame):
 
     def setup_widgets(self):
         pass
-
-    def setup_controller(self, controller):
-        pass

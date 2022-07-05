@@ -84,8 +84,8 @@ class SonificationView(ttk.Frame):
 
     def remove_track(self, track):
         self.reset_track_view()
-        self.trackConfigViews.remove(track.config_view)
-        self.trackMidiViews.remove(track.midi_view)
+        self.trackConfigViews.remove(track.configView)
+        self.trackMidiViews.remove(track.midiView)
         self.setup_track_view()
 
     def switch_view(self):

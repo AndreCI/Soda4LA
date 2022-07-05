@@ -12,7 +12,7 @@ SF_Jazzguitar = soundfont_path + "Jazz_Guitar.sf2"
 
 ENCODING_OPTIONS =  ["value", "duration", "velocity"]
 SOUNDFONT =  ["Guitar", "Piano", "Drum"]
-MOCKUP_VARS =  ["user_id", "action", "item_id"]
+MOCKUP_VARS =  ["timestamp", "user_id", "action", "item_id"]
 
 DEFAULT_PADDING = (5, 5, 5, 5)
 DEFAULT_PADX = (5, 5)

@@ -32,6 +32,3 @@ class TrackMidiView(ttk.Frame):
     def setup_widgets(self):
         self.local_gain_slider.grid(column=0, row=0, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.mute_button.grid(column=2, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-
-    def setup_controller(self, controller):
-        self.ctrl = controller

@@ -12,19 +12,27 @@ class ParameterEncodingCtrl:
         self.model = model
 
     def assign_main_var(self, main_var):
-        self.model.main_var = main_var
+        self.model.mainVar = main_var
 
     def show_window(self):
-        if (self.model.pe_view == None):
-            self.model.pe_view = ParameterEncodingView(self, self.model)
-        self.model.pe_view.focus_set()
+        if (self.model.peView == None):
+            self.model.peView = ParameterEncodingView(self, self.model)
+        self.model.peView.focus_set()
 
     def validate(self):
-        self.model.pe_view.destroy()
+        self.variable = []
+        self.values = []
+        for var, val in zip(self.model.peView.variableList, self.model.peView.valueList):
+            self.variable.append(var.cget("text"))
+            self.values.append(val.get())
+        self.model.assign_encoding(self.variable, self.values)
+
+        self.model.assign_filter(self.model.peView.filterEntry.get())
+        self.model.peView.destroy()
 
     def destroy(self):
-        if (self.model.pe_view != None):
-            self.model.pe_view.destroy()
+        if (self.model.peView != None):
+            self.model.peView.destroy()
 
     def remove_window(self):
-        self.model.pe_view = None
+        self.model.peView = None

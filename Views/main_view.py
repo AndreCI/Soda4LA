@@ -26,6 +26,9 @@ class MainView(tk.Tk):
 
         self.config(menu=self.menubar)
 
+        db = Data()
+        db.setup(DATA_PATH)
+
     def setup_menu(self):
         self.menubar = tk.Menu(self)
         filemenu = tk.Menu(self.menubar, tearoff=0)
@@ -40,8 +43,7 @@ class MainView(tk.Tk):
         self.menubar.add_cascade(label="Help", menu=helpmenu)
 
     def load_data(self):
-        db = Data()
-        db.setup(DATA_PATH)
+        pass
 
     def create_widgets(self):
         # self.mainframe = ttk.Frame(self, padding="3 3 12 12")

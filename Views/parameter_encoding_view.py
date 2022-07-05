@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Button, Listbox, END
+from tkinter import Toplevel, Button, Listbox, END, Entry, Label
 from tkinter.ttk import Frame, Combobox
 
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_VARS
@@ -26,19 +26,34 @@ class ParameterEncodingView(Toplevel):
 
     def select_variable(self, event):
         self.ctrl.assign_main_var(self.selectVarCB.get())
-        self.parameterListBox.delete(0, END)
-        self.valueListBox.delete(0, END)
+        for var, val in zip(self.variableList, self.valueList):
+            var.destroy()
+            val.destroy()
+        self.variableList = []
+        self.valueList = []
+        #self.parameterListBox.delete(0, END)
+        #self.valueListBox.delete(0, END)
         for i, item in enumerate(self.model.get_variables_instances()):
-            self.parameterListBox.insert(END, item)
-            self.valueListBox.insert(END, i)
+            self.variableList.append(Label(self.handpick_frame, text=item))
+            self.valueList.append(Entry(self.handpick_frame))
+            self.valueList[-1].insert(0, str(i*10))
+            #self.parameterListBox.insert(END, item)
+            #self.valueListBox.insert(END, i)
+        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
+            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX)
+            tk_m[1].grid(column=1, row=i, pady=0, padx=0)
 
     def create_widgets(self):
         self.main_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+
         self.selectVarCB = Combobox(self.main_frame, values=self.model.datas.get_variables())
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectVarCB.current(0)
         self.ctrl.assign_main_var(self.selectVarCB.get())
-        self.selectFilterButton = Button(self.main_frame, text="Select Filter")
+
+        self.filterEntry = Entry(self)
+        self.filterLabel = Label(self, text="Filter")
+
         self.switchModeButton = Button(self.main_frame, text="Function Mode", command=self.switch_mode)
 
         self.function_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
@@ -46,11 +61,15 @@ class ParameterEncodingView(Toplevel):
         self.selectVarCB.current(0)
 
         self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        self.parameterListBox = Listbox(self.handpick_frame)
-        self.valueListBox = Listbox(self.handpick_frame)
+        #self.parameterListBox = Listbox(self.handpick_frame)
+        #self.valueListBox = Listbox(self.handpick_frame)
+        self.variableList = []
+        self.valueList = []
         for i, item in enumerate(self.model.get_variables_instances()):
-            self.parameterListBox.insert(END, item)
-            self.valueListBox.insert(END, i)
+            #self.parameterListBox.insert(END, item)
+            self.variableList.append(Label(self.handpick_frame, text=item))
+            self.valueList.append(Entry(self.handpick_frame))#.insert(END, i)
+            self.valueList[i].insert(0, str(i*10))
 
         self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
@@ -59,14 +78,20 @@ class ParameterEncodingView(Toplevel):
     def setup_widgets(self):
         self.main_frame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.selectVarCB.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.selectFilterButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+        self.filterLabel.grid(column=1, row=0, columnspan=1, pady=DEFAULT_PADY)
+        self.filterEntry.grid(column=2, row=0, columnspan=1, pady=DEFAULT_PADY)
+
         self.switchModeButton.grid(column=2, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
         self.handpick_frame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.selectFunctionCombobox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.parameterListBox.grid(column=0, row=0, pady=DEFAULT_PADY, padx=0)
-        self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)
+        #self.parameterListBox.grid(column=0, row=0, rowspan=len(self.valueList)+1, pady=DEFAULT_PADY, padx=0)
+        #self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)
+        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
+            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX)
+            tk_m[1].grid(column=1, row=i, pady=0, padx=0)
 
         self.exit_frame.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)

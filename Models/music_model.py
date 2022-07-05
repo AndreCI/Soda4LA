@@ -12,7 +12,6 @@ class Music():
         """
         instantiation, unique
         """
-        print("new")
         if (cls._instance is None):
             cls._instance = super(Music, cls).__new__(cls, *args, **kwargs)
             #Data
@@ -27,7 +26,6 @@ class Music():
 
             #Views
             cls.sonification_view = None
-            print(cls.gain)
         return cls._instance
 
 

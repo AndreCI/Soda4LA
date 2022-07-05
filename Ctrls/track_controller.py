@@ -13,16 +13,22 @@ class TrackCtrl():
 
 
     def setup(self, config_view, midi_view):
-        self.model.config_view = config_view
-        self.model.midi_view = midi_view
+        self.model.configView = config_view
+        self.model.midiView = midi_view
         self.change_gain(100)
+
+    def update_filter(self, filter):
+        self.model.filter = filter
+
+    def set_main_var(self, mainVar):
+        self.model.set_main_var(mainVar)
 
     def change_gain(self, gain):
         self.model.gain = gain
-        if (self.model.midi_view.local_gain_slider.get() != gain):
-            self.model.midi_view.local_gain_slider.set(gain)
-        if (self.model.config_view.local_gain_slider.get() != gain):
-            self.model.config_view.local_gain_slider.set(gain)
+        if (self.model.midiView.local_gain_slider.get() != gain):
+            self.model.midiView.local_gain_slider.set(gain)
+        if (self.model.configView.local_gain_slider.get() != gain):
+            self.model.configView.local_gain_slider.set(gain)
 
     def mute_track(self):
         self.model.muted = not self.model.muted

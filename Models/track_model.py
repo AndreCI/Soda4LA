@@ -18,9 +18,11 @@ class Track():
         #Data
         self.id = next(Track.newid)
         self.soundfont = None
+        self.mainVar = None
         self.gain = 100
         self.muted = False
-        self.music = music
+        self.filter = None
+        self.music = music #Needed to backtrack and remove itself upon deletion
 
         #Other models
         self.notes = [TNote(0, 0, 55, 100, 100), TNote(0.5, 0, 55, 100, 100)]
@@ -32,10 +34,13 @@ class Track():
         self.ctrl = TrackCtrl(self)
 
         #Views
-        self.midi_view = None
-        self.config_view = None
+        self.midiView = None
+        self.configView = None
 
-    def setSoundfont(self, soundfont):
+    def set_main_var(self, variable):
+        self.mainVar = variable
+
+    def set_soundfont(self, soundfont):
         self.soundfont = soundfont
 
     def remove(self):

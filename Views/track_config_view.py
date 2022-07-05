@@ -1,4 +1,4 @@
-from tkinter import ttk, Button, Scale, Entry, Label
+from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar
 from tkinter.ttk import Combobox
 
 from Ctrls.data_controller import DataCtrl
@@ -29,12 +29,17 @@ class TrackConfigView(ttk.Frame):
     def create_widgets(self):
         self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
         self.selectVarListBox = Combobox(self, values=self.data.get_variables())
+        self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectSoundfontButton.current(0)
         self.selectVarListBox.current(0)
-        self.filterEntry = Entry(self)
+
+        #https://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
+        self.filterValue = StringVar(self)
+        self.filterValue.trace_add("write", self.update_filter)
+        self.filterEntry = Entry(self, textvariable=self.filterValue)
         self.filterLabel = Label(self, text="Filter")
-        self.encodeValueButton = Button(self, text="Value Encoding", command=self.map_values)
-        self.encodeDurationButton = Button(self, text="Duration Encoding", command=self.map_durations)
+        self.encodeValueButton = Button(self, text="Value Encoding", command=self.encode_values)
+        self.encodeDurationButton = Button(self, text="Duration Encoding", command=self.encode_durations)
         self.exportButton = Button(self, text="Export")
         self.importButton = Button(self, text="Import")
         self.deleteButton = Button(self, text="Delete track", command=self.ctrl.remove)
@@ -55,11 +60,14 @@ class TrackConfigView(ttk.Frame):
         # self.importButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.deleteButton.grid(column=3, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-    def map_durations(self):
+    def select_variable(self, event):
+        self.ctrl.set_main_var(self.selectVarListBox.get())
+
+    def update_filter(self, *args):
+        self.ctrl.update_filter(self.filterValue.get())
+
+    def encode_durations(self):
         self.ctrl.open_encoding("duration")
 
-    def map_values(self):
+    def encode_values(self):
         self.ctrl.open_encoding("value")
-
-    def setup_controller(self, controller):
-        self.ctrl = controller
