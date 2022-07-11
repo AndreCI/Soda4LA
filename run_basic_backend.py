@@ -35,10 +35,3 @@ if __name__ == "__main__":
     time.sleep(1000)
 
 
-def legacy():
-    for i in range(MAX_SAMPLE):
-        if (TIMING == "auto"):
-            seq.add_next_note(CNote_to_TNote(mctrl.get_next_note(), i * 100 / seq.seqduration))
-        else:
-            seq.add_next_note(mctrl.get_next_note())
-    time.sleep(1000)

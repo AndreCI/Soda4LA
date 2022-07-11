@@ -24,5 +24,6 @@ TFRAME_STYLE = {"DEFAULT" : ["TFrame", "green"],
                 "CONFIG": ["Configframe.TFrame", "grey"],
                 "TRACK_COLLECTION": ["TCollection.TFrame", "cyan"],
                 "NOTE": ["TNote.TFrame", "grey"],
-                "PARAMETER_MAPPING": ["TPMapping.TFrame", "grey"]
+                "PARAMETER_MAPPING": ["TPMapping.TFrame", "grey"],
+                "TIMESETTINGS": ["Timesettings.TFrame", "grey"]
                 }

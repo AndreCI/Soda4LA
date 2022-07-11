@@ -1,7 +1,5 @@
 from collections import namedtuple
 
-Note = namedtuple('Note', ['value', 'velocity', 'duration'])
-CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration'])
 
 

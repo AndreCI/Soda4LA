@@ -20,12 +20,12 @@ class ParameterEncodingCtrl:
         self.model.peView.focus_set()
 
     def validate(self):
-        self.variable = []
-        self.values = []
+        variable = []
+        values = []
         for var, val in zip(self.model.peView.variableList, self.model.peView.valueList):
-            self.variable.append(var.cget("text"))
-            self.values.append(val.get())
-        self.model.assign_encoding(self.variable, self.values)
+            variable.append(var.cget("text"))
+            values.append(val.get())
+        self.model.assign_encoding(variable, values)
 
         self.model.assign_filter(self.model.peView.filterEntry.get())
         self.model.peView.destroy()

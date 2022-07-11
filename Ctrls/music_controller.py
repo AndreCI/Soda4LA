@@ -4,7 +4,7 @@ from Models.track_model import Track
 
 class MusicCtrl():
     """
-    Controller for final music model.
+    Controller for final music model. <=> sonification ctrl
     """
 
     def __init__(self, model):
@@ -15,8 +15,7 @@ class MusicCtrl():
         self.model.add_track(self=self.model, track=Track(self.model))
 
     def remove_track(self, track):
-        self.model.tracks.remove(track)#lambda x: x.id == track_id)
-        self.model.sonification_view.remove_track(track)
+        self.model.remove_track(self=self.model, track=track)
 
     def play(self):
         pass
@@ -29,3 +28,6 @@ class MusicCtrl():
 
     def generate(self):
         pass
+
+    def open_time_settings(self):
+        self.model.timeSettings.ctrl.show_window()
