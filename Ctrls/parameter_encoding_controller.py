@@ -27,7 +27,7 @@ class ParameterEncodingCtrl:
             values.append(val.get())
         self.model.assign_encoding(variable, values)
 
-        self.model.assign_filter(self.model.peView.filterEntry.get())
+        self.model.filter.assign(self.model.peView.filterEntry.get())
         self.model.peView.destroy()
 
     def destroy(self):

@@ -30,6 +30,13 @@ class Music():
             cls.sonification_view = None
         return cls._instance
 
+    def generate(self):
+        """
+        Generate all the notes for all the tracks, so that they can be played
+        """
+        #TODO
+        for t in self.tracks:
+            t.generate_notes()
 
     def add_track(self, track):
         self.tracks.append(track)

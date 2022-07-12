@@ -18,7 +18,7 @@ class TrackCtrl():
         self.change_gain(100)
 
     def update_filter(self, filter):
-        self.model.filter = filter
+        self.model.filter.assign(filter)
 
     def set_main_var(self, mainVar):
         self.model.set_main_var(mainVar)

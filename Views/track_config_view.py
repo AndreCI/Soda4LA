@@ -27,10 +27,10 @@ class TrackConfigView(ttk.Frame):
         self.setup_widgets()
 
     def create_widgets(self):
-        self.soundfontLabel = Label(self, text="Select instrument")
+        self.soundfontLabel = Label(self, text="Instrument")
         self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
 
-        self.varlistLabel = Label(self, text="Select main variable")
+        self.varlistLabel = Label(self, text="Main Variable")
         self.selectVarListBox = Combobox(self, values=self.data.get_variables())
         self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectSoundfontButton.current(0)

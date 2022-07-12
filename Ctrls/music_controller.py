@@ -17,6 +17,7 @@ class MusicCtrl():
     def remove_track(self, track):
         self.model.remove_track(self=self.model, track=track)
 
+    #TODO
     def play(self):
         pass
 
@@ -27,7 +28,8 @@ class MusicCtrl():
         pass
 
     def generate(self):
-        pass
+        #TODO
+        self.model.generate()
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()

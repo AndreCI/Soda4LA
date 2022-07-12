@@ -4,6 +4,7 @@ from Ctrls.track_controller import TrackCtrl
 from Models.note_model import TNote
 from Models.parameter_encoding_model import ParameterEncoding
 from Utils.constants import ENCODING_OPTIONS
+from Utils.filter_module import FilterModule
 
 
 class Track():
@@ -21,11 +22,11 @@ class Track():
         self.mainVar = None
         self.gain = 100
         self.muted = False
-        self.filter = None
+        self.filter = FilterModule()
         self.music = music #Needed to backtrack and remove itself upon deletion
 
         #Other models
-        self.notes = [TNote(0, 0, 55, 100, 100), TNote(0.5, 0, 55, 100, 100)]
+        self.notes = []
         self.pencodings = []
         for pe in ENCODING_OPTIONS:
             self.pencodings.append(ParameterEncoding(encoded_var=pe))
@@ -36,6 +37,13 @@ class Track():
         #Views
         self.midiView = None
         self.configView = None
+
+    def generate_notes(self):
+        """
+        Generate notes for the current track, based on main variable, parameter encoding and filters.
+        """
+        #TODO
+        raise NotImplementedError()
 
     def set_main_var(self, variable):
         self.mainVar = variable

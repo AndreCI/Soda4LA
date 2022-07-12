@@ -1,6 +1,7 @@
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.data_model import Data
 from Utils.constants import ENCODING_OPTIONS
+from Utils.filter_module import FilterModule
 
 
 class ParameterEncoding():
@@ -18,7 +19,7 @@ class ParameterEncoding():
         self.mainVar = None
         self.handpicked = True
         self.handpickEncoding = {}
-        self.filter = None
+        self.filter = FilterModule()
 
         #Others Models
         self.datas = Data()
@@ -35,8 +36,6 @@ class ParameterEncoding():
         for var, val in zip(variables, values):
             self.handpickEncoding[var] = val
 
-    def assign_filter(self, filter):
-        self.filter = filter
 
     def get_variables_instances(self):
         return self.datas.get_variables_instances(self.mainVar)

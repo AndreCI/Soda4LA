@@ -1,6 +1,7 @@
 from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 
+#TODO add other time settings
 class TimeSettings():
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
@@ -8,7 +9,7 @@ class TimeSettings():
     """
     def __init__(self):
         #Data
-        self.possible_types = ["linear projection", "log projection"]
+        self.possible_types = ["linear projection"]#, "log projection"]
         self.type = self.possible_types[0]
         #Other models
         #Ctrl
@@ -21,7 +22,7 @@ class TimeSettings():
             raise NotImplementedError()
         self.type = type
 
-    def get_temporal_position(self, min, max, current): #TODO: unit test?
+    def get_temporal_position(self, min, max, current):
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
@@ -30,14 +31,11 @@ class TimeSettings():
         :param current: timestamp of data point
         :return: a temporal position between 0 and 1.
         """
-        if(max<=min or max<current<min):
+        if(max<=min or max<current<min or max==0):
             raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current, min, max))
         distance = max - min
         ratio = float(distance)/float(max)
-        if(type == self.possible_types[0]):
-            return (ratio - min) * current
+        if(self.type == self.possible_types[0]):
+            return (current - min)/float(distance)#(ratio - min) * current
         else:
             raise NotImplementedError()
-
-        # # # # # # # #
-          #
