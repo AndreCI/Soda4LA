@@ -51,21 +51,20 @@ class TrackConfigView(ttk.Frame):
                                        command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
 
     def setup_widgets(self):
-        self.soundfontLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.selectSoundfontButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.soundfontLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.selectSoundfontButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.varlistLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.selectVarListBox.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.varlistLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.selectVarListBox.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-
-        self.filterLabel.grid(column=0, row=2, columnspan=1, pady=DEFAULT_PADY)
-        self.filterEntry.grid(column=1, row=2, columnspan=1, pady=DEFAULT_PADY)
+        self.filterLabel.grid(column=0, row=2, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.filterEntry.grid(column=1, row=2, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.local_gain_slider.grid(column=0, row=3, rowspan=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.encodeValueButton.grid(column=1, row=3, columnspan=1, pady=0, padx=DEFAULT_PADX)
-        self.encodeDurationButton.grid(column=1, row=4, columnspan=1, pady=0, padx=DEFAULT_PADX)
-        self.encodeVelocityButton.grid(column=1, row=5, columnspan=1, pady=0, padx=DEFAULT_PADX)
+        self.encodeValueButton.grid(column=1, row=3, columnspan=1, pady=0, padx=DEFAULT_PADX, sticky="ew")
+        self.encodeDurationButton.grid(column=1, row=4, columnspan=1, pady=0, padx=DEFAULT_PADX, sticky="ew")
+        self.encodeVelocityButton.grid(column=1, row=5, columnspan=1, pady=0, padx=DEFAULT_PADX, sticky="ew")
         # self.exportButton.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         # self.importButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.deleteButton.grid(column=1, row=6, pady=0, padx=DEFAULT_PADX)

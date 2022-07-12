@@ -40,8 +40,8 @@ class ParameterEncodingView(Toplevel):
             #self.parameterListBox.insert(END, item)
             #self.valueListBox.insert(END, i)
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
-            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX)
-            tk_m[1].grid(column=1, row=i, pady=0, padx=0)
+            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
+            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
 
     def create_widgets(self):
         self.main_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
@@ -80,14 +80,14 @@ class ParameterEncodingView(Toplevel):
     def setup_widgets(self):
         self.main_frame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.varlistLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.selectVarCB.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.varlistLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.selectVarCB.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.filterLabel.grid(column=0, row=1, pady=DEFAULT_PADY)
-        self.filterEntry.grid(column=1, row=1, pady=DEFAULT_PADY)
+        self.filterLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.filterEntry.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.switvhModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.switvhModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.handpick_frame.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.selectFunctionCombobox.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -96,12 +96,12 @@ class ParameterEncodingView(Toplevel):
         #self.parameterListBox.grid(column=0, row=0, rowspan=len(self.valueList)+1, pady=DEFAULT_PADY, padx=0)
         #self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
-            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX)
-            tk_m[1].grid(column=1, row=i, pady=0, padx=0)
+            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
+            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
 
         self.exit_frame.grid(column=0, row=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
     def switch_mode(self):
         self.fmode = not self.fmode

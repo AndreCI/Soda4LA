@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
+from Utils.scrollable_frame import ScrollableFrame
 from Views.time_settings_view import TimeSettingsView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
@@ -36,24 +37,28 @@ class SonificationView(ttk.Frame):
         self.switch_view_button = tk.Button(self, text="Change view", command=self.switch_view)
         self.time_setting_button = tk.Button(self, text="Time Settings", command=self.open_time_setting)
         self.add_track_button = tk.Button(self, text="Add track", command=self.ctrl.create_track)
+
         self.audio_view = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.play_button = tk.Button(self.audio_view, text="Play", command=self.ctrl.play)
         self.pause_button = tk.Button(self.audio_view, text="Pause", command=self.ctrl.pause)
         self.stop_button = tk.Button(self.audio_view, text="Stop", command=self.ctrl.stop)
         self.generate_button = tk.Button(self.audio_view, text="Generate", command=self.ctrl.generate)
-        self.track_config_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.track_midi_frame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
+
+        self.track_config_frame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
+                                                  width=1250, height=300)
+        self.track_midi_frame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
+                                                width=250, height=650)
 
     def setup_widgets(self):
-        self.switch_view_button.grid(column=0, row=0)
-        self.time_setting_button.grid(column=0, row=1)
-        self.add_track_button.grid(column=0, row=2)
-        self.audio_view.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.play_button.grid(column=0, row=0)
-        self.pause_button.grid(column=1, row=0)
-        self.stop_button.grid(column=2, row=0)
-        self.generate_button.grid(column=3, row=0)
-        self.track_config_frame.grid(column=1, row=1, rowspan=10, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.switch_view_button.grid(column=0, row=0, sticky="ew")
+        self.time_setting_button.grid(column=0, row=1, sticky="ew")
+        self.add_track_button.grid(column=0, row=2, sticky="ew")
+        self.audio_view.grid(column=1, row=0, columnspan=4,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.play_button.grid(column=0, row=0, sticky="ew")
+        self.pause_button.grid(column=1, row=0, sticky="ew")
+        self.stop_button.grid(column=2, row=0, sticky="ew")
+        self.generate_button.grid(column=3, row=0, sticky="ew")
+        self.track_config_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
@@ -68,9 +73,9 @@ class SonificationView(ttk.Frame):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
     def add_track(self, track):
-        config_view = TrackConfigView(self.track_config_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
+        config_view = TrackConfigView(self.track_config_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                       style=TFRAME_STYLE["TRACK"][0])
-        midi_view = TrackMidiView(self.track_midi_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
+        midi_view = TrackMidiView(self.track_midi_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                   style=TFRAME_STYLE["TRACK"][0])
         track.ctrl.setup(config_view, midi_view)
 
@@ -89,10 +94,12 @@ class SonificationView(ttk.Frame):
         self.config = not self.config
         if (self.config):
             self.track_midi_frame.grid_forget()
-            self.track_config_frame.grid(column=1, row=1, rowspan=10, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.track_config_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
+                                         padx=DEFAULT_PADX)
         else:
             self.track_config_frame.grid_forget()
-            self.track_midi_frame.grid(column=1, row=1, rowspan=10, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.track_midi_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
+                                         padx=DEFAULT_PADX)
 
     def open_time_setting(self):
         self.ctrl.open_time_settings()
