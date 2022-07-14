@@ -11,6 +11,9 @@ class FilterModule():
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
 
+    def assign_variable(self, variable):
+        self.variable = variable
+
     def evaluate(self, value):
         """
         Determines whether a value in a row should be converted as a note, based on filter.
