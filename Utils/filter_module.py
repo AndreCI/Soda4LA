@@ -6,9 +6,10 @@ class FilterModule():
 
     def __init__(self):
         self.filter = None
+        self.variable=None
+        self.filter=None
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
-        self.mainVar = None
 
     def evaluate(self, value):
         """
@@ -36,7 +37,7 @@ class FilterModule():
             self.mode = self.filter_mode[1]
             self.filter = eval(filter)
             return True
-        if (filter[0] == "["):
+        if (len(filter) > 0 and filter[0] == "["):
             self.mode = self.filter_mode[2]
             tab_f = eval(filter)
             self.filter = range(tab_f[0], tab_f[1])
@@ -47,3 +48,5 @@ class FilterModule():
             return True
         self.filter = None
         return False
+
+

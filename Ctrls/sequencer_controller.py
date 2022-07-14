@@ -22,6 +22,8 @@ class SeqCtrl(object):
         self.next_notes = []
         self.buffer_notes = []
 
+        # Use the line below if for MS Windows driver
+        #self.synth.start()
         self.synth.start(driver="alsa")
         # you might have to use other drivers:
         # fs.start(driver="alsa", midi_driver="alsa_seq")
