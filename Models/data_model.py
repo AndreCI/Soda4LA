@@ -66,14 +66,19 @@ class Data:
         """
         return pd.unique(self.df[column])
 
-    def get_next(self):
+    def get_next(self, SAMPLE_PER_TIME_LENGTH):
         """
-        Lorem Ipsum
+        This method send a batch of samples at a same time
+        :param
+            SAMPLE_PER_TIME_LENGTH: int,
+                the buffer size
         :return:
+            data: pd.Dataframe,
+                data buffered
         """
-        d = self.data[self.index]
-        self.index += 1
-        return d
+        data = self.df[self.index:self.index + SAMPLE_PER_TIME_LENGTH]
+        self.index += SAMPLE_PER_TIME_LENGTH
+        return data
 
     @staticmethod
     def get_datetime(d):
@@ -107,6 +112,3 @@ class Data:
 
     def set_timing_span(self):
         self.timing_span, _ = self.get_deltatime()
-
-
-    def get
