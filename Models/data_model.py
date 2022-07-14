@@ -23,7 +23,7 @@ class Data:
             batch_size  : int,
                         the buffer size
         """
-        self.timing_span = None
+        self.timing_span = MAX_SAMPLE
         self.df = pd.DataFrame(columns=MOCKUP_VARS)
         self.header = None
         self.set_data_timespan = None
@@ -49,7 +49,6 @@ class Data:
         cls.df = pd.read_csv(cls.path)
         cls.header = list(cls.df.columns)
         cls.index = 0
-        cls.set_data_timespan(MAX_SAMPLE)
 
     def get_variables(self):
         """
