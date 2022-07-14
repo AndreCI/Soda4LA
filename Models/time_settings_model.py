@@ -1,6 +1,5 @@
 from Ctrls.time_settings_controller import TimeSettingsCtrl
 
-
 #TODO add other time settings
 class TimeSettings():
     """
@@ -25,9 +24,9 @@ class TimeSettings():
     def set_attribute(self, minVal, maxVal):
         """
         Setup attributes needed to compute later a temporal position
-        :param minVal: ??,
+        :param minVal: float,
             the first timestamp of the dataset, i.e. the first action ever taken
-        :param maxVal: ??,
+        :param maxVal: float,
             the last timestamp of the dataset, i.e. the last action ever taken
         """
         if(maxVal <= minVal):

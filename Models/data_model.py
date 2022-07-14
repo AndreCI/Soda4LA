@@ -28,6 +28,8 @@ class Data:
         self.header = None
         self.set_data_timespan = None
         self.index = 0
+        self.first_date = None
+        self.last_date = None
         self.batch_size = SAMPLE_PER_TIME_LENGTH
         self.path = DATA_PATH
 
@@ -50,16 +52,16 @@ class Data:
         cls.header = list(cls.df.columns)
         cls.index = 0
 
-    def get_variables(self):
+    def get_variables(cls):
         """
         Get the columns (header) of our dataset
         :return:
             header: list,
                 The columns of the csv file
         """
-        return self.header
+        return cls.header
 
-    def get_variables_instances(self, column):
+    def get_variables_instances(cls, column):
         """
         Get unique instances from a column
         :param
@@ -68,7 +70,7 @@ class Data:
         :return: list,
                 unique value from the target column
         """
-        return pd.unique(self.df[column])
+        return pd.unique(cls.df[column])
 
     def get_next(self):
         """
@@ -106,8 +108,15 @@ class Data:
             time_sec: datetime.timedelta,
                 time span in seconds
         """
-        time_date = self.get_datetime(self.df[column][0]) - self.get_datetime(self.df[column][-1])
+        # let's set first and last date here
+        self.first_date = self.df[column][0]
+        self.last_date = self.df[column][-1]
+        # now, the computation
+        time_date = self.get_datetime(self.first_date) - self.get_datetime(self.last_date)
         time_sec = time_date.total_seconds()
+        # first and last date into seconds
+        self.first_date = self.first_date.timestamp()
+        self.last_date = self.last_date.timestamp()
 
         return time_date, time_sec
 
