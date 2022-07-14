@@ -1,4 +1,5 @@
 from Ctrls.music_controller import MusicCtrl
+from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
 
@@ -22,7 +23,8 @@ class Music():
 
             #Other models
             cls.tracks = [] #List of track model created by user
-            cls.timeSettings = TimeSettings() 
+            cls.timeSettings = TimeSettings()
+            cls.data = Data()
 
             #Ctrl
             cls.ctrl = MusicCtrl(cls)

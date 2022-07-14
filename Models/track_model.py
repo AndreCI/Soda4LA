@@ -19,7 +19,6 @@ class Track():
         #Data
         self.id = next(Track.newid)
         self.soundfont = None #soundfont selected by user, <=< instrument
-        self.mainVar = None #Main variable for the current track
         self.filter = FilterModule() #Filter module linked to the mainVar, dictating which row in data is used to generate notes
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
@@ -46,7 +45,7 @@ class Track():
         raise NotImplementedError()
 
     def set_main_var(self, variable : str):
-        self.mainVar = variable
+        self.filter.assign_variable(variable)
 
     def set_soundfont(self, soundfont):
         self.soundfont = soundfont

@@ -6,6 +6,7 @@ class FilterModule():
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
     """
     def __init__(self):
+        self.variable=None
         self.filter=None
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
@@ -25,6 +26,13 @@ class FilterModule():
         if(self.mode == "Multiple" and value in self.filter):
             return True
         return False
+    
+    def assign_variable(self, variable : str):
+        """
+        Setup the main variable to which the filter will be applied
+        :param variable: name of a colomun in data
+        """
+        self.variable = variable
 
     def assign(self, filter):
         """
@@ -36,7 +44,7 @@ class FilterModule():
             self.mode = self.filter_mode[1]
             self.filter = eval(filter)
             return True
-        if(filter[0] == "["):
+        if(len(filter) > 0 and filter[0] == "["):
             self.mode = self.filter_mode[2]
             tab_f = eval(filter)
             self.filter = range(tab_f[0], tab_f[1])

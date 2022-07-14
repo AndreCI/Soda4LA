@@ -12,7 +12,7 @@ class ParameterEncodingCtrl:
         self.model = model
 
     def assign_main_var(self, main_var):
-        self.model.mainVar = main_var
+        self.model.set_main_var(main_var)
 
     def show_window(self):
         if (self.model.peView == None):
