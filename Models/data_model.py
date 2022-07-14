@@ -107,3 +107,6 @@ class Data:
 
     def set_timing_span(self):
         self.timing_span, _ = self.get_deltatime()
+
+
+    def get
