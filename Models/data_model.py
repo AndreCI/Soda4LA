@@ -16,10 +16,12 @@ class Data:
     def __init__(self):
         """
         :param
-            header  : list,
-                    column of the dataframe
-            df      : Pandas.Dataframe,
-                    Our dataset with the row included
+            header      : list,
+                        column of the dataframe
+            df          : Pandas.Dataframe,
+                        Our dataset with the row included
+            batch_size  : int,
+                        the buffer size
         """
         self.timing_span = None
         self.df = pd.DataFrame(columns=MOCKUP_VARS)
@@ -27,6 +29,7 @@ class Data:
         self.set_data_timespan = None
         self.index = 0
         self.batch_size = SAMPLE_PER_TIME_LENGTH
+        self.path = DATA_PATH
 
     def __new__(cls, *args, **kwargs):
         """
@@ -36,14 +39,14 @@ class Data:
             cls._instance = super(Data, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
-    def setup(cls, path):
+    def setup(cls):
         """
         Method to retrieve data from the CSV file
         :param
             path: str,
                 relative path to the file
         """
-        cls.df = pd.read_csv(path)
+        cls.df = pd.read_csv(cls.path)
         cls.header = list(cls.df.columns)
         cls.index = 0
         cls.set_data_timespan(MAX_SAMPLE)
@@ -71,9 +74,6 @@ class Data:
     def get_next(self):
         """
         This method send a batch of samples at a same time
-        :param
-            SAMPLE_PER_TIME_LENGTH: int,
-                the buffer size
         :return:
             data: pd.Dataframe,
                 data buffered
