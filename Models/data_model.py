@@ -4,7 +4,7 @@ import pandas as pd
 from Utils.constants import DATA_PATH
 from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
-
+from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
 class Data:
     """
