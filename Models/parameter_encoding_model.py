@@ -11,15 +11,15 @@ class ParameterEncoding():
     encoding objects.
     This can be viewed via a track config view and its subsequent views presented by its buttons.
     """
-    def __init__(self, encoded_var):
+    def __init__(self, encoded_var : str):
         #Data
         self.encoded_var=encoded_var
         if(self.encoded_var not in ENCODING_OPTIONS):
             raise NotImplementedError("{} not in encoding options".format(self.encoded_var))
-        self.mainVar = None
+        self.mainVar = None #Main variable from which to generate notes
+        self.filter = FilterModule() #Filter module applied to mainVar
         self.handpicked = True
         self.handpickEncoding = {}
-        self.filter = FilterModule()
 
         #Others Models
         self.datas = Data()
@@ -30,7 +30,12 @@ class ParameterEncoding():
         #Views
         self.peView = None
 
-    def assign_encoding(self, variables, values):
+    def assign_encoding(self, variables : [], values : []):
+        """
+        Assign values to variable, accordingly to user preference.
+        :param variables: a list of all possible instances of a variable
+        :param values: a list of value linked to the variable
+        """
         if(len(variables) != len(values)):
             raise ValueError()
         for var, val in zip(variables, values):
@@ -38,4 +43,5 @@ class ParameterEncoding():
 
 
     def get_variables_instances(self):
+        #TODO should be somewhere else?
         return self.datas.get_variables_instances(self.mainVar)

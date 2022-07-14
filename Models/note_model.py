@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration'])
-
+CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 
 def CNote_to_TNote(note, tfactor):
     return TNote(tfactor=tfactor, channel=note.channel, value=note.value, velocity=note.velocity, duration=note.duration)

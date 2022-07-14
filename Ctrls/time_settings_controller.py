@@ -7,9 +7,12 @@ class TimeSettingsCtrl():
     Ctrl for the time settings model
     """
     def __init__(self, model):
-        self.model = model
+        self.model = model #TimeSettings Model
 
     def validate(self):
+        """
+        Validate time settings entered by user and update models accordingly
+        """
         self.model.set_type(self.model.tsView.selected.get())
 
         self.model.tsView.destroy()

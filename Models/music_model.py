@@ -1,5 +1,6 @@
 from Ctrls.music_controller import MusicCtrl
 from Models.time_settings_model import TimeSettings
+from Models.track_model import Track
 
 
 class Music():
@@ -20,8 +21,8 @@ class Music():
             cls.muted = False
 
             #Other models
-            cls.tracks = []
-            cls.timeSettings = TimeSettings()
+            cls.tracks = [] #List of track model created by user
+            cls.timeSettings = TimeSettings() 
 
             #Ctrl
             cls.ctrl = MusicCtrl(cls)
@@ -38,10 +39,10 @@ class Music():
         for t in self.tracks:
             t.generate_notes()
 
-    def add_track(self, track):
+    def add_track(self, track : Track):
         self.tracks.append(track)
         self.sonification_view.add_track(track)
 
-    def remove_track(self, track):
+    def remove_track(self, track : Track):
         self.tracks.remove(track)
         self.sonification_view.remove_track(track)
