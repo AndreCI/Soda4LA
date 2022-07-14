@@ -19,7 +19,7 @@ class Track():
         #Data
         self.id = next(Track.newid)
         self.soundfont = None #soundfont selected by user, <=< instrument
-        self.filter = FilterModule() #Filter module linked to the mainVar, dictating which row in data is used to generate notes
+        self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
         self.music = music #Needed to backtrack and remove itself upon deletion
@@ -37,15 +37,17 @@ class Track():
         self.midiView = None
         self.configView = None
 
-    def generate_notes(self):
+    def generate_notes(self, dataset):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
+        :param dataset: the set of data regardless the considered filter
+
         """
         #TODO
         raise NotImplementedError()
 
     def set_main_var(self, variable : str):
-        self.filter.assign_variable(variable)
+        self.filter.assign(variable)
 
     def set_soundfont(self, soundfont):
         self.soundfont = soundfont

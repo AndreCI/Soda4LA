@@ -1,76 +1,109 @@
 import csv
 from datetime import datetime
-
+import pandas as pd
 from Utils.constants import DATA_PATH
 from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
 
-class Data():
-    """"
+
+class Data:
+    """
     Data csv wrapper, offers additional information such as a list of all instances of a variable
     """
     _instance = None
+
+    def __init__(self):
+        """
+        :param
+            header  : list,
+                    column of the dataframe
+            df      : Pandas.Dataframe,
+                    Our dataset with the row included
+        """
+        self.timing_span = None
+        self.df = pd.DataFrame(columns=MOCKUP_VARS)
+        self.header = None
+        self.set_data_timespan = None
+        self.index = 0
 
     def __new__(cls, *args, **kwargs):
         """
         instantiation, unique
         """
-        if (cls._instance is None):
+        if cls._instance is None:
             cls._instance = super(Data, cls).__new__(cls, *args, **kwargs)
-            cls.initialized = False
         return cls._instance
 
     def setup(cls, path):
-        cls.initialized = True
-        cls.csvfile = open(path)
-        cls.reader = csv.reader(cls.csvfile)
-        cls.header = cls.reader.__next__()
-        cls.data = []
-        for d in cls.reader:
-            cls.data.append(d)
+        """
+        Method to retrieve data from the CSV file
+        :param
+            path: str,
+                relative path to the file
+        """
+        cls.df = pd.read_csv(path)
+        cls.header = list(cls.df.columns)
         cls.index = 0
         cls.set_data_timespan(MAX_SAMPLE)
 
     def get_variables(self):
-        if(not self.initialized):
-            return MOCKUP_VARS
+        """
+        Get the columns (header) of our dataset
+        :return:
+            header: list,
+                The columns of the csv file
+        """
         return self.header
 
-    def get_variables_instances(self, variable):
-        idx = self.header.index(variable)
-        instances = []
-        for d in self.data:
-            if(d[idx] not in instances):
-                instances.append(d[idx])
-        return instances
+    def get_variables_instances(self, column):
+        """
+        Get unique instances from a column
+        :param
+            column: str,
+                the target column
+        :return: list,
+                unique value from the target column
+        """
+        return pd.unique(self.df[column])
 
     def get_next(self):
+        """
+        Lorem Ipsum
+        :return:
+        """
         d = self.data[self.index]
         self.index += 1
         return d
 
-    def get_data_timespan(self, data):
-        min_t = self.get_datetime(data[0][4])
-        max_t = self.get_datetime(data[-1][4])
-        timedelta = max_t - min_t
-        return timedelta.total_seconds()
-
-    def set_data_timespan(self, max_sample):
-        min_t = self.get_datetime(self.data[0][4])
-        max_t = self.get_datetime(self.data[max_sample][4])
-        timedelta = max_t - min_t
-        self.timing_span = timedelta.total_seconds()
-
-    def get_deltatime(self, current_date, min_date=None):
-        if (min_date == None):
-            min_t = self.get_datetime(self.data[0][4])
-        else:
-            min_t = self.get_datetime(min_date)
-        current_t = self.get_datetime(current_date)
-        timedelta = current_t - min_t
-        return timedelta
-
     @staticmethod
     def get_datetime(d):
+        """
+        :param
+            d: str,
+                date to convert
+        :return:
+            date: str,
+                converted date
+        """
         date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         return date
+
+    def get_deltatime(self, column='date'):
+        """
+        Calculate the time span between the end and the beginning
+        :param
+            column: str,
+                The date column of our dataset
+        :return:
+            time_date: datetime.timedelta,
+                date representation of the time span
+            time_sec: datetime.timedelta,
+                time span in seconds
+        """
+        time_date = self.get_datetime(self.df[column][0]) - self.get_datetime(self.df[column][-1])
+        time_sec = time_date.total_seconds()
+
+        return time_date, time_sec
+
+    def set_timing_span(self):
+        self.timing_span, _ = self.get_deltatime()

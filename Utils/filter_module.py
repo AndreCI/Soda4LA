@@ -6,11 +6,9 @@ class FilterModule():
 
     def __init__(self):
         self.filter = None
-        self.variable=None
-        self.filter=None
+        self.column = None  # column on which to apply the filter
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
-
     def evaluate(self, value):
         """
         Determines whether a value in a row should be converted as a note, based on filter.
@@ -48,5 +46,3 @@ class FilterModule():
             return True
         self.filter = None
         return False
-
-

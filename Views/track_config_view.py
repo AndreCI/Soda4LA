@@ -1,7 +1,6 @@
 from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar
 from tkinter.ttk import Combobox
 
-from Ctrls.data_controller import DataCtrl
 from Models.data_model import Data
 from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONT
 

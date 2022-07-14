@@ -16,7 +16,7 @@ class ParameterEncoding():
         self.encoded_var=encoded_var #a variable of a note
         if(self.encoded_var not in ENCODING_OPTIONS):
             raise NotImplementedError("{} not in encoding options".format(self.encoded_var))
-        self.filter = FilterModule() #Filter module applied to mainVar
+        self.filter = FilterModule() #Filter module applied to column
         self.handpicked = True
         self.handpickEncoding = {}
 
@@ -30,7 +30,7 @@ class ParameterEncoding():
         self.peView = None
 
     def set_main_var(self, variable : str):
-        self.filter.assign_variable(variable)
+        self.filter.assign(variable)
 
     def assign_encoding(self, variables : [], values : []):
         """
@@ -46,4 +46,4 @@ class ParameterEncoding():
 
     def get_variables_instances(self):
         #TODO should be somewhere else?
-        return self.datas.get_variables_instances(self.filter.variable)
+        return self.datas.get_variables_instances(self.filter.column)

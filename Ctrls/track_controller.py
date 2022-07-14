@@ -21,8 +21,8 @@ class TrackCtrl:
     def update_filter(self, filter: str):
         self.model.filter.assign(filter)
 
-    def set_main_var(self, mainVar: str):
-        self.model.set_main_var(mainVar)
+    def set_main_var(self, column: str):
+        self.model.set_main_var(column)
 
     def change_gain(self, gain: int):
         self.model.gain = gain

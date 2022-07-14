@@ -1,4 +1,4 @@
-from Ctrls.data_controller import DataCtrl
+from Models.data_model import Data
 from Models.note_model import CNote, CNote_to_TNote
 from Utils.constants import *
 from Utils.sound_setup import *
@@ -11,7 +11,7 @@ class MIDICtrl():
     """
 
     def __init__(self):
-        self.data_ctrl = DataCtrl()
+        self.data_ctrl = Data()
         self.data_ctrl.setup(DATA_PATH)
         self.value_encoding = VALUE_encoding
         self.timing_span = 1
