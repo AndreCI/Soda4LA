@@ -9,11 +9,26 @@ class FilterModule():
         self.column = None  # column on which to apply the filter
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
+
+    def eval_batch(self, batch):
+        """
+        Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
+        if the values found in the column corresponding to self.column are validated by the filter
+        :param batch: list of list,
+            a subset of the dataset
+        :return: list of list,
+            rows which correspond to the filter
+        """
+        raise NotImplementedError()
+
     def evaluate(self, value):
         """
-        Determines whether a value in a row should be converted as a note, based on filter.
-        :param value: current value to evaluate
-        :return: True if value follows the filter, False otherwise.
+        Determines whether a row should be converted as a note, based on filter and the selected value. Value must comes
+        from the column corresponding to self.column
+        :param value: int,
+            current value to evaluate
+        :return: bool,
+            True if value follows the filter, False otherwise.
         """
         if self.mode == "None":
             return True
@@ -28,8 +43,10 @@ class FilterModule():
     def assign(self, filter):
         """
         Setup a filter, based on implemented options
-        :param filter: str representation of a filter, entered by user
-        :return: True if the filter entered is accepted, otherwise False
+        :param filter: str,
+            representation of a filter, entered by user
+        :return: bool,
+            True if the filter entered is legal, otherwise False
         """
         if (filter.isnumeric()):
             self.mode = self.filter_mode[1]

@@ -35,11 +35,13 @@ class Music:
 
     def generate(self):
         """
-        Generate all the notes for all the tracks, so that they can be played
+        Iterate over the data, generate all the notes for all the tracks, so that they can be played
         """
-        #TODO
-        for t in self.tracks:
-            t.generate_notes()
+        #TODO: send batches of data to all tracks, so they can generate their own notes
+        raise NotImplementedError()
+        #for batch in self.data.GET_BATCH():
+        #    for t in self.tracks:
+        #        t.generate_notes(row)
 
     def add_track(self, track : Track):
         self.tracks.append(track)
