@@ -20,6 +20,7 @@ class MainView(tk.Tk):
         s = ttk.Style()
         for v in TFRAME_STYLE.values():
             s.configure(v[0], background=v[1])
+
         self.setup_menu()
         self.create_widgets()
         self.setup_widgets()

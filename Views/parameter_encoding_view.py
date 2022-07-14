@@ -1,7 +1,9 @@
 from tkinter import Toplevel, Button, Listbox, END, Entry, Label
+from tkinter.constants import X
 from tkinter.ttk import Frame, Combobox
 
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_VARS
+from Utils.scrollable_frame import ScrollableFrame
 
 
 class ParameterEncodingView(Toplevel):
@@ -12,11 +14,11 @@ class ParameterEncodingView(Toplevel):
     def __init__(self, ctrl, model, **kwargs):
         Toplevel.__init__(self, **kwargs)
         #ctrl and model
-        self.ctrl = ctrl
-        self.model = model
+        self.ctrl = ctrl #PECtrl
+        self.model = model #PEModel
 
         #View data
-        self.fmode = False
+        self.fmode = False #Current model, function or handpicked
         self.title("Encoding for {}".format(self.model.encoded_var))
         #self.geometry('450x400')
 
@@ -26,19 +28,17 @@ class ParameterEncodingView(Toplevel):
 
     def select_variable(self, event):
         self.ctrl.assign_main_var(self.selectVarCB.get())
+        #Destroy objects linked to previous variable
         for var, val in zip(self.variableList, self.valueList):
             var.destroy()
             val.destroy()
         self.variableList = []
         self.valueList = []
-        #self.parameterListBox.delete(0, END)
-        #self.valueListBox.delete(0, END)
+        #Create and setup object linked to new variable
         for i, item in enumerate(self.model.get_variables_instances()):
-            self.variableList.append(Label(self.handpick_frame, text=item))
-            self.valueList.append(Entry(self.handpick_frame))
+            self.variableList.append(Label(self.handpick_frame.scrollable_frame, text=item))
+            self.valueList.append(Entry(self.handpick_frame.scrollable_frame))
             self.valueList[-1].insert(0, str(i*10))
-            #self.parameterListBox.insert(END, item)
-            #self.valueListBox.insert(END, i)
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
             tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
             tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
@@ -55,22 +55,21 @@ class ParameterEncodingView(Toplevel):
         self.filterEntry = Entry(self.main_frame)
         self.filterLabel = Label(self.main_frame, text="Filter")
 
-        self.switvhModeLabel = Label(self.main_frame, text="Change mode")
+        self.switchModeLabel = Label(self.main_frame, text="Change mode")
         self.switchModeButton = Button(self.main_frame, text="Function Mode", command=self.switch_mode)
 
         self.function_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.selectFunctionCombobox = Combobox(self.function_frame, values=MOCKUP_VARS)
         self.selectVarCB.current(0)
 
-        self.handpick_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        #self.parameterListBox = Listbox(self.handpick_frame)
+        self.handpick_frame = ScrollableFrame(self, orient="vertical",  padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        #self.parameterListBox = Listbox(self.handpick_frame)#width=150, height=450,
         #self.valueListBox = Listbox(self.handpick_frame)
         self.variableList = []
         self.valueList = []
         for i, item in enumerate(self.model.get_variables_instances()):
-            #self.parameterListBox.insert(END, item)
-            self.variableList.append(Label(self.handpick_frame, text=item))
-            self.valueList.append(Entry(self.handpick_frame))#.insert(END, i)
+            self.variableList.append(Label(self.handpick_frame.scrollable_frame, text=item))
+            self.valueList.append(Entry(self.handpick_frame.scrollable_frame))#.insert(END, i)
             self.valueList[i].insert(0, str(i*10))
 
         self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
@@ -86,7 +85,7 @@ class ParameterEncodingView(Toplevel):
         self.filterLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.filterEntry.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.switvhModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.switchModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.handpick_frame.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -97,13 +96,16 @@ class ParameterEncodingView(Toplevel):
         #self.valueListBox.grid(column=1, row=0, pady=DEFAULT_PADY, padx=0)
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
             tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
-            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
+            tk_m[1].grid(column=1, row=i, columnspan=1000, pady=0, padx=0, sticky="ew")
 
         self.exit_frame.grid(column=0, row=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
     def switch_mode(self):
+        """
+        Switch the view upon user input, either handpicked of function
+        """
         self.fmode = not self.fmode
         self.switchModeButton.configure(text=("Handpick Mode" if self.fmode else "Function Mode"))
         if (self.fmode):

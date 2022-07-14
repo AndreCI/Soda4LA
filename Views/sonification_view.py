@@ -25,7 +25,7 @@ class SonificationView(ttk.Frame):
         self.ctrl.model.sonification_view = self
 
         #View data
-        self.config = True
+        self.configView = True #Inform which view is currently displqyed
         self.trackConfigViews = []
         self.trackMidiViews = []
 
@@ -73,6 +73,10 @@ class SonificationView(ttk.Frame):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
     def add_track(self, track):
+        """
+        Add a track to the view, creating and assigning views to it
+        :param track: a trackModel
+        """
         config_view = TrackConfigView(self.track_config_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                       style=TFRAME_STYLE["TRACK"][0])
         midi_view = TrackMidiView(self.track_midi_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
@@ -85,14 +89,21 @@ class SonificationView(ttk.Frame):
         self.setup_track_view()
 
     def remove_track(self, track):
+        """
+        Remove a track model from the view
+        :param track: a track model
+        """
         self.reset_track_view()
         self.trackConfigViews.remove(track.configView)
         self.trackMidiViews.remove(track.midiView)
         self.setup_track_view()
 
     def switch_view(self):
-        self.config = not self.config
-        if (self.config):
+        """
+        Switch the view between midi and config, upon user input
+        """
+        self.configView = not self.configView
+        if (self.configView):
             self.track_midi_frame.grid_forget()
             self.track_config_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
                                          padx=DEFAULT_PADX)

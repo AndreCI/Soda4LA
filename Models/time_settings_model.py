@@ -17,7 +17,7 @@ class TimeSettings():
         #View
         self.tsView = None
 
-    def set_type(self, type):
+    def set_type(self, type : str):
         if(type not in self.possible_types):
             raise NotImplementedError()
         self.type = type
