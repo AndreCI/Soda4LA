@@ -6,6 +6,7 @@ from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
+
 class Data:
     """
     Data csv wrapper, offers additional information such as a list of all instances of a variable
@@ -25,6 +26,7 @@ class Data:
         self.header = None
         self.set_data_timespan = None
         self.index = 0
+        self.batch_size = SAMPLE_PER_TIME_LENGTH
 
     def __new__(cls, *args, **kwargs):
         """
@@ -66,7 +68,7 @@ class Data:
         """
         return pd.unique(self.df[column])
 
-    def get_next(self, SAMPLE_PER_TIME_LENGTH):
+    def get_next(self):
         """
         This method send a batch of samples at a same time
         :param
@@ -76,8 +78,8 @@ class Data:
             data: pd.Dataframe,
                 data buffered
         """
-        data = self.df[self.index:self.index + SAMPLE_PER_TIME_LENGTH]
-        self.index += SAMPLE_PER_TIME_LENGTH
+        data = self.df[self.index: self.index + self.batch_size]
+        self.index += self.batch_size
         return data
 
     @staticmethod
