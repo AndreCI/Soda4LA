@@ -4,7 +4,7 @@ from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
 
 
-class Music():
+class Music:
     """
     Model class for music. Music is defined as the end product of the sonification process, regardless of esthetic.
     A music can be played via its music view or displayed via midi view.

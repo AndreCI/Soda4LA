@@ -7,7 +7,7 @@ from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
 
 
-class Track():
+class Track:
     """
     Model class for a track, regrouping multiples notes and a soundfont. Each track is unique and can be viewed either
     via config view or midi view.
