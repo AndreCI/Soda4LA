@@ -43,9 +43,9 @@ class Track():
         Generate notes for the current track, based on main variable, parameter encoding and filters.
         """
         #TODO
-        if self.filter.evaluate(self.mainVar) == True:
-            self.notes =
-        # raise NotImplementedError()
+        #if self.filter.evaluate(self.mainVar) == True:
+            #self.notes =
+        raise NotImplementedError()
 
     def set_main_var(self, variable : str):
         self.mainVar = variable
