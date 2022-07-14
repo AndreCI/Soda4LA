@@ -23,10 +23,6 @@ class TrackConfigView(ttk.Frame):
         self.data = Data()
 
         #setup view
-        self.create_widgets()
-        self.setup_widgets()
-
-    def create_widgets(self):
         self.soundfontLabel = Label(self, text="Instrument")
         self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
 
@@ -49,6 +45,8 @@ class TrackConfigView(ttk.Frame):
         self.deleteButton = Button(self, text="Delete track", command=self.ctrl.remove)
         self.local_gain_slider = Scale(self, from_=0, to=100, sliderrelief='solid',
                                        command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
+
+        self.setup_widgets()
 
     def setup_widgets(self):
         self.soundfontLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")

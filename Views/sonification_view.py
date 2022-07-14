@@ -30,35 +30,37 @@ class SonificationView(ttk.Frame):
         self.trackMidiViews = []
 
         #setup view
-        self.create_widgets()
+        self.controlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
+        self.switchViewButton = tk.Button(self.controlFrame, text="Change view", command=self.switch_view)
+        self.timeSettingsButton = tk.Button(self.controlFrame, text="Time Settings", command=self.open_time_setting)
+        self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
+
+        self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
+        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play)
+        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause)
+        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop)
+        self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
+
+        self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
+                                            width=1380, height=240)
+        self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
+                                          width=1380, height=650)
+
         self.setup_widgets()
 
-    def create_widgets(self):
-        self.switch_view_button = tk.Button(self, text="Change view", command=self.switch_view)
-        self.time_setting_button = tk.Button(self, text="Time Settings", command=self.open_time_setting)
-        self.add_track_button = tk.Button(self, text="Add track", command=self.ctrl.create_track)
-
-        self.audio_view = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.play_button = tk.Button(self.audio_view, text="Play", command=self.ctrl.play)
-        self.pause_button = tk.Button(self.audio_view, text="Pause", command=self.ctrl.pause)
-        self.stop_button = tk.Button(self.audio_view, text="Stop", command=self.ctrl.stop)
-        self.generate_button = tk.Button(self.audio_view, text="Generate", command=self.ctrl.generate)
-
-        self.track_config_frame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                                  width=1250, height=300)
-        self.track_midi_frame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                                width=250, height=650)
-
     def setup_widgets(self):
-        self.switch_view_button.grid(column=0, row=0, sticky="ew")
-        self.time_setting_button.grid(column=0, row=1, sticky="ew")
-        self.add_track_button.grid(column=0, row=2, sticky="ew")
-        self.audio_view.grid(column=1, row=0, columnspan=4,pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.play_button.grid(column=0, row=0, sticky="ew")
-        self.pause_button.grid(column=1, row=0, sticky="ew")
-        self.stop_button.grid(column=2, row=0, sticky="ew")
-        self.generate_button.grid(column=3, row=0, sticky="ew")
-        self.track_config_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.controlFrame.grid(column=0, row=0, rowspan=3)
+        self.switchViewButton.grid(column=0, row=0, sticky="ew")
+        self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
+        self.addTrackButton.grid(column=0, row=2, sticky="ew")
+
+        self.audioView.grid(column=1, row=0, columnspan=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.playButton.grid(column=0, row=0, sticky="ew")
+        self.pauseButton.grid(column=1, row=0, sticky="ew")
+        self.stopButton.grid(column=2, row=0, sticky="ew")
+        self.generateButton.grid(column=3, row=0, sticky="ew")
+
+        self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
@@ -77,9 +79,9 @@ class SonificationView(ttk.Frame):
         Add a track to the view, creating and assigning views to it
         :param track: a trackModel
         """
-        config_view = TrackConfigView(self.track_config_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
+        config_view = TrackConfigView(self.tConfigFrame.scrollableFrame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                       style=TFRAME_STYLE["TRACK"][0])
-        midi_view = TrackMidiView(self.track_midi_frame.scrollable_frame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
+        midi_view = TrackMidiView(self.tMidiFrame.scrollableFrame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                   style=TFRAME_STYLE["TRACK"][0])
         track.ctrl.setup(config_view, midi_view)
 
@@ -104,13 +106,13 @@ class SonificationView(ttk.Frame):
         """
         self.configView = not self.configView
         if (self.configView):
-            self.track_midi_frame.grid_forget()
-            self.track_config_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
-                                         padx=DEFAULT_PADX)
+            self.tMidiFrame.grid_forget()
+            self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
+                                   padx=DEFAULT_PADX)
         else:
-            self.track_config_frame.grid_forget()
-            self.track_midi_frame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
-                                         padx=DEFAULT_PADX)
+            self.tConfigFrame.grid_forget()
+            self.tMidiFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
+                                 padx=DEFAULT_PADX)
 
     def open_time_setting(self):
         self.ctrl.open_time_settings()

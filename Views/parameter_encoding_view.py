@@ -23,28 +23,6 @@ class ParameterEncodingView(Toplevel):
         #self.geometry('450x400')
 
         #setup view
-        self.create_widgets()
-        self.setup_widgets()
-
-
-    def select_variable(self, event):
-        self.ctrl.assign_main_var(self.selectVarCB.get())
-        #Destroy objects linked to previous variable
-        for var, val in zip(self.variableList, self.valueList):
-            var.destroy()
-            val.destroy()
-        self.variableList = []
-        self.valueList = []
-        #Create and setup object linked to new variable
-        for i, item in enumerate(self.model.get_variables_instances()):
-            self.variableList.append(Label(self.handpickFrame.scrollable_frame, text=item))
-            self.valueList.append(Entry(self.handpickFrame.scrollable_frame))
-            self.valueList[-1].insert(0, str(i*10))
-        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
-            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
-            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
-
-    def create_widgets(self):
         self.mainFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
 
         self.varlistLabel = Label(self.mainFrame, text="Select variable")
@@ -71,19 +49,21 @@ class ParameterEncodingView(Toplevel):
         self.fMaxEntry = Entry(self.functionFrame, textvariable=self.fMaxVar)
         #self.selectVarCB.current(0)
 
-        self.handpickFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.handpickFrame = ScrollableFrame(self, orient="vertical", width=200, height=200, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         #self.parameterListBox = Listbox(self.handpick_frame)#width=150, height=450,
         #self.valueListBox = Listbox(self.handpick_frame)
         self.variableList = []
         self.valueList = []
         for i, item in enumerate(self.model.get_variables_instances()):
-            self.variableList.append(Label(self.handpickFrame.scrollable_frame, text=item))
-            self.valueList.append(Entry(self.handpickFrame.scrollable_frame))#.insert(END, i)
+            self.variableList.append(Label(self.handpickFrame.scrollableFrame, text=item))
+            self.valueList.append(Entry(self.handpickFrame.scrollableFrame))#.insert(END, i)
             self.valueList[i].insert(0, str(i*10))
 
         self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
         self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
+
+        self.setup_widgets()
 
     def setup_widgets(self):
         self.mainFrame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -121,6 +101,23 @@ class ParameterEncodingView(Toplevel):
         self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         #END EXIT FRAME
+
+    def select_variable(self, event):
+        self.ctrl.assign_main_var(self.selectVarCB.get())
+        #Destroy objects linked to previous variable
+        for var, val in zip(self.variableList, self.valueList):
+            var.destroy()
+            val.destroy()
+        self.variableList = []
+        self.valueList = []
+        #Create and setup object linked to new variable
+        for i, item in enumerate(self.model.get_variables_instances()):
+            self.variableList.append(Label(self.handpickFrame.scrollableFrame, text=item))
+            self.valueList.append(Entry(self.handpickFrame.scrollableFrame))
+            self.valueList[-1].insert(0, str(i*10))
+        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
+            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
+            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
 
     def switch_mode(self):
         """
