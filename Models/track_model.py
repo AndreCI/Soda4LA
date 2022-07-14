@@ -1,7 +1,7 @@
 import itertools
 
 from Ctrls.track_controller import TrackCtrl
-from Models.note_model import TNote
+from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
@@ -26,9 +26,9 @@ class Track():
 
         #Other models
         self.notes = []
-        self.pencodings = []
+        self.pencodings = {}
         for pe in ENCODING_OPTIONS:
-            self.pencodings.append(ParameterEncoding(encoded_var=pe))
+            self.pencodings[pe] = ParameterEncoding(encoded_var=pe)
 
         #Ctrls
         self.ctrl = TrackCtrl(self)
@@ -37,14 +37,22 @@ class Track():
         self.midiView = None
         self.configView = None
 
-    def generate_notes(self, dataset):
+    def generate_notes(self, batch):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
-        :param dataset: the set of data regardless the considered filter
-
+        :param batch: list of list,
+            a subset of the dataset regardless the considered filter
         """
-        #TODO
+        #TODO time parameter is not defined here,
+        for r in self.filter.eval_batch(batch):
+            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp), #TODO only send timestamp.
+                                    channel=self.id,
+                                    value=self.pencodings["value"].get_parameter(r),
+                                    velocity=self.pencodings["velocity"].get_parameter(r),
+                                    duration=self.pencodings["duration"].get_parameter(r),
+                                    ))
         raise NotImplementedError()
+        #
 
     def set_main_var(self, variable : str):
         self.filter.assign(variable)

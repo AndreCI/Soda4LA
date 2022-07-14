@@ -9,7 +9,7 @@ class TimeSettings():
     """
     def __init__(self):
         #Data
-        self.possible_types = ["linear projection"]#, "log projection"]
+        self.possible_types = ["linear"]#, "log"]
         self.type = self.possible_types[0]
         #Other models
         #Ctrl
@@ -22,20 +22,31 @@ class TimeSettings():
             raise NotImplementedError()
         self.type = type
 
-    def get_temporal_position(self, min, max, current):
+    def set_attribute(self, minVal, maxVal):
+        """
+        Setup attributes needed to compute later a temporal position
+        :param minVal: ??,
+            the first timestamp of the dataset, i.e. the first action ever taken
+        :param maxVal: ??,
+            the last timestamp of the dataset, i.e. the last action ever taken
+        """
+        if(maxVal <= minVal):
+            raise ValueError()
+        self.minVal = minVal
+        self.maxVal = maxVal
+
+    def get_temporal_position(self, current):
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
-        :param min: the first timestamp of the data in which a and b comes from
-        :param max: the last timestamp
         :param current: timestamp of data point
         :return: a temporal position between 0 and 1.
         """
-        if(max<=min or max<current<min or max==0):
-            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current, min, max))
-        distance = max - min
-        ratio = float(distance)/float(max)
+        if(self.maxVal<current<self.minVal):
+            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current, self.minVal, self.maxVal))
+        distance = self.maxVal - self.minVal
+        #ratio = float(distance)/float(max)
         if(self.type == self.possible_types[0]):
-            return (current - min)/float(distance)#(ratio - min) * current
+            return (current - self.minVal)/float(distance)#(ratio - min) * current
         else:
             raise NotImplementedError()

@@ -32,11 +32,25 @@ class ParameterEncoding():
     def set_main_var(self, variable : str):
         self.filter.assign(variable)
 
+    def get_parameter(self, row):
+        #TODO
+        """
+        Compute and return a value for the parameter selected for this model, based on the filter selected by the user
+        and the encoding.
+        :param row: list,
+            a row containing data to transform into a parameter
+        :return: int,
+            a value between 0 and 128 used as a parameter for a note
+        """
+        raise NotImplementedError()
+
     def assign_encoding(self, variables : [], values : []):
         """
         Assign values to variable, accordingly to user preference.
-        :param variables: a list of all possible instances of a variable
-        :param values: a list of value linked to the variable
+        :param variables: list,
+            a list of all possible instances of a variable
+        :param values: list,
+            a list linked to the variable, used to compute a notes parameter
         """
         if(len(variables) != len(values)):
             raise ValueError()
