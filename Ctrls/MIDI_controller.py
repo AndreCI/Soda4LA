@@ -22,9 +22,9 @@ class MIDICtrl:
         Return a value between [0-1], where 0 is at the start of the music and 1 at the end.
         Independant of the total duration of the end music.
         """
-        current_t = self.data_ctrl.get_deltatime(data[4], self.timing_start)
+        current_t = self.data.get_deltatime(data[4], self.timing_start)
         # revome above and use the following :
-        current_t = self.data_ctrl.get_deltatime(data[4], self.timing_start)
+        current_t = self.data.get_deltatime(data[4], self.timing_start)
         timing = (current_t.total_seconds()) / self.timing_span
         return timing
 
@@ -52,9 +52,9 @@ class MIDICtrl:
 
     def process_next_notes(self, start, end):
         notes = []
-        data = self.data_ctrl.data[start:end]
-        self.timing_span = self.data_ctrl.get_data_timespan(data)
-        self.timing_start = self.data_ctrl.data[start][4]
+        data = self.data.df[start:end]
+        self.timing_span = self.data.get_deltatime(data) # Seconds or date format???
+        self.timing_start = self.data.data[start][4]
         for d in data:
             notes.append(self.process_next_note_timed(d))
         return notes
@@ -67,7 +67,7 @@ class MIDICtrl:
         return CNote_to_TNote(self.process_next_note(data), self.assign_time(data))
 
     def get_next_note(self):
-        data = self.data_ctrl.get_next()
+        data = self.data.get_next()
         if (TIMING == "auto"):
             return self.process_next_note(data)
         else:
