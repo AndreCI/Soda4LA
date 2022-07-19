@@ -17,7 +17,7 @@ class ParameterEncoding():
         if(self.encoded_var not in ENCODING_OPTIONS):
             raise NotImplementedError("{} not in encoding options".format(self.encoded_var))
         self.filter = FilterModule() #Filter module applied to column
-        self.handpicked = True
+        self.handpicked = True # What is this??
         self.handpickEncoding = {}
 
         #Others Models

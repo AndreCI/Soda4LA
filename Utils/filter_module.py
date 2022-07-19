@@ -16,14 +16,13 @@ class FilterModule():
         if the values found in the column corresponding to self.column are validated by the filter
         :param batch: pandas Dataframe,
             a subset of the dataset
-        :return: list of list,
-            rows which correspond to the filter
+        :return: list,
+            timestamp which correspond to the filter
         """
-        for row in batch.itertuples():
-            if self.evaluate(row.self.column) is True:
-                # return df
-        return 0
-        #good = batch[batch[self.column] == self.filter]
+        # Create a new column and fill it with True or False value after eval
+        batch['new'] = batch[self.column].apply(lambda y: 'True' if self.evaluate(y) is True else "False")
+        # We return row where 'new' is True
+        return batch[batch['new'] == 'True']
 
     def evaluate(self, value):
         """
