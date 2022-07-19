@@ -72,15 +72,15 @@ class Data:
         """
         return pd.unique(cls.df[column])
 
-    def get_next(self):
+    def get_next(cls):
         """
         This method send a batch of samples at a same time
         :return:
             data: pd.Dataframe,
                 data buffered
         """
-        data = self.df[self.index: self.index + self.batch_size]
-        self.index += self.batch_size
+        data = cls.df[self.index: cls.index + cls.batch_size]
+        cls.index += cls.batch_size
         return data
 
     @staticmethod

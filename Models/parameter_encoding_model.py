@@ -37,12 +37,13 @@ class ParameterEncoding():
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user
         and the encoding.
-        :param row: list,
+        :param row: Pandas Dataframe,
             a row containing data to transform into a parameter
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-        raise NotImplementedError()
+        return self.handpickEncoding[row[self.filter.column]]
+        #raise NotImplementedError()
 
     def assign_encoding(self, variables : [], values : []):
         """
