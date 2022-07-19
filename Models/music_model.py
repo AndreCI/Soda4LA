@@ -37,7 +37,6 @@ class Music:
         """
         Iterate over the data, generate all the notes for all the tracks, so that they can be played
         """
-        #TODO: send batches of data to all tracks, so they can generate their own notes
         while cls.data.empty is False:
             for t in cls.tracks:
                 t.generate_notes(cls.data.get_next())
