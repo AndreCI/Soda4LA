@@ -35,7 +35,6 @@ class MusicCtrl():
         pass
 
     def generate(self):
-        #TODO
         self.model.generate()
 
     def open_time_settings(self):
