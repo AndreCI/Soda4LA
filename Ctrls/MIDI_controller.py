@@ -1,18 +1,17 @@
 from Models.data_model import Data
 from Models.note_model import CNote, CNote_to_TNote
-from Utils.constants import *
 from Utils.sound_setup import *
 
 
 #TODO rework, this should modify a model object based on views commands
-class MIDICtrl():
+class MIDICtrl:
     """"
     Controller for midi protocols, transforming data into proper midi encoding
     """
 
     def __init__(self):
-        self.data_ctrl = Data()
-        self.data_ctrl.setup(DATA_PATH)
+        self.data = Data()
+        #self.data.setup()
         self.value_encoding = VALUE_encoding
         self.timing_span = 1
         self.duration = 100
@@ -23,6 +22,8 @@ class MIDICtrl():
         Return a value between [0-1], where 0 is at the start of the music and 1 at the end.
         Independant of the total duration of the end music.
         """
+        current_t = self.data_ctrl.get_deltatime(data[4], self.timing_start)
+        # revome above and use the following :
         current_t = self.data_ctrl.get_deltatime(data[4], self.timing_start)
         timing = (current_t.total_seconds()) / self.timing_span
         return timing

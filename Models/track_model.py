@@ -45,7 +45,7 @@ class Track:
             a subset of the dataset regardless the considered filter
         """
         # TODO time parameter is not defined here,
-        for r in self.filter.eval_batch(batch):                                                         # So, we assume that data has a new column labeled 'timestamp'
+        for r in self.filter.eval_batch(batch):                                                         # So, we assume that batch has a new column labeled 'timestamp'
             self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp), #TODO only send timestamp.
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(r),
@@ -53,7 +53,6 @@ class Track:
                                     duration=self.pencodings["duration"].get_parameter(r),
                                     ))
         raise NotImplementedError()
-        #
 
     def set_main_var(self, variable : str):
         self.filter.assign(variable)

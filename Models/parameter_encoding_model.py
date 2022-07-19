@@ -4,7 +4,7 @@ from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
 
 
-class ParameterEncoding():
+class ParameterEncoding:
 
     """
     Model class for parameters encoding. It enables raw data to be processed into notes. Each track has its own parameter
@@ -33,7 +33,6 @@ class ParameterEncoding():
         self.filter.assign(variable)
 
     def get_parameter(self, row):
-        #TODO
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user
         and the encoding.
@@ -43,7 +42,6 @@ class ParameterEncoding():
             a value between 0 and 128 used as a parameter for a note
         """
         return self.handpickEncoding[row[self.filter.column]]
-        #raise NotImplementedError()
 
     def assign_encoding(self, variables : [], values : []):
         """

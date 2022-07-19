@@ -2,7 +2,9 @@ from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
-import pandas as pd
+
+from Ctrls.MIDI_controller import MIDICtrl
+# Should we add a controller attribute here?
 
 
 class Music:
