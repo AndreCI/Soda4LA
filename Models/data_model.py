@@ -15,7 +15,6 @@ class Data:
 
     def __init__(self):
         """
-        :param
             header      : list,
                         column of the dataframe
             df          : Pandas.Dataframe,
@@ -79,7 +78,7 @@ class Data:
             data: pd.Dataframe,
                 data buffered
         """
-        data = cls.df[self.index: cls.index + cls.batch_size]
+        data = cls.df[cls.index: cls.index + cls.batch_size]
         cls.index += cls.batch_size
         return data
 

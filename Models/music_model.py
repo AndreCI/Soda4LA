@@ -2,6 +2,7 @@ from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
+import pandas as pd
 
 
 class Music:
@@ -33,15 +34,17 @@ class Music:
             cls.sonification_view = None
         return cls._instance
 
-    def generate(self):
+    def generate(cls):
         """
         Iterate over the data, generate all the notes for all the tracks, so that they can be played
         """
         #TODO: send batches of data to all tracks, so they can generate their own notes
-        raise NotImplementedError()
-        #for batch in self.data.GET_BATCH():
-        #    for t in self.tracks:
-        #        t.generate_notes(row)
+        #raise NotImplementedError()
+
+        while cls.data.empty is False:
+            for t in cls.tracks:
+                t.generate_notes(cls.data.get_next())
+
 
     def add_track(self, track : Track):
         self.tracks.append(track)
