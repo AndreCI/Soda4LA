@@ -5,6 +5,7 @@ from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
+import pandas as pd
 
 
 class Track:
@@ -40,10 +41,10 @@ class Track:
     def generate_notes(self, batch):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
-        :param batch: list of list,
+        :param batch: pandas Dataframe,
             a subset of the dataset regardless the considered filter
         """
-        #TODO time parameter is not defined here,
+        # TODO time parameter is not defined here,
         for r in self.filter.eval_batch(batch):
             self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp), #TODO only send timestamp.
                                     channel=self.id,

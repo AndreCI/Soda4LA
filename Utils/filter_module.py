@@ -14,12 +14,16 @@ class FilterModule():
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
         if the values found in the column corresponding to self.column are validated by the filter
-        :param batch: list of list,
+        :param batch: pandas Dataframe,
             a subset of the dataset
         :return: list of list,
             rows which correspond to the filter
         """
-        raise NotImplementedError()
+        for row in batch.itertuples():
+            if self.evaluate(row.self.column) is True:
+                # return df
+        return 0
+        #good = batch[batch[self.column] == self.filter]
 
     def evaluate(self, value):
         """

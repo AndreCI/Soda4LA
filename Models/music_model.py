@@ -2,6 +2,7 @@ from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
+import pandas as pd
 
 
 class Music:
