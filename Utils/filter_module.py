@@ -20,9 +20,9 @@ class FilterModule():
             timestamp which correspond to the filter
         """
         # Create a new column and fill it with True or False value after eval
-        batch['new'] = batch[self.column].apply(lambda y: 'True' if self.evaluate(y) is True else "False")
+        batch['new'] = batch[self.column].apply(lambda y: self.evaluate(y))
         # We return row where 'new' is True
-        return batch[batch['new'] == 'True']
+        return batch[batch['new'] is True].drop('new', axis=1)
 
     def evaluate(self, value):
         """
