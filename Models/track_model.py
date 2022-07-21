@@ -4,7 +4,7 @@ from Ctrls.track_controller import TrackCtrl
 from Models.data_model import Data
 from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
-from Utils.constants import ENCODING_OPTIONS
+from Utils.constants import ENCODING_OPTIONS, SF_Default
 from Utils.filter_module import FilterModule
 import pandas as pd
 
@@ -20,7 +20,7 @@ class Track:
     def __init__(self, music):
         #Data
         self.id = next(Track.newid)
-        self.soundfont = None #soundfont selected by user, <=< instrument
+        self.soundfont = SF_Default #soundfont selected by user, <=< instrument
         self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
         self.datas = Data().getInstance()
         self.filter.column = self.datas.get_variables()[0]
@@ -55,7 +55,6 @@ class Track:
                                     velocity=self.pencodings["velocity"].get_parameter(r),
                                     duration=self.pencodings["duration"].get_parameter(r),
                                     ))
-        raise NotImplementedError()
 
     def set_main_var(self, variable : str):
         self.filter.column = variable

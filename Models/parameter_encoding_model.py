@@ -42,7 +42,7 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-        return self.handpickEncoding[row[self.filter.column]]
+        return int(self.handpickEncoding[row[self.filter.column]])
 
     def assign_encoding(self, variables : [], values : []):
         """
