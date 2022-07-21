@@ -28,6 +28,7 @@ class Music:
             cls.tracks = [] #List of track model created by user
             cls.timeSettings = TimeSettings()
             cls.data = Data.getInstance()
+            cls.timeSettings.set_attribute(cls.data.first_date, cls.data.last_date)
 
             #Ctrl
             cls.ctrl = MusicCtrl(cls)
