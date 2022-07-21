@@ -1,7 +1,6 @@
 from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar
 from tkinter.ttk import Combobox
 
-from Ctrls.data_controller import DataCtrl
 from Models.data_model import Data
 from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONT
 
@@ -20,7 +19,7 @@ class TrackConfigView(ttk.Frame):
         self.ctrl = ctrl
 
         #View data
-        self.data = Data()
+        self.data = Data.getInstance()
 
         #setup view
         self.create_widgets()
@@ -28,12 +27,13 @@ class TrackConfigView(ttk.Frame):
 
     def create_widgets(self):
         self.soundfontLabel = Label(self, text="Instrument")
-        self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.selectSoundfontCB = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.selectSoundfontCB.bind('<<ComboboxSelected>>', self.select_soundfont)
 
         self.varlistLabel = Label(self, text="Main Variable")
         self.selectVarListBox = Combobox(self, values=self.data.get_variables())
         self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
-        self.selectSoundfontButton.current(0)
+        self.selectSoundfontCB.current(0)
         self.selectVarListBox.current(0)
 
         #https://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
@@ -52,7 +52,7 @@ class TrackConfigView(ttk.Frame):
 
     def setup_widgets(self):
         self.soundfontLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-        self.selectSoundfontButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.selectSoundfontCB.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.varlistLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.selectVarListBox.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
@@ -68,6 +68,10 @@ class TrackConfigView(ttk.Frame):
         # self.exportButton.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         # self.importButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.deleteButton.grid(column=1, row=6, pady=0, padx=DEFAULT_PADX)
+
+
+    def select_soundfont(self, event):
+        self.ctrl.set_soundfont(self.selectSoundfontCB.get())
 
     def select_variable(self, event):
         self.ctrl.set_main_var(self.selectVarListBox.get())
