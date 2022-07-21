@@ -31,6 +31,8 @@ class Data:
         self.last_date = None
         self.batch_size = SAMPLE_PER_TIME_LENGTH
         self.path = DATA_PATH
+        self.assign_timestamp()
+        self.date_column = 'date'
 
     def __new__(cls, *args, **kwargs):
         """
@@ -95,7 +97,7 @@ class Data:
         date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         return date
 
-    def get_deltatime(self, column='date'):
+    def get_deltatime(self):
         """
         Calculate the time span between the end and the beginning
         :param
@@ -108,8 +110,8 @@ class Data:
                 time span in seconds
         """
         # let's set first and last date here
-        self.first_date = self.df[column][0]
-        self.last_date = self.df[column][-1]
+        self.first_date = self.df[self.date_column][0]
+        self.last_date = self.df[self.date_column][-1]
         # now, the computation
         time_date = self.get_datetime(self.first_date) - self.get_datetime(self.last_date)
         time_sec = time_date.total_seconds()
@@ -121,3 +123,10 @@ class Data:
 
     def set_timing_span(self):
         self.timing_span, _ = self.get_deltatime()
+
+    def assign_timestamp(self):
+        """
+        Method to assign timestamp to a new column
+        """
+        self.df['timestamp'] = self.df[self.date_column].apply(lambda x: x.timestamp())
+
