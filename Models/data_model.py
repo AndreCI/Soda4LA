@@ -1,8 +1,6 @@
-import csv
 from datetime import datetime
 import pandas as pd
 from Utils.constants import DATA_PATH
-from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
@@ -23,19 +21,19 @@ class Data:
                         the buffer size
         """
         if Data._instance is None:
+            Data._instance = self
+            self.df = pd.read_csv(DATA_PATH)
+            self.header = list(self.df.columns)
             self.timing_span = MAX_SAMPLE
-            self.df = pd.DataFrame(columns=MOCKUP_VARS)
             self.set_data_timespan = None
             self.index = 0
             self.first_date = None
             self.last_date = None
             self.batch_size = SAMPLE_PER_TIME_LENGTH
-            self.assign_timestamp()
             self.date_column = 'date'
+            self.assign_timestamp()
 
-            self.df = pd.read_csv(DATA_PATH)
-            self.header = list(self.df.columns)
-            Data._instance = self
+
 
     @staticmethod
     def getInstance():
@@ -118,4 +116,5 @@ class Data:
         """
         Method to assign timestamp to a new column
         """
-        self.df['timestamp'] = self.df[self.date_column].apply(lambda x: x.timestamp())
+        self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
+
