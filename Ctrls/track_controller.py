@@ -1,5 +1,5 @@
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
-from Utils.constants import ENCODING_OPTIONS
+from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -24,6 +24,10 @@ class TrackCtrl():
 
     def set_main_var(self, mainVar : str):
         self.model.set_main_var(mainVar)
+
+    def set_soundfont(self, soundfont: str):
+        self.model.soundfont = SOUNDFONTS[soundfont]
+
 
     def change_gain(self, gain : int):
         self.model.gain = gain

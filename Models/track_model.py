@@ -1,9 +1,11 @@
 import itertools
 
 from Ctrls.track_controller import TrackCtrl
+from Models.data_model import Data
 from Models.note_model import TNote
 from Models.parameter_encoding_model import ParameterEncoding
-from Utils.constants import ENCODING_OPTIONS
+from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
+
 from Utils.filter_module import FilterModule
 
 
@@ -18,9 +20,11 @@ class Track():
     def __init__(self, music):
         #Data
         self.id = next(Track.newid)
-        self.soundfont = None #soundfont selected by user, <=< instrument
-        self.mainVar = None #Main variable for the current track
-        self.filter = FilterModule() #Filter module linked to the mainVar, dictating which row in data is used to generate notes
+
+        self.soundfont = SOUNDFONTS["default"] #soundfont selected by user, <=< instrument
+        self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
+        self.datas = Data().getInstance()
+        self.filter.column = self.datas.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
         self.music = music #Needed to backtrack and remove itself upon deletion

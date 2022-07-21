@@ -3,7 +3,7 @@ from tkinter.ttk import Combobox
 
 from Ctrls.data_controller import DataCtrl
 from Models.data_model import Data
-from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONT
+from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONTS
 
 
 class TrackConfigView(ttk.Frame):
@@ -28,7 +28,10 @@ class TrackConfigView(ttk.Frame):
 
     def create_widgets(self):
         self.soundfontLabel = Label(self, text="Instrument")
-        self.selectSoundfontButton = Combobox(self, values=SOUNDFONT)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+
+        self.selectSoundfontCB = Combobox(self, values=SOUNDFONTS.keys())  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.selectSoundfontCB.bind('<<ComboboxSelected>>', self.select_soundfont)
+
 
         self.varlistLabel = Label(self, text="Main Variable")
         self.selectVarListBox = Combobox(self, values=self.data.get_variables())

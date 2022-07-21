@@ -1,0 +1,4 @@
+
+
+class MusicView():
+    pass
