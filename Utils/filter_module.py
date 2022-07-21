@@ -9,7 +9,7 @@ class FilterModule():
 
     def __init__(self):
         self.filter = None
-        self.column = Data().getInstance().get_variables()[0] # column on which to apply the filter
+        self.column = None#Data().getInstance().get_variables()[0] # column on which to apply the filter
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
 

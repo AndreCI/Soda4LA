@@ -55,6 +55,7 @@ class MusicCtrl():
             self.synthIds.append(sfid)
             self.synth.program_select(track.id, sfid, 0, 0)
         self.seqIds.append(self.sequencer.register_client("callback", self.sequencer_callback))
+        self.buffer_notes.extend(self.model.tracks[0].notes) #TODO proper and not just the first track
 
     def schedule_next_sequence(self):
         self.next_notes = self.buffer_notes[:SAMPLE_PER_TIME_LENGTH]
