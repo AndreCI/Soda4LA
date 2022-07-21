@@ -1,8 +1,9 @@
 # TODO complexify with other filter options, such as str filters.
 from Models.data_model import Data
+import pandas as pd
 
 
-class FilterModule():
+class FilterModule:
     """
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
     """
@@ -22,11 +23,12 @@ class FilterModule():
         :return: pandas Dataframe,
             Dataframe w.r.t the filter
         """
+        # create a new df using batch
+        df = batch.copy()
         # Create a new column and fill it with True or False value after eval
-        print(self.column)
-        batch['new'] = batch[self.column].apply(lambda y: self.evaluate(y))
+        df['new'] = df[self.column].apply(lambda y: 'True' if self.evaluate(y) is True else 'False')
         # We return row where 'new' is True and we remove the created column
-        return batch[batch['new'] is True].drop('new', axis=1)
+        return df[df['new'] == 'True'].drop('new', axis=1)
 
     def evaluate(self, value):
         """

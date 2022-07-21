@@ -40,7 +40,11 @@ class MusicCtrl():
     #TODO
     def play(self):
         self.now = self.sequencer.get_tick()
-        self.synth.start()
+        # Use the line below if for MS Windows driver
+        # self.synth.start()
+        self.synth.start(driver="alsa")
+        # you might have to use other drivers:
+        # fs.start(driver="alsa", midi_driver="alsa_seq")
 
     def pause(self):
         pass

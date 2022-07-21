@@ -9,6 +9,8 @@ class TimeSettings:
     """
     def __init__(self):
         #Data
+        self.minVal = None
+        self.maxVal = None
         self.possible_types = ["linear"]#, "log"]
         self.type = self.possible_types[0]
         #Other models
@@ -42,11 +44,11 @@ class TimeSettings:
         :param current: timestamp of data point
         :return: a temporal position between 0 and 1.
         """
-        if(self.maxVal<current<self.minVal):
+        if self.maxVal < current < self.minVal:
             raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current, self.minVal, self.maxVal))
         distance = self.maxVal - self.minVal
         #ratio = float(distance)/float(max)
-        if(self.type == self.possible_types[0]):
+        if self.type == self.possible_types[0]:
             return (current - self.minVal)/float(distance)#(ratio - min) * current
         else:
             raise NotImplementedError()
