@@ -16,12 +16,11 @@ class Data:
             header      : list,
                         column of the dataframe
             df          : Pandas.Dataframe,
-                        Our dataset with the row included
+                        Our dataset
             batch_size  : int,
                         the buffer size
         """
         if Data._instance is None:
-            Data._instance = self
             self.df = pd.read_csv(DATA_PATH)
             self.header = list(self.df.columns)
             self.timing_span = MAX_SAMPLE
@@ -32,7 +31,7 @@ class Data:
             self.batch_size = SAMPLE_PER_TIME_LENGTH
             self.date_column = 'date'
             self.assign_timestamp()
-
+            Data._instance = self
 
 
     @staticmethod
@@ -98,10 +97,10 @@ class Data:
                 time span in seconds
         """
         # let's set first and last date here
-        self.first_date = self.df[self.date_column][0]
-        self.last_date = self.df[self.date_column][-1]
+        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
         # now, the computation
-        time_date = self.get_datetime(self.first_date) - self.get_datetime(self.last_date)
+        time_date = self.first_date - self.last_date
         time_sec = time_date.total_seconds()
         # first and last date into seconds
         self.first_date = self.first_date.timestamp()
@@ -117,4 +116,7 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
+
+        # We call method here to init all the attributes
+        self.set_timing_span()
 
