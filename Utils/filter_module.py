@@ -1,4 +1,7 @@
 # TODO complexify with other filter options, such as str filters.
+from Models.data_model import Data
+
+
 class FilterModule():
     """
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
@@ -6,7 +9,7 @@ class FilterModule():
 
     def __init__(self):
         self.filter = None
-        self.column = None  # column on which to apply the filter
+        self.column = Data().getInstance().get_variables()[0] # column on which to apply the filter
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
 
@@ -20,6 +23,7 @@ class FilterModule():
             Dataframe w.r.t the filter
         """
         # Create a new column and fill it with True or False value after eval
+        print(self.column)
         batch['new'] = batch[self.column].apply(lambda y: self.evaluate(y))
         # We return row where 'new' is True and we remove the created column
         return batch[batch['new'] is True].drop('new', axis=1)
