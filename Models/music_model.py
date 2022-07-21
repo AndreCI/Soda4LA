@@ -1,9 +1,13 @@
 from Ctrls.music_controller import MusicCtrl
+from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
 
+from Ctrls.MIDI_controller import MIDICtrl
+# Should we add a controller attribute here?
 
-class Music():
+
+class Music:
     """
     Model class for music. Music is defined as the end product of the sonification process, regardless of esthetic.
     A music can be played via its music view or displayed via midi view.
@@ -22,7 +26,9 @@ class Music():
 
             #Other models
             cls.tracks = [] #List of track model created by user
-            cls.timeSettings = TimeSettings() 
+            cls.timeSettings = TimeSettings()
+            cls.data = Data.getInstance()
+            cls.timeSettings.set_attribute(cls.data.first_date, cls.data.last_date)
 
             #Ctrl
             cls.ctrl = MusicCtrl(cls)
@@ -31,13 +37,14 @@ class Music():
             cls.sonification_view = None
         return cls._instance
 
-    def generate(self):
+    def generate(cls):
         """
-        Generate all the notes for all the tracks, so that they can be played
+        Iterate over the data, generate all the notes for all the tracks, so that they can be played
         """
-        #TODO
-        for t in self.tracks:
-            t.generate_notes()
+        while cls.data.get_next().empty is False:
+            for t in cls.tracks:
+                t.generate_notes(cls.data.get_next())
+
 
     def add_track(self, track : Track):
         self.tracks.append(track)

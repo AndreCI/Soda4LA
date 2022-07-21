@@ -38,7 +38,7 @@ class ParameterEncodingView(Toplevel):
         for i, item in enumerate(self.model.get_variables_instances()):
             self.variableList.append(Label(self.handpick_frame.scrollable_frame, text=item))
             self.valueList.append(Entry(self.handpick_frame.scrollable_frame))
-            self.valueList[-1].insert(0, str(i*10))
+            self.valueList[-1].insert(0, str(min((i*10), 127)))
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
             tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
             tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
@@ -70,7 +70,7 @@ class ParameterEncodingView(Toplevel):
         for i, item in enumerate(self.model.get_variables_instances()):
             self.variableList.append(Label(self.handpick_frame.scrollable_frame, text=item))
             self.valueList.append(Entry(self.handpick_frame.scrollable_frame))#.insert(END, i)
-            self.valueList[i].insert(0, str(i*10))
+            self.valueList[i].insert(0, str(min((i*10), 127)))
 
         self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
