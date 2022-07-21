@@ -21,7 +21,8 @@ class ParameterEncoding:
         self.handpickEncoding = {}
 
         #Others Models
-        self.datas = Data()
+        self.datas = Data.getInstance()
+        self.filter.column = self.datas.get_variables()[0]
 
         #Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
@@ -30,7 +31,7 @@ class ParameterEncoding:
         self.peView = None
 
     def set_main_var(self, variable : str):
-        self.filter.assign(variable)
+        self.filter.column = variable
 
     def get_parameter(self, row):
         """

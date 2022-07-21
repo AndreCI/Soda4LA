@@ -26,8 +26,8 @@ class MainView(tk.Tk):
 
         self.config(menu=self.menubar)
 
-        db = Data()
-        db.setup(DATA_PATH)
+        db = Data.getInstance()
+        db.setup()
 
     def setup_menu(self):
         self.menubar = tk.Menu(self)

@@ -27,7 +27,7 @@ class Music:
             #Other models
             cls.tracks = [] #List of track model created by user
             cls.timeSettings = TimeSettings()
-            cls.data = Data()
+            cls.data = Data.getInstance()
 
             #Ctrl
             cls.ctrl = MusicCtrl(cls)
