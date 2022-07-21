@@ -16,8 +16,8 @@ class FilterModule():
         if the values found in the column corresponding to self.column are validated by the filter
         :param batch: pandas Dataframe,
             a subset of the dataset
-        :return: list,
-            timestamp which correspond to the filter
+        :return: pandas Dataframe,
+            Dataframe w.r.t the filter
         """
         # Create a new column and fill it with True or False value after eval
         batch['new'] = batch[self.column].apply(lambda y: self.evaluate(y))
