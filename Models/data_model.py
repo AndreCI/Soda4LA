@@ -119,4 +119,3 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['timestamp'] = self.df[self.date_column].apply(lambda x: x.timestamp())
-
