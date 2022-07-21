@@ -41,4 +41,5 @@ class TrackCtrl:
         self.model.remove()
 
     def open_encoding(self, encoded_var: str):
-        [x for x in self.model.pencodings if x.encoded_var == encoded_var][0].ctrl.show_window()
+        self.model.pencodings[encoded_var].ctrl.show_window()
+        #[x for x in self.model.pencodings if x == encoded_var].ctrl.show_window()

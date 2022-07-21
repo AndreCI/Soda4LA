@@ -22,25 +22,29 @@ class Data:
             batch_size  : int,
                         the buffer size
         """
-        self.timing_span = MAX_SAMPLE
-        self.df = pd.DataFrame(columns=MOCKUP_VARS)
-        self.header = None
-        self.set_data_timespan = None
-        self.index = 0
-        self.first_date = None
-        self.last_date = None
-        self.batch_size = SAMPLE_PER_TIME_LENGTH
-        self.path = DATA_PATH
-        self.assign_timestamp()
-        self.date_column = 'date'
+        if Data._instance is None:
+            self.timing_span = MAX_SAMPLE
+            self.df = pd.DataFrame(columns=MOCKUP_VARS)
+            self.header = None
+            self.set_data_timespan = None
+            self.index = 0
+            self.first_date = None
+            self.last_date = None
+            self.batch_size = SAMPLE_PER_TIME_LENGTH
+            self.path = DATA_PATH
+            self.assign_timestamp()
+            self.date_column = 'date'
 
-    def __new__(cls, *args, **kwargs):
-        """
-        instantiation, unique
-        """
-        if cls._instance is None:
-            cls._instance = super(Data, cls).__new__(cls, *args, **kwargs)
-        return cls._instance
+            self.df = pd.read_csv(self.path)
+            self.header = list(self.df.columns)
+            self.index = 0
+            Data._instance = self
+
+    @staticmethod
+    def getInstance():
+        if not Data._instance:
+            Data()
+        return Data._instance
 
     def setup(cls):
         """
@@ -49,9 +53,6 @@ class Data:
             path: str,
                 relative path to the file
         """
-        cls.df = pd.read_csv(cls.path)
-        cls.header = list(cls.df.columns)
-        cls.index = 0
 
     def get_variables(cls):
         """
