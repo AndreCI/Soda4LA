@@ -21,7 +21,7 @@ class FilterModule():
         """
         # Create a new column and fill it with True or False value after eval
         batch['new'] = batch[self.column].apply(lambda y: self.evaluate(y))
-        # We return row where 'new' is True
+        # We return row where 'new' is True and we remove the created column
         return batch[batch['new'] is True].drop('new', axis=1)
 
     def evaluate(self, value):
