@@ -43,8 +43,8 @@ class MusicCtrl():
         self.now = self.sequencer.get_tick()
         self.schedule_next_sequence()
         # Use the line below if for MS Windows driver
-        self.synth.start()
-        #self.synth.start(driver="alsa")
+        #self.synth.start()
+        self.synth.start(driver="alsa")
         # you might have to use other drivers:
         # fs.start(driver="alsa", midi_driver="alsa_seq")
 
