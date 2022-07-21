@@ -31,7 +31,6 @@ class TrackConfigView(ttk.Frame):
 
         self.varlistLabel = Label(self, text="Main Variable")
         self.selectVarListBox = Combobox(self, values=self.data.get_variables())
-        print(self.data.get_variables())
         self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectSoundfontButton.current(0)
         self.selectVarListBox.current(0)

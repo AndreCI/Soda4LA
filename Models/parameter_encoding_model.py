@@ -59,5 +59,4 @@ class ParameterEncoding:
 
 
     def get_variables_instances(self):
-        #TODO should be somewhere else?
         return self.datas.get_variables_instances(self.filter.column)

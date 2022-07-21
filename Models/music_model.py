@@ -40,7 +40,7 @@ class Music:
         """
         Iterate over the data, generate all the notes for all the tracks, so that they can be played
         """
-        while cls.data.empty is False:
+        while cls.data.get_next().empty is False:
             for t in cls.tracks:
                 t.generate_notes(cls.data.get_next())
 
