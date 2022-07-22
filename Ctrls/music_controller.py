@@ -34,7 +34,7 @@ class MusicCtrl():
 
     def play(self):
         """
-        Start a thread via music model to feed the music view notes, then start the sequencer
+        Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.note_generator_thread = threading.Thread(target=self.model.generate, args=[self.model], daemon=True)
         self.note_generator_thread.start()

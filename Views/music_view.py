@@ -15,8 +15,8 @@ class MusicView():
         self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
         self.seqIds = self.sequencer.register_client("callback", self.wrap_snc)
         self.batch_starting_time = None #timestamp updated regulary by music_view
-        self.next_batch_notes = [] #current notes to feed to the sequencer
-        self.buffer_notes = [] #next batch of notes to feed the sequencer
+        self.next_batch_notes = [] #current notes to consumed to the sequencer
+        self.buffer_notes = [] #next batch of notes to be comsumed the sequencer
 
         #Start the synth so its ready to play notes
         # Use the line below if for MS Windows driver
@@ -46,8 +46,14 @@ class MusicView():
         """
 
         #Below is unfinished code
-        #TODO: iterate over the buffer and stock notes into self.next_batch_notes IF they should be played during the next BUFFER_TIME_LENGTH
-        self.buffer_notes.extend(self.model.notes) #TODO Should only add notes that are not already in the buffer
+        #TODO: better implement the producer-consumer pattern between music_nodel (producer) and music_view (consumer)
+        # see https://dzone.com/articles/producer-consumer-design https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
+
+        #TODO: iterate over the buffer and stock notes into self.next_batch_notes IF they should be played during the
+        # next BUFFER_TIME_LENGTH. compare tfactors?
+
+        self.buffer_notes.extend(self.model.notes) #TODO Should only add notes that are not already in the buffer.
+        # Notes should be removed from self.model.notes upon extending buffer_notes
         for note in self.buffer_notes:
             if note.tfactor: #TODO: if the note should be played during the next time window (BUFFER_TIME_LENGTH), then add it to the list and remove it from the buffer
                 self.next_batch_notes.append(note)
