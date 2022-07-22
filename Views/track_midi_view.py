@@ -19,15 +19,13 @@ class TrackMidiView(ttk.Frame):
         self.note_view = []
 
         #setup
-        self.create_widgets()
-        self.setup_widgets()
-
-    def create_widgets(self):
         self.local_gain_slider = Scale(self, from_=0, to=100,
                                        sliderrelief='solid',
                                        command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
         self.mute_button = Button(self, text="Mute")
         self.notes = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["NOTE"][0])
+
+        self.setup_widgets()
 
     def setup_widgets(self):
         self.local_gain_slider.grid(column=0, row=0, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)

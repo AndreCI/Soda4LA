@@ -21,10 +21,6 @@ class TimeSettingsView(Toplevel):
         # self.geometry('450x400')
 
         # setup view
-        self.create_widgets()
-        self.setup_widgets()
-
-    def create_widgets(self):
         self.optionsFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TIMESETTINGS"][0])
         self.options = []
         self.selected = StringVar()
@@ -35,6 +31,8 @@ class TimeSettingsView(Toplevel):
         self.exitFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.validateButton = Button(self.exitFrame, text="Validate", command=self.ctrl.validate)
         self.cancelButton = Button(self.exitFrame, text="Cancel", command=self.destroy)
+
+        self.setup_widgets()
 
     def setup_widgets(self):
         self.optionsFrame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)

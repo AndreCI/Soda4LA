@@ -11,17 +11,17 @@ class ScrollableFrame(ttk.Frame):
         super().__init__(container, *args, **kwargs)
         if('width' not in kwargs.keys()):
             pass
-        canvas = tk.Canvas(self)#, width=kwargs['width'], height=kwargs['height'])
+        canvas = tk.Canvas(self, width=kwargs['width'], height=kwargs['height'])
         scrollbar = ttk.Scrollbar(self, orient=orient, command=(canvas.yview if orient=="vertical" else canvas.xview))
-        self.scrollable_frame = ttk.Frame(canvas, padding=kwargs['padding'], style=kwargs['style'])
+        self.scrollableFrame = ttk.Frame(canvas, padding=kwargs['padding'], style=kwargs['style'])
 
-        self.scrollable_frame.bind(
+        self.scrollableFrame.bind(
             "<Configure>",
             lambda e: canvas.configure(
                 scrollregion=canvas.bbox("all")
             )
         )
-        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="center")
+        canvas.create_window((0, 0), window=self.scrollableFrame, anchor="center")
 
         if(orient=="vertical"):
             canvas.configure(yscrollcommand=scrollbar.set)

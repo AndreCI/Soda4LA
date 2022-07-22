@@ -1,17 +1,20 @@
 from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 
-# TODO add other time settings
-class TimeSettings:
+#TODO add other time settings
+from Utils.constants import TIME_SETTINGS_OPTIONS
+
+
+class TimeSettings():
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.
     """
     def __init__(self):
         #Data
+        self.possible_types = TIME_SETTINGS_OPTIONS
         self.minVal = None
         self.maxVal = None
-        self.possible_types = ["linear"]#, "log"]
         self.type = self.possible_types[0]
         #Other models
         #Ctrl

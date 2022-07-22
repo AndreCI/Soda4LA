@@ -30,6 +30,7 @@ class FilterModule:
         # We return row where 'new' is True and we remove the created column
         return df[df['new'] == 'True'].drop('new', axis=1)
 
+
     def evaluate(self, value):
         """
         Determines whether a row should be converted as a note, based on filter and the selected value. Value must comes

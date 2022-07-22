@@ -14,6 +14,8 @@ SF_Cleanguitar = soundfont_path + "Clean_Guitar.sf2"
 SF_Jazzguitar = soundfont_path + "Jazz_Guitar.sf2"
 
 
+TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]
+FUNCTION_OPTIONS = ["linear"] #isomorphisms
 ENCODING_OPTIONS =  ["value", "duration", "velocity"]
 MOCKUP_VARS =  ["timestamp", "user_id", "action", "item_id"]
 
