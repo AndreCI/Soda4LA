@@ -24,7 +24,7 @@ class TrackMidiView(ttk.Frame):
                                        command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
         self.mute_button = Button(self, text="Mute")
         self.notes = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["NOTE"][0])
-        
+
         self.setup_widgets()
 
     def setup_widgets(self):

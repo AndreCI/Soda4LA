@@ -85,7 +85,7 @@ class ParameterEncodingView(Toplevel):
         self.fMinEntry.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.fMaxLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.fMaxEntry.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-
+        #https://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter/4140988#4140988
 
         #END FUNCTION FRAME
         #HANDPICK FRAME
@@ -118,6 +118,7 @@ class ParameterEncodingView(Toplevel):
         for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
             tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
             tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
+        self.geometry("")
 
     def switch_mode(self):
         """
