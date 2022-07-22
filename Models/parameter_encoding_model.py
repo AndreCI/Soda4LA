@@ -44,8 +44,10 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-        return int(self.handpickEncoding[row[self.filter.column]])
-
+        try:
+            return int(self.handpickEncoding[row[self.filter.column]])
+        except KeyError:
+            return 100
 
     def assign_function_encoding(self, function : str, min_val : int, max_val : int):
         """

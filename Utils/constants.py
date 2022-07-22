@@ -6,6 +6,10 @@ SOUNDFONTS = {"default" : soundfont_path + "Jazz_Guitar.sf2",
               "Jazz Guitare": soundfont_path + "Jazz_Guitar.sf2",
               "Clean Guitare" :  soundfont_path + "Clean_Guitar.sf2",
               "Soprano" : soundfont_path + "Recorder_Soprano.sf2"}
+
+BUFFER_TIME_LENGTH = 2000
+
+
 SF_Default = soundfont_path + "Jazz_Guitar.sf2"#"FluidR3_GM2-2.sf2"
 SF_Chemclarinet = soundfont_path + "Chemical_Clarinet_MDX7.sf2"
 SF_Soprano = soundfont_path + "Recorder_Soprano.sf2"
