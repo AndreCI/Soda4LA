@@ -23,7 +23,7 @@ class SeqCtrl(object):
         self.buffer_notes = []
 
         # Use the line below if for MS Windows driver
-        #self.synth.start()
+        # self.synth.start()
         self.synth.start(driver="alsa")
         # you might have to use other drivers:
         # fs.start(driver="alsa", midi_driver="alsa_seq")
@@ -55,6 +55,7 @@ class SeqCtrl(object):
         self.buffer_notes = self.buffer_notes[SAMPLE_PER_TIME_LENGTH:]
         for note in self.next_notes:
             print(note)
+            #TODO user absolute = True rather than cumulative?
             self.sequencer.note(int(self.now + self.seqduration * note.tfactor),
                                 channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
                                 dest=self.synthSeq_id)

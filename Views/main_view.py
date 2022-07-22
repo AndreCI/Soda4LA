@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-from Ctrls.data_controller import DataCtrl
 from Models.data_model import Data
 from Utils.constants import DATA_PATH
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
@@ -27,8 +26,7 @@ class MainView(tk.Tk):
 
         self.config(menu=self.menubar)
 
-        db = Data()
-        db.setup(DATA_PATH)
+        db = Data.getInstance()
 
     def setup_menu(self):
         self.menubar = tk.Menu(self)

@@ -1,76 +1,122 @@
-import csv
 from datetime import datetime
-
+import pandas as pd
 from Utils.constants import DATA_PATH
-from Utils.constants import MOCKUP_VARS
 from Utils.sound_setup import MAX_SAMPLE
+from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
-class Data():
-    """"
+
+class Data:
+    """
     Data csv wrapper, offers additional information such as a list of all instances of a variable
     """
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __init__(self):
         """
-        instantiation, unique
+            header      : list,
+                        column of the dataframe
+            df          : Pandas.Dataframe,
+                        Our dataset
+            batch_size  : int,
+                        the buffer size
         """
-        if (cls._instance is None):
-            cls._instance = super(Data, cls).__new__(cls, *args, **kwargs)
-            cls.initialized = False
-        return cls._instance
+        if Data._instance is None:
+            self.df = pd.read_csv(DATA_PATH)
+            self.header = list(self.df.columns)
+            self.timing_span = MAX_SAMPLE
+            self.set_data_timespan = None
+            self.index = 0
+            self.first_date = None
+            self.last_date = None
+            self.batch_size = SAMPLE_PER_TIME_LENGTH
+            self.date_column = 'date'
+            self.assign_timestamp()
+            Data._instance = self
 
-    def setup(cls, path):
-        cls.initialized = True
-        cls.csvfile = open(path)
-        cls.reader = csv.reader(cls.csvfile)
-        cls.header = cls.reader.__next__()
-        cls.data = []
-        for d in cls.reader:
-            cls.data.append(d)
-        cls.index = 0
-        cls.set_data_timespan(MAX_SAMPLE)
 
-    def get_variables(self):
-        if(not self.initialized):
-            return MOCKUP_VARS
-        return self.header
+    @staticmethod
+    def getInstance():
+        if not Data._instance:
+            Data()
+        return Data._instance
 
-    def get_variables_instances(self, variable):
-        idx = self.header.index(variable)
-        instances = []
-        for d in self.data:
-            if(d[idx] not in instances):
-                instances.append(d[idx])
-        return instances
+    def get_variables(cls):
+        """
+        Get the columns (header) of our dataset
+        :return:
+            header: list,
+                The columns of the csv file
+        """
+        return cls.header
 
-    def get_next(self):
-        d = self.data[self.index]
-        self.index += 1
-        return d
+    def get_variables_instances(cls, column):
+        """
+        Get unique instances from a column
+        :param
+            column: str,
+                the target column
+        :return: list,
+                unique value from the target column
+        """
+        return pd.unique(cls.df[column])
 
-    def get_data_timespan(self, data):
-        min_t = self.get_datetime(data[0][4])
-        max_t = self.get_datetime(data[-1][4])
-        timedelta = max_t - min_t
-        return timedelta.total_seconds()
-
-    def set_data_timespan(self, max_sample):
-        min_t = self.get_datetime(self.data[0][4])
-        max_t = self.get_datetime(self.data[max_sample][4])
-        timedelta = max_t - min_t
-        self.timing_span = timedelta.total_seconds()
-
-    def get_deltatime(self, current_date, min_date=None):
-        if (min_date == None):
-            min_t = self.get_datetime(self.data[0][4])
-        else:
-            min_t = self.get_datetime(min_date)
-        current_t = self.get_datetime(current_date)
-        timedelta = current_t - min_t
-        return timedelta
+    def get_next(cls):
+        """
+        This method send a batch of samples at a same time
+        :return:
+            data: pd.Dataframe,
+                data buffered
+        """
+        data = cls.df[cls.index: cls.index + cls.batch_size]
+        cls.index += cls.batch_size
+        return data
 
     @staticmethod
     def get_datetime(d):
+        """
+        :param
+            d: str,
+                date to convert
+        :return:
+            date: str,
+                converted date
+        """
         date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         return date
+
+    def get_deltatime(self):
+        """
+        Calculate the time span between the end and the beginning
+        :param
+            column: str,
+                The date column of our dataset
+        :return:
+            time_date: datetime.timedelta,
+                date representation of the time span
+            time_sec: datetime.timedelta,
+                time span in seconds
+        """
+        # let's set first and last date here
+        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
+        # now, the computation
+        time_date = self.first_date - self.last_date
+        time_sec = time_date.total_seconds()
+        # first and last date into seconds
+        self.first_date = self.first_date.timestamp()
+        self.last_date = self.last_date.timestamp()
+
+        return time_date, time_sec
+
+    def set_timing_span(self):
+        self.timing_span, _ = self.get_deltatime()
+
+    def assign_timestamp(self):
+        """
+        Method to assign timestamp to a new column
+        """
+        self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
+
+        # We call method here to init all the attributes
+        self.set_timing_span()
+
