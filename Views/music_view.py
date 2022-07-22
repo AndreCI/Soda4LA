@@ -88,3 +88,4 @@ class MusicView():
         :param data: irrelevant
         """
         self.schedule_next_sequence()
+
