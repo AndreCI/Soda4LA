@@ -60,7 +60,7 @@ class MusicCtrl():
             sfid = self.synth.sfload(track.soundfont)
             self.synthIds.append(sfid)
             self.synth.program_select(track.id, sfid, 0, 0)
-        self.buffer_notes.extend(self.model.tracks[0].notes) #TODO proper and not just the first track
+            self.buffer_notes.extend(track.notes) #No need to reorganize! done by sequencer
 
     def schedule_next_sequence(self):
         self.next_notes = self.buffer_notes[:SAMPLE_PER_TIME_LENGTH]

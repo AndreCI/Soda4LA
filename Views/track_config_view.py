@@ -24,7 +24,7 @@ class TrackConfigView(ttk.Frame):
         #setup view
         self.soundfontLabel = Label(self, text="Instrument")
 
-        self.selectSoundfontCB = Combobox(self, values=SOUNDFONTS)  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.selectSoundfontCB = Combobox(self, values=list(SOUNDFONTS.keys()))  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
         self.selectSoundfontCB.bind('<<ComboboxSelected>>', self.select_soundfont)
 
         self.varlistLabel = Label(self, text="Main Variable")

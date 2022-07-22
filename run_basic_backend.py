@@ -30,7 +30,7 @@ if __name__ == "__main__":
     seq.start()
     print("Starting")
     time.sleep(5)
-    # for k in VALUE_encoding.keys():
+    # for k in VALUE_encoding. keys():
     # app_setup.VALUE_encoding[k] = [100, 2]
     time.sleep(1000)
 
