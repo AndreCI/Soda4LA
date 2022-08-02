@@ -13,8 +13,8 @@ class MusicView:
         self.model = model
         self.synth = fluidsynth.Synth()
         self.sequencer = fluidsynth.Sequencer()
-        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth) # kindly explain this line
-        self.seqIds = self.sequencer.register_client("callback", self.wrap_snc)  # I don't really understand wrap_snc and why we call it here.
+        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth) # necessary for fluidynth, called as an arg by the sequencer
+        self.seqIds = self.sequencer.register_client("callback", self.wrap_snc)  # necessary for fluidsynth, called by the sequencer with a specific signature
         self.batch_starting_time = None # timestamp updated regulary by music_view
         self.next_batch_notes = [] # current notes to consumed to the sequencer
         self.buffer_notes = [] # next batch of notes to be comsumed the sequencer
@@ -84,13 +84,11 @@ class MusicView:
 
     def wrap_snc(self, time, event, seq, data):
         """
-        Wrapper with the right signature for schedule_next_callback
-        :param time: irrelevant
-        :param event: irrelevant
-        :param seq: irrelevant
-        :param data: irrelevant
-
-                                                                ######## Why are they all  irrelevant ?????
+        Wrapper with the right signature for schedule_next_callback. Arguments are irrelevant but necessary to respect the signature requested by fluidsynth
+        :param time: irrelevant - not used
+        :param event: irrelevant - not used
+        :param seq: irrelevant - not used
+        :param data: irrelevant - not used
         """
         self.schedule_next_sequence()
 

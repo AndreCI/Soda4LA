@@ -56,7 +56,7 @@ class Music:
         # Fluidsynth
         self.synth = fluidsynth.Synth()
         self.sequencer = fluidsynth.Sequencer()
-        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)  # kindly explain this line
+        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)  # necessary for fluidsynth
 
 
     def generate(cls):
