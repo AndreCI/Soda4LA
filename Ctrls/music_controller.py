@@ -1,5 +1,3 @@
-import threading
-
 import fluidsynth
 
 from Models.track_model import Track
@@ -7,7 +5,7 @@ from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 from Views.music_view import MusicView
 
 
-class MusicCtrl():
+class MusicCtrl:
     """
     Controller for final music model. <=> sonification ctrl
     """
