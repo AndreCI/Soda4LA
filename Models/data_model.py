@@ -32,6 +32,7 @@ class Data:
             self.last_date = None
             self.batch_size = None
             self.date_column = None
+            self.timestamp_column = None
             self.view = None
             self.ctrl = DataCtrl(self)
             Data._instance = self
@@ -76,9 +77,8 @@ class Data:
         This method search the timestamp column
         """
         for col in self.header:
-            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]), datetime): # if the first notNa element in the column looks like a timestamp
-                self.date_column = col
-            break
+            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]), datetime) or isinstance(datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])), datetime): # if the first notNa element in the column looks like a timestamp
+                self.timestamp_column = col
 
     def get_variables(cls):
         """
