@@ -29,7 +29,7 @@ class MusicCtrl():
         """
         Create a track and adds it to the model
         """
-        self.model.add_track(self=self.model, track=Track(self.model))
+        self.model.add_track(track=Track(self.model))
 
     def remove_track(self, track : Track):
         """

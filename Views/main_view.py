@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter.filedialog import askopenfilename
 
 from Models.data_model import Data
+from Models.music_model import Music
 from Utils.constants import DATA_PATH
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
+from Views.data_view import DataView
 from Views.sonification_view import SonificationView
 
 
@@ -20,18 +23,21 @@ class MainView(tk.Tk):
         for v in TFRAME_STYLE.values():
             s.configure(v[0], background=v[1])
 
+        self.db = Data.getInstance()
+
         self.setup_menu()
         self.create_widgets()
         self.setup_widgets()
 
         self.config(menu=self.menubar)
+        self.load_data()
 
-        db = Data.getInstance()
 
     def setup_menu(self):
         self.menubar = tk.Menu(self)
         filemenu = tk.Menu(self.menubar, tearoff=0)
         filemenu.add_command(label="Load data", command=self.load_data)
+        filemenu.add_command(label="Show data", command=self.show_data)
         # filemenu.add_command(label="Save")
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=self.quit)
@@ -42,7 +48,16 @@ class MainView(tk.Tk):
         self.menubar.add_cascade(label="Help", menu=helpmenu)
 
     def load_data(self):
-        pass
+        #TODO add other filetype
+        filename = askopenfilename(filetypes=[("csv file", "*.csv")])#, (" file",'*.png'), ("All files", " *.* "),))
+        self.db.read_data(filename)
+        self.show_data()
+        Music.getInstance().timeSettings.set_attribute(self.db.first_date, self.db.last_date)
+
+        print(filename)
+
+    def show_data(self):
+        self.db.ctrl.show_window()
 
     def create_widgets(self):
         # self.mainframe = ttk.Frame(self, padding="3 3 12 12")

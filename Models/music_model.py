@@ -3,7 +3,7 @@ from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
 
-from Ctrls.MIDI_controller import MIDICtrl
+
 # Should we add a controller attribute here?
 
 
@@ -14,28 +14,32 @@ class Music:
     """
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __init__(cls):
         """
         instantiation, unique
         """
-        if (cls._instance is None):
-            cls._instance = super(Music, cls).__new__(cls, *args, **kwargs)
-            #Data
+        if Music._instance is None:
+            Music._instance = cls
+            # Data
             cls.gain = 100
             cls.muted = False
 
-            #Other models
-            cls.tracks = [] #List of track model created by user
+            # Other models
+            cls.tracks = []  # List of track model created by user
             cls.timeSettings = TimeSettings()
             cls.data = Data.getInstance()
-            cls.timeSettings.set_attribute(cls.data.first_date, cls.data.last_date)
 
-            #Ctrl
+            # Ctrl
             cls.ctrl = MusicCtrl(cls)
 
-            #Views
+            # Views
             cls.sonification_view = None
-        return cls._instance
+
+    @staticmethod
+    def getInstance():
+        if not Music._instance:
+            Music()
+        return Music._instance
 
     def generate(cls):
         """
@@ -45,11 +49,10 @@ class Music:
             for t in cls.tracks:
                 t.generate_notes(cls.data.get_next())
 
-
-    def add_track(self, track : Track):
+    def add_track(self, track: Track):
         self.tracks.append(track)
         self.sonification_view.add_track(track)
 
-    def remove_track(self, track : Track):
+    def remove_track(self, track: Track):
         self.tracks.remove(track)
         self.sonification_view.remove_track(track)

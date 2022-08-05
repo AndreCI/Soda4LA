@@ -1,5 +1,7 @@
 from datetime import datetime
 import pandas as pd
+
+from Ctrls.data_controller import DataCtrl
 from Utils.constants import DATA_PATH
 from Utils.sound_setup import MAX_SAMPLE
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
@@ -21,16 +23,18 @@ class Data:
                         the buffer size
         """
         if Data._instance is None:
-            self.df = pd.read_csv(DATA_PATH)
-            self.header = list(self.df.columns)
-            self.timing_span = MAX_SAMPLE
+            self.df = None
+            self.header = None
+            self.timing_span = None
             self.set_data_timespan = None
-            self.index = 0
+            self.index = None
             self.first_date = None
             self.last_date = None
-            self.batch_size = SAMPLE_PER_TIME_LENGTH
-            self.date_column = 'date'
-            self.assign_timestamp()
+            self.batch_size = None
+            self.date_column = None
+
+            self.view = None
+            self.ctrl = DataCtrl(self)
             Data._instance = self
 
 
@@ -39,6 +43,18 @@ class Data:
         if not Data._instance:
             Data()
         return Data._instance
+
+    def read_data(self, path):
+        self.df = pd.read_csv(path)
+        self.header = list(self.df.columns)
+        self.timing_span = MAX_SAMPLE
+        self.set_data_timespan = None
+        self.index = 0
+        self.first_date = None
+        self.last_date = None
+        self.batch_size = SAMPLE_PER_TIME_LENGTH
+        self.date_column = 'date'
+        self.assign_timestamp()
 
     def get_variables(cls):
         """
@@ -59,6 +75,10 @@ class Data:
                 unique value from the target column
         """
         return pd.unique(cls.df[column])
+
+    def get_first_and_last(cls):
+        data = cls.df[0: + cls.batch_size]
+        return data
 
     def get_next(cls):
         """
