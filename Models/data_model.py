@@ -166,3 +166,18 @@ class Data:
     def set_date_column(self, column):
         self.date_column = column
 
+    def get_insight(self, col):
+        """
+        This function helps to have an overview of our data with respect to the type of feature
+        :param col:
+        :return: dict
+        """
+        insight = {}
+
+        if col in self.df.select_dtypes(exclude='object'): # if col is continious
+            return {'mode': self.df[col].mode(), 'mean': self.df[col].mean(), 'min': self.df[col].min(),
+                       'max': self.df[col].max(), 'median': self.df[col].median()}
+
+        else: # col is an object/categorical
+            return self.df[col].value_counts().to_dict()
+
