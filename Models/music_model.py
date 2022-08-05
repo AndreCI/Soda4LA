@@ -59,6 +59,15 @@ class Music:
         self.synth = fluidsynth.Synth()
         self.sequencer = fluidsynth.Sequencer()
         self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)  # necessary for fluidynth, called as an arg by the sequencer
+        self.dataAvalaible = False
+        # Start the synth so its ready to play notes
+        if platform.system() == 'Windows':
+            # Use the line below if for MS Windows driver
+            self.synth.start()
+        else:
+            self.synth.start(driver="alsa")
+            # you might have to use other drivers:
+            # fs.start(driver="alsa", midi_driver="alsa_seq")
 
     def generate(cls):
         """
@@ -66,16 +75,19 @@ class Music:
         This function is the producer of our producer-consumer design
         It produces notes if note.size() < 2*Batch_len
         """
-        while cls.data.get_next().empty is False and cls.notes.empty() is True: # We still have sample but queue is empty
-            for t in cls.tracks:
-                cls.notes.put(t.generate_notes(cls.data.get_next())) # We append a list of notes to queue
-                time.sleep(2)
+        while cls.data.get_next().empty is False: # We still have sample but queue is empty
+            if cls.notes.empty() is True:
+                for t in cls.tracks:
+                    cls.notes.put(t.generate_notes(cls.data.get_next())) # We append a list of notes to queue
+            time.sleep(2)
+        cls.dataAvalaible = False
 
     def play(cls):  # Equivalent of Play in Music controller.
         """
         Start the producer and the consumer threads
         and play the music
         """
+        cls.dataAvalaible = True
         cls.producer_thread.start()
         cls.consumer_thread.start()
 
@@ -94,19 +106,13 @@ class Music:
             sfid = self.synth.sfload(track.soundfont)  # Load the soundfont
             self.synth.program_select(track.id, sfid, 0, 0)  # Assign soundfont to a channel
         # ToDO finish the implementation and synthetize the notes in the queue (self.notes)
-        for note in self.notes.get(block=True, timeout=4): # Wait 4s if no block is available
-            self.sequencer.note(time=note.tfactor,
-                                channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
-                                dest=self.registeredSynth)
+        while self.dataAvalaible:
+            for note in self.notes.get(block=True, timeout=4): # Wait 4s if no block is available
+                self.sequencer.note(time=note.tfactor,
+                                    channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
+                                    dest=self.registeredSynth)
 
-        # Start the synth so its ready to play notes
-        if platform.system() == 'Windows':
-            # Use the line below if for MS Windows driver
-            self.synth.start()
-        else:
-            self.synth.start(driver="alsa")
-            # you might have to use other drivers:
-            # fs.start(driver="alsa", midi_driver="alsa_seq")
+
 
     def add_track(self, track : Track):
         self.tracks.append(track)
