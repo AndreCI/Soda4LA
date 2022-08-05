@@ -49,7 +49,7 @@ class Music:
             cls.sonification_view = None
 
             #Threads
-            cls.producer_thread = threading.Thread(target=cls.generate)
+            cls.producer_thread = threading.Thread(target=cls.generate, daemon=True)
             cls.consumer_thread = threading.Thread(target=cls.synthetize, daemon=True)
 
         return cls._instance
@@ -94,7 +94,7 @@ class Music:
             sfid = self.synth.sfload(track.soundfont)  # Load the soundfont
             self.synth.program_select(track.id, sfid, 0, 0)  # Assign soundfont to a channel
         # ToDO finish the implementation and synthetize the notes in the queue (self.notes)
-        for note in self.notes.get(block=False):
+        for note in self.notes.get(block=True, timeout=4): # Wait 4s if no block is available
             self.sequencer.note(time=note.tfactor,
                                 channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
                                 dest=self.registeredSynth)
