@@ -37,7 +37,6 @@ class Data:
             self.ctrl = DataCtrl(self)
             Data._instance = self
 
-
     @staticmethod
     def getInstance():
         if not Data._instance:
@@ -163,4 +162,7 @@ class Data:
 
         # We call method here to init all the attributes
         self.set_timing_span()
+
+    def set_date_column(self, column):
+        self.date_column = column
 
