@@ -20,7 +20,7 @@ class SonificationView(ttk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         #Ctrl and model
-        self.model = Music()
+        self.model = Music.getInstance()
         self.ctrl = self.model.ctrl
         self.ctrl.model.sonification_view = self
 

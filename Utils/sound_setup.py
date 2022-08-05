@@ -6,8 +6,9 @@ Constants linked to music generation
 TIMING="timed"
 TOTAL_DURATION = 2000
 MAX_SAMPLE = 1000
-SAMPLE_PER_TIME_LENGTH = 10
-BUFFER_TIME_LENGTH = 2
+SAMPLE_PER_TIME_LENGTH = 1
+MUSIC_TOTAL_DURATION = 60000 #sec
+
 VALUE_encoding = {
     "default": [30, 0],
     "fillCupboard": [60,0],

@@ -33,7 +33,6 @@ class Data:
             self.assign_timestamp()
             Data._instance = self
 
-
     @staticmethod
     def getInstance():
         if not Data._instance:
@@ -60,7 +59,7 @@ class Data:
         """
         return pd.unique(cls.df[column])
 
-    def get_next(cls):
+    def get_next(cls, iterate=False):
         """
         This method send a batch of samples at a same time
         :return:
@@ -68,7 +67,8 @@ class Data:
                 data buffered
         """
         data = cls.df[cls.index: cls.index + cls.batch_size]
-        cls.index += cls.batch_size
+        if(iterate):
+            cls.index += cls.batch_size
         return data
 
     @staticmethod
@@ -120,3 +120,5 @@ class Data:
         # We call method here to init all the attributes
         self.set_timing_span()
 
+    def reset_playing_index(self):
+        self.index = 0

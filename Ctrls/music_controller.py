@@ -1,5 +1,7 @@
 import fluidsynth
 import threading
+
+from Models.data_model import Data
 from Models.track_model import Track
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 from Views.music_view import MusicView
@@ -13,14 +15,16 @@ class MusicCtrl:
     def __init__(self, model):
         #Model
         self.model = model #Music model
-        self.view = MusicView(model)
+        self.view = MusicView(model, self)
         #Other data
+        self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
+        self.paused = False
 
     def create_track(self):
         """
         Create a track and adds it to the model
         """
-        self.model.add_track(self=self.model, track=Track(self.model))
+        self.model.add_track(track=Track(self.model))
 
     def remove_track(self, track : Track):
         """
@@ -33,17 +37,20 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
-        self.note_generator_thread = threading.Thread(target=self.model.generate, args=[self.model], daemon=True)
-        self.note_generator_thread.start()
         self.view.play()
+        self.playing = True
+        self.paused = False
 
     def pause(self):
-        #TODO how to pause the sequencer? Hitting pley should restart where it stopped
-        pass
+        self.view.pause()
+        self.paused = True
 
     def stop(self):
-        #TODO how to stop the sequencer?
-        pass
+        self.view.stop()
+        self.playing = False
+        self.paused = False
+        Data.getInstance().index = 0
+        #self.model.data.reset_playing_index()
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()

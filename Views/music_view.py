@@ -1,71 +1,102 @@
-import fluidsynth # The view should not import fluidsynth since this will be used in Music_model only
-from Utils.constants import BUFFER_TIME_LENGTH
+import platform
+import threading
+import time
 
+import fluidsynth  # The view should not import fluidsynth since this will be used in Music_model only
+
+from Utils.constants import BUFFER_TIME_LENGTH
 # import Music_controller here
 ## kindly find the implementation of the Producer-Consumer in Music_Model
+from Utils.sound_setup import MUSIC_TOTAL_DURATION
+
 
 class MusicView:
     """
     Wrapper for fluidsynth and its sequencer, so that music can be "viewed" i.e. listen to.
     """
 
-    def __init__(self, model):
+    def __init__(self, model, ctrl):
         self.model = model
+        self.ctrl = ctrl
         self.synth = fluidsynth.Synth()
         self.sequencer = fluidsynth.Sequencer()
-        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth) # necessary for fluidynth, called as an arg by the sequencer
-        self.seqIds = self.sequencer.register_client("callback", self.wrap_snc)  # necessary for fluidsynth, called by the sequencer with a specific signature
-        self.batch_starting_time = None # timestamp updated regulary by music_view
-        self.next_batch_notes = [] # current notes to consumed to the sequencer
-        self.buffer_notes = [] # next batch of notes to be comsumed the sequencer
+        self.registeredSynth = self.sequencer.register_fluidsynth(
+            self.synth)  # necessary for fluidynth, called as an arg by the sequencer
+        self.seqIds = self.sequencer.register_client("callback",
+                                                     self.wrap_consume)  # necessary for fluidsynth, called by the sequencer with a specific signature
+        self.now = None
+        self.starting_time = None
+        self.pause_start_time = None
+        self.consumer_thread = threading.Thread(target=self.consume, daemon=True)
+        self.consumer_thread.start()
 
         # Start the synth so its ready to play notes
-        # Use the line below if for MS Windows driver
-        # self.synth.start()
-        self.synth.start(driver="alsa")
-        # you might have to use other drivers:
-        # fs.start(driver="alsa", midi_driver="alsa_seq")
+        if platform.system() == 'Windows':
+            # Use the line below if for MS Windows driver
+            self.synth.start()
+        else:
+            self.synth.start()
+            # you might have to use other drivers:
+            # fs.start(driver="alsa", midi_driver="alsa_seq")
+
+    def setup_soundfonts(self):
+        """
+        Assign soundfonts to channel inside fluidsynth.
+        """
+        # Upon hitting play, register all track and soundfonts. TODO Reset needed?
+        for track in self.model.tracks:
+            sfid = self.synth.sfload(track.soundfont)  # Load the soundfont
+            self.synth.program_select(track.id, sfid, 0, 0)  # Assign soundfont to a channel
 
     def play(self):
-        # Upon hitting play, register all track and soundfonts
-        for track in self.model.tracks:
-            sfid = self.synth.sfload(track.soundfont) # Load the soundfont
-            self.synth.program_select(track.id, sfid, 0, 0) # Assign soundfont to a channel
-        self.batch_starting_time = self.sequencer.get_tick() # Get starting time
-        self.schedule_next_sequence() # start the music
+        self.setup_soundfonts()
+        if (not self.ctrl.playing):
+            self.starting_time = self.sequencer.get_tick()
+        if(self.ctrl.paused): #If the model was paused, increment starting time by pause time
+            paused_time = self.sequencer.get_tick() - self.pause_start_time
+            print(paused_time)
+            self.starting_time += paused_time
+        print("started playing")
 
     def pause(self):
-
-        NotImplementedError()
+        self.pause_start_time = self.sequencer.get_tick()
 
     def stop(self):
-        self.synth.system_reset()
+        pass
+        #self.synth.system_reset()
 
-    def schedule_next_sequence(self):
-        """
-        Sends the next batch of notes to the sequencer, then schedule the next callback and update self.batch_starting_time
-        This is called every BUFFER_TIME_LENGTH by schedule_next_sequence
-        """
+    def consume(self):
+        idx = 0
+        while True: #This thread never stops
+            for note in self.model.notes.get(block=True, timeout=60):  # Wait if no block is available
+                note_timing_abs = note.tfactor * MUSIC_TOTAL_DURATION * 1000  # sec to ms
+                current_time = self.sequencer.get_tick()
+                note_timing = int(note_timing_abs - (current_time - self.starting_time)) #relative timing, indicating in how much ms a note should be played
+                while (note_timing > BUFFER_TIME_LENGTH): #Check if the current note should be played soon
+                    time.sleep(BUFFER_TIME_LENGTH / 1000) #if not, wait a bit
+                    current_time = self.sequencer.get_tick()
+                    note_timing = int(note_timing_abs - (current_time - self.starting_time))
+                print("new note with idx {} scheduled in {}ms (abs: {}ms): {}. {} notes remaining in queue".format(idx,
+                                                                                                                   note_timing,
+                                                                                                                   note_timing_abs,
+                                                                                                                   note,
+                                                                                                                   self.model.notes.qsize()))
+                self.sequencer.note(absolute=False, time=note_timing, channel=note.channel, key=note.value,
+                                    duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
+                idx += 1
+                print(self.starting_time)
+                while self.ctrl.playing is False or self.ctrl.paused:
+                    time.sleep(0.1) #We wait if the music is paused or ended
 
-        # Below is unfinished code
-        # TODO: better implement the producer-consumer pattern between music_nodel (producer) and music_view (consumer)
-        # see https://dzone.com/articles/producer-consumer-design
-        # https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
+        #self.now += BUFFER_TIME_LENGTH
+        #self.schedule_next_callback()  # Prepare the next callback
 
-        for note in self.next_batch_notes:
-            # TODO timing of notes is wrong
-            # use absolute = True rather than cumulative time?
-            # See https://github.com/nwhitehead/pyfluidsynth#using-the-sequencer
-            # Maybe it is better to do time=int(self.batch_starting_time + BUFFER_TIME_LENGTH) * notes.tfactor or something similar
-            self.sequencer.note(time=int(self.batch_starting_time + BUFFER_TIME_LENGTH * note.tfactor),
-                                channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
-                                dest=self.registeredSynth)
-        self.next_batch_notes = [] #Reset the notes to send to the sequencer
-        self.schedule_next_callback() #Prepare the next callback
-        self.batch_starting_time += BUFFER_TIME_LENGTH #for the next batch, this can be used as the starting time
+    def schedule_next_callback(self):
+        # I want to be called back before the end of the next sequence
+        callbackdate = int(self.now + BUFFER_TIME_LENGTH)
+        self.sequencer.timer(callbackdate, dest=self.seqIds)
 
-
-    def wrap_snc(self, time, event, seq, data):
+    def wrap_consume(self, time, event, seq, data):
         """
         Wrapper with the right signature for schedule_next_callback. Arguments are irrelevant but necessary to respect the signature requested by fluidsynth
         :param time: irrelevant - not used
@@ -73,5 +104,4 @@ class MusicView:
         :param seq: irrelevant - not used
         :param data: irrelevant - not used
         """
-        self.schedule_next_sequence()
-
+        self.consume()
