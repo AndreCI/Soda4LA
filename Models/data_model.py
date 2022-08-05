@@ -68,7 +68,7 @@ class Data:
         self.first_date = None
         self.last_date = None
         self.batch_size = SAMPLE_PER_TIME_LENGTH
-        self.get_timestamp_column()# self.date_column value is modified here
+        self.get_timestamp_column()  # self.date_column value is modified here
         self.assign_timestamp()
 
     def get_timestamp_column(self):
@@ -76,7 +76,10 @@ class Data:
         This method search the timestamp column
         """
         for col in self.header:
-            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]), datetime) or isinstance(datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])), datetime): # if the first notNa element in the column looks like a timestamp
+            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]),
+                          datetime) or isinstance(
+                    datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])),
+                    datetime):  # if the first notNa element in the column looks like a timestamp
                 self.timestamp_column = col
 
     def get_variables(cls):
@@ -141,7 +144,7 @@ class Data:
         """
         # let's set first and last date here
         self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
-        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
         # now, the computation
         time_date = self.first_date - self.last_date
         time_sec = time_date.total_seconds()
@@ -174,10 +177,9 @@ class Data:
         """
         insight = {}
 
-        if col in self.df.select_dtypes(exclude='object'): # if col is continious
+        if col in self.df.select_dtypes(exclude='object'):  # if col is continious
             return {'mode': self.df[col].mode(), 'mean': self.df[col].mean(), 'min': self.df[col].min(),
-                       'max': self.df[col].max(), 'median': self.df[col].median()}
+                    'max': self.df[col].max(), 'median': self.df[col].median()}
 
-        else: # col is an object/categorical
+        else:  # col is an object/categorical
             return self.df[col].value_counts().to_dict()
-
