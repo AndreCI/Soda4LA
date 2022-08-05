@@ -44,8 +44,24 @@ class Data:
             Data()
         return Data._instance
 
+    def retrieve_data(self, path):
+        """
+        Regarding the file extension, this file calls the right method to retrieve data
+        :param path: str,
+                The file path
+        """
+        if '.csv' in path:
+            self.df = pd.read_csv(path)
+        elif '.json' in path:
+            self.df = pd.read_json(path)
+        else:
+            self.df = pd.read_excel(path)
+
     def read_data(self, path):
-        self.df = pd.read_csv(path)
+        """
+        :param path: str
+        """
+        self.retrieve_data(path)
         self.header = list(self.df.columns)
         self.timing_span = MAX_SAMPLE
         self.set_data_timespan = None
