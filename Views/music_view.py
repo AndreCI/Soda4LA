@@ -52,16 +52,6 @@ class MusicView:
         # see https://dzone.com/articles/producer-consumer-design
         # https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
 
-        # TODO: iterate over the buffer and stock notes into self.next_batch_notes IF they should be played during the
-        # next BUFFER_TIME_LENGTH. compare tfactors?
-
-        self.buffer_notes.extend(self.model.notes) # TODO Should only add notes that are not already in the buffer.
-        # Notes should be removed from self.model.notes upon extending buffer_notes
-        for note in self.buffer_notes:
-            if note.tfactor: # TODO: if the note should be played during the next time window (BUFFER_TIME_LENGTH), then add it to the list and remove it from the buffer
-                self.next_batch_notes.append(note)
-                self.buffer_notes.remove(note)
-
         for note in self.next_batch_notes:
             # TODO timing of notes is wrong
             # use absolute = True rather than cumulative time?
@@ -74,13 +64,6 @@ class MusicView:
         self.schedule_next_callback() #Prepare the next callback
         self.batch_starting_time += BUFFER_TIME_LENGTH #for the next batch, this can be used as the starting time
 
-    def schedule_next_callback(self):
-        """
-        Needs to be called before the end of the next sequence.
-        Planify the future callback at the end of the buffer time
-        """
-        callbackdate = int(self.batch_starting_time + BUFFER_TIME_LENGTH)
-        self.sequencer.timer(callbackdate, dest=self.seqIds)
 
     def wrap_snc(self, time, event, seq, data):
         """

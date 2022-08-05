@@ -72,6 +72,7 @@ class ParameterEncoding:
         if(len(variables) != len(values)):
             raise ValueError()
         for var, val in zip(variables, values):
+            self.handpickEncoding[var] = []
             self.handpickEncoding[var] = val
 
     def get_variables_instances(self):

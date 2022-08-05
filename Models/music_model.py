@@ -6,6 +6,8 @@ from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
 
+import platform
+
 from Ctrls.MIDI_controller import MIDICtrl
 # Should we add a controller attribute here?
 from Utils.constants import BUFFER_TIME_LENGTH
@@ -27,7 +29,7 @@ class Music:
         """
         instantiation, unique
         """
-        if (cls._instance is None):
+        if cls._instance is None:
             cls._instance = super(Music, cls).__new__(cls, *args, **kwargs)
             #Data
             cls.gain = 100
@@ -56,13 +58,11 @@ class Music:
         # Fluidsynth
         self.synth = fluidsynth.Synth()
         self.sequencer = fluidsynth.Sequencer()
-        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)  # necessary for fluidsynth
-
+        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)  # necessary for fluidynth, called as an arg by the sequencer
 
     def generate(cls):
         """
         Iterate over the data, generate all the notes for all the tracks, so that they can be played.
-
         This function is the producer of our producer-consumer design
         It produces notes if note.size() < 2*Batch_len
         """
@@ -73,29 +73,40 @@ class Music:
 
     def play(cls):  # Equivalent of Play in Music controller.
         """
-        lorem ipsum
+        Start the producer and the consumer threads
+        and play the music
         """
         cls.producer_thread.start()
         cls.consumer_thread.start()
 
+    def stop(self):
+        self.synth.system_reset()
+
+    def pause(self):
+        NotImplementedError()
+
     def synthetize(self):
         """
-                lorem ipsum
+            lorem ipsum
         """
         # Upon hitting play, register all track and soundfonts
         for track in self.tracks:
             sfid = self.synth.sfload(track.soundfont)  # Load the soundfont
             self.synth.program_select(track.id, sfid, 0, 0)  # Assign soundfont to a channel
-        # ToDO finish the implementation
+        # ToDO finish the implementation and synthetize the notes in the queue (self.notes)
+        for note in self.notes.get(block=False):
+            self.sequencer.note(time=note.tfactor,
+                                channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
+                                dest=self.registeredSynth)
 
-        # Should synthetize the notes in the queue (self.notes) # TODO
         # Start the synth so its ready to play notes
-        # Use the line below if for MS Windows driver
-        # self.synth.start()
-        self.synth.start(driver="alsa")
-        # you might have to use other drivers:
-        # fs.start(driver="alsa", midi_driver="alsa_seq")
-
+        if platform.system() == 'Windows':
+            # Use the line below if for MS Windows driver
+            self.synth.start()
+        else:
+            self.synth.start(driver="alsa")
+            # you might have to use other drivers:
+            # fs.start(driver="alsa", midi_driver="alsa_seq")
 
     def add_track(self, track : Track):
         self.tracks.append(track)
@@ -104,3 +115,13 @@ class Music:
     def remove_track(self, track : Track):
         self.tracks.remove(track)
         self.sonification_view.remove_track(track)
+
+    def wrap_snc(self, time, event, seq, data):
+        """
+        Wrapper with the right signature for schedule_next_callback. Arguments are irrelevant but necessary to respect the signature requested by fluidsynth
+        :param time: irrelevant - not used
+        :param event: irrelevant - not used
+        :param seq: irrelevant - not used
+        :param data: irrelevant - not used
+        """
+        self.synthetize()

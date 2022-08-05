@@ -16,7 +16,6 @@ class MusicCtrl:
         self.view = MusicView(model)
         #Other data
 
-
     def create_track(self):
         """
         Create a track and adds it to the model
