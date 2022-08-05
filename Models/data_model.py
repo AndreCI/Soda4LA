@@ -175,9 +175,7 @@ class Data:
         :param col:
         :return: dict
         """
-        insight = {}
-
-        if col in self.df.select_dtypes(exclude='object'):  # if col is continious
+        if col in self.df.select_dtypes(exclude='object'):  # if col is continuous
             return {'mode': self.df[col].mode(), 'mean': self.df[col].mean(), 'min': self.df[col].min(),
                     'max': self.df[col].max(), 'median': self.df[col].median()}
 
