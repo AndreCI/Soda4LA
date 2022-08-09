@@ -13,12 +13,18 @@ class MusicCtrl:
     """
 
     def __init__(self, model):
-        #Model
-        self.model = model #Music model
-        self.view = MusicView(model, self)
         #Other data
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
+        self.CAPACITY =6*SAMPLE_PER_TIME_LENGTH
+        self.mutex = threading.Semaphore()
+        self.empty = threading.Semaphore(self.CAPACITY)
+        self.full = threading.Semaphore(0)
+        self.playingCV = threading.Event()
+        self.pausedEvent = threading.Event()
+        #Model
+        self.model = model #Music model
+        self.view = MusicView(model, self)
 
     def create_track(self):
         """
@@ -40,16 +46,30 @@ class MusicCtrl:
         self.view.play()
         self.playing = True
         self.paused = False
+        self.playingCV.set()
+        self.pausedEvent.set()
 
     def pause(self):
         self.view.pause()
         self.paused = True
+        self.playingCV.clear()
+        self.pausedEvent.clear()
 
     def stop(self):
+        print("Stopping {}, {}, {}".format(self.empty._value, self.full._value, self.mutex._value))
+        #self.mutex.acquire()
         self.view.stop()
         self.playing = False
         self.paused = False
-        Data.getInstance().index = 0
+        d = Data.getInstance()
+        d.reset_playing_index()
+        self.model.notes.clear()
+        self.empty.release()
+        #self.empty = threading.Semaphore(self.CAPACITY)
+        #self.full = threading.Semaphore(0)
+        self.playingCV.clear()
+        #self.mutex.release()
+        self.mutex = threading.Semaphore(1)
         #self.model.data.reset_playing_index()
 
     def open_time_settings(self):

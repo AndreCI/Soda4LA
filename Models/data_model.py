@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import numpy as np
 import pandas as pd
 from Utils.constants import DATA_PATH
 from Utils.sound_setup import MAX_SAMPLE
@@ -116,7 +118,7 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-
+        self.df['id'] = np.arange(1, self.df.shape[0] + 1)
         # We call method here to init all the attributes
         self.set_timing_span()
 

@@ -54,11 +54,12 @@ class Track:
         """
         self.notes = [] #Container for the next batch of data
         for i, r in self.filter.eval_batch(batch).iterrows():  # iterate over index and row
-            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp),
+            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(r),
                                     velocity=self.pencodings["velocity"].get_parameter(r),
                                      duration=self.pencodings["duration"].get_parameter(r),
+                                    id=r['id']
                                     ))
         return self.notes
 

@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration'])
+TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 
 def CNote_to_TNote(note, tfactor):
