@@ -43,7 +43,8 @@ class Music:
             self.gain = 100
             self.muted = False
             #self.notes = queue.PriorityQueue(maxsize=6 * SAMPLE_PER_TIME_LENGTH) # Priority queue ordered by tfactor
-            self.notes = deque(maxlen=6*SAMPLE_PER_TIME_LENGTH)
+            self.QUEUE_CAPACITY = 6*SAMPLE_PER_TIME_LENGTH
+            self.notes = deque(maxlen=self.QUEUE_CAPACITY)
             #Other models
             self.tracks = [] #List of track model created by user
             self.timeSettings = TimeSettings()
@@ -61,19 +62,23 @@ class Music:
             self.producer_thread.start()
 
     def generate(self):
+        """
+        Threaded.
+        Produce at regular intervals a note, based on data and tracks configuration and put it into self.notes
+        """
         while True:  # This thread never stops
-            self.ctrl.playingCV.wait() #wait if we are stopped
+            self.ctrl.playingEvent.wait() #wait if we are stopped
             self.ctrl.pausedEvent.wait() #wait if we are paused
-            self.ctrl.empty.acquire()
+            self.ctrl.emptySemaphore.acquire() #Check if the queue is not full
             if(not self.ctrl.playing): #Check if semaphore was acquired while stop was pressed
-                self.ctrl.empty.release() #Release if so, and return to start of loop to wait
+                self.ctrl.emptySemaphore.release() #Release if so, and return to start of loop to wait
             else:
-                self.ctrl.mutex.acquire()
+                self.ctrl.queueSemaphore.acquire() #Check if the queue is unused
                 for t in self.tracks:
                     self.notes.extend(t.generate_notes(self.data.get_next(iterate=True)))
                     # We append a list of notes to queue, automatically sorted by tfactor
-                self.ctrl.mutex.release()
-                self.ctrl.full.release()
+                self.ctrl.queueSemaphore.release() #Release queue
+                self.ctrl.fullSemaphore.release() #Inform consumer that queue is not empty
                 time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
 
 

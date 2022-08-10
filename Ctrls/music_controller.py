@@ -16,15 +16,16 @@ class MusicCtrl:
         #Other data
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
-        self.CAPACITY =6*SAMPLE_PER_TIME_LENGTH
-        self.mutex = threading.Semaphore()
-        self.empty = threading.BoundedSemaphore(self.CAPACITY)
-        self.full = threading.Semaphore(0)
-        self.playingCV = threading.Event()
+        self.queueSemaphore = threading.Semaphore()
+        self.emptySemaphore = threading.BoundedSemaphore(model.QUEUE_CAPACITY)
+        self.fullSemaphore = threading.Semaphore(0)
+        self.playingEvent = threading.Event()
         self.pausedEvent = threading.Event()
         #Model
         self.model = model #Music model
         self.view = MusicView(model, self)
+        self.datas = Data.getInstance()
+
 
     def create_track(self):
         """
@@ -46,36 +47,31 @@ class MusicCtrl:
         self.view.play()
         self.playing = True
         self.paused = False
-        self.playingCV.set()
+        self.playingEvent.set()
         self.pausedEvent.set()
 
     def pause(self):
         self.view.pause()
         self.paused = True
-        self.playingCV.clear()
+        self.playingEvent.clear()
         self.pausedEvent.clear()
 
     def stop(self):
         print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), len(self.model.notes),
-                                                                                           self.empty._value, self.full._value, self.mutex._value))
-        self.playingCV.clear()
-
-        #self.mutex.acquire()
+                                                                                           self.emptySemaphore._value, self.fullSemaphore._value, self.queueSemaphore._value))
+        self.view.synth.system_reset() #Reset synth to prevent future note from being played
+        self.playingEvent.clear() # Send stop event
+        #Update bools
         self.playing = False
         self.paused = False
-        d = Data.getInstance()
-        d.reset_playing_index()
+        #Update data
+        self.datas.reset_playing_index()
+        #Reset semaphores
         for i in range(len(self.model.notes)):
-            self.empty.release()
-            self.full.acquire()
+            self.emptySemaphore.release()
+            self.fullSemaphore.acquire()
+        #Reset queue
         self.model.notes.clear()
-        print(self.empty._value)
-        print(self.full._value)
-        #self.empty = threading.Semaphore(self.CAPACITY)
-        #self.full = threading.Semaphore(0)
-        #self.mutex.release()
-        #self.mutex = threading.Semaphore(1)
-        #self.model.data.reset_playing_index()
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()
