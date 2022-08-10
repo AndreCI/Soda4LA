@@ -28,13 +28,14 @@ class MusicView:
         self.consumer_thread = threading.Thread(target=self.consume, daemon=True)
         self.consumer_thread.start()
 
-        print(platform.system())
+        print("platform {} detected ".format(platform.system()))
+
         # Start the synth so its ready to play notes
-        if platform.system() == 'Windows':
+        if platform.system() == "Windows":
             # Use the line below if for MS Windows driver
             self.synth.start()
         else:
-            self.synth.start()
+            self.synth.start(driver="alsa")
             # you might have to use other drivers:
             # fs.start(driver="alsa", midi_driver="alsa_seq")
 
@@ -48,7 +49,7 @@ class MusicView:
             self.synth.program_select(track.id, soundfont_fid, 0, 0)  # Assign soundfont to a channel
 
     def play(self):
-        self.setup_soundfonts()
+        self.setup_soundfonts() #Update soundfonts
         if (not self.ctrl.playing):  # If we are starting a new music, register the starting time
             self.starting_time = self.sequencer.get_tick()
             print("started playing from origin: {}".format(self.starting_time))
@@ -64,16 +65,8 @@ class MusicView:
         print("pausing at : {}".format(self.pause_start_time))
 
     def stop(self):
+        pass
         # print("stopped playing at {} with {} notes in queue".format(self.sequencer.get_tick(), self.model.notes.qsize()))
-        print("stopped playing at {} with {} notes in queue".format(self.sequencer.get_tick(), len(self.model.notes)))
-
-    # self.synth = fluidsynth.Synth()
-    # self.synth.start()
-    # self.sequencer.delete()
-    # self.sequencer = fluidsynth.Sequencer(time_scale=1000)
-    # self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
-    # while (not self.model.notes.empty()):
-    #   print("enptying note : {}".format(self.model.notes.get()))
 
     def consume(self):
         """
@@ -83,26 +76,21 @@ class MusicView:
         while True:  # This thread never stops.
             self.ctrl.playingCV.wait()  # Wait for the playing event
             self.ctrl.pausedEvent.wait()  # Wait for the playing event
-            # while self.ctrl.playing is False or self.ctrl.paused:
-            #    time.sleep(0.1)  # We wait if the music is paused or ended
-            # get(block=true) raise a documented issue on windows if no timeout is specified
-            # note = self.model.notes.get(block=False, timeout=20)[0]  # returns a list with 1 element (why..?)
             self.ctrl.full.acquire()
             self.ctrl.mutex.acquire()
             try:
                 note = self.model.notes.popleft()
                 self.ctrl.mutex.release()
                 self.ctrl.empty.release()
-                # print("len{}".format(len(note)))
-                # note = note[0]
+
                 note_timing_abs = int(note.tfactor * MUSIC_TOTAL_DURATION * 1000)  # tfactor to sec to ms
                 current_time = self.sequencer.get_tick()
-                # relative timing: how many ms a note has to wait before it can be played
+                # relative timing: how many ms a note has to wait before it can be played.
+                #i.e. in how many ms should this note be played
                 note_timing = int(note_timing_abs - (current_time - self.starting_time))
-                while (note_timing > BUFFER_TIME_LENGTH):
-                    self.ctrl.pausedEvent.wait()
-                    # print("waiting...{}".format(note_timing))
+                while (note_timing > BUFFER_TIME_LENGTH): #Check if the note should be played soon
                     time.sleep(BUFFER_TIME_LENGTH / 2000)  # if not, wait half the buffer time
+                    self.ctrl.pausedEvent.wait() #If paused was pressed during this waiting time, wait for PLAY event
                     current_time = self.sequencer.get_tick()
                     note_timing = int(note_timing_abs - (current_time - self.starting_time))  # update timing
                 if (self.ctrl.playing):
@@ -117,10 +105,9 @@ class MusicView:
                     # self.model.notes.qsize()))
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
-                    # self.model.notes.task_done()
 
             except IndexError:
-                print("enpty")
-                self.ctrl.mutex.release()
+                print("Empty notes queue")
+                self.ctrl.mutex.release() #Release semaphores
                 self.ctrl.empty.release()
 

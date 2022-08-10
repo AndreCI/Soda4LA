@@ -18,7 +18,7 @@ class MusicCtrl:
         self.paused = False
         self.CAPACITY =6*SAMPLE_PER_TIME_LENGTH
         self.mutex = threading.Semaphore()
-        self.empty = threading.Semaphore(self.CAPACITY)
+        self.empty = threading.BoundedSemaphore(self.CAPACITY)
         self.full = threading.Semaphore(0)
         self.playingCV = threading.Event()
         self.pausedEvent = threading.Event()
@@ -56,20 +56,25 @@ class MusicCtrl:
         self.pausedEvent.clear()
 
     def stop(self):
-        print("Stopping {}, {}, {}".format(self.empty._value, self.full._value, self.mutex._value))
+        print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), len(self.model.notes),
+                                                                                           self.empty._value, self.full._value, self.mutex._value))
+        self.playingCV.clear()
+
         #self.mutex.acquire()
-        self.view.stop()
         self.playing = False
         self.paused = False
         d = Data.getInstance()
         d.reset_playing_index()
+        for i in range(len(self.model.notes)):
+            self.empty.release()
+            self.full.acquire()
         self.model.notes.clear()
-        self.empty.release()
+        print(self.empty._value)
+        print(self.full._value)
         #self.empty = threading.Semaphore(self.CAPACITY)
         #self.full = threading.Semaphore(0)
-        self.playingCV.clear()
         #self.mutex.release()
-        self.mutex = threading.Semaphore(1)
+        #self.mutex = threading.Semaphore(1)
         #self.model.data.reset_playing_index()
 
     def open_time_settings(self):
