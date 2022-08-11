@@ -19,8 +19,8 @@ class ParameterEncoding:
         self.filter = FilterModule() #Filter module applied to mainVar
         self.handpicked = True #if true, uses handpickedEncoding to compute a parameter for a note, if not it uses functionEncoding
         self.handpickEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
-
         self.functionEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
+        self.defaultValue = 100
 
         #Others Models
         self.datas = Data.getInstance()
@@ -45,9 +45,14 @@ class ParameterEncoding:
             a value between 0 and 128 used as a parameter for a note
         """
         try:
+            if(row[self.filter.column] == None):
+                return self.defaultValue
+            if(row[self.filter.column] not in self.handpickEncoding):
+                return self.defaultValue
             return int(self.handpickEncoding[row[self.filter.column]])
         except KeyError:
-            return 100
+            return self.defaultValue
+
 
     def assign_function_encoding(self, function : str, min_val : int, max_val : int):
         """
