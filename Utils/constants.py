@@ -1,7 +1,6 @@
 #PARAMETERS
-BUFFER_TIME_LENGTH = 100 #ms, time used to plan future notes.
-MUSIC_TOTAL_DURATION_S = 30000 #sec, time interval in which all rows will be played.
-SAMPLE_PER_TIME_LENGTH_S = 2 #Size of the data batch to produce notes
+TIME_BUFFER = 100 #ms, time used to plan future notes.
+BATCH_SIZE = 2
 
 #OPTIONS
 TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]

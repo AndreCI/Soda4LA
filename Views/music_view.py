@@ -3,7 +3,6 @@ import threading
 import time
 
 import fluidsynth
-from Utils.constants import BUFFER_TIME_LENGTH, MUSIC_TOTAL_DURATION_S
 
 
 class MusicView:
@@ -79,13 +78,13 @@ class MusicView:
                 self.ctrl.queueSemaphore.release() #Release queue
                 self.ctrl.emptySemaphore.release() #Inform producer that there is room in the queue
 
-                note_timing_abs = int(note.tfactor * MUSIC_TOTAL_DURATION_S * 1000)  # tfactor to sec to ms
+                note_timing_abs = self.model.get_absolute_note_timing(note)  # tfactor to sec to ms
                 current_time = self.sequencer.get_tick()
                 # relative timing: how many ms a note has to wait before it can be played.
                 #i.e. in how many ms should this note be played
                 note_timing = int(note_timing_abs - (current_time - self.starting_time))
-                while (note_timing > BUFFER_TIME_LENGTH): #Check if the note should be played soon
-                    time.sleep(BUFFER_TIME_LENGTH / 2000)  # if not, wait half the buffer time
+                while (note_timing > self.model.timeSettings.timeBuffer): #Check if the note should be played soon
+                    time.sleep(self.model.timeSettings.timeBuffer / 2000)  # if not, wait half the buffer time
                     self.ctrl.pausedEvent.wait() #If paused was pressed during this waiting time, wait for PLAY event
                     current_time = self.sequencer.get_tick()
                     note_timing = int(note_timing_abs - (current_time - self.starting_time))  # update timing

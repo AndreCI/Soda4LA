@@ -1,3 +1,5 @@
+import time
+
 import fluidsynth
 import threading
 
@@ -21,6 +23,7 @@ class MusicCtrl:
         self.fullSemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
         self.fullSemaphore.acquire(n=model.QUEUE_CAPACITY) #Set semaphore to 0
         self.playingEvent = threading.Event()
+        self.stoppedEvent = threading.Event()
         self.pausedEvent = threading.Event()
         #Model
         self.model = model #Music model
@@ -50,6 +53,7 @@ class MusicCtrl:
         self.paused = False
         self.playingEvent.set()
         self.pausedEvent.set()
+        self.stoppedEvent.clear()
 
     def pause(self):
         self.view.pause()
@@ -58,10 +62,15 @@ class MusicCtrl:
         self.pausedEvent.clear()
 
     def stop(self):
-        print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), self.model.notes.qsize(),
-                                                                                           self.emptySemaphore._value, self.fullSemaphore._value, self.queueSemaphore._value))
+        print("Stopping at {} with {} notes in queue . empty:{}/{}, full:{}/{}, mutex:{}".format(self.view.sequencer.get_tick(), self.model.notes.qsize(),
+                                                                                           self.emptySemaphore._value,
+                                                                                                 self.emptySemaphore._initial_value,
+                                                                                                 self.fullSemaphore._value,
+                                                                                                 self.fullSemaphore._initial_value,
+                                                                                                 self.queueSemaphore._value))
         self.view.synth.system_reset() #Reset synth to prevent future note from being played
         self.playingEvent.clear() # Send stop event
+        self.stoppedEvent.set()
         #Update bools
         self.playing = False
         self.paused = False
@@ -76,6 +85,15 @@ class MusicCtrl:
             self.fullSemaphore.acquire()
             self.model.notes.get_nowait()
         #self.model.notes.clear()
+        time.sleep(0.1)
+        print("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
+                                                                                                 self.emptySemaphore._initial_value,
+                                                                                                 self.fullSemaphore._value,
+                                                                                                 self.fullSemaphore._initial_value,
+                                                                                                 self.queueSemaphore._value))
+    def change_queue_size(self, size):
+        self.emptySemaphore.update_size(size, True)
+        self.fullSemaphore.update_size(size)
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()

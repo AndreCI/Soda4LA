@@ -5,15 +5,14 @@ from queue import PriorityQueue
 import fluidsynth
 from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
+from Models.note_model import TNote
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
-from Utils.constants import SAMPLE_PER_TIME_LENGTH_S
 
 import platform
 
-from Utils.constants import BUFFER_TIME_LENGTH
-
 import threading
+
 
 
 class Music:
@@ -39,13 +38,14 @@ class Music:
             self.muted = False
             self.tracksNbr = 0
             #self.notes = queue.PriorityQueue(maxsize=6 * SAMPLE_PER_TIME_LENGTH) # Priority queue ordered by tfactor
-            self.QUEUE_CAPACITY = 2*SAMPLE_PER_TIME_LENGTH_S
-            self.notes = PriorityQueue(maxsize=self.QUEUE_CAPACITY)
+
             #Other models
             self.tracks = [] #List of track model created by user
-            self.timeSettings = TimeSettings()
+            self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
-            self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.df.shape[0] + 1)
+            self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.size)
+            self.QUEUE_CAPACITY = 2*self.timeSettings.batchSize
+            self.notes = PriorityQueue()
 
             #Ctrl
             self.ctrl = MusicCtrl(self)
@@ -77,10 +77,12 @@ class Music:
                     # We append a list of notes to queue, automatically sorted by tfactor
                 self.ctrl.queueSemaphore.release() #Release queue
                 self.ctrl.fullSemaphore.release(n=self.tracksNbr*self.data.batch_size) #Inform consumer that queue is not empty
-                #time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
+                time.sleep(self.timeSettings.timeBuffer / 1000)  # Waiting a bit to not overpopulate the queue. Necessary?
             if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
                 self.playing = False
 
+    def get_absolute_note_timing(self, note: TNote):
+        return int(note.tfactor * self.timeSettings.musicDuration * 1000)
 
     def add_track(self, track : Track):
         self.tracks.append(track)
