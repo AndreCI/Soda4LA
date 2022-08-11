@@ -30,6 +30,18 @@ class FilterModule:
         # We return row where 'new' is True and we remove the created column
         return df[df['new'] == 'True'].drop('new', axis=1)
 
+    def get_filtered_data(self, header : [], data : [[]]):
+        """
+        Filter all of data based on the user selected filter
+        :param header: list of names of each column in data
+        :param data: all of data, as a list of list (row per row)
+        :return: an iterable with filtered data, using lazy eval
+        """
+        #TODO
+        raise NotImplementedError()
+        idx = header.index(self.variable)
+        return filter(self.evaluate, data)
+
 
     def evaluate(self, value):
         """
