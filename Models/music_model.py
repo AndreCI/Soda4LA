@@ -78,32 +78,9 @@ class Music:
                 self.ctrl.queueSemaphore.release() #Release queue
                 self.ctrl.fullSemaphore.release(n=self.tracksNbr*self.data.batch_size) #Inform consumer that queue is not empty
                 #time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
+            if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
+                self.playing = False
 
-
-
-            #if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
-            #    self.playing = False
-
-    # def generate_legacy(self):
-    #     """
-    #     Threaded
-    #     Iterate over the data, generate all the notes for all the tracks, so that they can be played.
-    #     This function is the producer of our producer-consumer design
-    #     """
-    #     while True: #This thread never stops
-    #         while self.ctrl.playing and not self.ctrl.paused and self.data.get_next().empty is False: # We still have data, and its not paused
-    #             self.ctrl.empty.acquire()
-    #             self.ctrl.mutex.acquire()
-    #             print("adding data with idx {} to notes".format(self.data.index))
-    #             for t in self.tracks:
-    #                 #self.notes.put(t.generate_notes(self.data.get_next(iterate=True))) # We append a list of notes to queue, automatically sorted by tfactor
-    #                 self.notes.extend(t.generate_notes(self.data.get_next(iterate=True))) # We append a list of notes to queue, automatically sorted by tfactor
-    #             self.ctrl.mutex.release()
-    #             self.ctrl.full.release()
-    #             time.sleep(BUFFER_TIME_LENGTH/1000) #Waiting a bit to not overpopulate the queue
-    #         time.sleep(0.1) #If we are paused, wait a bit and try again
-    #         if(self.data.get_next().empty): #If we have no more data, we are at the end of the music
-    #             self.playing = False
 
     def add_track(self, track : Track):
         self.tracks.append(track)
