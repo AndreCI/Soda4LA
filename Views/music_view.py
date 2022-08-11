@@ -34,17 +34,7 @@ class MusicView:
             # you might have to use other drivers:
             # fs.start(driver="alsa", midi_driver="alsa_seq")
 
-    def setup_soundfonts(self):
-        """
-        Assign soundfonts to channel inside fluidsynth.
-        """
-        # Upon hitting play, register all track and soundfonts. TODO Reset needed?
-        for track in self.model.tracks:
-            soundfont_fid = self.synth.sfload(track.soundfont)  # Load the soundfont
-            self.synth.program_select(track.id, soundfont_fid, 0, 0)  # Assign soundfont to a channel
-
-    def play(self):
-        self.setup_soundfonts() #Update soundfonts
+    def save_play_time(self):
         if (not self.ctrl.playing):  # If we are starting a new music, register the starting time
             self.starting_time = self.sequencer.get_tick()
             print("started playing from origin: {}".format(self.starting_time))
@@ -55,7 +45,7 @@ class MusicView:
         else:
             raise RuntimeError("Issue with play/pause/stop logic.")
 
-    def pause(self):
+    def save_pause_time(self):
         self.pause_start_time = self.sequencer.get_tick()  # Register when the pause button was pressed
         print("pausing at : {}".format(self.pause_start_time))
 

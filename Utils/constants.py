@@ -1,6 +1,6 @@
 #PARAMETERS
 TIME_BUFFER = 100 #ms, time used to plan future notes.
-BATCH_SIZE = 2
+BATCH_SIZE = 20
 
 #OPTIONS
 TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]

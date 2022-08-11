@@ -36,7 +36,7 @@ class TimeSettingsView(Toplevel):
 
         self.batchSizeValue = IntVar(self, value=self.model.batchSize)
         self.batchSizeEntry = Entry(self.settingsFrame, textvariable=self.batchSizeValue)
-        self.batchSizeLabel = Label(self.settingsFrame, text="Queue size (not working while playing):")
+        self.batchSizeLabel = Label(self.settingsFrame, text="Data batch size (not working while playing):")
 
         self.bufferSizeValue = IntVar(self, value=self.model.timeBuffer)
         self.bufferSizeEntry = Entry(self.settingsFrame, textvariable=self.bufferSizeValue)

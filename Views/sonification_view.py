@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter.constants import DISABLED, NORMAL
 
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
@@ -22,7 +23,8 @@ class SonificationView(ttk.Frame):
         #Ctrl and model
         self.model = Music.getInstance()
         self.ctrl = self.model.ctrl
-        self.ctrl.model.sonification_view = self
+        self.model.sonification_view = self
+        self.ctrl.sonification_view = self
 
         #View data
         self.configView = True #Inform which view is currently displqyed
@@ -36,9 +38,9 @@ class SonificationView(ttk.Frame):
         self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
 
         self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play)
-        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause)
-        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop)
+        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
+        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause, state=DISABLED)
+        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],

@@ -16,8 +16,8 @@ class TimeSettingsCtrl():
         if self.model.music.ctrl.playing:
             self.model.music.ctrl.stoppedEvent.wait()
         self.model.batchSize = size
-        self.model.data.batch_size = math.ceil(size / 2)
-        self.model.music.ctrl.change_queue_size(size)
+        self.model.data.batch_size = size
+        self.model.music.ctrl.change_queue_size(size * 2)
 
     def validate(self):
         """

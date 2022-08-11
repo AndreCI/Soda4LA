@@ -29,7 +29,7 @@ class Track:
         self.filter.column = self.datas.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
-        self.music = music #Needed to backtrack and remove itself upon deletion
+        self.music = music #Needed to backtrack and remove itself upon deletion, among other things
 
         #Other models
         self.notes = []
