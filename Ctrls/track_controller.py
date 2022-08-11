@@ -1,5 +1,6 @@
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
-from Utils.constants import ENCODING_OPTIONS
+from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
+
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -21,10 +22,14 @@ class TrackCtrl:
     def update_filter(self, filter: str):
         self.model.filter.assign(filter)
 
+    def set_soundfont(self, soundfont: str):
+        self.model.soundfont = SOUNDFONTS[soundfont]
+
+
     def set_main_var(self, column: str):
         self.model.set_main_var(column)
 
-    def change_gain(self, gain: int):
+    def change_gain(self, gain : int):
         self.model.gain = gain
         if (self.model.midiView.local_gain_slider.get() != gain):
             self.model.midiView.local_gain_slider.set(gain)
@@ -41,4 +46,5 @@ class TrackCtrl:
         self.model.remove()
 
     def open_encoding(self, encoded_var: str):
-        [x for x in self.model.pencodings if x.encoded_var == encoded_var][0].ctrl.show_window()
+        self.model.pencodings[encoded_var].ctrl.show_window()
+        #[x for x in self.model.pencodings if x == encoded_var].ctrl.show_window()

@@ -13,11 +13,8 @@ class TemplateView(ttk.Frame):
         #View data
 
         #View setup
-        self.create_widgets()
         self.setup_widgets()
 
-    def create_widgets(self):
-        pass
 
     def setup_widgets(self):
         pass

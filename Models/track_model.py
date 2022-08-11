@@ -1,13 +1,17 @@
 import itertools
 
 from Ctrls.track_controller import TrackCtrl
+from Models.data_model import Data
+
+from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
+
 from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
-from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
+import pandas as pd
 
 
-class Track():
+class Track:
     """
     Model class for a track, regrouping multiples notes and a soundfont. Each track is unique and can be viewed either
     via config view or midi view.
@@ -18,8 +22,11 @@ class Track():
     def __init__(self, music):
         #Data
         self.id = next(Track.newid)
-        self.soundfont = None #soundfont selected by user, <=< instrument
+        self.soundfont = SOUNDFONTS["default"] #soundfont selected by user, <=< instrument
+
         self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
+        self.datas = Data().getInstance()
+        self.filter.column = self.datas.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
         self.music = music #Needed to backtrack and remove itself upon deletion
@@ -37,25 +44,27 @@ class Track():
         self.midiView = None
         self.configView = None
 
+
     def generate_notes(self, batch):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
-        :param batch: list of list,
+        :param batch: pandas Dataframe,
             a subset of the dataset regardless the considered filter
+        :return list of notes
         """
-        #TODO time parameter is not defined here,
-        for r in self.filter.eval_batch(batch):
-            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp), #TODO only send timestamp.
+        self.notes = [] #Container for the next batch of data
+        for i, r in self.filter.eval_batch(batch).iterrows():  # iterate over index and row
+            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(r),
                                     velocity=self.pencodings["velocity"].get_parameter(r),
-                                    duration=self.pencodings["duration"].get_parameter(r),
+                                     duration=self.pencodings["duration"].get_parameter(r),
+                                    id=r['id']
                                     ))
-        raise NotImplementedError()
-        #
+        return self.notes
 
     def set_main_var(self, variable : str):
-        self.filter.assign(variable)
+        self.filter.column = variable
 
     def set_soundfont(self, soundfont):
         self.soundfont = soundfont

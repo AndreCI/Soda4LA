@@ -1,19 +1,15 @@
+#PARAMETERS
+BUFFER_TIME_LENGTH = 100 #ms, time used to plan future notes.
+MUSIC_TOTAL_DURATION_S = 30000 #sec, time interval in which all rows will be played.
+SAMPLE_PER_TIME_LENGTH_S = 2 #Size of the data batch to produce notes
 
-DATA_PATH= "data/tamagocours/Tamagocours.csv"
-soundfont_path = "data/soundfonts/"
-
-SF_Default = soundfont_path + "Jazz_Guitar.sf2"#"FluidR3_GM2-2.sf2"
-SF_Chemclarinet = soundfont_path + "Chemical_Clarinet_MDX7.sf2"
-SF_Soprano = soundfont_path + "Recorder_Soprano.sf2"
-SF_Warmlead = soundfont_path + "Warm_Lead_MDX7.sf2"
-SF_Cleanguitar = soundfont_path + "Clean_Guitar.sf2"
-SF_Jazzguitar = soundfont_path + "Jazz_Guitar.sf2"
-
-
+#OPTIONS
+TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]
+FUNCTION_OPTIONS = ["linear"] #isomorphisms
 ENCODING_OPTIONS =  ["value", "duration", "velocity"]
-SOUNDFONT =  ["Guitar", "Piano", "Drum"]
 MOCKUP_VARS =  ["timestamp", "user_id", "action", "item_id"]
 
+#UI
 DEFAULT_PADDING = (5, 5, 5, 5)
 DEFAULT_PADX = (5, 5)
 DEFAULT_PADY = (5, 5)
@@ -27,3 +23,20 @@ TFRAME_STYLE = {"DEFAULT" : ["TFrame", "green"],
                 "PARAMETER_MAPPING": ["TPMapping.TFrame", "grey"],
                 "TIMESETTINGS": ["Timesettings.TFrame", "grey"]
                 }
+
+#PATHS
+DATA_PATH= "data/tamagocours/Tamagocours.csv"
+soundfont_path = "data/soundfonts/"
+
+SOUNDFONTS = {"default" : soundfont_path + "Jazz_Guitar.sf2",
+              "Jazz Guitare": soundfont_path + "Jazz_Guitar.sf2",
+              "Clean Guitare" :  soundfont_path + "Clean_Guitar.sf2",
+              "Soprano" : soundfont_path + "Recorder_Soprano.sf2"}
+
+SF_Default = soundfont_path + "Jazz_Guitar.sf2"#"FluidR3_GM2-2.sf2"
+SF_Chemclarinet = soundfont_path + "Chemical_Clarinet_MDX7.sf2"
+SF_Soprano = soundfont_path + "Recorder_Soprano.sf2"
+SF_Warmlead = soundfont_path + "Warm_Lead_MDX7.sf2"
+SF_Cleanguitar = soundfont_path + "Clean_Guitar.sf2"
+SF_Jazzguitar = soundfont_path + "Jazz_Guitar.sf2"
+

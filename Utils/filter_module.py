@@ -1,12 +1,16 @@
 # TODO complexify with other filter options, such as str filters.
-class FilterModule():
+from Models.data_model import Data
+import pandas as pd
+
+
+class FilterModule:
     """
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
     """
 
     def __init__(self):
         self.filter = None
-        self.column = None  # column on which to apply the filter
+        self.column = None #Data().getInstance().get_variables()[0] # column on which to apply the filter
         self.filter_mode = ["None", "Single", "Range", "Multiple"]
         self.mode = self.filter_mode[0]
 
@@ -14,12 +18,18 @@ class FilterModule():
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
         if the values found in the column corresponding to self.column are validated by the filter
-        :param batch: list of list,
+        :param batch: pandas Dataframe,
             a subset of the dataset
-        :return: list of list,
-            rows which correspond to the filter
+        :return: pandas Dataframe,
+            Dataframe w.r.t the filter
         """
-        raise NotImplementedError()
+        # create a new df using batch
+        df = batch.copy()
+        # Create a new column and fill it with True or False value after eval
+        df['new'] = df[self.column].apply(lambda y: 'True' if self.evaluate(y) is True else 'False')
+        # We return row where 'new' is True and we remove the created column
+        return df[df['new'] == 'True'].drop('new', axis=1)
+
 
     def evaluate(self, value):
         """
