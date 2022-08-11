@@ -3,7 +3,7 @@ import threading
 
 from Models.data_model import Data
 from Models.track_model import Track
-from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
+from Utils.IterableSemaphore import ISemaphore, IBoundedSemaphore
 from Views.music_view import MusicView
 
 
@@ -16,9 +16,10 @@ class MusicCtrl:
         #Other data
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
-        self.queueSemaphore = threading.Semaphore()
-        self.emptySemaphore = threading.BoundedSemaphore(model.QUEUE_CAPACITY)
-        self.fullSemaphore = threading.Semaphore(0)
+        self.queueSemaphore = ISemaphore() #Could be seomething else ig
+        self.emptySemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
+        self.fullSemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
+        self.fullSemaphore.acquire(n=model.QUEUE_CAPACITY) #Set semaphore to 0
         self.playingEvent = threading.Event()
         self.pausedEvent = threading.Event()
         #Model
@@ -57,7 +58,7 @@ class MusicCtrl:
         self.pausedEvent.clear()
 
     def stop(self):
-        print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), len(self.model.notes),
+        print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), self.model.notes.qsize(),
                                                                                            self.emptySemaphore._value, self.fullSemaphore._value, self.queueSemaphore._value))
         self.view.synth.system_reset() #Reset synth to prevent future note from being played
         self.playingEvent.clear() # Send stop event
@@ -67,11 +68,14 @@ class MusicCtrl:
         #Update data
         self.datas.reset_playing_index()
         #Reset semaphores
-        for i in range(len(self.model.notes)):
+        #self.emptySemaphore.release(n=len(self.model.notes))
+        #self.fullSemaphore.acquire(n=len(self.model.notes))
+        #Reset queue
+        while(not self.model.notes.empty()):
             self.emptySemaphore.release()
             self.fullSemaphore.acquire()
-        #Reset queue
-        self.model.notes.clear()
+            self.model.notes.get_nowait()
+        #self.model.notes.clear()
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()

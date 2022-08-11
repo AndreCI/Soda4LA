@@ -2,7 +2,7 @@ from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 
 #TODO add other time settings
-from Utils.constants import TIME_SETTINGS_OPTIONS
+from Utils.constants import TIME_SETTINGS_OPTIONS, MUSIC_TOTAL_DURATION_S, SAMPLE_PER_TIME_LENGTH_S
 
 
 class TimeSettings():
@@ -16,6 +16,9 @@ class TimeSettings():
         self.minVal = None
         self.maxVal = None
         self.idMax = None
+        self.musicDuration = MUSIC_TOTAL_DURATION_S
+        self.SAMPLES_PER_TICK = SAMPLE_PER_TIME_LENGTH_S
+
         self.type = self.possible_types[1]
         #Other models
         #Ctrl

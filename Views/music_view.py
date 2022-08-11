@@ -2,12 +2,8 @@ import platform
 import threading
 import time
 
-import fluidsynth  # The view should not import fluidsynth since this will be used in Music_model only
-
-from Utils.constants import BUFFER_TIME_LENGTH
-# import Music_controller here
-## kindly find the implementation of the Producer-Consumer in Music_Model
-from Utils.sound_setup import MUSIC_TOTAL_DURATION
+import fluidsynth
+from Utils.constants import BUFFER_TIME_LENGTH, MUSIC_TOTAL_DURATION_S
 
 
 class MusicView:
@@ -79,11 +75,11 @@ class MusicView:
             self.ctrl.fullSemaphore.acquire() #Wait for the queue to have at least 1 note
             self.ctrl.queueSemaphore.acquire() #Check if the queue is unused
             try:
-                note = self.model.notes.popleft()
+                note = self.model.notes.get_nowait()
                 self.ctrl.queueSemaphore.release() #Release queue
                 self.ctrl.emptySemaphore.release() #Inform producer that there is room in the queue
 
-                note_timing_abs = int(note.tfactor * MUSIC_TOTAL_DURATION * 1000)  # tfactor to sec to ms
+                note_timing_abs = int(note.tfactor * MUSIC_TOTAL_DURATION_S * 1000)  # tfactor to sec to ms
                 current_time = self.sequencer.get_tick()
                 # relative timing: how many ms a note has to wait before it can be played.
                 #i.e. in how many ms should this note be played
@@ -101,8 +97,7 @@ class MusicView:
                             note_timing_abs, self.sequencer.get_tick() + note_timing,
                                              self.sequencer.get_tick() + note_timing - note_timing_abs,
                             note,
-                            len(self.model.notes)))
-                    # self.model.notes.qsize()))
+                            self.model.notes.qsize()))
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
 

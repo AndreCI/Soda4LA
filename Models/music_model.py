@@ -1,24 +1,19 @@
 import time
 from collections import deque
+from queue import PriorityQueue
 
 import fluidsynth
 from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
-from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH, MUSIC_TOTAL_DURATION
+from Utils.constants import SAMPLE_PER_TIME_LENGTH_S
 
 import platform
 
-from Ctrls.MIDI_controller import MIDICtrl
-# Should we add a controller attribute here?
 from Utils.constants import BUFFER_TIME_LENGTH
 
 import threading
-import queue
-
-# Not really sure about how we implement MCV for Music.
-from Views.music_view import MusicView
 
 
 class Music:
@@ -42,9 +37,10 @@ class Music:
             #Data
             self.gain = 100
             self.muted = False
+            self.tracksNbr = 0
             #self.notes = queue.PriorityQueue(maxsize=6 * SAMPLE_PER_TIME_LENGTH) # Priority queue ordered by tfactor
-            self.QUEUE_CAPACITY = 6*SAMPLE_PER_TIME_LENGTH
-            self.notes = deque(maxlen=self.QUEUE_CAPACITY)
+            self.QUEUE_CAPACITY = 2*SAMPLE_PER_TIME_LENGTH_S
+            self.notes = PriorityQueue(maxsize=self.QUEUE_CAPACITY)
             #Other models
             self.tracks = [] #List of track model created by user
             self.timeSettings = TimeSettings()
@@ -69,17 +65,19 @@ class Music:
         while True:  # This thread never stops
             self.ctrl.playingEvent.wait() #wait if we are stopped
             self.ctrl.pausedEvent.wait() #wait if we are paused
-            self.ctrl.emptySemaphore.acquire() #Check if the queue is not full
+            self.ctrl.emptySemaphore.acquire(n=self.tracksNbr*self.data.batch_size) #Check if the queue is not full
             if(not self.ctrl.playing): #Check if semaphore was acquired while stop was pressed
-                self.ctrl.emptySemaphore.release() #Release if so, and return to start of loop to wait
+                self.ctrl.emptySemaphore.release(n=self.tracksNbr*self.data.batch_size) #Release if so, and return to start of loop to wait
             else:
                 self.ctrl.queueSemaphore.acquire() #Check if the queue is unused
+                currentData = self.data.get_next(iterate=True)
                 for t in self.tracks:
-                    self.notes.extend(t.generate_notes(self.data.get_next(iterate=True)))
+                    for note in t.generate_notes(currentData):
+                        self.notes.put_nowait(note)
                     # We append a list of notes to queue, automatically sorted by tfactor
                 self.ctrl.queueSemaphore.release() #Release queue
-                self.ctrl.fullSemaphore.release() #Inform consumer that queue is not empty
-                time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
+                self.ctrl.fullSemaphore.release(n=self.tracksNbr*self.data.batch_size) #Inform consumer that queue is not empty
+                #time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
 
 
 
@@ -109,9 +107,11 @@ class Music:
 
     def add_track(self, track : Track):
         self.tracks.append(track)
+        self.tracksNbr+=1
         self.sonification_view.add_track(track)
 
     def remove_track(self, track : Track):
         self.tracks.remove(track)
+        self.tracksNbr-=1
         self.sonification_view.remove_track(track)
 

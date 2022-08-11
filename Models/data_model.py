@@ -2,9 +2,7 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-from Utils.constants import DATA_PATH
-from Utils.sound_setup import MAX_SAMPLE
-from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
+from Utils.constants import DATA_PATH, SAMPLE_PER_TIME_LENGTH_S
 
 
 class Data:
@@ -25,12 +23,12 @@ class Data:
         if Data._instance is None:
             self.df = pd.read_csv(DATA_PATH)
             self.header = list(self.df.columns)
-            self.timing_span = MAX_SAMPLE
+            self.timing_span = None
             self.set_data_timespan = None
             self.index = 0
             self.first_date = None
             self.last_date = None
-            self.batch_size = SAMPLE_PER_TIME_LENGTH
+            self.batch_size = SAMPLE_PER_TIME_LENGTH_S
             self.date_column = 'date'
             self.assign_timestamp()
             Data._instance = self
@@ -110,9 +108,6 @@ class Data:
 
         return time_date, time_sec
 
-    def set_timing_span(self):
-        self.timing_span, _ = self.get_deltatime()
-
     def assign_timestamp(self):
         """
         Method to assign timestamp to a new column
@@ -120,7 +115,7 @@ class Data:
         self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
         self.df['id'] = np.arange(1, self.df.shape[0] + 1)
         # We call method here to init all the attributes
-        self.set_timing_span()
+        self.timing_span, _ = self.get_deltatime()
 
     def reset_playing_index(self):
         self.index = 0
