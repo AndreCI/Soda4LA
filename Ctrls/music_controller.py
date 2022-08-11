@@ -1,35 +1,38 @@
 import fluidsynth
+import threading
 
+from Models.data_model import Data
 from Models.track_model import Track
-from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
+from Utils.IterableSemaphore import ISemaphore, IBoundedSemaphore
+from Views.music_view import MusicView
 
 
-class MusicCtrl():
+class MusicCtrl:
     """
     Controller for final music model. <=> sonification ctrl
     """
 
     def __init__(self, model):
+        #Other data
+        self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
+        self.paused = False
+        self.queueSemaphore = ISemaphore() #Could be seomething else ig
+        self.emptySemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
+        self.fullSemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
+        self.fullSemaphore.acquire(n=model.QUEUE_CAPACITY) #Set semaphore to 0
+        self.playingEvent = threading.Event()
+        self.pausedEvent = threading.Event()
         #Model
         self.model = model #Music model
-
-        #Other data
-        self.synth = fluidsynth.Synth()
-        self.synthIds = []
-        self.sequencer = fluidsynth.Sequencer()
-        self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
-        self.now = None
-        self.buffer_time_length = 2000
-        self.next_notes = []
-        self.buffer_notes = []
-        self.seqIds = self.sequencer.register_client("callback", self.sequencer_callback)
+        self.view = MusicView(model, self)
+        self.datas = Data.getInstance()
 
 
     def create_track(self):
         """
         Create a track and adds it to the model
         """
-        self.model.add_track(self=self.model, track=Track(self.model))
+        self.model.add_track(track=Track(self.model))
 
     def remove_track(self, track : Track):
         """
@@ -38,50 +41,41 @@ class MusicCtrl():
         """
         self.model.remove_track(self=self.model, track=track)
 
-    #TODO
     def play(self):
-        self.now = self.sequencer.get_tick()
-        self.schedule_next_sequence()
-        # Use the line below if for MS Windows driver
-        self.synth.start()
-        #self.synth.start(driver="alsa")
-        # you might have to use other drivers:
-        # fs.start(driver="alsa", midi_driver="alsa_seq")
+        """
+        Start a thread via music model to produce notes for the music view, then start the sequencer
+        """
+        self.view.play()
+        self.playing = True
+        self.paused = False
+        self.playingEvent.set()
+        self.pausedEvent.set()
 
     def pause(self):
-        pass
+        self.view.pause()
+        self.paused = True
+        self.playingEvent.clear()
+        self.pausedEvent.clear()
 
     def stop(self):
-        pass
-
-    def generate(self):
-        self.model.generate(cls=self.model)
-        for track in self.model.tracks:
-            sfid = self.synth.sfload(track.soundfont)
-            self.synthIds.append(sfid)
-            self.synth.program_select(track.id, sfid, 0, 0)
-            self.buffer_notes.extend(track.notes) #No need to reorganize! done by sequencer
-
-    def schedule_next_sequence(self):
-        self.next_notes = self.buffer_notes[:SAMPLE_PER_TIME_LENGTH]
-        self.buffer_notes = self.buffer_notes[SAMPLE_PER_TIME_LENGTH:]
-        for note in self.next_notes:
-            print(note)
-            # TODO user absolute = True rather than cumulative?
-            self.sequencer.note(int(self.now + self.buffer_time_length * note.tfactor),
-                                channel=note.channel, key=note.value, duration=note.duration, velocity=note.velocity,
-                                dest=self.registeredSynth)
-        self.next_notes = []
-        self.schedule_next_callback()
-        self.now += self.buffer_time_length
-
-    def schedule_next_callback(self):
-        # I want to be called back before the end of the next sequence
-        callbackdate = int(self.now + self.buffer_time_length)
-        self.sequencer.timer(callbackdate, dest=self.seqIds)
-
-    def sequencer_callback(self, time, event, seq, data):
-        self.schedule_next_sequence()
+        print("Stopping at {} with {} notes in queue . empty:{}, full:{}, mutex:{}".format(self.view.sequencer.get_tick(), self.model.notes.qsize(),
+                                                                                           self.emptySemaphore._value, self.fullSemaphore._value, self.queueSemaphore._value))
+        self.view.synth.system_reset() #Reset synth to prevent future note from being played
+        self.playingEvent.clear() # Send stop event
+        #Update bools
+        self.playing = False
+        self.paused = False
+        #Update data
+        self.datas.reset_playing_index()
+        #Reset semaphores
+        #self.emptySemaphore.release(n=len(self.model.notes))
+        #self.fullSemaphore.acquire(n=len(self.model.notes))
+        #Reset queue
+        while(not self.model.notes.empty()):
+            self.emptySemaphore.release()
+            self.fullSemaphore.acquire()
+            self.model.notes.get_nowait()
+        #self.model.notes.clear()
 
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()

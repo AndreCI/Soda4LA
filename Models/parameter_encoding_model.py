@@ -44,12 +44,14 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-
-        if(row[self.filter.column] == None):
+        try:
+            if(row[self.filter.column] == None):
+                return self.defaultValue
+            if(row[self.filter.column] not in self.handpickEncoding):
+                return self.defaultValue
+            return int(self.handpickEncoding[row[self.filter.column]])
+        except KeyError:
             return self.defaultValue
-        if(row[self.filter.column] not in self.handpickEncoding):
-            return self.defaultValue
-        return int(self.handpickEncoding[row[self.filter.column]])
 
 
     def assign_function_encoding(self, function : str, min_val : int, max_val : int):
@@ -75,6 +77,7 @@ class ParameterEncoding:
         if(len(variables) != len(values)):
             raise ValueError()
         for var, val in zip(variables, values):
+            self.handpickEncoding[var] = []
             self.handpickEncoding[var] = val
 
     def get_variables_instances(self):

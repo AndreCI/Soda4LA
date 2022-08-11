@@ -2,7 +2,7 @@ from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 
 #TODO add other time settings
-from Utils.constants import TIME_SETTINGS_OPTIONS
+from Utils.constants import TIME_SETTINGS_OPTIONS, MUSIC_TOTAL_DURATION_S, SAMPLE_PER_TIME_LENGTH_S
 
 
 class TimeSettings():
@@ -15,7 +15,11 @@ class TimeSettings():
         self.possible_types = TIME_SETTINGS_OPTIONS
         self.minVal = None
         self.maxVal = None
-        self.type = self.possible_types[0]
+        self.idMax = None
+        self.musicDuration = MUSIC_TOTAL_DURATION_S
+        self.SAMPLES_PER_TICK = SAMPLE_PER_TIME_LENGTH_S
+
+        self.type = self.possible_types[1]
         #Other models
         #Ctrl
         self.ctrl = TimeSettingsCtrl(self)
@@ -27,7 +31,7 @@ class TimeSettings():
             raise NotImplementedError()
         self.type = type
 
-    def set_attribute(self, minVal, maxVal):
+    def set_attribute(self, minVal, maxVal, idMax):
         """
         Setup attributes needed to compute later a temporal position
         :param minVal: float,
@@ -39,19 +43,22 @@ class TimeSettings():
             raise ValueError()
         self.minVal = minVal
         self.maxVal = maxVal
+        self.idMax = idMax
 
     def get_temporal_position(self, current):
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
-        :param current: timestamp of data point
+        :param current: a data point with features timestanp and id
         :return: a temporal position between 0 and 1.
         """
-        if self.maxVal < current < self.minVal:
-            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current, self.minVal, self.maxVal))
+        if self.maxVal < current.timestamp < self.minVal:
+            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.timestamp, self.minVal, self.maxVal))
         distance = self.maxVal - self.minVal
         #ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return (current - self.minVal)/float(distance)#(ratio - min) * current
+            return (current.timestamp - self.minVal)/float(distance)#(ratio - min) * current
+        elif self.type == self.possible_types[1]:
+            return float(current.id)/float(self.idMax)
         else:
             raise NotImplementedError()

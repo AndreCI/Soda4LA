@@ -20,7 +20,7 @@ class SonificationView(ttk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         #Ctrl and model
-        self.model = Music()
+        self.model = Music.getInstance()
         self.ctrl = self.model.ctrl
         self.ctrl.model.sonification_view = self
 
@@ -39,7 +39,7 @@ class SonificationView(ttk.Frame):
         self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play)
         self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause)
         self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop)
-        self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
+        #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
                                             width=1380, height=240)
@@ -58,7 +58,7 @@ class SonificationView(ttk.Frame):
         self.playButton.grid(column=0, row=0, sticky="ew")
         self.pauseButton.grid(column=1, row=0, sticky="ew")
         self.stopButton.grid(column=2, row=0, sticky="ew")
-        self.generateButton.grid(column=3, row=0, sticky="ew")
+        #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 

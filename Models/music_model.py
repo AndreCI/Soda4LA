@@ -1,10 +1,19 @@
+import time
+from collections import deque
+from queue import PriorityQueue
+
+import fluidsynth
 from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Models.track_model import Track
+from Utils.constants import SAMPLE_PER_TIME_LENGTH_S
 
-from Ctrls.MIDI_controller import MIDICtrl
-# Should we add a controller attribute here?
+import platform
+
+from Utils.constants import BUFFER_TIME_LENGTH
+
+import threading
 
 
 class Music:
@@ -13,43 +22,73 @@ class Music:
     A music can be played via its music view or displayed via midi view.
     """
     _instance = None
+    @staticmethod
+    def getInstance():
+        if not Music._instance:
+            Music()
+        return Music._instance
 
-    def __new__(cls, *args, **kwargs):
+    def __init__(self):
         """
         instantiation, unique
         """
-        if (cls._instance is None):
-            cls._instance = super(Music, cls).__new__(cls, *args, **kwargs)
+        if Music._instance is None:
+            Music._instance = self
             #Data
-            cls.gain = 100
-            cls.muted = False
-
+            self.gain = 100
+            self.muted = False
+            self.tracksNbr = 0
+            #self.notes = queue.PriorityQueue(maxsize=6 * SAMPLE_PER_TIME_LENGTH) # Priority queue ordered by tfactor
+            self.QUEUE_CAPACITY = 2*SAMPLE_PER_TIME_LENGTH_S
+            self.notes = PriorityQueue(maxsize=self.QUEUE_CAPACITY)
             #Other models
-            cls.tracks = [] #List of track model created by user
-            cls.timeSettings = TimeSettings()
-            cls.data = Data.getInstance()
-            cls.timeSettings.set_attribute(cls.data.first_date, cls.data.last_date)
+            self.tracks = [] #List of track model created by user
+            self.timeSettings = TimeSettings()
+            self.data = Data.getInstance()
+            self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.df.shape[0] + 1)
 
             #Ctrl
-            cls.ctrl = MusicCtrl(cls)
+            self.ctrl = MusicCtrl(self)
 
             #Views
-            cls.sonification_view = None
-        return cls._instance
+            self.sonification_view = None
 
-    def generate(cls):
+            #Threads
+            self.producer_thread = threading.Thread(target=self.generate, daemon=True)
+            self.producer_thread.start()
+
+    def generate(self):
         """
-        Iterate over the data, generate all the notes for all the tracks, so that they can be played
+        Threaded.
+        Produce at regular intervals a note, based on data and tracks configuration and put it into self.notes
         """
-        while cls.data.get_next().empty is False:
-            for t in cls.tracks:
-                t.generate_notes(cls.data.get_next())
+        while True:  # This thread never stops
+            self.ctrl.playingEvent.wait() #wait if we are stopped
+            self.ctrl.pausedEvent.wait() #wait if we are paused
+            self.ctrl.emptySemaphore.acquire(n=self.tracksNbr*self.data.batch_size) #Check if the queue is not full
+            if(not self.ctrl.playing): #Check if semaphore was acquired while stop was pressed
+                self.ctrl.emptySemaphore.release(n=self.tracksNbr*self.data.batch_size) #Release if so, and return to start of loop to wait
+            else:
+                self.ctrl.queueSemaphore.acquire() #Check if the queue is unused
+                currentData = self.data.get_next(iterate=True)
+                for t in self.tracks:
+                    for note in t.generate_notes(currentData):
+                        self.notes.put_nowait(note)
+                    # We append a list of notes to queue, automatically sorted by tfactor
+                self.ctrl.queueSemaphore.release() #Release queue
+                self.ctrl.fullSemaphore.release(n=self.tracksNbr*self.data.batch_size) #Inform consumer that queue is not empty
+                #time.sleep(BUFFER_TIME_LENGTH / 2000)  # Waiting a bit to not overpopulate the queue. Necessary?
+            if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
+                self.playing = False
 
 
     def add_track(self, track : Track):
         self.tracks.append(track)
+        self.tracksNbr+=1
         self.sonification_view.add_track(track)
 
     def remove_track(self, track : Track):
         self.tracks.remove(track)
+        self.tracksNbr-=1
         self.sonification_view.remove_track(track)
+

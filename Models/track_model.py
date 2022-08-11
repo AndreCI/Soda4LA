@@ -44,20 +44,24 @@ class Track:
         self.midiView = None
         self.configView = None
 
+
     def generate_notes(self, batch):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
         :param batch: pandas Dataframe,
             a subset of the dataset regardless the considered filter
+        :return list of notes
         """
-        # TODO time parameter is not defined here,
+        self.notes = [] #Container for the next batch of data
         for i, r in self.filter.eval_batch(batch).iterrows():  # iterate over index and row
-            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r.timestamp), #TODO only send timestamp.
+            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(r),
                                     velocity=self.pencodings["velocity"].get_parameter(r),
-                                    duration=self.pencodings["duration"].get_parameter(r),
+                                     duration=self.pencodings["duration"].get_parameter(r),
+                                    id=r['id']
                                     ))
+        return self.notes
 
     def set_main_var(self, variable : str):
         self.filter.column = variable
