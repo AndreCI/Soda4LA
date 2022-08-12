@@ -110,3 +110,8 @@ class FilterModule:
         self.filter[self.column] = values
         return True
 
+    def get_current_filter(self):
+        if(self.column in self.filter):
+            return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"
+        return ""
+

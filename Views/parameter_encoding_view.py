@@ -38,13 +38,14 @@ class ParameterEncodingView(Toplevel):
         self.varlistLabel = Label(self.mainFrame, text="Select variable")
         self.selectVarCB = Combobox(self.mainFrame, values=self.model.datas.get_variables(), state='readonly')
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
-        self.selectVarCB.current(0)
+        self.selectVarCB.set(self.model.filter.column)
         self.ctrl.assign_main_var(self.selectVarCB.get())
         self.switchModeLabel = Label(self.mainFrame, text="Change mode")
         self.switchModeButton = Button(self.mainFrame, text="Function Mode", command=self.switch_mode)
 
         #Filter
-        self.filterEntry = Entry(self.filterFrame)
+        self.filterVar = StringVar()
+        self.filterEntry = Entry(self.filterFrame, textvariable=self.filterVar)
         self.filterLabel = Label(self.filterFrame, text="Filter")
 
         #Function frame
@@ -71,8 +72,8 @@ class ParameterEncodingView(Toplevel):
         self.mainFrame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.filterFrame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         #No function frame gridded yet, wait for button press
-        self.handpickFrame.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.exit_frame.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.handpickFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.exit_frame.grid(column=1, row=1001, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
         #MAIN FRAME
         self.varlistLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
@@ -137,6 +138,8 @@ class ParameterEncodingView(Toplevel):
             v["value"].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
 
         self.toggle_checkbox.grid(column=0, row=len(self.variables) + 1, columnspan=1000,  pady=5, padx=5, sticky="ew")
+
+        self.filterVar.set(self.model.filter.get_current_filter())
         self.geometry("")
 
     def switch_mode(self):
@@ -147,10 +150,10 @@ class ParameterEncodingView(Toplevel):
         self.switchModeButton.configure(text=("Handpick Mode" if self.handpicked_mode else "Function Mode"))
         if (self.handpicked_mode):
             self.functionFrame.grid_forget()
-            self.handpickFrame.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.handpickFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         else:
             self.handpickFrame.grid_forget()
-            self.functionFrame.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.functionFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
 
     def destroy(self) -> None:
