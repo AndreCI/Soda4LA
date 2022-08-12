@@ -80,14 +80,10 @@ class MusicView:
                     current_time = self.sequencer.get_tick()
                     note_timing = int(note_timing_abs - (current_time - self.starting_time))  # update timing
                 if (self.ctrl.playing):
-                    print( "{}-{} new note with idx {} scheduled in {}ms (abs: {}ms-{}ms={}ms): {}. {} notes remaining in queue".format(
-                            current_time, self.starting_time,
-                            note.id,
-                            note_timing,
-                            note_timing_abs, self.sequencer.get_tick() + note_timing,
-                                             self.sequencer.get_tick() + note_timing - note_timing_abs,
-                            note,
-                            self.model.notes.qsize()))
+                    log_line = "Note with track={}, value={}, vel={}, dur={} at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
+                        note.channel, note.value, note.velocity, note.duration, current_time, note.id, note_timing, self.model.notes.qsize())
+                    print(log_line)
+                    self.model.sonification_view.add_log_line(log_line)
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
 

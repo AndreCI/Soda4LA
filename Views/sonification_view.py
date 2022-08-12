@@ -1,4 +1,5 @@
 import tkinter as tk
+from collections import deque
 from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
 
@@ -30,6 +31,9 @@ class SonificationView(ttk.Frame):
         self.configView = True #Inform which view is currently displqyed
         self.trackConfigViews = []
         self.trackMidiViews = []
+        self.log = deque()
+        self.logMax = 20
+        self.first_log_line = "Log:" + " "*405 + "\n"
 
         #setup view
         self.controlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
@@ -48,6 +52,9 @@ class SonificationView(ttk.Frame):
         self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
                                           width=1380, height=650)
 
+        self.logVar = tk.StringVar(value=self.first_log_line)
+        self.logLabel = ttk.Label(self, textvariable=self.logVar)
+
         self.setup_widgets()
 
     def setup_widgets(self):
@@ -63,6 +70,14 @@ class SonificationView(ttk.Frame):
         #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+        self.logLabel.grid(column=5, rows=1005, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+
+    def add_log_line(self, log_line):
+        if(len(self.log) > self.logMax):
+            self.log.popleft()
+        self.log.append(log_line)
+        self.logVar.set(self.first_log_line + "\n".join(self.log))
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
