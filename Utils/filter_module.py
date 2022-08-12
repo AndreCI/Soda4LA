@@ -1,7 +1,14 @@
 # TODO complexify with other filter options, such as str filters.
+from enum import Enum
+
 from Models.data_model import Data
 import pandas as pd
 
+class FilterType(Enum):
+    NONE = 1,
+    SINGLE = 2,
+    RANGE = 3,
+    MULTIPLE = 4
 
 class FilterModule:
     """
@@ -9,10 +16,9 @@ class FilterModule:
     """
 
     def __init__(self):
-        self.filter = None
+        self.filter = {}
         self.column = None #Data().getInstance().get_variables()[0] # column on which to apply the filter
-        self.filter_mode = ["None", "Single", "Range", "Multiple"]
-        self.mode = self.filter_mode[0]
+        self.mode = {}
 
     def eval_batch(self, batch):
         """
@@ -28,7 +34,8 @@ class FilterModule:
         # Create a new column and fill it with True or False value after eval
         df['new'] = df[self.column].apply(lambda y: 'True' if self.evaluate(y) is True else 'False')
         # We return row where 'new' is True and we remove the created column
-        return df[df['new'] == 'True'].drop('new', axis=1)
+        d = df[df['new'] == 'True'].drop('new', axis=1)
+        return d
 
     def get_filtered_data(self, header : [], data : [[]]):
         """
@@ -52,15 +59,21 @@ class FilterModule:
         :return: bool,
             True if value follows the filter, False otherwise.
         """
-        if self.mode == "None":
+        #print("Evaluating {} with mode {}. filter is {}".format(value, self.mode, self.filter))
+        if self.column not in self.mode or self.mode[self.column] is FilterType.NONE:
             return True
-        if self.mode == "Single" and self.filter == value:
+        if self.mode[self.column] is FilterType.SINGLE and self.filter[self.column] == value:
             return True
-        if self.mode == "Range" and value in self.filter:
+        if self.mode[self.column] is FilterType.RANGE and value in self.filter[self.column]:
             return True
-        if self.mode == "Multiple" and value in self.filter:
+        if self.mode[self.column] is FilterType.MULTIPLE and value in self.filter[self.column]:
             return True
         return False
+
+    def assign_column(self, column):
+        self.column = column
+        if(column not in self.mode):
+            self.mode[self.column] = FilterType.NONE
 
     def assign(self, filter):
         """
@@ -71,17 +84,29 @@ class FilterModule:
             True if the filter entered is legal, otherwise False
         """
         if (filter.isnumeric()):
-            self.mode = self.filter_mode[1]
-            self.filter = eval(filter)
+            self.mode[self.column] = FilterType.SINGLE
+            self.filter[self.column] = eval(filter)
             return True
         if (len(filter) > 0 and filter[0] == "["):
-            self.mode = self.filter_mode[2]
+            self.mode[self.column] = FilterType.RANGE
             tab_f = eval(filter)
-            self.filter = range(tab_f[0], tab_f[1])
+            self.filter[self.column] = range(tab_f[0], tab_f[1])
             return True
         if (len(filter.split(";")) > 1):
-            self.mode = self.filter_mode[3]
-            self.filter = [eval(v) for v in filter.split(";")]
+            self.mode[self.column] = FilterType.MULTIPLE
+            self.filter[self.column] = [eval(v) for v in filter.split(";")]
             return True
-        self.filter = None
+        self.mode[self.column] = FilterType.NONE
+        self.filter[self.column] = None
         return False
+
+    def assign_quali_table(self, values: []):
+        """
+        Assign a list of qualitatives variable as a filter.
+        :param values: a list of string variable
+        :return: True if the assignation was successful, else False
+        """
+        self.mode[self.column] = FilterType.MULTIPLE
+        self.filter[self.column] = values
+        return True
+

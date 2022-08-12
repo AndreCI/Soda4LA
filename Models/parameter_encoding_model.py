@@ -32,9 +32,6 @@ class ParameterEncoding:
         #Views
         self.peView = None
 
-    def set_main_var(self, variable : str):
-        self.filter.column = variable
-
     def get_parameter(self, row):
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user
@@ -77,7 +74,7 @@ class ParameterEncoding:
         if(len(variables) != len(values)):
             raise ValueError()
         for var, val in zip(variables, values):
-            self.handpickEncoding[var] = []
+            #self.handpickEncoding[var] = []
             self.handpickEncoding[var] = val
 
     def get_variables_instances(self):

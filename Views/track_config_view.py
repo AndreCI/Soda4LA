@@ -1,8 +1,9 @@
-from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar
+from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar, Checkbutton
 from tkinter.ttk import Combobox
 
 from Models.data_model import Data
-from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, SOUNDFONTS
+from Utils.constants import DEFAULT_PADX, DEFAULT_PADY
+from Utils.soundfont_loader import SoundfontLoader
 
 
 class TrackConfigView(ttk.Frame):
@@ -17,6 +18,7 @@ class TrackConfigView(ttk.Frame):
         #Ctrl and model
         self.model = model
         self.ctrl = ctrl
+        self.soundfontUtil = SoundfontLoader.get_instance()
 
         #View data
         self.data = Data.getInstance()
@@ -24,13 +26,13 @@ class TrackConfigView(ttk.Frame):
         #setup view
         self.soundfontLabel = Label(self, text="Instrument")
 
-        self.selectSoundfontCB = Combobox(self, values=list(SOUNDFONTS.keys()))  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
+        self.selectSoundfontCB = Combobox(self, values=self.soundfontUtil.get_names(), state='readonly')  # , padx=DEFAULT_PADX)#, pady=DEFAULT_PADY)
         self.selectSoundfontCB.bind('<<ComboboxSelected>>', self.select_soundfont)
+        self.selectSoundfontCB.set(self.soundfontUtil.default)
 
         self.varlistLabel = Label(self, text="Main Variable")
-        self.selectVarListBox = Combobox(self, values=self.data.get_variables())
+        self.selectVarListBox = Combobox(self, values=self.data.get_variables(), state="readonly")
         self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
-        self.selectSoundfontCB.current(0)
         self.selectVarListBox.current(0)
 
         #https://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter

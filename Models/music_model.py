@@ -37,7 +37,7 @@ class Music:
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
             self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.size)
-            self.QUEUE_CAPACITY = 2 * self.timeSettings.batchSize
+            self.QUEUE_CAPACITY = 4 * self.timeSettings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
             # Ctrl
@@ -58,21 +58,25 @@ class Music:
         while True:  # This thread never stops
             self.ctrl.playingEvent.wait()  # wait if we are stopped
             self.ctrl.pausedEvent.wait()  # wait if we are paused
-            self.ctrl.emptySemaphore.acquire(n=len(self.tracks) * self.data.batch_size)  # Check if the queue is not full
+            #with self.ctrl.trackSemaphore:
+            max_note_nbr = len(self.tracks) * self.data.batch_size  #Acquire queue as if each row will become a note
+            note_nbr = 0  # track how many row actually become notes
+            self.ctrl.emptySemaphore.acquire(n=max_note_nbr)  # Check if the queue is not full
             # Usually hang on this ^^^
             if not self.ctrl.playing:  # Check if semaphore was acquired while stop was pressed
-                self.ctrl.emptySemaphore.release(n=len(self.tracks) * self.data.batch_size)  # Release if so, and return to start of loop to wait
+                self.ctrl.emptySemaphore.release(n=max_note_nbr)  # Release if so, and return to start of loop to wait
             else:
-                with self.ctrl.trackSemaphore:
-                    self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused
-                    current_data = self.data.get_next(iterate=True)
-                    for t in self.tracks:
-                        for note in t.generate_notes(current_data):
-                            self.notes.put_nowait(note)
-                            # We append a list of notes to queue, automatically sorted by tfactor
-                    self.ctrl.queueSemaphore.release()  # Release queue
-                self.ctrl.fullSemaphore.release(n=len(self.tracks) * self.data.batch_size)  # Inform consumer that queue is not empty
-                time.sleep(self.timeSettings.timeBuffer / 1000)  # Waiting a bit to not overpopulate the queue. Necessary?
+                current_data = self.data.get_next(iterate=True)
+                self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused
+                for t in self.tracks:
+                    for note in t.generate_notes(current_data):
+                        self.notes.put_nowait(note)
+                        note_nbr += 1  # We append a list of notes to queue, automatically sorted by tfactor
+                self.ctrl.queueSemaphore.release()  # Release queue
+                self.ctrl.emptySemaphore.release(n=max_note_nbr-note_nbr) # If not all rows become note, release empty accordingly
+                self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
+            #print("loop released with {}, {}".format(max_note_nbr, note_nbr))
+            #time.sleep(self.timeSettings.timeBuffer / 1000)  # Waiting a bit to not overpopulate the queue. Necessary?
             if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
                 self.ctrl.playing = False
 

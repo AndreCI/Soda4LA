@@ -3,12 +3,14 @@ import itertools
 from Ctrls.track_controller import TrackCtrl
 from Models.data_model import Data
 
-from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
+from Utils.constants import ENCODING_OPTIONS
 
 from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
 from Utils.filter_module import FilterModule
 import pandas as pd
+
+from Utils.soundfont_loader import SoundfontLoader
 
 
 class Track:
@@ -22,7 +24,8 @@ class Track:
     def __init__(self, music):
         #Data
         self.id = next(Track.newid)
-        self.soundfont = SOUNDFONTS["default"] #soundfont selected by user, <=< instrument
+        sfl = SoundfontLoader.get_instance()
+        self.soundfont = sfl.get()  # soundfont selected by user, <=< instrument
 
         self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
         self.datas = Data().getInstance()
@@ -53,18 +56,22 @@ class Track:
         :return list of notes
         """
         self.notes = [] #Container for the next batch of data
-        for i, r in self.filter.eval_batch(batch).iterrows():  # iterate over index and row
-            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(r),
+        for idx, row in self.filter_batch(batch).iterrows():  # iterate over index and row
+            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row),
                                     channel=self.id,
-                                    value=self.pencodings["value"].get_parameter(r),
-                                    velocity=self.pencodings["velocity"].get_parameter(r),
-                                     duration=self.pencodings["duration"].get_parameter(r),
-                                    id=r['id']
-                                    ))
+                                    value=self.pencodings["value"].get_parameter(row),
+                                    velocity=self.pencodings["velocity"].get_parameter(row),
+                                    duration=self.pencodings["duration"].get_parameter(row),
+                                    id=row['id']))
         return self.notes
 
+    def filter_batch(self, batch):
+        for encoding in self.pencodings.values():
+            batch = encoding.filter.eval_batch(batch)
+        return self.filter.eval_batch(batch)
+
     def set_main_var(self, variable : str):
-        self.filter.column = variable
+        self.filter.assign_column(variable)
 
     def set_soundfont(self, soundfont):
         self.soundfont = soundfont

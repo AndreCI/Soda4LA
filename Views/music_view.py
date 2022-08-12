@@ -1,6 +1,7 @@
 import platform
 import threading
 import time
+from queue import Empty
 
 import fluidsynth
 
@@ -90,7 +91,7 @@ class MusicView:
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
 
-            except IndexError:
+            except Empty:
                 print("Empty notes queue")
                 self.ctrl.queueSemaphore.release() #Release semaphores
                 self.ctrl.emptySemaphore.release()

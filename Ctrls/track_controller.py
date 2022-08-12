@@ -1,5 +1,4 @@
-from Utils.constants import SOUNDFONTS
-
+from Utils.soundfont_loader import SoundfontLoader
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -12,6 +11,7 @@ class TrackCtrl:
     def __init__(self, model):
         # Model
         self.model = model  # Track Model
+        self.soundfontUtils = SoundfontLoader.get_instance()
 
     def setup(self, config_view: TrackConfigView, midi_view: TrackMidiView):
         self.model.configView = config_view
@@ -22,7 +22,7 @@ class TrackCtrl:
         self.model.filter.assign(filter)
 
     def set_soundfont(self, soundfont: str):
-        self.model.soundfont = SOUNDFONTS[soundfont]
+        self.model.soundfont = self.soundfontUtils.get(soundfont)
         self.model.music.ctrl.load_soundfonts()
 
     def set_main_var(self, column: str):
