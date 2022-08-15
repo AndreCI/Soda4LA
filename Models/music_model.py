@@ -6,7 +6,7 @@ from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.note_model import TNote
 from Models.time_settings_model import TimeSettings
-from Models.track_model import Track
+from Utils.constants import BATCH_NBR_PLANNED
 
 
 class Music:
@@ -37,7 +37,7 @@ class Music:
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
             self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.size)
-            self.QUEUE_CAPACITY = 4 * self.timeSettings.batchSize
+            self.QUEUE_CAPACITY = BATCH_NBR_PLANNED * self.timeSettings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
             # Ctrl
@@ -45,10 +45,24 @@ class Music:
 
             # Views
             self.sonification_view = None
+            self.ctrl.producer_thread.start()
 
-            # Threads
-            self.producer_thread = threading.Thread(target=self.generate, daemon=True)
-            self.producer_thread.start()
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state["data"]
+        del state["ctrl"]
+        del state["sonification_view"]
+        del state["notes"]
+        print(state)
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.notes = PriorityQueue()
+        self.sonification_view = None
+        self.data = Data.getInstance()
+        self.ctrl = None#MusicCtrl(self)
+
 
     def generate(self):
         """
@@ -83,12 +97,14 @@ class Music:
     def get_absolute_note_timing(self, note: TNote):
         return int(note.tfactor * self.timeSettings.musicDuration * 1000)
 
-    def add_track(self, track: Track):
-        with self.ctrl.trackSemaphore:
-            self.tracks.append(track)
+    def add_track(self, track, generate_view=False):
+        #with self.ctrl.trackSemaphore:
+        self.tracks.append(track)
+        if generate_view:
             self.sonification_view.add_track(track)
 
-    def remove_track(self, track: Track):
-        with self.ctrl.trackSemaphore:
-            self.tracks.remove(track)
-            self.sonification_view.remove_track(track)
+
+    def remove_track(self, track):
+        #with self.ctrl.trackSemaphore:
+        self.tracks.remove(track)
+        self.sonification_view.remove_track(track)

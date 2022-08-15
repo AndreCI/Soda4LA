@@ -2,11 +2,11 @@ import tkinter as tk
 from collections import deque
 from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
+from tkinter.filedialog import askopenfilename, asksaveasfile
 
 from Models.music_model import Music
-from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
 from Utils.scrollable_frame import ScrollableFrame
-from Views.time_settings_view import TimeSettingsView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -40,6 +40,8 @@ class SonificationView(ttk.Frame):
         self.switchViewButton = tk.Button(self.controlFrame, text="Change view", command=self.switch_view)
         self.timeSettingsButton = tk.Button(self.controlFrame, text="Time Settings", command=self.open_time_setting)
         self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
+        self.exportAllTrackButton = tk.Button(self.controlFrame, text="Export all tracks", command=self.export_all_tracks)
+        self.importAllTrackButton = tk.Button(self.controlFrame, text="Import all tracks", command=self.import_all_tracks)
 
         self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
@@ -48,7 +50,7 @@ class SonificationView(ttk.Frame):
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                            width=1380, height=240)
+                                            width=1380, height=290)
         self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
                                           width=1380, height=650)
 
@@ -62,6 +64,8 @@ class SonificationView(ttk.Frame):
         self.switchViewButton.grid(column=0, row=0, sticky="ew")
         self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
         self.addTrackButton.grid(column=0, row=2, sticky="ew")
+        self.importAllTrackButton.grid(column=0, row=3, sticky="ew")
+        self.exportAllTrackButton.grid(column=0, row=4, sticky="ew")
 
         self.audioView.grid(column=1, row=0, columnspan=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.playButton.grid(column=0, row=0, sticky="ew")
@@ -91,7 +95,7 @@ class SonificationView(ttk.Frame):
         for i, t in enumerate(self.trackMidiViews):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
-    def add_track(self, track):
+    def add_track(self, track, generate_view=False):
         """
         Add a track to the view, creating and assigning views to it
         :param track: a trackModel
@@ -133,3 +137,15 @@ class SonificationView(ttk.Frame):
 
     def open_time_setting(self):
         self.ctrl.open_time_settings()
+
+    def export_all_tracks(self):
+        f = asksaveasfile(title="Save project as a file", initialdir=FILE_PATH,
+                          initialfile="saved_project_{}".format(len(self.model.tracks)), mode='w', defaultextension=".pkl")
+        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            self.ctrl.export_all_tracks(f.name)
+
+    def import_all_tracks(self):
+        f = askopenfilename(title="Load selected project")
+        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            self.ctrl.import_all_tracks(f)
+

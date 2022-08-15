@@ -32,6 +32,19 @@ class ParameterEncoding:
         #Views
         self.peView = None
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state["ctrl"]
+        del state["peView"]
+        del state["datas"]
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.ctrl = ParameterEncodingCtrl(self)
+        self.peView = None
+        self.datas = Data.getInstance()
+
     def get_parameter(self, row):
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user

@@ -1,6 +1,7 @@
 import math
 import threading
 
+from Utils.constants import BATCH_NBR_PLANNED
 from Views.time_settings_view import TimeSettingsView
 
 
@@ -17,7 +18,7 @@ class TimeSettingsCtrl():
             self.model.music.ctrl.stoppedEvent.wait()
         self.model.batchSize = size
         self.model.data.batch_size = size
-        self.model.music.ctrl.change_queue_size(size * 2)
+        self.model.music.ctrl.change_queue_size(size * BATCH_NBR_PLANNED)
 
     def validate(self):
         """

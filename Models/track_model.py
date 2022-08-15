@@ -1,4 +1,6 @@
 import itertools
+import pickle
+import Models.music_model
 
 from Ctrls.track_controller import TrackCtrl
 from Models.data_model import Data
@@ -21,7 +23,7 @@ class Track:
     """
     newid = itertools.count()
 
-    def __init__(self, music):
+    def __init__(self):
         #Data
         self.id = next(Track.newid)
         sfl = SoundfontLoader.get_instance()
@@ -32,10 +34,9 @@ class Track:
         self.filter.column = self.datas.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
-        self.music = music #Needed to backtrack and remove itself upon deletion, among other things
+        self.music = Models.music_model.Music.getInstance() #Needed to backtrack and remove itself upon deletion, among other things
 
         #Other models
-        self.notes = []
         self.pencodings = {}
         for pe in ENCODING_OPTIONS:
             self.pencodings[pe] = ParameterEncoding(encoded_var=pe)
@@ -47,6 +48,36 @@ class Track:
         self.midiView = None
         self.configView = None
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state["datas"]
+        del state["music"]
+        del state["midiView"]
+        del state["configView"]
+        del state["ctrl"]
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.datas = Data.getInstance()
+        self.ctrl = TrackCtrl(self)
+        self.music = Models.music_model.Music.getInstance()
+        #elf.music.ctrl.add_track(self)
+        self.configView = None
+        self.midiView = None
+
+    def serialize(self, path):
+        with open(path, 'wb') as f:
+            pickle.dump(self, f)
+            self.music.sonification_view.add_log_line("Track saved to {}".format(f.name))
+
+    def unserialize(self, path):
+        with open(path, 'rb') as f:
+            oldid = self.id
+            var = pickle.load(f)
+            self.__dict__.update(var.__dict__)
+            self.id = oldid
+            self.music.sonification_view.add_log_line("Track loaded to id {}".format(self.id))
 
     def generate_notes(self, batch):
         """
@@ -55,15 +86,15 @@ class Track:
             a subset of the dataset regardless the considered filter
         :return list of notes
         """
-        self.notes = [] #Container for the next batch of data
+        notes = [] #Container for the next batch of data
         for idx, row in self.filter_batch(batch).iterrows():  # iterate over index and row
-            self.notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row),
+            notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(row),
                                     velocity=self.pencodings["velocity"].get_parameter(row),
                                     duration=self.pencodings["duration"].get_parameter(row),
                                     id=row['id']))
-        return self.notes
+        return notes
 
     def filter_batch(self, batch):
         for encoding in self.pencodings.values():

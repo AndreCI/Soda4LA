@@ -29,7 +29,7 @@ class ParameterEncodingCtrl:
             values.append(v["value"].get())
 
         self.model.assign_handpicked_encoding(variable, values)
-        self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar, max_val=self.model.peView.fMaxVar)
+        self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar.get(), max_val=self.model.peView.fMaxVar.get())
 
         if(self.model.handpicked):
             self.model.filter.assign_quali_table([v["variable"] for v in self.model.peView.variables if v["checked"].get()==1])

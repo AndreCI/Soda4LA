@@ -20,6 +20,11 @@ class FilterModule:
         self.column = None #Data().getInstance().get_variables()[0] # column on which to apply the filter
         self.mode = {}
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        print(state)
+        return state
+
     def eval_batch(self, batch):
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note

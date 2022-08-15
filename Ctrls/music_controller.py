@@ -1,3 +1,4 @@
+import pickle
 import time
 from tkinter.constants import DISABLED, NORMAL
 
@@ -33,22 +34,31 @@ class MusicCtrl:
         self.view = MusicView(model, self)
         self.datas = Data.getInstance()
 
+        # Threads
+        self.producer_thread = threading.Thread(target=self.model.generate, daemon=True)
+        #self.producer_thread.start()
+
     def create_track(self):
         """
         Create a track and adds it to the model
         """
         prev_track_nbr = len(self.model.tracks)
-        t = Track(self.model)
-        threading.Thread(target=self.model.add_track, args=[t], daemon=True).start()
+        track = Track()
+        threading.Thread(target=self.model.add_track, args=[track, True], daemon=True).start()
        # if prev_track_nbr == 0 and len(self.model.tracks) == 1:
        #     self.sonification_view.playButton.config(state=NORMAL)
+
+    def add_track(self, track, generate_view=False):
+        self.model.add_track(track, generate_view)
+        #threading.Thread(target=self.model.add_track, args=[track, generate_view], daemon=True).start()
 
     def remove_track(self, track: Track):
         """
         Remove a track from the model
         :param track: a Track model
         """
-        threading.Thread(target=self.model.remove_track, args=[track], daemon=True).start()
+        self.model.remove_track(track)
+        #threading.Thread(target=self.model.remove_track, args=[track], daemon=True).start()
        # if len(self.model.tracks) == 0:
        #     self.sonification_view.playButton.config(state=DISABLED)
 
@@ -130,3 +140,20 @@ class MusicCtrl:
         for track in self.model.tracks:
             soundfont_fid = self.view.synth.sfload(track.soundfont)  # Load the soundfont
             self.view.synth.program_select(track.id, soundfont_fid, 0, 0)  # Assign soundfont to a channel
+
+    def import_all_tracks(self, path):
+        with open(path, 'rb') as f:
+            m = pickle.load(f)
+            self.model.__dict__.update(m.__dict__)
+            self.model.sonification_view = self.sonification_view
+            self.model.ctrl = self
+            self.model.tracks = []
+            for t in m.tracks:
+                self.add_track(t, True)
+            for t in self.model.tracks:
+                t.configView.reset_view()
+
+    def export_all_tracks(self, path):
+        with open(path, 'wb') as f:
+            pickle.dump(self.model, f)
+            self.sonification_view.add_log_line("exported model {}".format(self.model.__getstate__()))

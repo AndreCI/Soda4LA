@@ -30,7 +30,7 @@ class TimeSettingsView(Toplevel):
         for t in self.model.possible_types:
             self.options.append(Radiobutton(self.optionsFrame, text=t, variable=self.selectedTimeType, value=t, indicatoron=False))
 
-        self.musicLengthValue = IntVar(self, value=self.model.data.size)
+        self.musicLengthValue = IntVar(self, value=self.model.musicDuration)
         self.musicLengthEntry = Entry(self.settingsFrame, textvariable=self.musicLengthValue)
         self.musicLengthLabel = Label(self.settingsFrame, text="Music total length (s) :")
 
