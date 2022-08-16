@@ -29,6 +29,7 @@ class Data:
             self.first_date = None
             self.last_date = None
             self.batch_size = BATCH_SIZE
+            #self.date_column = "TimeStamp"
             self.date_column = 'date'
             self.size = self.df.shape[0] + 1
             self.assign_timestamp()
@@ -83,6 +84,8 @@ class Data:
                 converted date
         """
         date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
+        #date = datetime.strptime(d, '%H:%M:%S PM')
+        #date = date.replace(year=2022)
         return date
 
     def get_deltatime(self):
@@ -113,7 +116,7 @@ class Data:
         """
         Method to assign timestamp to a new column
         """
-        self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
+        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
         self.df['id'] = np.arange(1, self.df.shape[0] + 1)
         # We call method here to init all the attributes
         self.timing_span, _ = self.get_deltatime()

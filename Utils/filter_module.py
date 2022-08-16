@@ -22,7 +22,6 @@ class FilterModule:
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        print(state)
         return state
 
     def eval_batch(self, batch):

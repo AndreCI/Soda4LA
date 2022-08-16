@@ -31,6 +31,21 @@ class TimeSettings():
         #View
         self.tsView = None
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state["data"]
+        del state["music"]
+        del state["ctrl"]
+        del state["tsView"]
+        print(state)
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.ctrl = TimeSettingsCtrl(self)
+        self.tsView = None
+
+
     def set_type(self, type : str):
         if(type not in self.possible_types):
             raise NotImplementedError()
@@ -57,12 +72,12 @@ class TimeSettings():
         :param current: a data point with features timestanp and id
         :return: a temporal position between 0 and 1.
         """
-        if self.maxVal < current.timestamp < self.minVal:
-            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.timestamp, self.minVal, self.maxVal))
+        if self.maxVal < current.internal_timestamp < self.minVal:
+            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.internal_timestamp, self.minVal, self.maxVal))
         distance = self.maxVal - self.minVal
         #ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return (current.timestamp - self.minVal)/float(distance)#(ratio - min) * current
+            return (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
         elif self.type == self.possible_types[1]:
             return float(current.id)/float(self.idMax)
         else:

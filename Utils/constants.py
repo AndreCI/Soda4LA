@@ -1,6 +1,6 @@
 #PARAMETERS
 TIME_BUFFER = 1000 #ms, time used to plan future notes.
-BATCH_SIZE = 6
+BATCH_SIZE = 1
 BATCH_NBR_PLANNED=10
 
 #OPTIONS
@@ -25,7 +25,8 @@ TFRAME_STYLE = {"DEFAULT" : ["TFrame", "green"],
                 }
 
 #PATHS
-DATA_PATH= "data/tamagocours/Tamagocours.csv"
+DATA_PATH= "data/sequential_data/Tamagocours.csv"
+#DATA_PATH= "data/sequential_data/AL2049.csv"
 FILE_PATH= "data/savefiles"
 soundfont_path = "data/soundfonts/"
 

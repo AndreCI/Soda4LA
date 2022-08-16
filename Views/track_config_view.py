@@ -51,6 +51,7 @@ class TrackConfigView(ttk.Frame):
         self.deleteButton = Button(self, text="Delete track", command=self.ctrl.remove)
         self.local_gain_slider = Scale(self, from_=0, to=100, sliderrelief='solid',
                                        command=self.ctrl.change_gain)  # flat, groove, raised, ridge, solid, sunken
+        self.local_gain_slider.set(100)
 
         self.setup_widgets()
 
@@ -92,6 +93,7 @@ class TrackConfigView(ttk.Frame):
         self.select_soundfont(None)
         self.selectVarListBox.set(self.model.filter.column)
         self.select_variable(None)
+        self.local_gain_slider.set(self.model.gain)
 
     def select_soundfont(self, event):
         self.ctrl.set_soundfont(self.selectSoundfontCB.get())

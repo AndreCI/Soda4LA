@@ -18,7 +18,7 @@ class SonificationView(ttk.Frame):
     view to control the start, pause and stop of the current music
     view to configurate time settings
     """
-
+    #TODO: Add fast forward and backward +x/-x seconds
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         #Ctrl and model
@@ -47,6 +47,11 @@ class SonificationView(ttk.Frame):
         self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
         self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause, state=DISABLED)
         self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
+        self.ffwButton = tk.Button(self.audioView, text=">>>", command=self.ctrl.fast_forward, state=DISABLED)
+        self.fbwButton = tk.Button(self.audioView, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
+        self.gain_slider = tk.Scale(self.audioView, from_=0, to=100, sliderrelief='solid', orient="horizontal",
+                                    command=self.ctrl.change_global_gain)  # flat, groove, raised, ridge, solid, sunken
+        self.gain_slider.set(self.model.gain)
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
@@ -60,17 +65,20 @@ class SonificationView(ttk.Frame):
         self.setup_widgets()
 
     def setup_widgets(self):
-        self.controlFrame.grid(column=0, row=0, rowspan=3)
+        self.controlFrame.grid(column=0, row=0, rowspan=6)
         self.switchViewButton.grid(column=0, row=0, sticky="ew")
         self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
-        self.addTrackButton.grid(column=0, row=2, sticky="ew")
-        self.importAllTrackButton.grid(column=0, row=3, sticky="ew")
-        self.exportAllTrackButton.grid(column=0, row=4, sticky="ew")
+        self.addTrackButton.grid(column=0, row=2, rowspan=2, sticky="ew")
+        self.importAllTrackButton.grid(column=0, row=4, sticky="ew")
+        self.exportAllTrackButton.grid(column=0, row=5, sticky="ew")
 
-        self.audioView.grid(column=1, row=0, columnspan=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.playButton.grid(column=0, row=0, sticky="ew")
-        self.pauseButton.grid(column=1, row=0, sticky="ew")
-        self.stopButton.grid(column=2, row=0, sticky="ew")
+        self.audioView.grid(column=1, row=0, columnspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.fbwButton.grid(column=0, row=0, sticky="ew")
+        self.playButton.grid(column=1, row=0, sticky="ew")
+        self.pauseButton.grid(column=2, row=0, sticky="ew")
+        self.stopButton.grid(column=3, row=0, sticky="ew")
+        self.ffwButton.grid(column=4, row=0, sticky="ew")
+        self.gain_slider.grid(column=5, row=0, sticky="ew")
         #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -95,7 +103,7 @@ class SonificationView(ttk.Frame):
         for i, t in enumerate(self.trackMidiViews):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
-    def add_track(self, track, generate_view=False):
+    def add_track(self, track):
         """
         Add a track to the view, creating and assigning views to it
         :param track: a trackModel
@@ -104,7 +112,9 @@ class SonificationView(ttk.Frame):
                                       style=TFRAME_STYLE["TRACK"][0])
         midi_view = TrackMidiView(self.tMidiFrame.scrollableFrame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
                                   style=TFRAME_STYLE["TRACK"][0])
-        track.ctrl.setup(config_view, midi_view)
+        track.configView = config_view
+        track.midiView = midi_view
+        #track.ctrl.setup(config_view, midi_view)
 
         self.reset_track_view()
         self.trackConfigViews.append(config_view)
@@ -146,6 +156,6 @@ class SonificationView(ttk.Frame):
 
     def import_all_tracks(self):
         f = askopenfilename(title="Load selected project")
-        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+        if f is not "":
             self.ctrl.import_all_tracks(f)
 

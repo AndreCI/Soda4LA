@@ -13,11 +13,6 @@ class TrackCtrl:
         self.model = model  # Track Model
         self.soundfontUtils = SoundfontLoader.get_instance()
 
-    def setup(self, config_view: TrackConfigView, midi_view: TrackMidiView):
-        self.model.configView = config_view
-        self.model.midiView = midi_view
-        self.change_gain(100)
-
     def update_filter(self, filter: str):
         self.model.filter.assign(filter)
 
@@ -30,7 +25,7 @@ class TrackCtrl:
 
     def change_gain(self, gain: int):
         self.model.gain = int(gain)
-        self.model.music.ctrl.change_gain(self.model.id, self.model.gain)
+        self.model.music.ctrl.change_local_gain(self.model.id, self.model.gain)
         if (self.model.midiView.local_gain_slider.get() != gain):
             self.model.midiView.local_gain_slider.set(gain)
         if (self.model.configView.local_gain_slider.get() != gain):

@@ -53,7 +53,6 @@ class Music:
         del state["ctrl"]
         del state["sonification_view"]
         del state["notes"]
-        print(state)
         return state
 
     def __setstate__(self, state):
@@ -61,7 +60,7 @@ class Music:
         self.notes = PriorityQueue()
         self.sonification_view = None
         self.data = Data.getInstance()
-        self.ctrl = None#MusicCtrl(self)
+        #self.ctrl = None#MusicCtrl(self)
 
 
     def generate(self):
@@ -94,8 +93,8 @@ class Music:
             if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
                 self.ctrl.playing = False
 
-    def get_absolute_note_timing(self, note: TNote):
-        return int(note.tfactor * self.timeSettings.musicDuration * 1000)
+    def get_absolute_note_timing(self, tfactor):
+        return int(tfactor * self.timeSettings.musicDuration * 1000)
 
     def add_track(self, track, generate_view=False):
         #with self.ctrl.trackSemaphore:
