@@ -1,10 +1,12 @@
 import tkinter as tk
+from collections import deque
 from tkinter import ttk
+from tkinter.constants import DISABLED, NORMAL
+from tkinter.filedialog import askopenfilename, asksaveasfile
 
 from Models.music_model import Music
-from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY
+from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
 from Utils.scrollable_frame import ScrollableFrame
-from Views.time_settings_view import TimeSettingsView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -22,29 +24,38 @@ class SonificationView(ttk.Frame):
         #Ctrl and model
         self.model = Music.getInstance()
         self.ctrl = self.model.ctrl
-        self.ctrl.model.sonification_view = self
+        self.model.sonification_view = self
+        self.ctrl.sonification_view = self
 
         #View data
         self.configView = True #Inform which view is currently displqyed
         self.trackConfigViews = []
         self.trackMidiViews = []
+        self.log = deque()
+        self.logMax = 20
+        self.first_log_line = "Log:" + " "*405 + "\n"
 
         #setup view
         self.controlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
         self.switchViewButton = tk.Button(self.controlFrame, text="Change view", command=self.switch_view)
         self.timeSettingsButton = tk.Button(self.controlFrame, text="Time Settings", command=self.open_time_setting)
         self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
+        self.exportAllTrackButton = tk.Button(self.controlFrame, text="Export all tracks", command=self.export_all_tracks)
+        self.importAllTrackButton = tk.Button(self.controlFrame, text="Import all tracks", command=self.import_all_tracks)
 
         self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play)
-        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause)
-        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop)
+        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
+        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause, state=DISABLED)
+        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                            width=1380, height=240)
+                                            width=1380, height=290)
         self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
                                           width=1380, height=650)
+
+        self.logVar = tk.StringVar(value=self.first_log_line)
+        self.logLabel = ttk.Label(self, textvariable=self.logVar)
 
         self.setup_widgets()
 
@@ -53,6 +64,8 @@ class SonificationView(ttk.Frame):
         self.switchViewButton.grid(column=0, row=0, sticky="ew")
         self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
         self.addTrackButton.grid(column=0, row=2, sticky="ew")
+        self.importAllTrackButton.grid(column=0, row=3, sticky="ew")
+        self.exportAllTrackButton.grid(column=0, row=4, sticky="ew")
 
         self.audioView.grid(column=1, row=0, columnspan=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.playButton.grid(column=0, row=0, sticky="ew")
@@ -61,6 +74,14 @@ class SonificationView(ttk.Frame):
         #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
+        self.logLabel.grid(column=5, rows=1005, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+
+    def add_log_line(self, log_line):
+        if(len(self.log) > self.logMax):
+            self.log.popleft()
+        self.log.append(log_line)
+        self.logVar.set(self.first_log_line + "\n".join(self.log))
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
@@ -74,7 +95,7 @@ class SonificationView(ttk.Frame):
         for i, t in enumerate(self.trackMidiViews):
             t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
 
-    def add_track(self, track):
+    def add_track(self, track, generate_view=False):
         """
         Add a track to the view, creating and assigning views to it
         :param track: a trackModel
@@ -116,3 +137,15 @@ class SonificationView(ttk.Frame):
 
     def open_time_setting(self):
         self.ctrl.open_time_settings()
+
+    def export_all_tracks(self):
+        f = asksaveasfile(title="Save project as a file", initialdir=FILE_PATH,
+                          initialfile="saved_project_{}".format(len(self.model.tracks)), mode='w', defaultextension=".pkl")
+        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            self.ctrl.export_all_tracks(f.name)
+
+    def import_all_tracks(self):
+        f = askopenfilename(title="Load selected project")
+        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            self.ctrl.import_all_tracks(f)
+

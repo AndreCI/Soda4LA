@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, IntVar
+from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, IntVar, Checkbutton
 from tkinter.constants import X
 from tkinter.ttk import Frame, Combobox
 
@@ -12,6 +12,8 @@ class ParameterEncodingView(Toplevel):
     """
 
     def __init__(self, ctrl, model, **kwargs):
+        #  TODO: bigger window with a bigger space dedicated to filter. displauing on/off box buttons for
+        #  categorical data. maybe range for num val. also display graphs and indicator on the selected variable
         Toplevel.__init__(self, **kwargs)
         #ctrl and model
         self.ctrl = ctrl #PECtrl
@@ -19,27 +21,36 @@ class ParameterEncodingView(Toplevel):
 
         #View data
         self.handpicked_mode = True #Current model, function or handpicked
+        self.checkbuttons_toggle = True
+        self.variables = []
         self.title("Encoding for {}".format(self.model.encoded_var))
         #self.geometry('450x400')
 
         #setup view
+        #frames
         self.mainFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.filterFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.functionFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.handpickFrame = ScrollableFrame(self, orient="vertical", width=400, height=400, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
 
+        #Main frame
         self.varlistLabel = Label(self.mainFrame, text="Select variable")
-        self.selectVarCB = Combobox(self.mainFrame, values=self.model.datas.get_variables())
+        self.selectVarCB = Combobox(self.mainFrame, values=self.model.datas.get_variables(), state='readonly')
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
-        self.selectVarCB.current(0)
+        self.selectVarCB.set(self.model.filter.column)
         self.ctrl.assign_main_var(self.selectVarCB.get())
-
-        self.filterEntry = Entry(self.mainFrame)
-        self.filterLabel = Label(self.mainFrame, text="Filter")
-
         self.switchModeLabel = Label(self.mainFrame, text="Change mode")
         self.switchModeButton = Button(self.mainFrame, text="Function Mode", command=self.switch_mode)
 
-        self.functionFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        #Filter
+        self.filterVar = StringVar()
+        self.filterEntry = Entry(self.filterFrame, textvariable=self.filterVar)
+        self.filterLabel = Label(self.filterFrame, text="Filter")
+
+        #Function frame
         self.functionLabel = Label(self.functionFrame, text="Function applied to map")
-        self.selectFunctionCB = Combobox(self.functionFrame, values=FUNCTION_OPTIONS)
+        self.selectFunctionCB = Combobox(self.functionFrame, values=FUNCTION_OPTIONS, state='readonly')
         self.selectFunctionCB.current(0)
         self.fMinLabel = Label(self.functionFrame, text="Minimal value to map")
         self.fMaxLabel = Label(self.functionFrame, text="Maximal value to map")
@@ -47,19 +58,11 @@ class ParameterEncodingView(Toplevel):
         self.fMaxVar = IntVar(self.functionFrame, value=128)
         self.fMinEntry = Entry(self.functionFrame, textvariable=self.fMinVar)
         self.fMaxEntry = Entry(self.functionFrame, textvariable=self.fMaxVar)
-        #self.selectVarCB.current(0)
 
-        self.handpickFrame = ScrollableFrame(self, orient="vertical", width=200, height=200, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
-        #self.parameterListBox = Listbox(self.handpick_frame)#width=150, height=450,
-        #self.valueListBox = Listbox(self.handpick_frame)
-        self.variableList = []
-        self.valueList = []
-        for i, item in enumerate(self.model.get_variables_instances()):
-            self.variableList.append(Label(self.handpickFrame.scrollableFrame, text=item))
-            self.valueList.append(Entry(self.handpickFrame.scrollableFrame))#.insert(END, i)
-            self.valueList[i].insert(0, str(min((i*10), 127)))
+        #Handpick frame
+        self.toggle_checkbox = Button(self.handpickFrame.scrollableFrame, text="Uncheck all", command=self.filter_toggle_all_checkbuttons)
 
-        self.exit_frame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        #Exit frame
         self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
         self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
 
@@ -67,16 +70,25 @@ class ParameterEncodingView(Toplevel):
 
     def setup_widgets(self):
         self.mainFrame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.filterFrame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        #No function frame gridded yet, wait for button press
+        self.handpickFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.exit_frame.grid(column=1, row=1001, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
         #MAIN FRAME
         self.varlistLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.selectVarCB.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.filterLabel.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-        self.filterEntry.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.switchModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         #END MAIN FRAME
+
+        #FILTER FRAME
+        self.filterLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.filterEntry.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+
+        #END FILTER FRAME
 
         #FUNCTION FRAME
         self.functionLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
@@ -86,38 +98,48 @@ class ParameterEncodingView(Toplevel):
         self.fMaxLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.fMaxEntry.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         #https://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter/4140988#4140988
-
         #END FUNCTION FRAME
-        #HANDPICK FRAME
-        self.handpickFrame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
-            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
-            tk_m[1].grid(column=1, row=i, columnspan=1000, pady=0, padx=0, sticky="ew")
-        #END HANDPICKFRAME
+        #HANDPICK FRAME
+        self.select_variable(None)
+        # #END HANDPICKFRAME
 
         #EXIT FRAME
-        self.exit_frame.grid(column=0, row=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         #END EXIT FRAME
 
+    def filter_toggle_all_checkbuttons(self):
+        self.checkbuttons_toggle = not self.checkbuttons_toggle
+        self.toggle_checkbox.configure(text=("Uncheck all" if self.checkbuttons_toggle else "Check all"))
+        for v in self.variables:
+            v["checked"].set(1 if self.checkbuttons_toggle else 0)
+
     def select_variable(self, event):
         self.ctrl.assign_main_var(self.selectVarCB.get())
         #Destroy objects linked to previous variable
-        for var, val in zip(self.variableList, self.valueList):
-            var.destroy()
-            val.destroy()
-        self.variableList = []
-        self.valueList = []
+        for var in self.variables:
+            var["checkbutton"].destroy()
+            var["value"].destroy()
+        self.variables = []
         #Create and setup object linked to new variable
-        for i, item in enumerate(self.model.get_variables_instances()):
-            self.variableList.append(Label(self.handpickFrame.scrollableFrame, text=item))
-            self.valueList.append(Entry(self.handpickFrame.scrollableFrame))
-            self.valueList[-1].insert(0, str(min((i*10), 127)))
-        for i, tk_m in enumerate(zip(self.variableList, self.valueList)):
-            tk_m[0].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
-            tk_m[1].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
+        for i, variable in enumerate(self.model.get_variables_instances()):
+            iv = IntVar(value=1 if self.model.filter.evaluate(variable) else 0)
+            d_object = {"variable": variable,
+                        "checked": iv,
+                        "checkbutton":Checkbutton(self.handpickFrame.scrollableFrame, text=variable, variable=iv),
+                        "value":Entry(self.handpickFrame.scrollableFrame)}
+            value = self.model.handpickEncoding[variable] if variable in self.model.handpickEncoding else min((i*10), 127)
+            d_object["value"].insert(0, str(value))
+            self.variables.append(d_object)
+
+        for i, v in enumerate(self.variables):
+            v["checkbutton"].grid(column=0, row=i, pady=0, padx=DEFAULT_PADX, sticky="ew")
+            v["value"].grid(column=1, row=i, pady=0, padx=0, sticky="ew")
+
+        self.toggle_checkbox.grid(column=0, row=len(self.variables) + 1, columnspan=1000,  pady=5, padx=5, sticky="ew")
+
+        self.filterVar.set(self.model.filter.get_current_filter())
         self.geometry("")
 
     def switch_mode(self):
@@ -128,10 +150,10 @@ class ParameterEncodingView(Toplevel):
         self.switchModeButton.configure(text=("Handpick Mode" if self.handpicked_mode else "Function Mode"))
         if (self.handpicked_mode):
             self.functionFrame.grid_forget()
-            self.handpickFrame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.handpickFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         else:
             self.handpickFrame.grid_forget()
-            self.functionFrame.grid(column=0, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.functionFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
 
     def destroy(self) -> None:

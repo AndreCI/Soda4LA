@@ -2,7 +2,7 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-from Utils.constants import DATA_PATH, SAMPLE_PER_TIME_LENGTH_S
+from Utils.constants import DATA_PATH, BATCH_SIZE
 
 
 class Data:
@@ -28,8 +28,9 @@ class Data:
             self.index = 0
             self.first_date = None
             self.last_date = None
-            self.batch_size = SAMPLE_PER_TIME_LENGTH_S
+            self.batch_size = BATCH_SIZE
             self.date_column = 'date'
+            self.size = self.df.shape[0] + 1
             self.assign_timestamp()
             Data._instance = self
 

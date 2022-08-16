@@ -32,8 +32,18 @@ class ParameterEncoding:
         #Views
         self.peView = None
 
-    def set_main_var(self, variable : str):
-        self.filter.column = variable
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state["ctrl"]
+        del state["peView"]
+        del state["datas"]
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.ctrl = ParameterEncodingCtrl(self)
+        self.peView = None
+        self.datas = Data.getInstance()
 
     def get_parameter(self, row):
         """
@@ -77,7 +87,7 @@ class ParameterEncoding:
         if(len(variables) != len(values)):
             raise ValueError()
         for var, val in zip(variables, values):
-            self.handpickEncoding[var] = []
+            #self.handpickEncoding[var] = []
             self.handpickEncoding[var] = val
 
     def get_variables_instances(self):

@@ -2,7 +2,8 @@ from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 
 #TODO add other time settings
-from Utils.constants import TIME_SETTINGS_OPTIONS, MUSIC_TOTAL_DURATION_S, SAMPLE_PER_TIME_LENGTH_S
+from Models.data_model import Data
+from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER
 
 
 class TimeSettings():
@@ -10,17 +11,21 @@ class TimeSettings():
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.
     """
-    def __init__(self):
+    def __init__(self, music):
         #Data
         self.possible_types = TIME_SETTINGS_OPTIONS
         self.minVal = None
         self.maxVal = None
         self.idMax = None
-        self.musicDuration = MUSIC_TOTAL_DURATION_S
-        self.SAMPLES_PER_TICK = SAMPLE_PER_TIME_LENGTH_S
+        self.batchSize = BATCH_SIZE
+        self.timeBuffer = TIME_BUFFER
 
         self.type = self.possible_types[1]
         #Other models
+        self.music = music
+        self.data = Data.getInstance()
+        self.musicDuration = self.data.size #1 row per seconds
+
         #Ctrl
         self.ctrl = TimeSettingsCtrl(self)
         #View
