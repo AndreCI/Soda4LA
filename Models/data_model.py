@@ -1,5 +1,6 @@
 from datetime import datetime
 import pandas as pd
+from dateutil.parser import parse
 
 from Ctrls.data_controller import DataCtrl
 from Utils.constants import DATA_PATH
@@ -32,7 +33,7 @@ class Data:
             self.last_date = None
             self.batch_size = None
             self.date_column = None
-            self.timestamp_column = None
+            self.timestamp_columns = [] # List of all columns that look like a date one
             self.view = None
             self.ctrl = DataCtrl(self)
             Data._instance = self
@@ -68,18 +69,38 @@ class Data:
         self.first_date = None
         self.last_date = None
         self.batch_size = SAMPLE_PER_TIME_LENGTH
-        self.get_timestamp_column()  # self.date_column value is modified here
+        #self.get_timestamp_column()  # self.date_column value is modified here
         self.assign_timestamp()
 
-    def get_timestamp_column(self):
+    def is_date(self, string, fuzzy=False):
         """
-        This method search the timestamp column
+        Return whether the string can be interpreted as a date.
+        :param string: str, string to check for date
+        :param fuzzy: bool, ignore unknown tokens in string if True
+        """
+        try:
+            parse(string, fuzzy=fuzzy)
+            return True
+
+        except ValueError:
+            return False
+
+    def detect_timestamp_cols(self):
+        """
+        This method find all the columns that looks like a timestamp
         """
         for col in self.header:
-            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]),
-                          datetime) or isinstance(
-                    datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])),
-                    datetime):  # if the first notNa element in the column looks like a timestamp
+            if self.is_date(col):
+                self.timestamp_columns.append(col)
+
+    # TODO Delete the following function and use detect_timestamp_cols instead
+    def get_timestamp_column(self):
+        """
+        This method searches for a column that looks like a timestamp one
+        """
+        for col in self.header:
+            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]), datetime) \
+                    or isinstance(datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])),datetime):  # if the first notNa element in the column looks like a timestamp
                 self.timestamp_column = col
 
     def get_variables(cls):
@@ -144,7 +165,7 @@ class Data:
         """
         # let's set first and last date here
         self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
-        self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
         # now, the computation
         time_date = self.first_date - self.last_date
         time_sec = time_date.total_seconds()
