@@ -2,8 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 
-from Models.data_model import Data
-from Models.music_model import Music
+import Models.data_model #import Data
 from Utils.constants import DATA_PATH
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
 from Views.data_view import DataView
@@ -23,7 +22,7 @@ class MainView(tk.Tk):
         for v in TFRAME_STYLE.values():
             s.configure(v[0], background=v[1])
 
-        self.db = Data.getInstance()
+        self.db = Models.data_model.Data.getInstance()
 
         self.setup_menu()
         self.create_widgets()
@@ -52,9 +51,7 @@ class MainView(tk.Tk):
         filename = askopenfilename(filetypes=[("csv file", "*.csv")])#, (" file",'*.png'), ("All files", " *.* "),))
         self.db.read_data(filename)
         self.show_data()
-        Music.getInstance().timeSettings.set_attribute(self.db.first_date, self.db.last_date)
-
-        print(filename)
+#        Music.getInstance().timeSettings.set_attribute(self.db.first_date, self.db.last_date)
 
     def show_data(self):
         self.db.ctrl.show_window()

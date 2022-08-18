@@ -1,5 +1,4 @@
 from Views.data_view import DataView
-from Views.parameter_encoding_view import ParameterEncodingView
 
 
 class DataCtrl:
@@ -11,14 +10,19 @@ class DataCtrl:
         #Model
         self.model = model
 
-
     def show_window(self):
         if (self.model.view == None):
             self.model.view = DataView(self, self.model)
         self.model.view.focus_set()
 
-    def validate(self):
+    def assign_time_col(self, time_col):
+        self.model.date_column = time_col
 
+    def validate(self):
+        self.model.date_column = self.model.view.selectedCandidate
+        #self.model.get_timestamp_column()  # self.date_column value is modified here
+        self.model.assign_timestamps()
+        #Music.getInstance().timeSettings.set_attribute(self.model.first_date, self.model.last_date)
         self.model.view.destroy()
 
     def destroy(self):

@@ -2,7 +2,7 @@ from datetime import datetime
 import pandas as pd
 from dateutil.parser import parse
 
-from Ctrls.data_controller import DataCtrl
+import Ctrls.data_controller
 from Utils.constants import DATA_PATH
 from Utils.sound_setup import MAX_SAMPLE
 from Utils.sound_setup import SAMPLE_PER_TIME_LENGTH
@@ -33,9 +33,9 @@ class Data:
             self.last_date = None
             self.batch_size = None
             self.date_column = None
-            self.timestamp_columns = [] # List of all columns that look like a date one
+            #self.timestamp_columns = [] # List of all columns that look like a date one
             self.view = None
-            self.ctrl = DataCtrl(self)
+            self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
     @staticmethod
@@ -70,9 +70,10 @@ class Data:
         self.last_date = None
         self.batch_size = SAMPLE_PER_TIME_LENGTH
         #self.get_timestamp_column()  # self.date_column value is modified here
-        self.assign_timestamp()
+        #self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
 
-    def is_date(self, string, fuzzy=False):
+    @staticmethod
+    def is_date(string, fuzzy=False):
         """
         Return whether the string can be interpreted as a date.
         :param string: str, string to check for date
@@ -84,24 +85,15 @@ class Data:
 
         except ValueError:
             return False
+        except TypeError:
+            return False
 
-    def detect_timestamp_cols(self):
+    def get_candidates_timestamp_columns(self):
         """
-        This method find all the columns that looks like a timestamp
+        find and return all columns that looks like a timestamp
         """
-        for col in self.header:
-            if self.is_date(col):
-                self.timestamp_columns.append(col)
-
-    # TODO Delete the following function and use detect_timestamp_cols instead
-    def get_timestamp_column(self):
-        """
-        This method searches for a column that looks like a timestamp one
-        """
-        for col in self.header:
-            if isinstance(self.get_datetime(self.df[col].loc[self.df[col].first_valid_index()]), datetime) \
-                    or isinstance(datetime.fromtimestamp(int(self.df[col].loc[self.df[col].first_valid_index()])),datetime):  # if the first notNa element in the column looks like a timestamp
-                self.timestamp_column = col
+        candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
+        return candidates
 
     def get_variables(cls):
         """
@@ -151,44 +143,19 @@ class Data:
         date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         return date
 
-    def get_deltatime(self):
-        """
-        Calculate the time span between the end and the beginning
-        :param
-            column: str,
-                The date column of our dataset
-        :return:
-            time_date: datetime.timedelta,
-                date representation of the time span
-            time_sec: datetime.timedelta,
-                time span in seconds
-        """
-        # let's set first and last date here
-        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
-        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
-        # now, the computation
-        time_date = self.first_date - self.last_date
-        time_sec = time_date.total_seconds()
-        # first and last date into seconds
-        self.first_date = self.first_date.timestamp()
-        self.last_date = self.last_date.timestamp()
-
-        return time_date, time_sec
-
-    def set_timing_span(self):
-        self.timing_span, _ = self.get_deltatime()
-
-    def assign_timestamp(self):
+    def assign_timestamps(self):
         """
         Method to assign timestamp to a new column
         """
         self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-
-        # We call method here to init all the attributes
-        self.set_timing_span()
-
-    def set_date_column(self, column):
-        self.date_column = column
+        # let's set first and last date here
+        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__()-1, self.date_column])
+        # now, the computation
+        self.timing_span = self.first_date - self.last_date
+        # first and last date into seconds
+        self.first_date = self.first_date.timestamp()
+        self.last_date = self.last_date.timestamp()
 
     def get_insight(self, col):
         """

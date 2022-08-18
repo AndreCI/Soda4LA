@@ -38,6 +38,7 @@ class Table():
         if data:
             self.set_data(data)
 
+
     def grid(self, **kwargs):
         self._master.grid(**kwargs)
 
@@ -118,6 +119,13 @@ class Table():
         row, col = self.find_widget(event)
         return self.get_cell(row, col)
 
+    def find_column(self, col_idx):
+        try:
+            cell_line = Cell_Line(self._master.scrollableFrame, self.get_cell_line(col_idx, "COL"))
+            return cell_line
+        except:
+            pass
+
     def find_cell_line(self, event, line_type="ROW"):
         row, col = self.find_widget(event)
         try:
@@ -151,6 +159,11 @@ class Table():
                 self.focus_selected_cell(cell)
         except:
             pass
+
+    def paint_line(self, line_name, color):
+        line_idx = self.headers.index(line_name)
+        line = self.find_column(line_idx)
+        line.paint_line(color)
 
     def focus_selected_line(self, line):
         self.selected_line = line
@@ -293,6 +306,7 @@ class Cell(Entry):
         Entry.__init__(self, self._root)
         self._value = StringVar()
         self._pos = (posx, posy)
+        self.default_color = "white"
 
         self.grid(column=posx, row=posy)
         self.config(
@@ -305,11 +319,15 @@ class Cell(Entry):
             selectforeground="black"
         )
 
+    def paint_cell(self, color="lightgreen"):
+        self.default_color = color
+        self.config(readonlybackground=color)
+
     def focus_cell(self):
         self.config(readonlybackground="lightblue")
 
     def unfocus_cell(self):
-        self.config(readonlybackground="white")
+        self.config(readonlybackground=self.default_color)
 
     def set_value(self, value):
         if isinstance(value, numbers.Number):
@@ -345,6 +363,10 @@ class Cell_Line():
 
     def get_cell(self, i):
         return self._cells[i]
+
+    def paint_line(self, color):
+        for cell in self._cells:
+            cell.paint_cell(color)
 
     def focus_cells(self):
         for cell in self._cells:

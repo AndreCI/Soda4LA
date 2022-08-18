@@ -40,6 +40,7 @@ class MusicCtrl():
 
     #TODO
     def play(self):
+        self.model.timeSettings.set_attribute(self.model.first_date, self.model.last_date)
         self.now = self.sequencer.get_tick()
         self.schedule_next_sequence()
         # Use the line below if for MS Windows driver
