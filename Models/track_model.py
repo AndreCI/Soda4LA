@@ -30,8 +30,8 @@ class Track:
         self.soundfont = sfl.get()  # soundfont selected by user, <=< instrument
 
         self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
-        self.datas = Data().getInstance()
-        self.filter.column = self.datas.get_variables()[0]
+        self.data = Data().getInstance()
+        self.filter.column = self.data.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
         self.music = Models.music_model.Music.getInstance() #Needed to backtrack and remove itself upon deletion, among other things

@@ -66,6 +66,8 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
+        self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
+
         self.sonification_view.playButton.config(state=DISABLED)
         self.sonification_view.pauseButton.config(state=NORMAL)
         self.sonification_view.stopButton.config(state=NORMAL)
@@ -77,6 +79,7 @@ class MusicCtrl:
         self.playingEvent.set()
         self.pausedEvent.set()
         self.stoppedEvent.clear()
+
 
     def pause(self):
         self.sonification_view.playButton.config(state=NORMAL)

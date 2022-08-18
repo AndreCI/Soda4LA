@@ -5,6 +5,7 @@ from tkinter.ttk import Combobox
 from Models.data_model import Data
 from Utils.constants import DEFAULT_PADX, DEFAULT_PADY, DATA_PATH, FILE_PATH
 from Utils.soundfont_loader import SoundfontLoader
+from Utils.constants import DEFAULT_PADX, DEFAULT_PADY
 
 
 class TrackConfigView(ttk.Frame):
@@ -22,7 +23,7 @@ class TrackConfigView(ttk.Frame):
         self.soundfontUtil = SoundfontLoader.get_instance()
 
         #View data
-        self.data = Data.getInstance()
+       #self.data = Data.getInstance()
 
         #setup view
         self.idStr = StringVar(value=self.model.id)
@@ -34,7 +35,7 @@ class TrackConfigView(ttk.Frame):
         self.selectSoundfontCB.set(self.soundfontUtil.default)
 
         self.varlistLabel = Label(self, text="Main Variable")
-        self.selectVarListBox = Combobox(self, values=self.data.get_variables(), state="readonly")
+        self.selectVarListBox = Combobox(self, values=self.model.data.get_variables(), state="readonly")
         self.selectVarListBox.bind('<<ComboboxSelected>>', self.select_variable)
         self.selectVarListBox.current(0)
 
