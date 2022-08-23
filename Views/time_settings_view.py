@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, Radiobutton, W, IntVar
+from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, Radiobutton, W, IntVar, Checkbutton
 from tkinter.ttk import Frame, Combobox
 
 from Models.data_model import Data
@@ -42,6 +42,13 @@ class TimeSettingsView(Toplevel):
         self.bufferSizeEntry = Entry(self.settingsFrame, textvariable=self.bufferSizeValue)
         self.bufferSizeLabel = Label(self.settingsFrame, text="Future look ahead (ms):")
 
+        self.autoloadVar = IntVar(self, value=self.model.autoload)
+        self.autoLoadCB = Checkbutton(self.settingsFrame, text="Automatically load previously selected data", variable=self.autoloadVar)
+
+        self.debuggingVerboseVar = IntVar(self, value=self.model.debugVerbose)
+        self.debuggingVerboseCB = Checkbutton(self.settingsFrame, text="Display additional log information", variable=self.debuggingVerboseVar)
+
+
         self.exitFrame = Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
         self.validateButton = Button(self.exitFrame, text="Validate", command=self.ctrl.validate)
         self.cancelButton = Button(self.exitFrame, text="Cancel", command=self.destroy)
@@ -62,6 +69,8 @@ class TimeSettingsView(Toplevel):
         self.batchSizeEntry.grid(column=1, row=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.bufferSizeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.bufferSizeEntry.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.autoLoadCB.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.debuggingVerboseCB.grid(column=0, row=4, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
         self.validateButton.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.cancelButton.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)

@@ -7,6 +7,7 @@ from tkinter.filedialog import askopenfilename, asksaveasfile
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
 from Utils.scrollable_frame import ScrollableFrame
+from Utils.tktable_table import Table
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -32,13 +33,13 @@ class SonificationView(ttk.Frame):
         self.trackConfigViews = []
         self.trackMidiViews = []
         self.log = deque()
-        self.logMax = 20
-        self.first_log_line = "Log:" + " "*405 + "\n"
+        self.logMax = 10
+        self.first_log_line = "Log:" + " "*205 + "\n"
 
         #setup view
         self.controlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
         self.switchViewButton = tk.Button(self.controlFrame, text="Change view", command=self.switch_view)
-        self.timeSettingsButton = tk.Button(self.controlFrame, text="Time Settings", command=self.open_time_setting)
+        self.timeSettingsButton = tk.Button(self.controlFrame, text="General Settings", command=self.open_time_setting)
         self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
         self.exportAllTrackButton = tk.Button(self.controlFrame, text="Export all tracks", command=self.export_all_tracks)
         self.importAllTrackButton = tk.Button(self.controlFrame, text="Import all tracks", command=self.import_all_tracks)
@@ -62,6 +63,8 @@ class SonificationView(ttk.Frame):
         self.logVar = tk.StringVar(value=self.first_log_line)
         self.logLabel = ttk.Label(self, textvariable=self.logVar)
 
+        self.dataTable = Table(self,  row=9, col=0, width=500, height=200)
+
         self.setup_widgets()
 
     def setup_widgets(self):
@@ -83,13 +86,15 @@ class SonificationView(ttk.Frame):
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.logLabel.grid(column=5, rows=1005, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+        self.logLabel.grid(column=5, row=1005, rowspan=20, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+        self.dataTable.grid(column=6, row=1005, rowspan=200)#, data=self.model.data.get_first_and_last().to_dict('records'))
 
-    def add_log_line(self, log_line):
-        if(len(self.log) > self.logMax):
-            self.log.popleft()
-        self.log.append(log_line)
-        self.logVar.set(self.first_log_line + "\n".join(self.log))
+    def add_log_line(self, log_line, debug=False):
+        if(debug or not self.model.timeSettings.debugVerbose):
+            if(len(self.log) > self.logMax):
+                self.log.popleft()
+            self.log.append(log_line)
+            self.logVar.set(self.first_log_line + "\n".join(self.log))
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):

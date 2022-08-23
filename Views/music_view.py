@@ -92,11 +92,14 @@ class MusicView:
                         track_log_str, note.value, note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
+                    self.ctrl.paint_next_played_row(note.id)
                     prev_note_idx = note.id
                 else:
                     self.ctrl.skipNextNote = False
                     log_line = "SKIPPED Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} planned scheduled in {}ms. {} notes remaining".format(
                         note.channel, note.value, note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                    self.ctrl.paint_next_played_row(note.id, color="lightred")
+
                 self.model.sonification_view.add_log_line(log_line)
                 print(log_line)
             except Empty:

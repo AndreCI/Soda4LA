@@ -19,6 +19,10 @@ class TimeSettings():
         self.idMax = None
         self.batchSize = BATCH_SIZE
         self.timeBuffer = TIME_BUFFER
+        self.autoload = False
+        self.autoloadDataPath = ""
+        self.autoloadTimestampcol = ""
+        self.debugVerbose = False
 
         self.type = self.possible_types[1]
         #Other models
@@ -30,6 +34,25 @@ class TimeSettings():
         self.ctrl = TimeSettingsCtrl(self)
         #View
         self.tsView = None
+
+        try:
+            with open("settings.ini", "r") as settingsFile:
+                for line in settingsFile.readlines():
+                    identifier = line.split("=")[0]
+                    value = line.split("=")[1]
+                    if(identifier == "autoload"):
+                        self.autoload = eval(value)
+                    elif(identifier == "datapath"):
+                        self.autoloadDataPath = eval(value)
+                    elif(identifier == "timestampcol"):
+                        self.autoloadTimestampcol = eval(value)
+                    elif(identifier == "debugverbose"):
+                        self.debugVerbose = eval(value)
+
+        except FileNotFoundError:
+            self.ctrl.write_to_ini()
+
+
 
     def __getstate__(self):
         state = self.__dict__.copy()

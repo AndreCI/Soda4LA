@@ -30,6 +30,7 @@ class MusicCtrl:
         self.playingEvent = threading.Event()
         self.stoppedEvent = threading.Event()
         self.pausedEvent = threading.Event()
+        self.paintedLine = None
         # Model
         self.model = model  # Music model
         self.view = MusicView(model, self)
@@ -199,7 +200,8 @@ class MusicCtrl:
                                                    self.emptySemaphore._initial_value,
                                                    self.fullSemaphore._value,
                                                    self.fullSemaphore._initial_value,
-                                                   self.queueSemaphore._value))
+                                                   self.queueSemaphore._value),
+                                            debug=True)
 
     def change_queue_size(self, size):
         self.emptySemaphore.update_size(size, True)
@@ -240,3 +242,14 @@ class MusicCtrl:
         with open(path, 'wb') as f:
             pickle.dump(self.model, f)
             self.sonification_view.add_log_line("exported model to {}".format(path))
+
+    def push_data_to_table(self, datas):
+        for idx, data in datas.iterrows():
+            self.sonification_view.dataTable.push_row(data)
+
+    def paint_next_played_row(self, id, color="lightgreen"):
+        line = self.sonification_view.dataTable.paint_row(id, color)
+        if line and self.paintedLine and line.get_row_nbr() != self.paintedLine.get_row_nbr():
+            self.paintedLine.paint_line("white")
+        self.paintedLine = line
+

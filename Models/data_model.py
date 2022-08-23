@@ -38,6 +38,7 @@ class Data:
             # self.date_column = 'date'
             # self.size = self.df.shape[0] + 1
             # self.assign_timestamp()
+            self.path = None
             self.batch_size = None
             self.date_column = None
             self.size = None
@@ -61,13 +62,16 @@ class Data:
             self.df = pd.read_csv(path)
         elif '.json' in path:
             self.df = pd.read_json(path)
-        else:
+        elif '.xsl' in path:
             self.df = pd.read_excel(path)
+        else:
+            raise FileNotFoundError("Specified data file has not been found at location: {}".format(path))
 
     def read_data(self, path):
         """
         :param path: str
         """
+        self.path = path
         self.retrieve_data(path)
         self.header = list(self.df.columns)
         self.timing_span = None

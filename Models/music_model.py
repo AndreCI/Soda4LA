@@ -82,6 +82,7 @@ class Music:
                 self.ctrl.emptySemaphore.release(n=max_note_nbr)  # Release if so, and return to start of loop to wait
             else:
                 current_data = self.data.get_next(iterate=True)
+                self.ctrl.push_data_to_table(current_data)
                 self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused
                 for t in self.tracks:
                     for note in t.generate_notes(current_data):

@@ -30,8 +30,24 @@ class TimeSettingsCtrl():
         self.model.musicDuration = self.model.tsView.musicLengthValue.get()
         self.model.timeBuffer = self.model.tsView.bufferSizeValue.get()
         self.model.set_type(self.model.tsView.selectedTimeType.get())
+        self.model.autoload = self.model.tsView.autoloadVar.get() == 1
+        self.model.autoloadDataPath = self.model.data.path
 
+        self.write_to_ini()
         self.model.tsView.destroy()
+
+    def write_to_ini(self):
+        with open("settings.ini", "w") as settingsFile:
+            line = "autoload=" + str(self.model.autoload) + "\n"
+            settingsFile.write(line)
+            line = "datapath=\"" + str(self.model.autoloadDataPath) + "\"\n"
+            settingsFile.write(line)
+            line = "timestampcol=\"" + str(self.model.data.date_column) + "\"\n"
+            settingsFile.write(line)
+            line = "debugverbose=" + str(self.model.debugVerbose) + "\n"
+            settingsFile.write(line)
+
+
 
     def show_window(self):
         if (self.model.tsView == None):

@@ -6,16 +6,18 @@ from Utils.scrollable_frame import ScrollableFrame
 
 
 class Table():
-    def __init__(self, master, col=4, row=4, headers=[], data=None):
+    def __init__(self, master, col=4, row=4, headers=[], data=None, width=1620, height=300):
         '''
         Create a table instance, passing it master (root), number of columns and number of rows
         as arguments
         '''
 
-        self._master = ScrollableFrame(master, orient='horizontal', width=1620, height=300,padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
+        self._master = ScrollableFrame(master, orient='horizontal', width=width, height=height,padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
 
         self.headers = []
 
+        if row<1:
+            raise ValueError("Tables cannot be created with less than 1 row")
         self._row_number = row
         self._col_number = col
 
@@ -66,6 +68,8 @@ class Table():
         cell = Cell(self._master.scrollableFrame, col, row + 1)
         if value:
             cell.set_value(value)
+        else:
+            cell.set_value("{}-{}".format(col, row+1))
         self.cells.append((cell, col, row + 1))
 
     def create_headers_row(self):
@@ -119,6 +123,15 @@ class Table():
         row, col = self.find_widget(event)
         return self.get_cell(row, col)
 
+    def find_row_from_id(self, value, col):
+        column = self.get_cell_line(self.headers.index(col), "COL")
+        for cell in column:
+            try:
+                if(int(cell._value.get()) == int(value)):
+                    print(cell._pos)
+                    return Cell_Line(self._master.scrollableFrame, self.get_cell_line(cell._pos[1], "ROW"))
+            except:
+                pass
     def find_column(self, col_idx):
         try:
             cell_line = Cell_Line(self._master.scrollableFrame, self.get_cell_line(col_idx, "COL"))
@@ -159,6 +172,14 @@ class Table():
                 self.focus_selected_cell(cell)
         except:
             pass
+
+    def paint_row(self, id, color):
+        #self.find_cell()
+        #line = Cell_Line(self._master.scrollableFrame, self.get_cell_line(row_idx))
+        line = self.find_row_from_id(id, "id")
+        if line:
+            line.paint_line(color)
+            return line
 
     def paint_line(self, line_name, color):
         line_idx = self.headers.index(line_name)
@@ -206,16 +227,16 @@ class Table():
         '''
         try:
             if line_type == "ROW":
-                if 0 < line <= self._row_number:
+                for col in range(self._col_number):
+                    self.create_cell(col, line)
+                if 0 < line < self._row_number:
                     for (cell, col, row) in self.cells:
                         i = self.cells.index((cell, col, row))
                         if line <= row:
                             _, y = cell.get_pos()
                             cell.set_pos(col, y + 1)
                             self.cells[i] = (cell, col, y + 1)
-                    for col in range(self._col_number):
-                        self.create_cell(col, line)
-                        self.get_cell(line, col).set_value(f"NEW ROW {line}")
+                        #self.get_cell(line, col).set_value(f"NEW ROW {line}")
 
             if line_type == "COL":
                 if 0 <= line <= self._col_number:
@@ -239,6 +260,8 @@ class Table():
                         self.create_cell(line, row)
 
         except:
+            print("Error with table, no cells have been added")
+            #raise ValueError("Error with table, no cells have been added")
             pass
 
     def insert_row(self, pos):
@@ -261,20 +284,43 @@ class Table():
             for k in keys:
                 if k not in self.headers:
                     self.headers.append(k)
+
         self._row_number = len(data)
         self._col_number = len(self.headers)
 
+    def push_row(self, data):
+        for cidx in range(self._col_number):
+            for ridx in range(1, self._row_number + 1):
+                if(ridx < self._row_number):
+                    self.get_cell(ridx, cidx).set_value(self.get_cell(ridx +1, cidx)._value.get())
+                else:
+                    self.get_cell(ridx, cidx).set_value(data[self.headers[cidx]])
+
     def set_data(self, data):
-        for h in self.headers:
-            col = self.headers.index(h)
-            for d in data:
-                for key in d.keys():
-                    if key not in self.headers:
-                        self.insert_col(self._col_number, key)
-                row = data.index(d) + 1
-                if h in d.keys():
-                    pass
-                    self.get_cell(row, col).set_value(d[h])
+        for d in data: # add all unknown headers
+            for key in d.keys():
+                if key not in self.headers:
+                    self.insert_col(self._col_number, key)
+        row = 0
+        for d in data:
+            col = 0
+            if(row>=self._row_number):
+                self.insert_row(self._row_number)
+            for key in d.keys():
+                self.get_cell(row + 1, col).set_value(d[key])
+                col+=1
+            row += 1
+        #
+        # for h in self.headers: #
+        #     col = self.headers.index(h)
+        #     for d in data:
+        #         for key in d.keys():
+        #             if key not in self.headers:
+        #                 self.insert_col(self._col_number, key)
+        #         row = data.index(d) + 1
+        #         if h in d.keys():
+        #             pass
+        #             self.get_cell(row, col).set_value(d[h])
                 # if h not in d.keys():
                 #    self.insert_col(1, h)
                 # else:
@@ -352,6 +398,12 @@ class Cell_Line():
         self._root = master
         self._cells = cells
         self._length = len(self._cells)
+
+    def get_row_nbr(self):
+        return self._cells[0].get_pos()[1]
+
+    def get_col_nbr(self):
+        return self._cells[0].get_pos()[0]
 
     def create_cells(self, i):
         for n in range(self._length):

@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 
 import Models.data_model #import Data
+import Models.music_model
 from Utils.constants import DATA_PATH
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
 from Views.data_view import DataView
@@ -48,9 +49,16 @@ class MainView(tk.Tk):
 
     def load_data(self):
         #TODO add other filetype
-        filename = askopenfilename(filetypes=[("csv file", "*.csv")])#, (" file",'*.png'), ("All files", " *.* "),))
-        self.db.read_data(filename)
-        self.show_data()
+        m = Models.music_model.Music.getInstance()
+        if(m.timeSettings.autoload):
+            self.db.read_data(m.timeSettings.autoloadDataPath)
+            self.db.date_column = m.timeSettings.autoloadTimestampcol
+            self.db.assign_timestamps()
+            m.sonification_view.dataTable.set_data(self.db.get_first_and_last().to_dict('records'))
+        else:
+            filename = askopenfilename(filetypes=[("csv file", "*.csv")])#, (" file",'*.png'), ("All files", " *.* "),))
+            self.db.read_data(filename)
+            self.show_data()
 #        Music.getInstance().timeSettings.set_attribute(self.db.first_date, self.db.last_date)
 
     def show_data(self):
