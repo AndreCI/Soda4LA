@@ -83,6 +83,11 @@ class MusicView:
                 if (self.ctrl.playing and note_timing>-100 and not self.ctrl.skipNextNote):
                     if(prev_note_idx != note.id):
                         self.model.sonification_view.add_log_line("--------------------")
+                    print(self.get_absolute_tick())
+                    print(self.get_temporal_distance(note.tfactor))
+                    print(self.get_temporal_distance(self.convert(note.tfactor, to_absolute=False), absolute=False))
+                    print("Note {} abs pos to {} rel pos to {} rel dis. {}".format(note.tfactor, self.convert(note.tfactor, to_absolute=False), self.get_temporal_distance(note.tfactor, absolute=True),
+                          self.get_relative_note_timing(note_timing_abs)))
                     log_line = "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
                         track_log_str, note.value, note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
@@ -100,4 +105,42 @@ class MusicView:
                 self.ctrl.emptySemaphore.release()
 
     def get_relative_note_timing(self, note_timing_absolute):
+        """
+        :param note_timing_absolute: int:
+            a value between 0 and model.musicDuration
+        :return:
+            the temporal distance (ms) between get_tick() and the input
+        """
         return int(note_timing_absolute - (self.sequencer.get_tick() - self.starting_time))
+
+    def convert(self, temporal_pos, to_absolute=True):
+        if to_absolute:
+            return float(temporal_pos - self.starting_time)/(self.model.timeSettings.musicDuration * 1000)
+        else:
+            return temporal_pos * self.model.timeSettings.musicDuration * 1000 + self.starting_time
+
+    def get_absolute_tick(self):
+        return self.convert(self.sequencer.get_tick(), to_absolute=True)
+
+    def set_relative_tick(self, absolute_tick):
+        self.starting_time = self.sequencer.get_tick() - absolute_tick * self.model.timeSettings.musicDuration * 1000
+
+    def get_temporal_distance(self, temporal_pos, absolute=True):
+        if absolute:
+            return temporal_pos - self.get_absolute_tick()
+        else:
+            return temporal_pos - self.sequencer.get_tick()
+
+
+    """
+    Absolute: between 0 and 1
+    Relative: between N and music.duration + N
+    Distance: between -music.duration and music.duration, temporal distance with ctp
+    Current temporal position! Can be moved, stopped, etc. in absolute space but is the slow and steady arrow of time
+    in relative, get by .get_tick()
+    -> Need conversion tools between absolute and relative temporal position
+    Modify relative bounds to change behavior
+    pause simply pauses ctp in absolute, but in relative it prevents production and consumtion of notes, and then increments N by pause_time at the end of pause.
+    stop simply pauses and set ctp to 0 in absolute, but in relative it pauses, reset idx to 0, empty queue and then unpause at the start of new music/
+    fbw simplay moves ctp by -10 in absolute, but in relative it pauses, moves idx by -10, empty queue, and then unpause
+    """

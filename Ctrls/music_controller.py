@@ -105,6 +105,13 @@ class MusicCtrl:
         pass
 
     def fast_backward(self):
+        #TODO REDO
+        #Empty queue
+        #change current batch idx by -X
+        #Get absolute position of first note of current batch
+        #Set absolute position of current time to absolute position of first note of current batch
+        #-> Developp wrappers for absolute/relative time conversion
+
         self.pause()
         lastNote = None
         while (not self.model.notes.empty()):
@@ -113,7 +120,7 @@ class MusicCtrl:
             self.fullSemaphore.acquire()
             lastNote = self.model.notes.get_nowait()
             self.queueSemaphore.release()
-        self.model.data.index-=1
+        self.model.data.index-=5
         lastrow = None
         for idx, row in self.model.data.get_next(False).iterrows():
             lastrow = row
