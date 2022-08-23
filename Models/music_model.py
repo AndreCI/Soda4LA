@@ -7,6 +7,8 @@ from Models.data_model import Data
 from Models.note_model import TNote
 from Models.time_settings_model import TimeSettings
 from Utils.constants import BATCH_NBR_PLANNED
+from Models.track_model import Track
+
 
 
 class Music:
@@ -36,7 +38,6 @@ class Music:
             self.tracks = []  # List of track model created by user
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
-            self.timeSettings.set_attribute(self.data.first_date, self.data.last_date, self.data.size)
             self.QUEUE_CAPACITY = BATCH_NBR_PLANNED * self.timeSettings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
@@ -46,6 +47,7 @@ class Music:
             # Views
             self.sonification_view = None
             self.ctrl.producer_thread.start()
+
 
     def __getstate__(self):
         state = self.__dict__.copy()
@@ -101,7 +103,6 @@ class Music:
         self.tracks.append(track)
         if generate_view:
             self.sonification_view.add_track(track)
-
 
     def remove_track(self, track):
         #with self.ctrl.trackSemaphore:

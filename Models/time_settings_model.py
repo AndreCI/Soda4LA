@@ -64,6 +64,7 @@ class TimeSettings():
         self.minVal = minVal
         self.maxVal = maxVal
         self.idMax = idMax
+        self.musicDuration = idMax
 
     def get_temporal_position(self, current):
         """
