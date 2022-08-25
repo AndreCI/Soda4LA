@@ -56,3 +56,13 @@ class Music:
     def remove_track(self, track: Track):
         self.tracks.remove(track)
         self.sonification_view.remove_track(track)
+
+    def visualisation(self, notes):
+        """
+        Method to plot a spectogram
+        :param notes: list of Tuples
+        :return: plot
+        """
+        # Tuple args: tfactor, channel, value, velocity, duration
+
+
