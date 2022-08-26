@@ -8,7 +8,6 @@ from Utils.constants import ENCODING_OPTIONS, SF_Default, SOUNDFONTS
 from Models.note_model import TNote, CNote
 from Models.parameter_encoding_model import ParameterEncoding
 from Utils.filter_module import FilterModule
-import pandas as pd
 
 
 class Track:

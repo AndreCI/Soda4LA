@@ -32,3 +32,5 @@ Did it help?
 ### UBUNTU
 install fluidsynth using apt-get install, then update ld_library_path to specify where it is
 fluidsynth synth must be started by specififing the alsa driver, see https://github.com/nwhitehead/pyfluidsynth/issues/22
+
+### MAC OS
