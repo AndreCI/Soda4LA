@@ -15,8 +15,7 @@ class DataCtrl:
             self.model.view = DataView(self, self.model)
         self.model.view.focus_set()
 
-    def assign_time_col(self, time_col):
-        self.model.date_column = time_col
+
 
     def validate(self):
         self.model.date_column = self.model.view.selectedCandidate

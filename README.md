@@ -26,7 +26,8 @@ fluidsynth: warning: sequencer: Usage of the system timer has been deprecated!
 
 Also build from source using https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake#building-with-msys2-on-windows
 Did it help?
-
+---------------------------------------------
+Alternative: Add libfluidsynth.dll to path as environement variable in configuration.
 
 
 ### UBUNTU

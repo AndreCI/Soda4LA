@@ -27,7 +27,7 @@ class ParameterEncodingCtrl:
             variable.append(v["variable"])
             values.append(v["value"].get())
 
-        self.model.assign_handpicked_encoding(variable, values)
+        self.model.assign_handpicked_encoding(variable, values, self.model.peView.octaveEntryVar.get())
         self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar.get(), max_val=self.model.peView.fMaxVar.get())
 
         if(self.model.handpicked):

@@ -1,3 +1,4 @@
+
 from datetime import datetime
 
 import numpy as np
@@ -59,7 +60,10 @@ class Data:
                 The file path
         """
         if '.csv' in path:
-            self.df = pd.read_csv(path)
+            try:
+                self.df = pd.read_csv(path, sep=";")
+            except:
+                self.df = pd.read_csv(path)
         elif '.json' in path:
             self.df = pd.read_json(path)
         elif '.xsl' in path:
@@ -96,7 +100,6 @@ class Data:
         try:
             parse(string, fuzzy=fuzzy)
             return True
-
         except ValueError:
             return False
         except TypeError:
@@ -108,6 +111,7 @@ class Data:
         """
         candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
         return candidates
+
 
     def get_variables(cls):
         """
@@ -155,7 +159,12 @@ class Data:
             date: str,
                 converted date
         """
-        date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
+        try:
+            date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
+        except ValueError:
+            date = datetime.strptime(d, '%d/%m/%y %H:%M:%S')
+
+
         #date = datetime.strptime(d, '%H:%M:%S PM')
         #date = date.replace(year=2022)
         return date
@@ -170,6 +179,11 @@ class Data:
         # let's set first and last date here
         self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
         self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
+        print("{} tp {}".format(self.first_date, self.last_date))
+        self.df.sort_values(self.date_column)
+        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
+        self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
+        print("{} tp {}".format(self.first_date, self.last_date))
         # now, the computation
         self.timing_span = self.first_date - self.last_date
         # first and last date into seconds

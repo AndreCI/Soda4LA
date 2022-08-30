@@ -2,6 +2,7 @@ from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, Int
 from tkinter.constants import X
 from tkinter.ttk import Frame, Combobox
 
+from Models.note_model import note_to_int, int_to_note
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADY, DEFAULT_PADX, MOCKUP_VARS, FUNCTION_OPTIONS
 from Utils.scrollable_frame import ScrollableFrame
 
@@ -42,6 +43,9 @@ class ParameterEncodingView(Toplevel):
         self.ctrl.assign_main_var(self.selectVarCB.get())
         self.switchModeLabel = Label(self.mainFrame, text="Change mode")
         self.switchModeButton = Button(self.mainFrame, text="Function Mode", command=self.switch_mode)
+        self.octaveLabel = Label(self.mainFrame, text="Octave (between 0 and 9)")
+        self.octaveEntryVar = StringVar(self.mainFrame, value=self.model.octave)
+        self.octaveEntry = Entry(self.mainFrame, textvariable=self.octaveEntryVar)
 
         #Filter
         self.filterVar = StringVar()
@@ -82,6 +86,10 @@ class ParameterEncodingView(Toplevel):
 
         self.switchModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+
+        self.octaveLabel.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.octaveEntry.grid(column=1, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+
         #END MAIN FRAME
 
         #FILTER FRAME
@@ -129,7 +137,7 @@ class ParameterEncodingView(Toplevel):
                         "checked": iv,
                         "checkbutton":Checkbutton(self.handpickFrame.scrollableFrame, text=variable, variable=iv),
                         "value":Entry(self.handpickFrame.scrollableFrame)}
-            value = self.model.handpickEncoding[variable] if variable in self.model.handpickEncoding else min((i*10), 127)
+            value = int_to_note(self.model.handpickEncoding[variable]) if variable in self.model.handpickEncoding else "C"#min((i*10), 127)
             d_object["value"].insert(0, str(value))
             self.variables.append(d_object)
 

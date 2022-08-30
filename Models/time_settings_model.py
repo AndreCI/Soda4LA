@@ -60,7 +60,6 @@ class TimeSettings():
         del state["music"]
         del state["ctrl"]
         del state["tsView"]
-        print(state)
         return state
 
     def __setstate__(self, state):
@@ -83,11 +82,12 @@ class TimeSettings():
             the last timestamp of the dataset, i.e. the last action ever taken
         """
         if(maxVal <= minVal):
-            raise ValueError()
+            raise ValueError("Max val {} must be > at min val {}".format(maxVal, minVal))
         self.minVal = minVal
         self.maxVal = maxVal
         self.idMax = idMax
-        self.musicDuration = idMax
+        if not self.musicDuration:
+            self.musicDuration = idMax
 
     def get_temporal_position(self, current):
         """

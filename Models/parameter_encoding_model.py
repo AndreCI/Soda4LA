@@ -1,5 +1,6 @@
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.data_model import Data
+from Models.note_model import note_to_int
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
 
@@ -21,6 +22,7 @@ class ParameterEncoding:
         self.handpickEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
         self.functionEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
         self.defaultValue = 100
+        self.octave = "4"
 
         #Others Models
         self.datas = Data.getInstance()
@@ -76,7 +78,7 @@ class ParameterEncoding:
         self.functionEncoding["max"] = max_val
 
 
-    def assign_handpicked_encoding(self, variables : [], values : []):
+    def assign_handpicked_encoding(self, variables : [], values : [], octave="4"):
         """
         Assign values to variable, accordingly to user preference.
         :param variables: list,
@@ -88,7 +90,10 @@ class ParameterEncoding:
             raise ValueError()
         for var, val in zip(variables, values):
             #self.handpickEncoding[var] = []
-            self.handpickEncoding[var] = val
+            self.handpickEncoding[var] = note_to_int(val, int(octave))
+        self.octave = octave
 
     def get_variables_instances(self):
-        return self.datas.get_variables_instances(self.filter.column)
+        varins = ["default"]
+        varins.extend(self.datas.get_variables_instances(self.filter.column))
+        return varins

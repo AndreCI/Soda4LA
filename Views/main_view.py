@@ -1,14 +1,30 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter.filedialog import askopenfilename
+import logging
 
-import Models.data_model #import Data
-import Models.music_model
-from Utils.constants import DATA_PATH
-from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
-from Views.data_view import DataView
-from Views.sonification_view import SonificationView
+try:
+    import tkinter as tk
+    from tkinter import ttk
+    from tkinter.filedialog import askopenfilename
 
+except:
+    logging.debug("tjk==jubter")
+
+try:
+    import Models.data_model #import Data
+except:
+    logging.debug("model dataimport")
+try:
+    import Models.music_model
+except:
+    logging.debug("model music import")
+try:
+    from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
+except:
+    logging.debug("other inport cibs")
+try:
+    from Views.sonification_view import SonificationView
+    import logging
+except:
+    logging.debug("other inport sonview")
 
 class MainView(tk.Tk):
     """"
@@ -28,7 +44,6 @@ class MainView(tk.Tk):
         self.setup_menu()
         self.create_widgets()
         self.setup_widgets()
-
         self.config(menu=self.menubar)
         self.load_data()
 

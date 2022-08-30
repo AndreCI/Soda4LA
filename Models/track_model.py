@@ -50,7 +50,7 @@ class Track:
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        del state["datas"]
+        del state["data"]
         del state["music"]
         del state["midiView"]
         del state["configView"]
@@ -59,7 +59,7 @@ class Track:
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        self.datas = Data.getInstance()
+        self.data = Data.getInstance()
         self.ctrl = TrackCtrl(self)
         self.music = Models.music_model.Music.getInstance()
         #elf.music.ctrl.add_track(self)

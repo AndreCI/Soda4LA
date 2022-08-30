@@ -15,7 +15,7 @@ class Table():
         self._master = ScrollableFrame(master, orient='horizontal', width=width, height=height,padding=DEFAULT_PADDING, style=TFRAME_STYLE["PARAMETER_MAPPING"][0])
 
         self.headers = []
-
+        self.painted_row = None
         if row<1:
             raise ValueError("Tables cannot be created with less than 1 row")
         self._row_number = row
@@ -123,7 +123,7 @@ class Table():
         row, col = self.find_widget(event)
         return self.get_cell(row, col)
 
-    def find_row_from_id(self, value, col):
+    def find_row_from_key(self, value, col):
         column = self.get_cell_line(self.headers.index(col), "COL")
         for cell in column:
             try:
@@ -173,15 +173,16 @@ class Table():
         except:
             pass
 
-    def paint_row(self, id, color):
+    def paint_row(self, value, key, color):
         #self.find_cell()
         #line = Cell_Line(self._master.scrollableFrame, self.get_cell_line(row_idx))
-        line = self.find_row_from_id(id, "id")
+        line = self.find_row_from_key(value, key)
         if line:
+            self.painted_row = line
             line.paint_line(color)
             return line
 
-    def paint_line(self, line_name, color):
+    def paint_col(self, line_name, color):
         line_idx = self.headers.index(line_name)
         line = self.find_column(line_idx)
         line.paint_line(color)
@@ -295,6 +296,11 @@ class Table():
                     self.get_cell(ridx, cidx).set_value(self.get_cell(ridx +1, cidx)._value.get())
                 else:
                     self.get_cell(ridx, cidx).set_value(data[self.headers[cidx]])
+        # if(self.painted_row):
+        #     for cell in self.get_cell_line(self.painted_row.get_row_nbr() - 1):
+        #         cell.paint_cell("blue")
+        #     self.painted_row.paint_line("white")
+
 
     def set_data(self, data):
         for d in data: # add all unknown headers

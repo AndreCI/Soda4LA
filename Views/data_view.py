@@ -36,7 +36,7 @@ class DataView(Toplevel):
     def setup_widgets(self):
         self.table.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         for candidate in self.model.get_candidates_timestamp_columns():
-            self.table.paint_line(candidate, LIGHTRED)
+            self.table.paint_col(candidate, LIGHTRED)
 
         #INFO FRAME
         self.infoFrame.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
@@ -53,10 +53,10 @@ class DataView(Toplevel):
     def assign_col(self):
         if(self.table.selected_cell != None):
             if(self.selectedCandidate is not None):
-                self.table.paint_line(self.selectedCandidate, "white" if self.selectedCandidate not in self.timestampCandidates else LIGHTRED)
+                self.table.paint_col(self.selectedCandidate, "white" if self.selectedCandidate not in self.timestampCandidates else LIGHTRED)
             self.selectedCandidate = self.table.headers[self.table.selected_cell._pos[0]]
             self.validateButton.configure(state=self.getValidateState())
-            self.table.paint_line(self.selectedCandidate, "green")
+            self.table.paint_col(self.selectedCandidate, "green")
             self.timestampLabel.config(text=("timestamp column:{}").format(self.table.headers[self.table.selected_cell._pos[0]]))
 
     def getValidateState(self):

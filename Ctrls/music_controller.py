@@ -1,13 +1,17 @@
 import pickle
+import queue
 import time
+from queue import PriorityQueue
 from tkinter.constants import DISABLED, NORMAL
 
-import fluidsynth
 import threading
 
 from Models.data_model import Data
 from Models.track_model import Track
+#import fluidsynth as m_fluidsynth
+from Utils import m_fluidsynth
 from Utils.IterableSemaphore import ISemaphore, IBoundedSemaphore
+from Utils.tktable_table import Cell_Line
 from Views.music_view import MusicView
 
 
@@ -30,7 +34,11 @@ class MusicCtrl:
         self.playingEvent = threading.Event()
         self.stoppedEvent = threading.Event()
         self.pausedEvent = threading.Event()
+        self.unpaintEvent = threading.Event()
+        self.scheduledUnpaintTimer = 0
+        self.unpaintId = None
         self.paintedLine = None
+        self.unpaintQueue = PriorityQueue(model.QUEUE_CAPACITY*8)
         # Model
         self.model = model  # Music model
         self.view = MusicView(model, self)
@@ -38,6 +46,8 @@ class MusicCtrl:
 
         # Threads
         self.producer_thread = threading.Thread(target=self.model.generate, daemon=True)
+        self.unpainter_thread = threading.Thread(target=self.unpaint_played_row, daemon=True)
+        self.unpainter_thread.start()
 
     def create_track(self):
         """
@@ -143,6 +153,8 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
+        self.sonification_view.dataTable.set_data(self.datas.get_first_and_last().to_dict('records'))
+
         self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
 
         self.sonification_view.playButton.config(state=DISABLED)
@@ -190,12 +202,19 @@ class MusicCtrl:
         # self.emptySemaphore.release(n=len(self.model.notes))
         # self.fullSemaphore.acquire(n=len(self.model.notes))
         # Reset queue
-        while (not self.model.notes.empty()):
-            self.emptySemaphore.release()
-            self.fullSemaphore.acquire()
-            self.model.notes.get_nowait()
+        try:
+            while (not self.model.notes.empty()):
+                self.emptySemaphore.release()
+                self.fullSemaphore.acquire()
+                self.model.notes.get_nowait()
+        except ValueError:
+            self.queueSemaphore = ISemaphore()  # Could be seomething else ig
+            self.trackSemaphore = threading.Lock()  # Could be seomething else ig
+            self.emptySemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
+            self.fullSemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
+            self.fullSemaphore.acquire(n=self.model.QUEUE_CAPACITY)  # Set semaphore to 0
         # self.model.notes.clear()
-        time.sleep(0.1) #TODO: needed for semaphore reset
+        time.sleep(0.05) #TODO: needed for semaphore reset
         self.sonification_view.add_log_line("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
                                                    self.emptySemaphore._initial_value,
                                                    self.fullSemaphore._value,
@@ -211,7 +230,7 @@ class MusicCtrl:
         self.model.timeSettings.ctrl.show_window()
 
     def change_global_gain(self, gain):
-        fluidsynth.fluid_settings_setnum(self.view.synth.settings, b'synth.gain', float(gain)/100)
+        m_fluidsynth.fluid_settings_setnum(self.view.synth.settings, b'synth.gain', float(gain)/100)
 
     def change_local_gain(self, track, value):
         self.view.synth.cc(track, 7, int(value * 1.27))  # 7 volume command, accepting value between 1-127
@@ -247,9 +266,21 @@ class MusicCtrl:
         for idx, data in datas.iterrows():
             self.sonification_view.dataTable.push_row(data)
 
-    def paint_next_played_row(self, id, color="lightgreen"):
-        line = self.sonification_view.dataTable.paint_row(id, color)
-        if line and self.paintedLine and line.get_row_nbr() != self.paintedLine.get_row_nbr():
-            self.paintedLine.paint_line("white")
-        self.paintedLine = line
+    def unpaint_played_row(self):
+        while True:
+            self.unpaintEvent.wait()
+            unpaint = self.unpaintQueue.get_nowait()
+            if(unpaint[0]>0):
+                time.sleep(unpaint[0])
+            line = Cell_Line(None, self.sonification_view.dataTable.get_cell_line(unpaint[1]))
+            line.paint_line("white")
+            self.unpaintEvent.clear()
 
+    def paint_next_played_row(self, id, duration, color="lightgreen"):
+        try:
+            line = self.sonification_view.dataTable.paint_row(id, "id", color)
+            if line:
+                self.unpaintQueue.put_nowait((float(duration)/2000, line.get_row_nbr()))
+                self.unpaintEvent.set()
+        except queue.Full:
+            pass

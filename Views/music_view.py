@@ -3,8 +3,11 @@ import threading
 import time
 from queue import Empty
 
-import fluidsynth
 import numpy as np
+
+#import fluidsynth as m_fluidsynth
+from Models.note_model import int_to_note
+from Utils import m_fluidsynth
 
 
 class MusicView:
@@ -15,8 +18,8 @@ class MusicView:
     def __init__(self, model, ctrl):
         self.model = model
         self.ctrl = ctrl
-        self.synth = fluidsynth.Synth()
-        self.sequencer = fluidsynth.Sequencer(time_scale=1000)
+        self.synth = m_fluidsynth.Synth()
+        self.sequencer = m_fluidsynth.Sequencer(time_scale=1000)
         self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
         # self.seqIds = self.sequencer.register_client("callback", self.wrap_consume)
         self.now = None
@@ -89,19 +92,19 @@ class MusicView:
                     print("Note {} abs pos to {} rel pos to {} rel dis. {}".format(note.tfactor, self.convert(note.tfactor, to_absolute=False), self.get_temporal_distance(note.tfactor, absolute=True),
                           self.get_relative_note_timing(note_timing_abs)))
                     log_line = "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
-                        track_log_str, note.value, note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                        track_log_str, int_to_note(note.value), note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
-                    self.ctrl.paint_next_played_row(note.id)
+                    self.ctrl.paint_next_played_row(note.id, note_timing)
                     prev_note_idx = note.id
                 else:
                     self.ctrl.skipNextNote = False
                     log_line = "SKIPPED Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} planned scheduled in {}ms. {} notes remaining".format(
-                        note.channel, note.value, note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
-                    self.ctrl.paint_next_played_row(note.id, color="lightred")
+                        note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                    self.ctrl.paint_next_played_row(note.id, note_timing, color="red")
 
                 self.model.sonification_view.add_log_line(log_line)
-                print(log_line)
+                #print(log_line)
             except Empty:
                 print("Empty notes queue")
                 self.ctrl.queueSemaphore.release() #Release semaphores
