@@ -1,3 +1,5 @@
+import pandas as pd
+
 from Ctrls.music_controller import MusicCtrl
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
@@ -61,13 +63,15 @@ class Music:
     def visualise(self, notes):
         """
         Method to plot a scatter.
-        :param notes: list of Tuples
-        :return: plot
+        :param: notes: list of Tuples
+        :return: matplotlib object
         """
         # Tuple args: tfactor, channel, value, velocity, duration
         # x-axis is time, y-axis is note value.
         # Notes from a track should have a same color
-        #
-        # TODO: transform batch into a dataframe. Remember to keep tracks as a column
-        img = visualisation() # Todo fill the signature
 
+        # Transform batch into a dataframe. Remember to keep tracks as a column
+        df = pd.DataFrame(notes, columns=['tfactor', 'channel', 'value', 'velocity', 'duration'])
+
+        # retrieve our visualisation
+        return visualisation(df)

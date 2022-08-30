@@ -71,6 +71,7 @@ class Data:
         self.get_timestamp_column()  # self.date_column value is modified here
         self.assign_timestamp()
 
+    # create a static method to sort the dataset using the 
     def get_timestamp_column(self):
         """
         This method search the timestamp column
