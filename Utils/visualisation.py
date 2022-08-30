@@ -20,15 +20,13 @@ def visualisation(df, x_axis='tfactor', y_axis='value', track='channel'):
     # Initialize the figure with a logarithmic x-axis
     ax = plt.figure(figsize=(10, 6))
 
-    # Assuming df has a column 'track' -> 1 color to each track cat
+    # Assuming df has a column 'track' -> 1 color for each track cat.
     sns.scatterplot(data=df,
                     x=x_axis,
                     y=y_axis,
                     hue=track,
-                    # marker='o',
                     size='duration'
                     )
-    # add the arg
 
     # Put the legend out of the figure
     plt.legend(bbox_to_anchor=(1.01, 1), borderaxespad=0)
