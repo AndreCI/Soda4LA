@@ -27,6 +27,7 @@
 from ctypes import *
 from ctypes.util import find_library
 import os
+import subprocess
 
 # A short circuited or expression to find the FluidSynth library
 # (mostly needed for Windows distributions of libfluidsynth supplied with QSynth)
@@ -906,6 +907,9 @@ class Synth:
         """
         return fluid_synth_write_s16_stereo(self.synth, len)
 
+    def midi_to_audio(self, midi_file, audio_file, soundfont):
+        os.system('fluidsynth')
+        subprocess.call(['fluidsynth'])#, '-ni', soundfont, midi_file, '-F', audio_file, '-r', str(44100)])
 
 class Sequencer:
     def __init__(self, time_scale=1000, use_system_timer=True):

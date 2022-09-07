@@ -1,5 +1,5 @@
 from tkinter import Toplevel, Button, Listbox, END, Entry, Label, StringVar, IntVar, Checkbutton
-from tkinter.constants import X
+from tkinter.constants import X, DISABLED, NORMAL
 from tkinter.ttk import Frame, Combobox
 
 from Models.note_model import note_to_int, int_to_note
@@ -24,7 +24,7 @@ class ParameterEncodingView(Toplevel):
         self.handpicked_mode = True #Current model, function or handpicked
         self.checkbuttons_toggle = True
         self.variables = []
-        self.title("Encoding for {}".format(self.model.encoded_var))
+        self.title("Encoding for {}".format(self.model.filter.column))
         #self.geometry('450x400')
 
         #setup view
@@ -39,8 +39,9 @@ class ParameterEncodingView(Toplevel):
         self.varlistLabel = Label(self.mainFrame, text="Select variable")
         self.selectVarCB = Combobox(self.mainFrame, values=self.model.datas.get_variables(), state='readonly')
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
-        self.selectVarCB.set(self.model.filter.column)
-        self.ctrl.assign_main_var(self.selectVarCB.get())
+        if(self.model.initialized):
+            self.selectVarCB.set(self.model.filter.column)
+            self.ctrl.assign_main_var(self.selectVarCB.get())
         self.switchModeLabel = Label(self.mainFrame, text="Change mode")
         self.switchModeButton = Button(self.mainFrame, text="Function Mode", command=self.switch_mode)
         self.octaveLabel = Label(self.mainFrame, text="Octave (between 0 and 9)")
@@ -67,7 +68,7 @@ class ParameterEncodingView(Toplevel):
         self.toggle_checkbox = Button(self.handpickFrame.scrollableFrame, text="Uncheck all", command=self.filter_toggle_all_checkbuttons)
 
         #Exit frame
-        self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate)
+        self.validateButton = Button(self.exit_frame, text="Validate", command=self.ctrl.validate, state=NORMAL if self.model.initialized else DISABLED)
         self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
 
         self.setup_widgets()
@@ -109,7 +110,8 @@ class ParameterEncodingView(Toplevel):
         #END FUNCTION FRAME
 
         #HANDPICK FRAME
-        self.select_variable(None)
+        if self.model.initialized:
+            self.select_variable(None)
         # #END HANDPICKFRAME
 
         #EXIT FRAME
@@ -124,6 +126,7 @@ class ParameterEncodingView(Toplevel):
             v["checked"].set(1 if self.checkbuttons_toggle else 0)
 
     def select_variable(self, event):
+        self.validateButton.config(state=NORMAL)
         self.ctrl.assign_main_var(self.selectVarCB.get())
         #Destroy objects linked to previous variable
         for var in self.variables:

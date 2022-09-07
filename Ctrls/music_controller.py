@@ -149,19 +149,21 @@ class MusicCtrl:
         #Release semaphores
         pass
 
+    def setup_music(self):
+        self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
+        self.load_soundfonts()
+
     def play(self):
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.sonification_view.dataTable.set_data(self.datas.get_first_and_last().to_dict('records'))
-
-        self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
+        self.setup_music()
 
         self.sonification_view.playButton.config(state=DISABLED)
         self.sonification_view.pauseButton.config(state=NORMAL)
         self.sonification_view.stopButton.config(state=NORMAL)
 
-        self.load_soundfonts()
         self.view.save_play_time()
         self.playing = True
         self.paused = False
@@ -202,6 +204,10 @@ class MusicCtrl:
         # self.emptySemaphore.release(n=len(self.model.notes))
         # self.fullSemaphore.acquire(n=len(self.model.notes))
         # Reset queue
+        while(not self.unpaintQueue.empty()):
+            unpaint = self.unpaintQueue.get_nowait()
+            line = Cell_Line(None, self.sonification_view.dataTable.get_cell_line(unpaint[1]))
+            line.paint_line("white")
         try:
             while (not self.model.notes.empty()):
                 self.emptySemaphore.release()

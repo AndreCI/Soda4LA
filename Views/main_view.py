@@ -20,8 +20,9 @@ try:
     from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE
 except:
     logging.debug("other inport cibs")
+from Views.sonification_view import SonificationView
+
 try:
-    from Views.sonification_view import SonificationView
     import logging
 except:
     logging.debug("other inport sonview")
@@ -42,7 +43,8 @@ class MainView(tk.Tk):
         self.db = Models.data_model.Data.getInstance()
 
         self.setup_menu()
-        self.create_widgets()
+        self.sonificationView = SonificationView(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
+
         self.setup_widgets()
         self.config(menu=self.menubar)
         self.load_data()
@@ -78,12 +80,6 @@ class MainView(tk.Tk):
 
     def show_data(self):
         self.db.ctrl.show_window()
-
-    def create_widgets(self):
-        # self.mainframe = ttk.Frame(self, padding="3 3 12 12")
-        self.sonificationView = SonificationView(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
-
-        # self.sonificationView.create_widgets()
 
     def setup_widgets(self):
         # self.mainframe.grid(column=0, row=0)

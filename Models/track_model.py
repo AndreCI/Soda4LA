@@ -34,6 +34,7 @@ class Track:
         self.filter.column = self.data.get_variables()[0]
         self.gain = 100 #Volume of the current track, between 0 and 100
         self.muted = False
+        self.offset = 0
         self.music = Models.music_model.Music.getInstance() #Needed to backtrack and remove itself upon deletion, among other things
 
         #Other models
@@ -88,7 +89,7 @@ class Track:
         """
         notes = [] #Container for the next batch of data
         for idx, row in self.filter_batch(batch).iterrows():  # iterate over index and row
-            notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row),
+            notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row, self.offset),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(row),
                                     velocity=self.pencodings["velocity"].get_parameter(row),

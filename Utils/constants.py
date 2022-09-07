@@ -21,7 +21,7 @@ DEFAULT_BGCOLOR = 'blue'
 TFRAME_STYLE = {"DEFAULT": ["TFrame", "green"],
                 "TRACK": ["Trackframe.TFrame", "grey"],
                 "CONFIG": ["Configframe.TFrame", "grey"],
-                "TRACK_COLLECTION": ["TCollection.TFrame", "cyan"],
+                "TRACK_COLLECTION": ["TCollection.TFrame", "darkred"],
                 "NOTE": ["TNote.TFrame", "grey"],
                 "PARAMETER_MAPPING": ["TPMapping.TFrame", "grey"],
                 "TIMESETTINGS": ["Timesettings.TFrame", "grey"]

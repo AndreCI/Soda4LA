@@ -12,9 +12,9 @@ class ParameterEncoding:
     encoding objects.
     This can be viewed via a track config view and its subsequent views presented by its buttons.
     """
-    def __init__(self, encoded_var : str):
+    def __init__(self, encoded_var : str, default_col = ""):
         #Data
-        self.encoded_var=encoded_var #a variable of a note
+        self.encoded_var=encoded_var #a variable of a note, value duration or velocity
         if(self.encoded_var not in ENCODING_OPTIONS):
             raise NotImplementedError("{} not in encoding options".format(self.encoded_var))
         self.filter = FilterModule() #Filter module applied to mainVar
@@ -23,10 +23,11 @@ class ParameterEncoding:
         self.functionEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
         self.defaultValue = 100
         self.octave = "4"
+        self.initialized = False
 
         #Others Models
         self.datas = Data.getInstance()
-        self.filter.column = self.datas.get_variables()[0]
+        self.filter.column = self.datas.get_variables()[0] if default_col == "" else default_col
 
         #Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
@@ -91,6 +92,7 @@ class ParameterEncoding:
         for var, val in zip(variables, values):
             #self.handpickEncoding[var] = []
             self.handpickEncoding[var] = note_to_int(val, int(octave))
+        self.defaultValue = note_to_int(values[0], int(octave))
         self.octave = octave
 
     def get_variables_instances(self):

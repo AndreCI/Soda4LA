@@ -16,6 +16,9 @@ class TrackCtrl:
     def update_filter(self, filter: str):
         self.model.filter.assign(filter)
 
+    def update_offset(self, offset):
+        self.model.offset = offset
+
     def set_soundfont(self, soundfont: str):
         self.model.soundfont = self.soundfontUtils.get(soundfont)
         self.model.music.ctrl.load_soundfonts()

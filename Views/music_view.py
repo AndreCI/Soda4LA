@@ -86,9 +86,6 @@ class MusicView:
                 if (self.ctrl.playing and note_timing>-100 and not self.ctrl.skipNextNote):
                     if(prev_note_idx != note.id):
                         self.model.sonification_view.add_log_line("--------------------")
-                    print(self.get_absolute_tick())
-                    print(self.get_temporal_distance(note.tfactor))
-                    print(self.get_temporal_distance(self.convert(note.tfactor, to_absolute=False), absolute=False))
                     print("Note {} abs pos to {} rel pos to {} rel dis. {}".format(note.tfactor, self.convert(note.tfactor, to_absolute=False), self.get_temporal_distance(note.tfactor, absolute=True),
                           self.get_relative_note_timing(note_timing_abs)))
                     log_line = "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(

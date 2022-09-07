@@ -50,6 +50,7 @@ class SonificationView(ttk.Frame):
         self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
         self.ffwButton = tk.Button(self.audioView, text=">>>", command=self.ctrl.fast_forward, state=DISABLED)
         self.fbwButton = tk.Button(self.audioView, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
+        self.generateButton = tk.Button(self.audioView, text="Write Midi File", command=self.model.generate_midi, state=NORMAL)
         self.gain_slider = tk.Scale(self.audioView, from_=0, to=100, sliderrelief='solid', orient="horizontal",
                                     command=self.ctrl.change_global_gain)  # flat, groove, raised, ridge, solid, sunken
         self.gain_slider.set(self.model.gain)
@@ -81,7 +82,8 @@ class SonificationView(ttk.Frame):
         self.pauseButton.grid(column=2, row=0, sticky="ew")
         self.stopButton.grid(column=3, row=0, sticky="ew")
         self.ffwButton.grid(column=4, row=0, sticky="ew")
-        self.gain_slider.grid(column=5, row=0, sticky="ew")
+        self.generateButton.grid(column=5, row=0, sticky="ew")
+        self.gain_slider.grid(column=6, row=0, sticky="ew")
         #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -161,6 +163,6 @@ class SonificationView(ttk.Frame):
 
     def import_all_tracks(self):
         f = askopenfilename(title="Load selected project")
-        if f is not "":
+        if f != "":
             self.ctrl.import_all_tracks(f)
 

@@ -1,4 +1,4 @@
-from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar, Checkbutton
+from tkinter import ttk, Button, Scale, Entry, Label, DoubleVar, StringVar, Checkbutton, IntVar
 from tkinter.filedialog import asksaveasfile, askopenfile, askopenfilename
 from tkinter.ttk import Combobox
 
@@ -44,6 +44,12 @@ class TrackConfigView(ttk.Frame):
         self.filterValue.trace_add("write", self.update_filter)
         self.filterEntry = Entry(self, textvariable=self.filterValue)
         self.filterLabel = Label(self, text="Filter")
+
+        self.offsetValue = StringVar(self)
+        self.offsetValue.trace_add("write", self.update_offset)
+        self.offsetEntry = Entry(self, textvariable=self.offsetValue)
+        self.offsetLabel = Label(self, text="Offset (ms)")
+
         self.encodeValueButton = Button(self, text="Value Encoding", command=self.encode_values)
         self.encodeDurationButton = Button(self, text="Duration Encoding", command=self.encode_durations)
         self.encodeVelocityButton = Button(self, text="Velocity Encoding", command=self.encode_velocity)
@@ -67,15 +73,18 @@ class TrackConfigView(ttk.Frame):
         self.filterLabel.grid(column=0, row=3, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.filterEntry.grid(column=1, row=3, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.local_gain_slider.grid(column=0, row=4, rowspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.offsetLabel.grid(column=0, row=4, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.offsetEntry.grid(column=1, row=4, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.encodeValueButton.grid(column=1, row=4, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
-        self.encodeDurationButton.grid(column=1, row=5, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
-        self.encodeVelocityButton.grid(column=1, row=6, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
+        self.local_gain_slider.grid(column=0, row=5, rowspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
-        self.exportButton.grid(column=2, row=7, pady=0, padx=DEFAULT_PADX)
-        self.importButton.grid(column=1, row=7, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.deleteButton.grid(column=1, row=8, columnspan=2, pady=0, padx=DEFAULT_PADX)
+        self.encodeValueButton.grid(column=1, row=6, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
+        self.encodeDurationButton.grid(column=1, row=7, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
+        self.encodeVelocityButton.grid(column=1, row=8, columnspan=2, pady=0, padx=DEFAULT_PADX, sticky="ew")
+
+        self.exportButton.grid(column=2, row=9, pady=0, padx=DEFAULT_PADX)
+        self.importButton.grid(column=1, row=9, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.deleteButton.grid(column=1, row=10, columnspan=2, pady=0, padx=DEFAULT_PADX)
 
     def export(self):
         f = asksaveasfile(title="Export selected track to a file", initialdir=FILE_PATH,
@@ -101,6 +110,18 @@ class TrackConfigView(ttk.Frame):
 
     def select_variable(self, event):
         self.ctrl.set_main_var(self.selectVarListBox.get())
+
+    def update_offset(self, *args):
+        try:
+            offset = self.offsetValue.get()
+            if(offset is not None):
+                if(offset[0] == "-"):
+                    self.ctrl.update_offset(float(offset[1:]))
+                else:
+                    self.ctrl.update_offset(float(offset))
+        except ValueError:
+            pass
+
 
     def update_filter(self, *args):
         self.ctrl.update_filter(self.filterValue.get())

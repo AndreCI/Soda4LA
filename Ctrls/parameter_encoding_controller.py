@@ -13,6 +13,7 @@ class ParameterEncodingCtrl:
 
     def assign_main_var(self, main_var):
         self.model.filter.assign_column(main_var)
+        self.model.initialized = True
 
     def show_window(self):
         if (self.model.peView == None):
@@ -26,7 +27,6 @@ class ParameterEncodingCtrl:
         for v in self.model.peView.variables:
             variable.append(v["variable"])
             values.append(v["value"].get())
-
         self.model.assign_handpicked_encoding(variable, values, self.model.peView.octaveEntryVar.get())
         self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar.get(), max_val=self.model.peView.fMaxVar.get())
 

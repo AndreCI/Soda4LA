@@ -89,11 +89,12 @@ class TimeSettings():
         if not self.musicDuration:
             self.musicDuration = idMax
 
-    def get_temporal_position(self, current):
+    def get_temporal_position(self, current, offset=0):
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
         :param current: a data point with features timestanp and id
+        :param offset: change the temporal position by offset, in ms
         :return: a temporal position between 0 and 1.
         """
         if self.maxVal < current.internal_timestamp < self.minVal:
@@ -101,8 +102,8 @@ class TimeSettings():
         distance = self.maxVal - self.minVal
         #ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
+            return float(offset)/float(self.musicDuration) + (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
         elif self.type == self.possible_types[1]:
-            return float(current.id)/float(self.idMax)
+            return float(offset)/float(self.musicDuration) + float(current.id)/float(self.idMax)
         else:
             raise NotImplementedError()
