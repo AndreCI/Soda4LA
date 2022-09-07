@@ -42,7 +42,7 @@ class MusicCtrl:
         # Model
         self.model = model  # Music model
         self.view = MusicView(model, self)
-        self.datas = Data.getInstance()
+        self.data = Data.getInstance()
 
         # Threads
         self.producer_thread = threading.Thread(target=self.model.generate, daemon=True)
@@ -157,7 +157,7 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
-        self.sonification_view.dataTable.set_data(self.datas.get_first_and_last().to_dict('records'))
+        self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))
         self.setup_music()
 
         self.sonification_view.playButton.config(state=DISABLED)
@@ -193,13 +193,14 @@ class MusicCtrl:
             self.fullSemaphore._initial_value,
             self.queueSemaphore._value))
         self.view.synth.system_reset()  # Reset synth to prevent future note from being played
+        self.view.synth.program_reset()
         self.playingEvent.clear()  # Send stop event
         self.stoppedEvent.set()
         # Update bools
         self.playing = False
         self.paused = False
         # Update data
-        self.datas.reset_playing_index()
+        self.data.reset_playing_index()
         # Reset semaphores
         # self.emptySemaphore.release(n=len(self.model.notes))
         # self.fullSemaphore.acquire(n=len(self.model.notes))

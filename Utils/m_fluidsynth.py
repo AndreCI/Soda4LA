@@ -42,7 +42,7 @@ lib = find_library('fluidsynth') or \
       find_library('libfluidsynth-2') or \
       find_library('libfluidsynth-1')
 
-lib = "D:/visiteur/Documents/Github/sodaMidi/data/libfluidsynth.dll" #line added by me to point to the dll
+#lib = "D:/visiteur/Documents/Github/sodaMidi/data/libfluidsynth.dll" #line added by me to point to the dll
 if lib is None:
     raise ImportError("Couldn't find the FluidSynth library.")
 
@@ -907,9 +907,11 @@ class Synth:
         """
         return fluid_synth_write_s16_stereo(self.synth, len)
 
-    def midi_to_audio(self, midi_file, audio_file, soundfont):
-        os.system('fluidsynth')
-        subprocess.call(['fluidsynth'])#, '-ni', soundfont, midi_file, '-F', audio_file, '-r', str(44100)])
+    def midi_to_audio(self, midi_file, audio_file, config_file):
+        #os.system('fluidsynth')
+        subprocess.call(['fluidsynth', "-f", config_file, midi_file, '-F', audio_file, '-r', str(44100)])
+        #        subprocess.call(['fluidsynth',  midi_file, '-F', audio_file, '-r', str(44100)]) @'-ni', soundfont,
+
 
 class Sequencer:
     def __init__(self, time_scale=1000, use_system_timer=True):

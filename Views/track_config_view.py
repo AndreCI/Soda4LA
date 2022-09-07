@@ -45,7 +45,7 @@ class TrackConfigView(ttk.Frame):
         self.filterEntry = Entry(self, textvariable=self.filterValue)
         self.filterLabel = Label(self, text="Filter")
 
-        self.offsetValue = StringVar(self)
+        self.offsetValue = StringVar(self, value=self.model.offset)
         self.offsetValue.trace_add("write", self.update_offset)
         self.offsetEntry = Entry(self, textvariable=self.offsetValue)
         self.offsetLabel = Label(self, text="Offset (ms)")
@@ -120,6 +120,8 @@ class TrackConfigView(ttk.Frame):
                 else:
                     self.ctrl.update_offset(float(offset))
         except ValueError:
+            pass
+        except IndexError:
             pass
 
 

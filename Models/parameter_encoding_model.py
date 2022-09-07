@@ -26,8 +26,8 @@ class ParameterEncoding:
         self.initialized = False
 
         #Others Models
-        self.datas = Data.getInstance()
-        self.filter.column = self.datas.get_variables()[0] if default_col == "" else default_col
+        self.data = Data.getInstance()
+        self.filter.column = self.data.get_variables()[0] if default_col == "" else default_col
 
         #Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
@@ -39,14 +39,14 @@ class ParameterEncoding:
         state = self.__dict__.copy()
         del state["ctrl"]
         del state["peView"]
-        del state["datas"]
+        del state["data"]
         return state
 
     def __setstate__(self, state):
         self.__dict__.update(state)
         self.ctrl = ParameterEncodingCtrl(self)
         self.peView = None
-        self.datas = Data.getInstance()
+        self.data = Data.getInstance()
 
     def get_parameter(self, row):
         """
@@ -97,5 +97,5 @@ class ParameterEncoding:
 
     def get_variables_instances(self):
         varins = ["default"]
-        varins.extend(self.datas.get_variables_instances(self.filter.column))
+        varins.extend(self.data.get_variables_instances(self.filter.column))
         return varins

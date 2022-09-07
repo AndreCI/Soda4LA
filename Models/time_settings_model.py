@@ -66,6 +66,7 @@ class TimeSettings():
         self.__dict__.update(state)
         self.ctrl = TimeSettingsCtrl(self)
         self.tsView = None
+        self.data = Data.getInstance()
 
 
     def set_type(self, type : str):
@@ -100,10 +101,11 @@ class TimeSettings():
         if self.maxVal < current.internal_timestamp < self.minVal:
             raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.internal_timestamp, self.minVal, self.maxVal))
         distance = self.maxVal - self.minVal
+        offset = float(offset)/float(1000*self.musicDuration)
         #ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return float(offset)/float(self.musicDuration) + (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
+            return offset + (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
         elif self.type == self.possible_types[1]:
-            return float(offset)/float(self.musicDuration) + float(current.id)/float(self.idMax)
+            return offset + float(current.id)/float(self.idMax)
         else:
             raise NotImplementedError()

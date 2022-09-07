@@ -107,6 +107,7 @@ class MusicView:
                 self.ctrl.queueSemaphore.release() #Release semaphores
                 self.ctrl.emptySemaphore.release()
 
+
     def get_relative_note_timing(self, note_timing_absolute):
         """
         :param note_timing_absolute: int:

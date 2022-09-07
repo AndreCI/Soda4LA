@@ -4,9 +4,6 @@ BATCH_SIZE = 10
 BATCH_NBR_PLANNED=10
 
 #OPTIONS
-DATA_PATH = "data/tamagocours/Tamagocours.csv"
-soundfont_path = "data/soundfonts/"
-
 TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]
 FUNCTION_OPTIONS = ["linear"]  # isomorphisms
 ENCODING_OPTIONS = ["value", "duration", "velocity"]
@@ -31,7 +28,7 @@ TFRAME_STYLE = {"DEFAULT": ["TFrame", "green"],
 DATA_PATH= "data/sequential_data/Tamagocours.csv"
 #DATA_PATH= "data/sequential_data/AL2049.csv"
 FILE_PATH= "data/savefiles"
-soundfont_path = "data/soundfonts/"
+soundfont_path = "data/soundfonts"
 
 
 def rgb_hack(r, g, b):

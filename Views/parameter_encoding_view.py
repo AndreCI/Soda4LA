@@ -37,7 +37,7 @@ class ParameterEncodingView(Toplevel):
 
         #Main frame
         self.varlistLabel = Label(self.mainFrame, text="Select variable")
-        self.selectVarCB = Combobox(self.mainFrame, values=self.model.datas.get_variables(), state='readonly')
+        self.selectVarCB = Combobox(self.mainFrame, values=self.model.data.get_variables(), state='readonly')
         self.selectVarCB.bind('<<ComboboxSelected>>', self.select_variable)
         if(self.model.initialized):
             self.selectVarCB.set(self.model.filter.column)

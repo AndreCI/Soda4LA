@@ -57,7 +57,7 @@ class SonificationView(ttk.Frame):
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                            width=1380, height=290)
+                                            width=1380, height=340)
         self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
                                           width=1380, height=650)
 

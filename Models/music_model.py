@@ -1,4 +1,5 @@
 import os
+import time
 from queue import PriorityQueue
 
 from Ctrls.music_controller import MusicCtrl
@@ -60,25 +61,33 @@ class Music:
         # self.ctrl = None#MusicCtrl(self)
 
     def generate_midi(self):
-        # self.ctrl.setup_music()
-        # asynch_notes = []
-        # tempidx = 0
-        # mf = MIDIFile(len(self.tracks))
-        # for i,t in enumerate(self.tracks):
-        #     mf.addTrackName(i, 0, str(t.id))
-        # while(not self.data.get_next().empty and tempidx<1000):
-        #     tempidx += 1
-        #     current_data = self.data.get_next(iterate=True)
-        #     for t in self.tracks:
-        #         for note in t.generate_notes(current_data):
-        #             mf.addNote(t.id, t.id, note.value, float(self.get_absolute_note_timing(note.tfactor))/1000, note.duration, note.velocity)
-        # with open("output.mid", "wb") as outf:
-        #     mf.writeFile(outf)
-        print(self.tracks[0].soundfont)
-        self.ctrl.view.synth.midi_to_audio("D:/visiteur/Documents/Github/sodaMidi/output.mid", "output.mp3", os.path.join("D:/visiteur/Documents/Github/sodaMidi", self.tracks[0].soundfont))
+        self.write_fluidsynth_config()
+        self.data.reset_playing_index()
+        self.ctrl.setup_music()
 
+        mf = MIDIFile(len(self.tracks))
+        for i,t in enumerate(self.tracks):
+            mf.addTrackName(i, 0, str(t.id))
+        while not self.data.get_next().empty:
+            current_data = self.data.get_next(iterate=True)
+            for t in self.tracks:
+                for note in t.generate_notes(current_data):
+                    mf.addNote(t.id, t.id, note.value, float(self.get_absolute_note_timing(note.tfactor))/1000, note.duration, note.velocity)
+        with open("output.mid", "wb") as outf:
+            mf.writeFile(outf)
+        time.sleep(0.1)
+        self.ctrl.view.synth.midi_to_audio("output.mid", "output.wav", "fluidsynth_midi_to_wav.config")
 
-
+    def write_fluidsynth_config(self):
+        with open("fluidsynth_midi_to_wav.config", "w") as f:
+            lines = ["set player.reset-synth 0\n"] #prevent fluidsynth to override settings
+            for t in self.tracks:
+                lines.append("load \"{}\"\n".format(t.soundfont))
+            for i, t in enumerate(self.tracks):
+                lines.append("select {} {} 0 0\n".format(i,  i+1))
+            for i, t in enumerate(self.tracks):
+                lines.append("cc {} 7 {}\n".format(i,  t.gain* 1.27)) #update gain
+            f.writelines(lines)
 
     def generate(self):
         """
