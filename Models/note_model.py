@@ -11,6 +11,10 @@ def CNote_to_TNote(note, tfactor):
 def Note_to_TNote(note, tfactor, channel):
     return TNote(tfactor=tfactor, channel=channel, value=note.value, velocity=note.velocity, duration=note.duration)
 
+def TNote_to_QNote(note, time_ms, track_id, bpm):
+    return (track_id, track_id, convert_seconds_to_quarter(time_ms, bpm),
+            convert_seconds_to_quarter(note.duration, bpm),
+            convert_seconds_to_quarter(note.velocity, bpm))
 
 def is_valid_note(note):
     """Return True if note is in a recognised format. False if not."""
@@ -55,3 +59,15 @@ def int_to_note(note_int, accidentals="#"):
         return nf[note_int]
     else:
         raise ValueError("'%s' not valid as accidental" % accidentals)
+
+
+def convert_seconds_to_quarter(time_in_sec, bpm):
+    """
+    Util function
+    :param time_in_sec:
+    :param bpm:
+    :return:
+    """
+    quarter_per_second = (bpm/60)
+    time_in_quarter = time_in_sec * quarter_per_second
+    return time_in_quarter

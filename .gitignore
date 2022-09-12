@@ -157,3 +157,5 @@ compute_test.py
 settings.ini
 *.wav
 *.mid
+settings.ini
+*.ini

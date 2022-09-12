@@ -3,6 +3,7 @@ import time
 from queue import PriorityQueue
 
 from Ctrls.music_controller import MusicCtrl
+from Models import note_model
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
 from Utils.constants import BATCH_NBR_PLANNED
@@ -29,6 +30,7 @@ class Music:
             Music._instance = self
             # Data
             self.gain = 100
+            self.timescale = 1000
             self.muted = False
 
             # Other models
@@ -60,26 +62,27 @@ class Music:
         self.data = Data.getInstance()
         # self.ctrl = None#MusicCtrl(self)
 
-    def generate_midi(self):
-        self.write_fluidsynth_config()
+    def generate_midi(self, filename="output"):
+        bpm=100
         self.data.reset_playing_index()
         self.ctrl.setup_music()
-
-        mf = MIDIFile(len(self.tracks))
+        mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False)
         for i,t in enumerate(self.tracks):
             mf.addTrackName(i, 0, str(t.id))
+            mf.addTempo(i, 0, bpm)
         while not self.data.get_next().empty:
             current_data = self.data.get_next(iterate=True)
             for t in self.tracks:
                 for note in t.generate_notes(current_data):
-                    mf.addNote(t.id, t.id, note.value, float(self.get_absolute_note_timing(note.tfactor))/1000, note.duration, note.velocity)
-        with open("output.mid", "wb") as outf:
+                    mf.addNote(track=t.id, channel=t.id, pitch=note.value,
+                               time=note_model.convert_seconds_to_quarter(float(self.get_absolute_note_timing(note.tfactor))/self.timescale, bpm),
+                               duration=note_model.convert_seconds_to_quarter(float(note.duration)/self.timescale, bpm),
+                               volume=note.velocity)
+        with open(filename + ".mid", "wb") as outf:
             mf.writeFile(outf)
-        time.sleep(0.1)
-        self.ctrl.view.synth.midi_to_audio("output.mid", "output.wav", "fluidsynth_midi_to_wav.config")
 
-    def write_fluidsynth_config(self):
-        with open("fluidsynth_midi_to_wav.config", "w") as f:
+    def write_fluidsynth_config(self, filename):
+        with open(filename + "-fluidsynth_midi_to_wav.config", "w") as f:
             lines = ["set player.reset-synth 0\n"] #prevent fluidsynth to override settings
             for t in self.tracks:
                 lines.append("load \"{}\"\n".format(t.soundfont))

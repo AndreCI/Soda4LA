@@ -4,7 +4,7 @@ import time
 
 import os
 import logging
-logging.basicConfig(filename="SSSSSSSSSSSsoda.log", filemode="w", level=logging.DEBUG)
+logging.basicConfig(filename="soda.log", filemode="w", level=logging.DEBUG)
 
 
 #

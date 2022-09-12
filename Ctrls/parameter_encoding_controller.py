@@ -22,17 +22,16 @@ class ParameterEncodingCtrl:
 
     def validate(self):
         self.model.handpicked = self.model.peView.handpicked_mode
-        variable = []
-        values = []
-        for v in self.model.peView.variables:
-            variable.append(v["variable"])
-            values.append(v["value"].get())
-        self.model.assign_handpicked_encoding(variable, values, self.model.peView.octaveEntryVar.get())
-        self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar.get(), max_val=self.model.peView.fMaxVar.get())
-
-        if(self.model.handpicked):
+        if self.model.handpicked:
+            variable = []
+            values = []
+            for v in self.model.peView.variables:
+                variable.append(v["variable"])
+                values.append(v["value"].get())
+            self.model.assign_handpicked_encoding(variable, values, self.model.peView.octaveEntryVar.get())
             self.model.filter.assign_quali_table([v["variable"] for v in self.model.peView.variables if v["checked"].get()==1])
         else:
+            self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar.get(), max_val=self.model.peView.fMaxVar.get())
             self.model.filter.assign(self.model.peView.filterEntry.get())
         self.model.peView.destroy()
 

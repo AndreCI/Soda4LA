@@ -909,7 +909,7 @@ class Synth:
 
     def midi_to_audio(self, midi_file, audio_file, config_file):
         #os.system('fluidsynth')
-        subprocess.call(['fluidsynth', "-f", config_file, midi_file, '-F', audio_file, '-r', str(44100)])
+        subprocess.call(['fluidsynth', "-q", "-f", config_file, midi_file, '-F', audio_file, '-r', str(44100)])
         #        subprocess.call(['fluidsynth',  midi_file, '-F', audio_file, '-r', str(44100)]) @'-ni', soundfont,
 
 
@@ -942,7 +942,7 @@ class Sequencer:
 
         return response
 
-    def note(self, time, channel, key, velocity, duration, source=-1, dest=-1, absolute=True):
+    def  note(self, time, channel, key, velocity, duration, source=-1, dest=-1, absolute=True):
         evt = self._create_event(source, dest)
         fluid_event_note(evt, channel, key, velocity, duration)
         self._schedule_event(evt, time, absolute)

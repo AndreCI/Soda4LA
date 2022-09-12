@@ -1,3 +1,4 @@
+import logging
 import tkinter as tk
 from collections import deque
 from tkinter import ttk
@@ -43,6 +44,7 @@ class SonificationView(ttk.Frame):
         self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
         self.exportAllTrackButton = tk.Button(self.controlFrame, text="Export all tracks", command=self.export_all_tracks)
         self.importAllTrackButton = tk.Button(self.controlFrame, text="Import all tracks", command=self.import_all_tracks)
+        self.exportMusicButton = tk.Button(self.controlFrame, text="Export music", command=self.export_music, state=DISABLED)
 
         self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
         self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
@@ -50,7 +52,6 @@ class SonificationView(ttk.Frame):
         self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
         self.ffwButton = tk.Button(self.audioView, text=">>>", command=self.ctrl.fast_forward, state=DISABLED)
         self.fbwButton = tk.Button(self.audioView, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
-        self.generateButton = tk.Button(self.audioView, text="Write Midi File", command=self.model.generate_midi, state=NORMAL)
         self.gain_slider = tk.Scale(self.audioView, from_=0, to=100, sliderrelief='solid', orient="horizontal",
                                     command=self.ctrl.change_global_gain)  # flat, groove, raised, ridge, solid, sunken
         self.gain_slider.set(self.model.gain)
@@ -75,6 +76,7 @@ class SonificationView(ttk.Frame):
         self.addTrackButton.grid(column=0, row=2, rowspan=2, sticky="ew")
         self.importAllTrackButton.grid(column=0, row=4, sticky="ew")
         self.exportAllTrackButton.grid(column=0, row=5, sticky="ew")
+        self.exportMusicButton.grid(column=0, row=6, sticky="ew")
 
         self.audioView.grid(column=1, row=0, columnspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.fbwButton.grid(column=0, row=0, sticky="ew")
@@ -82,8 +84,7 @@ class SonificationView(ttk.Frame):
         self.pauseButton.grid(column=2, row=0, sticky="ew")
         self.stopButton.grid(column=3, row=0, sticky="ew")
         self.ffwButton.grid(column=4, row=0, sticky="ew")
-        self.generateButton.grid(column=5, row=0, sticky="ew")
-        self.gain_slider.grid(column=6, row=0, sticky="ew")
+        self.gain_slider.grid(column=5, row=0, sticky="ew")
         #self.generateButton.grid(column=3, row=0, sticky="ew")
 
         self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -97,6 +98,7 @@ class SonificationView(ttk.Frame):
                 self.log.popleft()
             self.log.append(log_line)
             self.logVar.set(self.first_log_line + "\n".join(self.log))
+            logging.info(log_line)
 
     def reset_track_view(self):
         for i, t in enumerate(self.trackConfigViews):
@@ -155,6 +157,12 @@ class SonificationView(ttk.Frame):
     def open_time_setting(self):
         self.ctrl.open_time_settings()
 
+    def export_music(self):
+        f = asksaveasfile(title="Save music as a file", initialdir=FILE_PATH,
+                          initialfile="saved_music", mode='w',
+                          defaultextension=".wav")
+        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            self.ctrl.export_music(f.name)
     def export_all_tracks(self):
         f = asksaveasfile(title="Save project as a file", initialdir=FILE_PATH,
                           initialfile="saved_project_{}".format(len(self.model.tracks)), mode='w', defaultextension=".pkl")

@@ -113,16 +113,16 @@ class Data:
         return candidates
 
 
-    def get_variables(cls):
+    def get_variables(self):
         """
         Get the columns (header) of our dataset
         :return:
             header: list,
                 The columns of the csv file
         """
-        return cls.header
+        return self.header
 
-    def get_variables_instances(cls, column):
+    def get_variables_instances(self, column):
         """
         Get unique instances from a column
         :param
@@ -131,22 +131,28 @@ class Data:
         :return: list,
                 unique value from the target column
         """
-        return pd.unique(cls.df[column])
+        return pd.unique(self.df[column])
+    def get_max(self, column):
+        return max([float(x) for x in self.df[column]])
 
-    def get_first_and_last(cls):
-        data = cls.df[0: + cls.batch_size]
+    def get_min(self, column):
+        return min([float(x) for x in self.df[column]])
+
+
+    def get_first_and_last(self):
+        data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]
         return data
 
-    def get_next(cls, iterate=False):
+    def get_next(self, iterate=False):
         """
         This method send a batch of samples at a same time
         :return:
             data: pd.Dataframe,
                 data buffered
         """
-        data = cls.df[cls.index: cls.index + cls.batch_size]
+        data = self.df[self.index: self.index + self.batch_size]
         if(iterate):
-            cls.index += cls.batch_size
+            self.index += self.batch_size
         return data
 
     @staticmethod

@@ -21,8 +21,8 @@ class ParameterEncoding:
         self.handpicked = True #if true, uses handpickedEncoding to compute a parameter for a note, if not it uses functionEncoding
         self.handpickEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
         self.functionEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
-        self.defaultValue = 100
-        self.octave = "4"
+        self.defaultValue = 80 if self.encoded_var != "duration" else 300
+        self.octave = "4" if self.encoded_var == "value" else "0"
         self.initialized = False
 
         #Others Models
@@ -57,15 +57,28 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
+
         try:
             if(row[self.filter.column] == None):
                 return self.defaultValue
-            if(row[self.filter.column] not in self.handpickEncoding):
-                return self.defaultValue
-            return int(self.handpickEncoding[row[self.filter.column]])
+            if self.handpicked:
+                if(row[self.filter.column] not in self.handpickEncoding):
+                    return self.defaultValue
+                return int(self.handpickEncoding[row[self.filter.column]])
+            else:
+                return int(self.evaluate_with_fonction(row[self.filter.column]))
         except KeyError:
+            print("Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
+    def evaluate_with_fonction(self, value):
+        return_value = self.defaultValue
+        if(self.functionEncoding["function"] == "linear"):
+            ratio = float((self.data.get_min(self.filter.column))/self.data.get_max(self.filter.column))
+            return_value= int(float(value)*ratio)
+        else:
+            raise NotImplementedError()
+        return return_value if self.encoded_var != "value" else return_value + 12*int(self.octave)
 
     def assign_function_encoding(self, function : str, min_val : int, max_val : int):
         """
@@ -77,7 +90,6 @@ class ParameterEncoding:
         self.functionEncoding["function"] = function
         self.functionEncoding["min"] = min_val
         self.functionEncoding["max"] = max_val
-
 
     def assign_handpicked_encoding(self, variables : [], values : [], octave="4"):
         """
@@ -91,8 +103,8 @@ class ParameterEncoding:
             raise ValueError()
         for var, val in zip(variables, values):
             #self.handpickEncoding[var] = []
-            self.handpickEncoding[var] = note_to_int(val, int(octave))
-        self.defaultValue = note_to_int(values[0], int(octave))
+            self.handpickEncoding[var] = note_to_int(val, int(octave)) if self.encoded_var == "value" else val
+        self.defaultValue = note_to_int(values[0], int(octave)) if self.encoded_var == "value" else values[0]
         self.octave = octave
 
     def get_variables_instances(self):

@@ -1,5 +1,7 @@
+import os.path
 import pickle
 import queue
+from pathlib import Path
 import time
 from queue import PriorityQueue
 from tkinter.constants import DISABLED, NORMAL
@@ -58,8 +60,9 @@ class MusicCtrl:
         threading.Thread(target=self.model.add_track, args=[track, True], daemon=True).start()
         if prev_track_nbr == 0 and len(self.model.tracks) == 1:
             self.sonification_view.playButton.config(state=NORMAL)
-            self.sonification_view.ffwButton.config(state=NORMAL)
-            self.sonification_view.fbwButton.config(state=NORMAL)
+            self.sonification_view.exportMusicButton.config(state=NORMAL)
+            #self.sonification_view.ffwButton.config(state=NORMAL)
+            #self.sonification_view.fbwButton.config(state=NORMAL)
 
     def add_track(self, track, generate_view=False):
         """
@@ -79,6 +82,7 @@ class MusicCtrl:
         #threading.Thread(target=self.model.remove_track, args=[track], daemon=True).start()
         if len(self.model.tracks) == 0:
             self.sonification_view.playButton.config(state=DISABLED)
+            self.sonification_view.exportMusicButton.config(state=DISABLED)
 
     def fast_forward(self):
         skipped = self.model.data.get_next(iterate=True)
@@ -268,6 +272,17 @@ class MusicCtrl:
         with open(path, 'wb') as f:
             pickle.dump(self.model, f)
             self.sonification_view.add_log_line("exported model to {}".format(path))
+
+    def export_music(self, filename):
+        name = Path(filename)
+        try:
+            self.model.write_fluidsynth_config(name.stem)
+            self.sonification_view.add_log_line("writing {}".format(name))
+            self.model.generate_midi(name.stem)
+            self.view.synth.midi_to_audio(name.stem + ".mid", filename, name.stem + "-fluidsynth_midi_to_wav.config")
+            self.sonification_view.add_log_line("writing {} done".format(name))
+        except:
+            self.sonification_view.add_log_line("Error while saving {}!".format(name))
 
     def push_data_to_table(self, datas):
         for idx, data in datas.iterrows():

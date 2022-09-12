@@ -115,7 +115,10 @@ class FilterModule:
         return True
 
     def get_current_filter(self):
-        if(self.column in self.filter):
-            return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"
+        if(self.column in self.filter and self.filter[self.column] != None):
+            try:
+                return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"
+            except:
+                return "filter error!"
         return ""
 

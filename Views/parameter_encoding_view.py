@@ -72,6 +72,8 @@ class ParameterEncodingView(Toplevel):
         self.cancelButton = Button(self.exit_frame, text="Cancel", command=self.destroy)
 
         self.setup_widgets()
+        if(self.model.handpicked != self.handpicked_mode):
+            self.switch_mode()
 
     def setup_widgets(self):
         self.mainFrame.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
@@ -88,8 +90,9 @@ class ParameterEncodingView(Toplevel):
         self.switchModeLabel.grid(column=0, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
         self.switchModeButton.grid(column=1, row=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
-        self.octaveLabel.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-        self.octaveEntry.grid(column=1, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        if(self.model.encoded_var == "value"):
+            self.octaveLabel.grid(column=0, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+            self.octaveEntry.grid(column=1, row=3, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         #END MAIN FRAME
 
@@ -140,7 +143,10 @@ class ParameterEncodingView(Toplevel):
                         "checked": iv,
                         "checkbutton":Checkbutton(self.handpickFrame.scrollableFrame, text=variable, variable=iv),
                         "value":Entry(self.handpickFrame.scrollableFrame)}
-            value = int_to_note(self.model.handpickEncoding[variable]) if variable in self.model.handpickEncoding else "C"#min((i*10), 127)
+            value = (self.model.handpickEncoding[
+                         variable] if variable in self.model.handpickEncoding else self.model.defaultValue)
+            if(self.model.encoded_var == "value"):
+                value = int_to_note(value)#min((i*10), 127)
             d_object["value"].insert(0, str(value))
             self.variables.append(d_object)
 

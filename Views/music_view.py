@@ -19,7 +19,7 @@ class MusicView:
         self.model = model
         self.ctrl = ctrl
         self.synth = m_fluidsynth.Synth()
-        self.sequencer = m_fluidsynth.Sequencer(time_scale=1000)
+        self.sequencer = m_fluidsynth.Sequencer(time_scale=self.model.timescale)
         self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
         # self.seqIds = self.sequencer.register_client("callback", self.wrap_consume)
         self.now = None
