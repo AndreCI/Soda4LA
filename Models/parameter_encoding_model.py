@@ -21,6 +21,8 @@ class ParameterEncoding:
         self.handpicked = True #if true, uses handpickedEncoding to compute a parameter for a note, if not it uses functionEncoding
         self.handpickEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
         self.functionEncoding = {} #Dictionnary containing information to transform a row into a paramter for a note
+        self.functionEncoding["min"] = 0
+        self.functionEncoding["max"] = 12 if self.encoded_var == "value" else 127
         self.defaultValue = 80 if self.encoded_var != "duration" else 300
         self.octave = "4" if self.encoded_var == "value" else "0"
         self.initialized = False

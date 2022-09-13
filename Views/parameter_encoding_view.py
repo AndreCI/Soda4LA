@@ -50,7 +50,7 @@ class ParameterEncodingView(Toplevel):
 
         #Filter
         self.filterVar = StringVar()
-        self.filterEntry = Entry(self.filterFrame, textvariable=self.filterVar)
+        self.filterEntry = Entry(self.filterFrame, textvariable=self.filterVar, width=40)
         self.filterLabel = Label(self.filterFrame, text="Filter")
 
         #Function frame
@@ -59,8 +59,8 @@ class ParameterEncodingView(Toplevel):
         self.selectFunctionCB.current(0)
         self.fMinLabel = Label(self.functionFrame, text="Minimal value to map")
         self.fMaxLabel = Label(self.functionFrame, text="Maximal value to map")
-        self.fMinVar = IntVar(self.functionFrame, value=0)
-        self.fMaxVar = IntVar(self.functionFrame, value=128)
+        self.fMinVar = IntVar(self.functionFrame, value=(self.model.functionEncoding["min"] if "min" in self.model.functionEncoding else 0))
+        self.fMaxVar = IntVar(self.functionFrame, value=(self.model.functionEncoding["max"] if "max" in self.model.functionEncoding else 127))
         self.fMinEntry = Entry(self.functionFrame, textvariable=self.fMinVar)
         self.fMaxEntry = Entry(self.functionFrame, textvariable=self.fMaxVar)
 
@@ -98,7 +98,7 @@ class ParameterEncodingView(Toplevel):
 
         #FILTER FRAME
         self.filterLabel.grid(column=0, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-        self.filterEntry.grid(column=1, row=0, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.filterEntry.grid(column=1, row=0, ipady=60, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         #END FILTER FRAME
 
@@ -170,7 +170,7 @@ class ParameterEncodingView(Toplevel):
             self.handpickFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         else:
             self.handpickFrame.grid_forget()
-            self.functionFrame.grid(column=1, row=0, rowspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+            self.functionFrame.grid(column=1, row=0, rowspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
 
     def destroy(self) -> None:

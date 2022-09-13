@@ -5,7 +5,7 @@ from queue import Empty
 
 import numpy as np
 
-#import fluidsynth as m_fluidsynth
+# import fluidsynth as m_fluidsynth
 from Models.note_model import int_to_note
 from Utils import m_fluidsynth
 
@@ -54,10 +54,6 @@ class MusicView:
         self.pause_start_time = self.sequencer.get_tick()  # Register when the pause button was pressed
         print("pausing at : {}".format(self.pause_start_time))
 
-    def stop(self):
-        pass
-        # print("stopped playing at {} with {} notes in queue".format(self.sequencer.get_tick(), self.model.notes.qsize()))
-
     def consume(self):
         """
         Threaded.
@@ -67,46 +63,58 @@ class MusicView:
         while True:  # This thread never stops.
             self.ctrl.playingEvent.wait()  # Wait for the playing event
             self.ctrl.pausedEvent.wait()  # Wait for the playing event
-            self.ctrl.fullSemaphore.acquire() #Wait for the queue to have at least 1 note
-            self.ctrl.queueSemaphore.acquire() #Check if the queue is unused
+            self.ctrl.fullSemaphore.acquire()  # Wait for the queue to have at least 1 note
+            self.ctrl.queueSemaphore.acquire()  # Check if the queue is free
             try:
                 note = self.model.notes.get_nowait()
-                self.ctrl.queueSemaphore.release() #Release queue
-                self.ctrl.emptySemaphore.release() #Inform producer that there is room in the queue
+                self.ctrl.queueSemaphore.release()  # Release queue
+                self.ctrl.emptySemaphore.release()  # Inform producer that there is room in the queue
+                print("Note #{} from queue consumed, {} remaining".format(note.id, self.model.notes.qsize()))
                 # relative timing: how many ms a note has to wait before it can be played.
-                #i.e. in how many ms should this note be played
+                # i.e. in how many ms should this note be played
                 note_timing_abs = self.model.get_absolute_note_timing(note.tfactor)
                 note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
-                track_log_str = np.zeros(len(self.model.tracks))
+                track_log_str = np.zeros(len(self.model.tracks))  # really basic GUI
                 track_log_str[note.channel] = 1
-                while (note_timing > self.model.timeSettings.timeBuffer and not self.ctrl.skipNextNote and note_timing>-100): #Check if the note should be played soon
-                    time.sleep(self.model.timeSettings.timeBuffer / 2000)  # if not, wait half the buffer time
-                    self.ctrl.pausedEvent.wait() #If paused was pressed during this waiting time, wait for PLAY event
-                    note_timing = self.get_relative_note_timing(note_timing_abs) # update timing
-                if (self.ctrl.playing and note_timing>-100 and not self.ctrl.skipNextNote):
-                    if(prev_note_idx != note.id):
-                        self.model.sonification_view.add_log_line("--------------------")
-                    print("Note {} abs pos to {} rel pos to {} rel dis. {}".format(note.tfactor, self.convert(note.tfactor, to_absolute=False), self.get_temporal_distance(note.tfactor, absolute=True),
-                          self.get_relative_note_timing(note_timing_abs)))
-                    log_line = "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
-                        track_log_str, int_to_note(note.value), note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                while (note_timing > self.model.timeSettings.timeBuffer and  # check if next note is ripe
+                       not self.ctrl.skipNextNote and  # check if next note should be skipped
+                       note_timing > -100 and self.ctrl.playing):  # Check if the note is not stale
+                    print("Sleeping for note #{} planned in {}".format(note.id, note_timing))
+                    time.sleep(self.model.timeSettings.timeBuffer / 2000)  # wait half the buffer time
+                    self.ctrl.pausedEvent.wait()  # If paused was pressed during this waiting time, wait for PLAY event
+                    note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
+                if (self.ctrl.playing and note_timing > -100 and not self.ctrl.skipNextNote):
+                    log_line = self.write_log_line(note, track_log_str, note_timing, note_timing_abs, prev_note_idx)
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
                     self.ctrl.paint_next_played_row(note.id, note_timing)
                     prev_note_idx = note.id
                 else:
-                    self.ctrl.skipNextNote = False
+                    self.ctrl.skipNextNote = False  # ??
                     log_line = "SKIPPED Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} planned scheduled in {}ms. {} notes remaining".format(
-                        note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs, self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                        note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
+                        self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
+                    print(log_line)
                     self.ctrl.paint_next_played_row(note.id, note_timing, color="red")
 
                 self.model.sonification_view.add_log_line(log_line)
-                #print(log_line)
             except Empty:
                 print("Empty notes queue")
-                self.ctrl.queueSemaphore.release() #Release semaphores
+                self.ctrl.queueSemaphore.release()  # Release semaphores
                 self.ctrl.emptySemaphore.release()
 
+    def write_log_line(self, note, track_log_str, note_timing, note_timing_abs, prev_note_idx):
+        if (prev_note_idx != note.id):
+            self.model.sonification_view.add_log_line("--------------------")
+        print("Note #{} with tfactor {} and absolute position to {}. absolute distance with tick is {} and relative distance is {} or {}".format(note.id, note.tfactor,
+                                                                       self.convert(note.tfactor, to_absolute=False),
+                                                                       self.get_temporal_distance(note.tfactor,
+                                                                                                  absolute=True),
+                                                                       self.get_relative_note_timing(note_timing_abs),
+                                                                       self.get_temporal_distance(self.convert(note.tfactor, False), False)))
+        return "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
+            track_log_str, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
+            self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
 
     def get_relative_note_timing(self, note_timing_absolute):
         """
@@ -117,11 +125,13 @@ class MusicView:
         """
         return int(note_timing_absolute - (self.sequencer.get_tick() - self.starting_time))
 
+
+
     def convert(self, temporal_pos, to_absolute=True):
         if to_absolute:
-            return float(temporal_pos - self.starting_time)/(self.model.timeSettings.musicDuration * 1000)
+            return float(temporal_pos - self.starting_time) / (self.model.timeSettings.musicDuration * 1000)
         else:
-            return temporal_pos * self.model.timeSettings.musicDuration * 1000 + self.starting_time
+            return (temporal_pos) * self.model.timeSettings.musicDuration * 1000 + self.starting_time
 
     def get_absolute_tick(self):
         return self.convert(self.sequencer.get_tick(), to_absolute=True)
@@ -135,7 +145,6 @@ class MusicView:
         else:
             return temporal_pos - self.sequencer.get_tick()
 
-
     """
     Absolute: between 0 and 1
     Relative: between N and music.duration + N
@@ -145,6 +154,6 @@ class MusicView:
     -> Need conversion tools between absolute and relative temporal position
     Modify relative bounds to change behavior
     pause simply pauses ctp in absolute, but in relative it prevents production and consumtion of notes, and then increments N by pause_time at the end of pause.
-    stop simply pauses and set ctp to 0 in absolute, but in relative it pauses, reset idx to 0, empty queue and then unpause at the start of new music/
-    fbw simplay moves ctp by -10 in absolute, but in relative it pauses, moves idx by -10, empty queue, and then unpause
+    stop simply pauses and set ctp to 0 in absolute, but in relative it pauses, reset data idx to 0, empty queue and then unpause at the start of new music/
+    fbw simply moves ctp by -10 in absolute, but in relative it pauses, moves idx by -10, empty queue, and then unpause
     """

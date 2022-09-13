@@ -94,18 +94,24 @@ class TimeSettings():
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
-        :param current: a data point with features timestanp and id
+        :param current: a data point with features timestamp and id
         :param offset: change the temporal position by offset, in ms
         :return: a temporal position between 0 and 1.
         """
-        if self.maxVal < current.internal_timestamp < self.minVal:
+        return_value = None
+        if self.maxVal < current["internal_timestamp"] < self.minVal:
             raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.internal_timestamp, self.minVal, self.maxVal))
         distance = self.maxVal - self.minVal
         offset = float(offset)/float(1000*self.musicDuration)
         #ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return offset + (current.internal_timestamp - self.minVal)/float(distance)#(ratio - min) * current
+            return_value = offset + (current["internal_timestamp"] - self.minVal)/float(distance)#(ratio - min) * current
         elif self.type == self.possible_types[1]:
-            return offset + float(current.id)/float(self.idMax)
+            return_value = offset + float(current["internal_id"])/float(self.idMax)
         else:
             raise NotImplementedError()
+        if(return_value <0 or return_value>1):
+            raise ValueError("absolute temporal position computation ended up with a non valid value ({}). "
+                             "the current timestamp {} is between the maximun {} and the minimum {}"
+                             .format(return_value, current.internal_timestamp, self.maxVal, self.minVal))
+        return return_value

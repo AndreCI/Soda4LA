@@ -171,8 +171,6 @@ id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetype
 14919;31/03/14 14:12:55;showItemCupboard;showItemCupboard;49;84;4984;p2_4984;O;printedmusic;;;_;;534;986;printedmusic;;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;551;5;1
 14920;31/03/14 14:12:57;showItemCupboard;showItemCupboard;49;84;4984;p2_4984;O;printedmusic;;;_;;522;899;printedmusic;;Fugue en sol mineur pour orgue;1937;Droits d'auteur;"/1 partition (7p.); 32 cm";6;;551;5;1
 14921;31/03/14 14:13:00;showItemCupboard;showItemCupboard;49;84;4984;p2_4984;O;printedmusic;;;_;;527;936;printedmusic;;M [Musique imprimee] : Qui de nous deux : solfege-tablatures-chant-guitares-claviers-basse-batterie-percussions-violons-kazoo / M;2003;Droits d'auteur CFC;/1 partition (128 p.);1;;551;5;1
-
-
 17198;01/04/14 11:06:05;chat;chat;56;107;56107;p1_56107;O;;NC;Bonjour !;NC_Bonjour !;;;;;;;;;/;;;613;1;1
 17199;01/04/14 11:06:19;showItemCupboard;showItemCupboard;56;107;56107;p1_56107;O;book;;;_;;34;305;book;;La laicite nouveaux regard sur l'Antiquite et le Moyen Age;2013;Droits d'auteur;/1 vol. (192 p.);3;;613;1;1
 17201;01/04/14 11:07:25;addToFridge;addToFridge;56;107;56107;p1_56107;O;journaloral;;;_;;108;508;journal;oral;The Washington post;1983;Droits d'auteur;/;5 articles;;613;1;1
@@ -286,7 +284,6 @@ id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetype
 17402;01/04/14 11:33:59;feedTamago;feedTamagoBad;56;107;56107;p1_56107;O;journalintranet;;;_;;100;463;journal;intranet;Mediapart;2008;Droits d'auteur;/;1 article;Sous droits d'auteur;619;5;1
 17408;01/04/14 11:34:30;showItemCupboard;showItemCupboard;56;107;56107;p1_56107;O;sound;;;_;;333;437;sound;;Momentum;2013;Droits d'auteur;52 mi/;10 s;;619;5;1
 17412;01/04/14 11:34:51;addToFridge;addToFridge;56;107;56107;p1_56107;O;videoassessments;;;_;;211;648;video;assessments;Simone Veil La loi d'une femme;208;Droits d'auteur;52 mI/;10 min;Sous droits d'auteur;619;5;1
-
 18488;02/04/14 13:06:07;showItemCupboard;showItemCupboard;61;122;61122;p2_61122;O;book;;;_;;43;335;book;;Le Grand Meaulnes;1913;Domaine Public;/;integrale;;647;1;1
 18496;02/04/14 13:06:35;tuto;tuto;61;122;61122;p2_61122;O;;;;_;;;;;;;;;/;;;647;1;1
 18501;02/04/14 13:06:52;help;help;61;122;61122;p2_61122;O;;;;_;Acces aide en ligne;;;;;;;;/;;;647;1;1
@@ -696,8 +693,6 @@ id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetype
 21771;03/04/14 15:26:29;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundassessments;NC;;NC_;;333;436;sound;assessments;Momentum;2013;Droits d'auteur;52 mi/;3 min;;744;5;1
 21773;03/04/14 15:26:30;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundassessments;NC;;NC_;;333;436;sound;assessments;Momentum;2013;Droits d'auteur;52 mi/;3 min;;744;5;1
 21775;03/04/14 15:26:33;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;OJ;;OJ_;;311;407;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;10 s;;744;5;1
-
-
 24536;04/04/14 15:09:46;chat;chat;79;171;79171;p1_79171;O;;NC;le jeu a commence?;NC_le jeu a commence?;;;;;;;;;/;;;851;1;1
 24541;04/04/14 15:09:58;help;help;79;171;79171;p1_79171;O;;;;_;Acces aide en ligne;;;;;;;;/;;;851;1;1
 24550;04/04/14 15:10:16;showItemCupboard;showItemCupboard;79;171;79171;p1_79171;O;journal;;;_;;117;542;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;851;1;1

@@ -180,16 +180,15 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-        self.df['id'] = np.arange(1, self.df.shape[0] + 1)
+        print(self.get_first_and_last())
+        self.df = self.df.sort_values(by='internal_timestamp', axis=0)
+        print(self.get_first_and_last())
+        #self.df.sort_values(self.date_column)
+        self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
         # We call method here to init all the attributes
         # let's set first and last date here
-        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
-        self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
-        print("{} tp {}".format(self.first_date, self.last_date))
-        self.df.sort_values(self.date_column)
-        self.first_date = self.get_datetime(self.df.loc[0, self.date_column])
-        self.last_date = self.get_datetime(self.df.loc[self.df.__len__() - 1, self.date_column])
-        print("{} tp {}".format(self.first_date, self.last_date))
+        self.first_date = self.get_datetime(self.df.iloc[0][self.date_column])
+        self.last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column])
         # now, the computation
         self.timing_span = self.first_date - self.last_date
         # first and last date into seconds

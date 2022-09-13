@@ -94,7 +94,7 @@ class Track:
                                     value=self.pencodings["value"].get_parameter(row),
                                     velocity=self.pencodings["velocity"].get_parameter(row),
                                     duration=self.pencodings["duration"].get_parameter(row),
-                                    id=row['id']))
+                                    id=row['internal_id']))
         return notes
 
     def filter_batch(self, batch):

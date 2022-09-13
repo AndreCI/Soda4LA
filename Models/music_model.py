@@ -65,7 +65,8 @@ class Music:
     def generate_midi(self, filename="output"):
         bpm=100
         self.data.reset_playing_index()
-        self.ctrl.setup_music()
+        self.ctrl.setup_general_attribute()
+        self.ctrl.load_soundfonts()
         mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False)
         for i,t in enumerate(self.tracks):
             mf.addTrackName(i, 0, str(t.id))

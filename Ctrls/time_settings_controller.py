@@ -48,7 +48,6 @@ class TimeSettingsCtrl():
             settingsFile.write(line)
 
 
-
     def show_window(self):
         if (self.model.tsView == None):
             self.model.tsView = TimeSettingsView(self, self.model)

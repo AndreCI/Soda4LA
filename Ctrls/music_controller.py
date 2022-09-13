@@ -142,7 +142,7 @@ class MusicCtrl:
         diff = self.model.get_absolute_note_timing(lastNote.tfactor) - self.model.get_absolute_note_timing(self.model.timeSettings.get_temporal_position(lastrow))
         print(diff)
         self.view.starting_time-=diff
-        self.skipNextNote = True
+        #self.skipNextNote = True
         self.play()
         #Get current timepoint
         #Compute previous timepoint
@@ -153,21 +153,24 @@ class MusicCtrl:
         #Release semaphores
         pass
 
-    def setup_music(self):
+    def setup_general_attribute(self):
         self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
-        self.load_soundfonts()
 
     def play(self):
+        #TODO BUG WITH PLAY STOP: quicly press play then stop to get into a state where pressing play will start the music.
+        #TODO waiting to much between play and stop will queue a note #11 #21 etc. that will clog the consumer
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))
-        self.setup_music()
+        self.setup_general_attribute()
+        self.load_soundfonts()
 
         self.sonification_view.playButton.config(state=DISABLED)
         self.sonification_view.pauseButton.config(state=NORMAL)
         self.sonification_view.stopButton.config(state=NORMAL)
 
+        self.skipNextNote = False  #
         self.view.save_play_time()
         self.playing = True
         self.paused = False
@@ -196,6 +199,7 @@ class MusicCtrl:
             self.fullSemaphore._value,
             self.fullSemaphore._initial_value,
             self.queueSemaphore._value))
+        self.skipNextNote = True  # if a not is ripping, make it stale
         self.view.synth.system_reset()  # Reset synth to prevent future note from being played
         self.view.synth.program_reset()
         self.playingEvent.clear()  # Send stop event
@@ -300,7 +304,7 @@ class MusicCtrl:
 
     def paint_next_played_row(self, id, duration, color="lightgreen"):
         try:
-            line = self.sonification_view.dataTable.paint_row(id, "id", color)
+            line = self.sonification_view.dataTable.paint_row(id, "internal_id", color)
             if line:
                 self.unpaintQueue.put_nowait((float(duration)/2000, line.get_row_nbr()))
                 self.unpaintEvent.set()
