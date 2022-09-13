@@ -69,7 +69,6 @@ class MusicView:
                 note = self.model.notes.get_nowait()
                 self.ctrl.queueSemaphore.release()  # Release queue
                 self.ctrl.emptySemaphore.release()  # Inform producer that there is room in the queue
-                print("Note #{} from queue consumed, {} remaining".format(note.id, self.model.notes.qsize()))
                 # relative timing: how many ms a note has to wait before it can be played.
                 # i.e. in how many ms should this note be played
                 note_timing_abs = self.model.get_absolute_note_timing(note.tfactor)
@@ -79,7 +78,6 @@ class MusicView:
                 while (note_timing > self.model.timeSettings.timeBuffer and  # check if next note is ripe
                        not self.ctrl.skipNextNote and  # check if next note should be skipped
                        note_timing > -100 and self.ctrl.playing):  # Check if the note is not stale
-                    print("Sleeping for note #{} planned in {}".format(note.id, note_timing))
                     time.sleep(self.model.timeSettings.timeBuffer / 2000)  # wait half the buffer time
                     self.ctrl.pausedEvent.wait()  # If paused was pressed during this waiting time, wait for PLAY event
                     note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing

@@ -157,9 +157,7 @@ class MusicCtrl:
         self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
 
     def play(self):
-        #TODO BUG WITH PLAY STOP: quicly press play then stop to get into a state where pressing play will start the music.
-        #TODO waiting to much between play and stop will queue a note #11 #21 etc. that will clog the consumer
-        """
+       """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))

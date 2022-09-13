@@ -112,14 +112,17 @@ class Music:
                 current_data = self.data.get_next(iterate=True)
                 self.ctrl.push_data_to_table(current_data)
                 self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused
-                for t in self.tracks:
-                    for note in t.generate_notes(current_data):
-                        self.notes.put_nowait(note)
-                        note_nbr += 1  # We append a list of notes to queue, automatically sorted by tfactor
-                self.ctrl.queueSemaphore.release()  # Release queue
-                self.ctrl.emptySemaphore.release(
-                    n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly
-                self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
+                if not self.ctrl.playing: #if music stopped during acquirement of queueSemaphore, release everything
+                    self.ctrl.queueSemaphore.release()
+                    self.ctrl.emptySemaphore.release(m=max_note_nbr)
+                else:
+                    for t in self.tracks:
+                        for note in t.generate_notes(current_data):
+                            self.notes.put_nowait(note)
+                            note_nbr += 1  # We append a list of notes to queue, automatically sorted by tfactor
+                    self.ctrl.queueSemaphore.release()  # Release queue
+                    self.ctrl.emptySemaphore.release(n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly
+                    self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
             # print("loop released with {}, {}".format(max_note_nbr, note_nbr))
             # time.sleep(self.timeSettings.timeBuffer / 1000)  # Waiting a bit to not overpopulate the queue. Necessary?
             if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
