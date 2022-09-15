@@ -157,7 +157,7 @@ class MusicCtrl:
         self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date, self.model.data.size)
 
     def play(self):
-       """
+        """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))
@@ -308,3 +308,4 @@ class MusicCtrl:
                 self.unpaintEvent.set()
         except queue.Full:
             pass
+

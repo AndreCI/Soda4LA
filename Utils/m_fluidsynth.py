@@ -42,9 +42,11 @@ lib = find_library('fluidsynth') or \
       find_library('libfluidsynth-2') or \
       find_library('libfluidsynth-1')
 
-#lib = "D:/visiteur/Documents/Github/sodaMidi/data/libfluidsynth.dll" #line added by me to point to the dll
+##lib = "C:/Users/P17/Documents/GitHub/sodaMidi/data/bin/bin/libfluidsynth.dll"#line added by me to point to the dll
 if lib is None:
-    raise ImportError("Couldn't find the FluidSynth library.")
+    import sys
+    print('\n'.join(sys.path))
+    raise ImportError("Couldn't find the FluidSynth library. Is it added to path?")
 
 # Dynamically link the FluidSynth library
 # Architecture (32-/64-bit) must match your Python version
