@@ -2,16 +2,17 @@ import math
 import threading
 
 from Utils.constants import BATCH_NBR_PLANNED
+from Utils.utils import is_int
 from Views.time_settings_view import TimeSettingsView
 
 
 class TimeSettingsCtrl():
-
     """
     Ctrl for the time settings model
     """
+
     def __init__(self, model):
-        self.model = model #TimeSettings Model
+        self.model = model  # TimeSettings Model
 
     def change_batch_size(self, size):
         if self.model.music.ctrl.playing:
@@ -24,10 +25,15 @@ class TimeSettingsCtrl():
         """
         Validate time settings entered by user and update models accordingly
         """
+
+        if not (is_int(self.model.tsView.batchSizeValue.get()) and
+                is_int(self.model.tsView.musicLengthValue.get()) and
+                is_int(self.model.tsView.bufferSizeValue.get())):
+            return
         size = self.model.tsView.batchSizeValue.get()
         threading.Thread(target=self.change_batch_size, args=[size], daemon=True).start()
 
-        self.model.musicDuration = self.model.tsView.musicLengthValue.get()
+        self.model.musicDuration = int(self.model.tsView.musicLengthValue.get())
         self.model.timeBuffer = self.model.tsView.bufferSizeValue.get()
         self.model.set_type(self.model.tsView.selectedTimeType.get())
         self.model.autoload = self.model.tsView.autoloadVar.get() == 1
@@ -46,7 +52,6 @@ class TimeSettingsCtrl():
             settingsFile.write(line)
             line = "debugverbose=" + str(self.model.debugVerbose) + "\n"
             settingsFile.write(line)
-
 
     def show_window(self):
         if (self.model.tsView == None):

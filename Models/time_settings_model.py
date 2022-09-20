@@ -1,18 +1,23 @@
 from Ctrls.time_settings_controller import TimeSettingsCtrl
 
-
-#TODO add other time settings
+# TODO add other time settings
 from Models.data_model import Data
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER
 
 
-class TimeSettings():
+class TimeSettings():  # TODO rename this into general settings
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.
     """
+
     def __init__(self, music):
-        #Data
+        # Other models
+        self.music = music
+        self.data = Data.getInstance()
+
+        # Data
+        self.musicDuration = None  # 1 row per seconds
         self.possible_types = TIME_SETTINGS_OPTIONS
         self.minVal = None
         self.maxVal = None
@@ -23,36 +28,29 @@ class TimeSettings():
         self.autoloadDataPath = ""
         self.autoloadTimestampcol = ""
         self.debugVerbose = False
-
         self.type = self.possible_types[1]
-        #Other models
-        self.music = music
-        self.data = Data.getInstance()
-        self.musicDuration = self.data.size #1 row per seconds
 
-        #Ctrl
+        # Ctrl
         self.ctrl = TimeSettingsCtrl(self)
-        #View
+        # View
         self.tsView = None
 
-        try:
+        try:  # TODO replace with an if/else
             with open("settings.ini", "r") as settingsFile:
                 for line in settingsFile.readlines():
                     identifier = line.split("=")[0]
                     value = line.split("=")[1]
-                    if(identifier == "autoload"):
+                    if (identifier == "autoload"):
                         self.autoload = eval(value)
-                    elif(identifier == "datapath"):
+                    elif (identifier == "datapath"):
                         self.autoloadDataPath = eval(value)
-                    elif(identifier == "timestampcol"):
+                    elif (identifier == "timestampcol"):
                         self.autoloadTimestampcol = eval(value)
-                    elif(identifier == "debugverbose"):
+                    elif (identifier == "debugverbose"):
                         self.debugVerbose = eval(value)
 
         except FileNotFoundError:
             self.ctrl.write_to_ini()
-
-
 
     def __getstate__(self):
         state = self.__dict__.copy()
@@ -68,9 +66,17 @@ class TimeSettings():
         self.tsView = None
         self.data = Data.getInstance()
 
+    def get_music_duration(self):
+        return self.data.size if self.musicDuration is None else self.musicDuration
 
-    def set_type(self, type : str):
-        if(type not in self.possible_types):
+    def get_bpm(self): #bpm = size/length
+        return 60 * float(self.data.size) / self.get_music_duration()
+
+    def set_bpm(self, bpm): #length = size/bpm
+        self.musicDuration = int(60 * float(self.data.size)/float(bpm))
+
+    def set_type(self, type: str):
+        if (type not in self.possible_types):
             raise NotImplementedError()
         self.type = type
 
@@ -82,7 +88,7 @@ class TimeSettings():
         :param maxVal: float,
             the last timestamp of the dataset, i.e. the last action ever taken
         """
-        if(maxVal <= minVal):
+        if (maxVal <= minVal):
             raise ValueError("Max val {} must be > at min val {}".format(maxVal, minVal))
         self.minVal = minVal
         self.maxVal = maxVal
@@ -95,22 +101,27 @@ class TimeSettings():
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.
         :param current: a data point with features timestamp and id
-        :param offset: change the temporal position by offset, in ms
+        :param offset: between 0-100, in %, change the temporal position relative to bpm
         :return: a temporal position between 0 and 1.
         """
         return_value = None
         if self.maxVal < current["internal_timestamp"] < self.minVal:
-            raise ValueError("current{} must be in range [min; max] : [{};{}]".format(current.internal_timestamp, self.minVal, self.maxVal))
+            raise ValueError(
+                "current{} must be in range [min; max] : [{};{}]".format(current.internal_timestamp, self.minVal,
+                                                                         self.maxVal))
         distance = self.maxVal - self.minVal
-        offset = float(offset)/float(1000*self.musicDuration)
-        #ratio = float(distance)/float(max)
+
+        offset = float(offset)/(100*self.get_bpm()/60) #[0-100] to s
+        offset = float(offset) / float(self.get_music_duration()) #s to tfactor
+        # ratio = float(distance)/float(max)
         if self.type == self.possible_types[0]:
-            return_value = offset + (current["internal_timestamp"] - self.minVal)/float(distance)#(ratio - min) * current
+            return_value = offset + (current["internal_timestamp"] - self.minVal) / float(
+                distance)  # (ratio - min) * current
         elif self.type == self.possible_types[1]:
-            return_value = offset + float(current["internal_id"])/float(self.idMax)
+            return_value = offset + float(current["internal_id"]) / float(self.idMax)
         else:
             raise NotImplementedError()
-        if(return_value <0 or return_value>1):
+        if (return_value < 0 or return_value > 1):
             raise ValueError("absolute temporal position computation ended up with a non valid value ({}). "
                              "the current timestamp {} is between the maximun {} and the minimum {}"
                              .format(return_value, current.internal_timestamp, self.maxVal, self.minVal))

@@ -19,12 +19,12 @@ from Views.music_view import MusicView
 
 class MusicCtrl:
     """
-    Controller for final music model. <=> sonification ctrl
+    Controller for final music model.
     """
 
     def __init__(self, model):
         # Other data
-        self.sonification_view = None
+        self.sonification_view = None # main view containing tracks and parameters
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
         self.skipNextNote = False
@@ -85,6 +85,7 @@ class MusicCtrl:
             self.sonification_view.exportMusicButton.config(state=DISABLED)
 
     def fast_forward(self):
+        raise NotImplementedError()
         skipped = self.model.data.get_next(iterate=True)
         tfactors = []
         for idx, row in skipped.iterrows():
@@ -120,6 +121,7 @@ class MusicCtrl:
         pass
 
     def fast_backward(self):
+        raise NotImplementedError()
         #TODO REDO
         #Empty queue
         #change current batch idx by -X
@@ -168,14 +170,13 @@ class MusicCtrl:
         self.sonification_view.pauseButton.config(state=NORMAL)
         self.sonification_view.stopButton.config(state=NORMAL)
 
-        self.skipNextNote = False  #
+        self.skipNextNote = False
         self.view.save_play_time()
         self.playing = True
         self.paused = False
         self.playingEvent.set() #Release threads
         self.pausedEvent.set() #Release threads
         self.stoppedEvent.clear() #Send signal that we started
-
 
     def pause(self):
         self.sonification_view.playButton.config(state=NORMAL)
@@ -207,9 +208,6 @@ class MusicCtrl:
         self.paused = False
         # Update data
         self.data.reset_playing_index()
-        # Reset semaphores
-        # self.emptySemaphore.release(n=len(self.model.notes))
-        # self.fullSemaphore.acquire(n=len(self.model.notes))
         # Reset queue
         while(not self.unpaintQueue.empty()):
             unpaint = self.unpaintQueue.get_nowait()
@@ -226,8 +224,8 @@ class MusicCtrl:
             self.emptySemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
             self.fullSemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
             self.fullSemaphore.acquire(n=self.model.QUEUE_CAPACITY)  # Set semaphore to 0
-        # self.model.notes.clear()
-        time.sleep(0.05) #TODO: needed for semaphore reset
+
+        time.sleep(0.05) #needed for semaphore values display
         self.sonification_view.add_log_line("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
                                                    self.emptySemaphore._initial_value,
                                                    self.fullSemaphore._value,
@@ -242,7 +240,7 @@ class MusicCtrl:
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()
 
-    def change_global_gain(self, gain):
+    def change_global_gain(self, gain): # dark magic as we interact with fluidsynth
         m_fluidsynth.fluid_settings_setnum(self.view.synth.settings, b'synth.gain', float(gain)/100)
 
     def change_local_gain(self, track, value):
@@ -257,7 +255,7 @@ class MusicCtrl:
             soundfont_fid = self.view.synth.sfload(track.soundfont)  # Load the soundfont
             self.view.synth.program_select(track.id, soundfont_fid, 0, 0)  # Assign soundfont to a channel
 
-    def import_all_tracks(self, path):
+    def import_all_tracks(self, path): #TODO worki8ng if there are already tracks?
         with open(path, 'rb') as f:
             m = pickle.load(f)
             self.model.__dict__.update(m.__dict__)

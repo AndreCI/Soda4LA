@@ -30,7 +30,7 @@ class Music:
             Music._instance = self
             # Data
             self.gain = 100
-            self.timescale = 1000
+            self.timescale = 1000 # ticks per seconds
             self.muted = False
 
             # Other models
@@ -60,17 +60,23 @@ class Music:
         self.notes = PriorityQueue()
         self.sonification_view = None
         self.data = Data.getInstance()
-        # self.ctrl = None#MusicCtrl(self)
 
     def generate_midi(self, filename="output"):
+        """
+        Generate and populate a midi file based on current parameters and data.
+        :param filename:
+        :return:
+        """
+        # setup
         bpm=100
         self.data.reset_playing_index()
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()
-        mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False)
+        mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False) #declare midi file
         for i,t in enumerate(self.tracks):
             mf.addTrackName(i, 0, str(t.id))
             mf.addTempo(i, 0, bpm)
+        # iterate over data
         while not self.data.get_next().empty:
             current_data = self.data.get_next(iterate=True)
             for t in self.tracks:
@@ -83,20 +89,26 @@ class Music:
             mf.writeFile(outf)
 
     def write_fluidsynth_config(self, filename):
+        #TODO add more options
+        """
+        Automatically write a config file for fluidsynth, containg info about soundfonts, gain, etc.
+        """
         with open(filename + "-fluidsynth_midi_to_wav.config", "w") as f:
             lines = ["set player.reset-synth 0\n"] #prevent fluidsynth to override settings
             for t in self.tracks:
-                lines.append("load \"{}\"\n".format(t.soundfont))
+                lines.append("load \"{}\"\n".format(t.soundfont)) # load soundfonts
             for i, t in enumerate(self.tracks):
-                lines.append("select {} {} 0 0\n".format(i,  i+1))
+                lines.append("select {} {} 0 0\n".format(i,  i+1)) # assign soundfonts to tracks
             for i, t in enumerate(self.tracks):
-                lines.append("cc {} 7 {}\n".format(i,  t.gain* 1.27)) #update gain
+                lines.append("cc {} 7 {}\n".format(i,  t.gain* 1.27)) # update gain
             f.writelines(lines)
 
     def generate(self):
         """
         Threaded.
         Produce at regular intervals a note, based on data and tracks configuration and put it into self.notes
+        Uses notes as a PriorityQueue, which is concurently used by music_view (consumer) and various semaphores to
+        get access. In theory, each row in the dataset can be converted into multiples notes (1 note/track).
         """
         while True:  # This thread never stops
             self.ctrl.playingEvent.wait()  # wait if we are stopped
@@ -109,27 +121,29 @@ class Music:
             if not self.ctrl.playing:  # Check if semaphore was acquired while stop was pressed
                 self.ctrl.emptySemaphore.release(n=max_note_nbr)  # Release if so, and return to start of loop to wait
             else:
-                current_data = self.data.get_next(iterate=True)
-                self.ctrl.push_data_to_table(current_data)
-                self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused
+                current_data = self.data.get_next(iterate=True) # get the next batch
+                self.ctrl.push_data_to_table(current_data) # display
+                self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused - can hang here
                 if not self.ctrl.playing: #if music stopped during acquirement of queueSemaphore, release everything
                     self.ctrl.queueSemaphore.release()
-                    self.ctrl.emptySemaphore.release(m=max_note_nbr)
+                    self.ctrl.emptySemaphore.release(n=max_note_nbr)
                 else:
                     for t in self.tracks:
                         for note in t.generate_notes(current_data):
                             self.notes.put_nowait(note)
-                            note_nbr += 1  # We append a list of notes to queue, automatically sorted by tfactor
+                            note_nbr += 1 # keep track of how many note are actually generated
                     self.ctrl.queueSemaphore.release()  # Release queue
                     self.ctrl.emptySemaphore.release(n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly
                     self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
-            # print("loop released with {}, {}".format(max_note_nbr, note_nbr))
-            # time.sleep(self.timeSettings.timeBuffer / 1000)  # Waiting a bit to not overpopulate the queue. Necessary?
             if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
                 self.ctrl.playing = False
 
+    def first_pass_genenration(self):
+        pass
+    # goal is skip ahead.
+
     def get_absolute_note_timing(self, tfactor):
-        return int(tfactor * self.timeSettings.musicDuration * 1000)
+        return int(tfactor * self.timeSettings.get_music_duration() * 1000)
 
     def add_track(self, track, generate_view=False):
         # with self.ctrl.trackSemaphore:

@@ -45,10 +45,9 @@ class TrackConfigView(ttk.Frame):
         self.filterEntry = Entry(self, textvariable=self.filterValue)
         self.filterLabel = Label(self, text="Filter")
 
-        self.offsetValue = StringVar(self, value=self.model.offset)
-        self.offsetValue.trace_add("write", self.update_offset)
-        self.offsetEntry = Entry(self, textvariable=self.offsetValue)
         self.offsetLabel = Label(self, text="Offset (ms)")
+        self.offset_slider = Scale(self, from_=0, to=100, sliderrelief='solid',
+                                       command=self.ctrl.change_offset)  # flat, groove, raised, ridge, solid, sunken
 
         self.encodeValueButton = Button(self, text="Value Encoding", command=self.encode_values)
         self.encodeDurationButton = Button(self, text="Duration Encoding", command=self.encode_durations)
@@ -74,7 +73,7 @@ class TrackConfigView(ttk.Frame):
         self.filterEntry.grid(column=1, row=3, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.offsetLabel.grid(column=0, row=4, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
-        self.offsetEntry.grid(column=1, row=4, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
+        self.offset_slider.grid(column=1, row=4, columnspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX, sticky="ew")
 
         self.local_gain_slider.grid(column=0, row=5, rowspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
 
@@ -110,19 +109,6 @@ class TrackConfigView(ttk.Frame):
 
     def select_variable(self, event):
         self.ctrl.set_main_var(self.selectVarListBox.get())
-
-    def update_offset(self, *args):
-        try:
-            offset = self.offsetValue.get()
-            if(offset is not None):
-                if(offset[0] == "-"):
-                    self.ctrl.update_offset(float(offset[1:]))
-                else:
-                    self.ctrl.update_offset(float(offset))
-        except ValueError:
-            pass
-        except IndexError:
-            pass
 
 
     def update_filter(self, *args):

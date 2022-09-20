@@ -17,7 +17,7 @@ class FilterModule:
 
     def __init__(self):
         self.filter = {}
-        self.column = None #Data().getInstance().get_variables()[0] # column on which to apply the filter
+        self.column = None  # column on which to apply the filter
         self.mode = {}
 
     def __getstate__(self):
@@ -25,6 +25,7 @@ class FilterModule:
         return state
 
     def eval_batch(self, batch):
+        #TODO optimizable?
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
         if the values found in the column corresponding to self.column are validated by the filter

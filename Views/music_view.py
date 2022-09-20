@@ -88,7 +88,7 @@ class MusicView:
                     self.ctrl.paint_next_played_row(note.id, note_timing)
                     prev_note_idx = note.id
                 else:
-                    self.ctrl.skipNextNote = False  # ??
+                    self.ctrl.skipNextNote = False  # Once the note is skipped, don't skip the next ones
                     log_line = "SKIPPED Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} planned scheduled in {}ms. {} notes remaining".format(
                         note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
                         self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
@@ -127,15 +127,15 @@ class MusicView:
 
     def convert(self, temporal_pos, to_absolute=True):
         if to_absolute:
-            return float(temporal_pos - self.starting_time) / (self.model.timeSettings.musicDuration * 1000)
+            return float(temporal_pos - self.starting_time) / (self.model.timeSettings.get_music_duration() * 1000)
         else:
-            return (temporal_pos) * self.model.timeSettings.musicDuration * 1000 + self.starting_time
+            return (temporal_pos) * self.model.timeSettings.get_music_duration() * 1000 + self.starting_time
 
     def get_absolute_tick(self):
         return self.convert(self.sequencer.get_tick(), to_absolute=True)
 
     def set_relative_tick(self, absolute_tick):
-        self.starting_time = self.sequencer.get_tick() - absolute_tick * self.model.timeSettings.musicDuration * 1000
+        self.starting_time = self.sequencer.get_tick() - absolute_tick * self.model.timeSettings.get_music_duration() * 1000
 
     def get_temporal_distance(self, temporal_pos, absolute=True):
         if absolute:

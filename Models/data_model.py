@@ -16,6 +16,12 @@ class Data:
     """
     _instance = None
 
+    @staticmethod
+    def getInstance():
+        if not Data._instance:
+            Data()
+        return Data._instance
+
     def __init__(self):
         """
             header      : list,
@@ -47,11 +53,7 @@ class Data:
             self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
-    @staticmethod
-    def getInstance():
-        if not Data._instance:
-            Data()
-        return Data._instance
+
 
     def retrieve_data(self, path):
         """
@@ -86,9 +88,6 @@ class Data:
         self.batch_size = BATCH_SIZE
         self.size = self.df.shape[0] + 1
 
-
-        #self.get_timestamp_column()  # self.date_column value is modified here
-        #self.df['timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
 
     @staticmethod
     def is_date(string, fuzzy=False):
@@ -138,6 +137,8 @@ class Data:
     def get_min(self, column):
         return min([float(x) for x in self.df[column]])
 
+    def get_first(self):
+        return self.df.iloc[[0, 1, 2, 3, 4, 5, 6, 7, 8 ,9]]
 
     def get_first_and_last(self):
         data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]
@@ -164,15 +165,11 @@ class Data:
         :return:
             date: str,
                 converted date
-        """
+        """ #TODO ask user what format is date, and display guesses
         try:
             date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         except ValueError:
             date = datetime.strptime(d, '%d/%m/%y %H:%M:%S')
-
-
-        #date = datetime.strptime(d, '%H:%M:%S PM')
-        #date = date.replace(year=2022)
         return date
 
     def assign_timestamps(self):
@@ -180,20 +177,15 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-        print(self.get_first_and_last())
-        self.df = self.df.sort_values(by='internal_timestamp', axis=0)
-        print(self.get_first_and_last())
-        #self.df.sort_values(self.date_column)
+        self.df = self.df.sort_values(by='internal_timestamp', axis=0) #TODO message to user telling them that data were sorted
         self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
-        # We call method here to init all the attributes
-        # let's set first and last date here
-        self.first_date = self.get_datetime(self.df.iloc[0][self.date_column])
-        self.last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column])
-        # now, the computation
-        self.timing_span = self.first_date - self.last_date
+        # set first and last date here
+        first_date = self.get_datetime(self.df.iloc[0][self.date_column])
+        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column])
+        self.timing_span = first_date - last_date
         # first and last date into seconds
-        self.first_date = self.first_date.timestamp()
-        self.last_date = self.last_date.timestamp()
+        self.first_date = first_date.timestamp()
+        self.last_date = last_date.timestamp()
 
     def reset_playing_index(self):
         self.index = 0

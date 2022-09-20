@@ -16,15 +16,15 @@ class TrackCtrl:
     def update_filter(self, filter: str):
         self.model.filter.assign(filter)
 
-    def update_offset(self, offset):
-        self.model.offset = offset
-
     def set_soundfont(self, soundfont: str):
         self.model.soundfont = self.soundfontUtils.get(soundfont)
         self.model.music.ctrl.load_soundfonts()
 
     def set_main_var(self, column: str):
         self.model.set_main_var(column)
+
+    def change_offset(self, offset:float):
+        self.model.offset = float(offset)
 
     def change_gain(self, gain: int):
         self.model.gain = int(gain)
