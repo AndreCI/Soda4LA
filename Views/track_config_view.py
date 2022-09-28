@@ -45,9 +45,9 @@ class TrackConfigView(ttk.Frame):
         self.filterEntry = Entry(self, textvariable=self.filterValue)
         self.filterLabel = Label(self, text="Filter")
 
-        self.offsetLabel = Label(self, text="Offset (ms)")
+        self.offsetLabel = Label(self, text="Offset (% of bpm)")
         self.offset_slider = Scale(self, from_=0, to=100, sliderrelief='solid',
-                                       command=self.ctrl.change_offset)  # flat, groove, raised, ridge, solid, sunken
+                                       command=self.ctrl.change_offset, orient="horizontal")  # flat, groove, raised, ridge, solid, sunken
 
         self.encodeValueButton = Button(self, text="Value Encoding", command=self.encode_values)
         self.encodeDurationButton = Button(self, text="Duration Encoding", command=self.encode_durations)

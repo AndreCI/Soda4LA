@@ -4,3 +4,4 @@ future
 python-dateutil
 pyFluidSynth
 MIDIUtil
+matplotlib

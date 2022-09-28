@@ -9,6 +9,7 @@ from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
 from Utils.scrollable_frame import ScrollableFrame
 from Utils.tktable_table import Table
+from Views.grapical_view import GraphicalView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 
@@ -38,39 +39,48 @@ class SonificationView(ttk.Frame):
         self.first_log_line = "Log:" + " "*205 + "\n"
 
         #setup view
-        self.controlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
-        self.switchViewButton = tk.Button(self.controlFrame, text="Change view", command=self.switch_view)
-        self.timeSettingsButton = tk.Button(self.controlFrame, text="General Settings", command=self.open_time_setting)
-        self.addTrackButton = tk.Button(self.controlFrame, text="Add track", command=self.ctrl.create_track)
-        self.exportAllTrackButton = tk.Button(self.controlFrame, text="Export all tracks", command=self.export_all_tracks)
-        self.importAllTrackButton = tk.Button(self.controlFrame, text="Import all tracks", command=self.import_all_tracks)
-        self.exportMusicButton = tk.Button(self.controlFrame, text="Export music", command=self.export_music, state=DISABLED)
+        self.settingsFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
+        self.switchViewButton = tk.Button(self.settingsFrame, text="Change view", command=self.switch_view)
+        self.timeSettingsButton = tk.Button(self.settingsFrame, text="General Settings", command=self.open_time_setting)
+        self.addTrackButton = tk.Button(self.settingsFrame, text="Add track", command=self.ctrl.create_track)
+        self.exportAllTrackButton = tk.Button(self.settingsFrame, text="Export all tracks", command=self.export_all_tracks)
+        self.importAllTrackButton = tk.Button(self.settingsFrame, text="Import all tracks", command=self.import_all_tracks)
+        self.exportMusicButton = tk.Button(self.settingsFrame, text="Export music", command=self.export_music, state=DISABLED)
 
-        self.audioView = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.playButton = tk.Button(self.audioView, text="Play", command=self.ctrl.play, state=NORMAL)
-        self.pauseButton = tk.Button(self.audioView, text="Pause", command=self.ctrl.pause, state=DISABLED)
-        self.stopButton = tk.Button(self.audioView, text="Stop", command=self.ctrl.stop, state=DISABLED)
-        self.ffwButton = tk.Button(self.audioView, text=">>>", command=self.ctrl.fast_forward, state=DISABLED)
-        self.fbwButton = tk.Button(self.audioView, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
-        self.gain_slider = tk.Scale(self.audioView, from_=0, to=100, sliderrelief='solid', orient="horizontal",
+        self.audioControlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
+        self.playButton = tk.Button(self.audioControlFrame, text="Play", command=self.ctrl.play, state=NORMAL)
+        self.pauseButton = tk.Button(self.audioControlFrame, text="Pause", command=self.ctrl.pause, state=DISABLED)
+        self.stopButton = tk.Button(self.audioControlFrame, text="Stop", command=self.ctrl.stop, state=DISABLED)
+        self.ffwButton = tk.Button(self.audioControlFrame, text=">>>", command=self.ctrl.fast_forward, state=DISABLED)
+        self.fbwButton = tk.Button(self.audioControlFrame, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
+        self.gain_slider = tk.Scale(self.audioControlFrame, from_=0, to=100, sliderrelief='solid', orient="horizontal",
                                     command=self.ctrl.change_global_gain)  # flat, groove, raised, ridge, solid, sunken
         self.gain_slider.set(self.model.gain)
         #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
 
         self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                            width=1320, height=340)
+                                            width=820, height=340)
         self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                          width=1380, height=650)
+                                          width=820, height=650)
 
         self.logVar = tk.StringVar(value=self.first_log_line)
         self.logLabel = ttk.Label(self, textvariable=self.logVar)
+
+        self.graph = GraphicalView(self)
 
         self.dataTable = Table(self,  row=9, col=0, width=500, height=250)
 
         self.setup_widgets()
 
     def setup_widgets(self):
-        self.controlFrame.grid(column=0, row=0, rowspan=6)
+        self.settingsFrame.grid(column=0, row=0, rowspan=6)
+        self.audioControlFrame.grid(column=1, row=0, columnspan=5, rowspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.tConfigFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.graph.grid(column=101, row=0, rowspan=1000, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+        self.logLabel.grid(column=0, row=1001, rowspan=20, columnspan=10, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
+        self.dataTable.grid(column=101, row=1001, rowspan=200)#, data=self.model.data.get_first_and_last().to_dict('records'))
+
+
         self.switchViewButton.grid(column=0, row=0, sticky="ew")
         self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
         self.addTrackButton.grid(column=0, row=2, rowspan=2, sticky="ew")
@@ -78,7 +88,6 @@ class SonificationView(ttk.Frame):
         self.exportAllTrackButton.grid(column=0, row=5, sticky="ew")
         self.exportMusicButton.grid(column=0, row=6, sticky="ew")
 
-        self.audioView.grid(column=1, row=0, columnspan=5, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
         self.fbwButton.grid(column=0, row=0, sticky="ew")
         self.playButton.grid(column=1, row=0, sticky="ew")
         self.pauseButton.grid(column=2, row=0, sticky="ew")
@@ -86,11 +95,6 @@ class SonificationView(ttk.Frame):
         self.ffwButton.grid(column=4, row=0, sticky="ew")
         self.gain_slider.grid(column=5, row=0, sticky="ew")
         #self.generateButton.grid(column=3, row=0, sticky="ew")
-
-        self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-
-        self.logLabel.grid(column=5, row=1005, rowspan=20, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
-        self.dataTable.grid(column=6, row=1005, rowspan=200)#, data=self.model.data.get_first_and_last().to_dict('records'))
 
     def add_log_line(self, log_line, debug=False):
         if(debug or not self.model.timeSettings.debugVerbose):
@@ -147,11 +151,11 @@ class SonificationView(ttk.Frame):
         self.configView = not self.configView
         if (self.configView):
             self.tMidiFrame.grid_forget()
-            self.tConfigFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
-                                   padx=DEFAULT_PADX)
+            self.tConfigFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
+
         else:
             self.tConfigFrame.grid_forget()
-            self.tMidiFrame.grid(column=1, row=1, rowspan=1000, columnspan=1000, pady=DEFAULT_PADY,
+            self.tMidiFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY,
                                  padx=DEFAULT_PADX)
 
     def open_time_setting(self):

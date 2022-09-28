@@ -131,6 +131,9 @@ class Music:
                     for t in self.tracks:
                         for note in t.generate_notes(current_data):
                             self.notes.put_nowait(note)
+                            self.ctrl.graphSemaphore.acquire()
+                            self.sonification_view.graph.futureNotes.append(note)
+                            self.ctrl.graphSemaphore.release()
                             note_nbr += 1 # keep track of how many note are actually generated
                     self.ctrl.queueSemaphore.release()  # Release queue
                     self.ctrl.emptySemaphore.release(n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly

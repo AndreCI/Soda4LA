@@ -24,11 +24,15 @@ class MusicCtrl:
 
     def __init__(self, model):
         # Other data
+        self._pausedTimed = 0
+        self._musicTiming = 0
+        self.maxNoteGraph = 50
         self.sonification_view = None # main view containing tracks and parameters
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
         self.skipNextNote = False
         self.queueSemaphore = ISemaphore()  # Could be seomething else ig
+        self.graphSemaphore = ISemaphore()  # Could be seomething else ig
         self.trackSemaphore = threading.Lock()  # Could be seomething else ig
         self.emptySemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
         self.fullSemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
@@ -50,6 +54,14 @@ class MusicCtrl:
         self.producer_thread = threading.Thread(target=self.model.generate, daemon=True)
         self.unpainter_thread = threading.Thread(target=self.unpaint_played_row, daemon=True)
         self.unpainter_thread.start()
+
+    def get_music_time(self):
+        if(not self.playing):
+            return 0
+        elif(self.paused):
+            return self._pausedTimed
+        else:
+            return time.perf_counter() - self._musicTiming
 
     def create_track(self):
         """
@@ -163,6 +175,7 @@ class MusicCtrl:
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
         self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))
+        self.sonification_view.graph.setup(self.maxNoteGraph)
         self.setup_general_attribute()
         self.load_soundfonts()
 
@@ -172,6 +185,10 @@ class MusicCtrl:
 
         self.skipNextNote = False
         self.view.save_play_time()
+        if(self.paused):
+            self._musicTiming += self._pausedTimed
+        else:
+            self._musicTiming = time.perf_counter()
         self.playing = True
         self.paused = False
         self.playingEvent.set() #Release threads
@@ -182,6 +199,7 @@ class MusicCtrl:
         self.sonification_view.playButton.config(state=NORMAL)
         self.sonification_view.pauseButton.config(state=DISABLED)
         self.view.save_pause_time()
+        self._pausedTimed = time.perf_counter() - self._musicTiming
         self.paused = True
         self.playingEvent.clear() #Block threads TODO: Necessary?
         self.pausedEvent.clear() #Block threads
@@ -206,6 +224,7 @@ class MusicCtrl:
         # Update bools
         self.playing = False
         self.paused = False
+        self.sonification_view.graph.reset()
         # Update data
         self.data.reset_playing_index()
         # Reset queue

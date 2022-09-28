@@ -17,7 +17,7 @@ class TimeSettings():  # TODO rename this into general settings
         self.data = Data.getInstance()
 
         # Data
-        self.musicDuration = None  # 1 row per seconds
+        self.musicDuration = None  # in sec. 1 row per seconds is default
         self.possible_types = TIME_SETTINGS_OPTIONS
         self.minVal = None
         self.maxVal = None

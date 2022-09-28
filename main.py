@@ -31,5 +31,6 @@ import Views.main_view
 
 
 if __name__ == "__main__":
+    print("starting soda at {}".format(datetime.datetime.now()))
     mv = Views.main_view.MainView()
     mv.mainloop()
