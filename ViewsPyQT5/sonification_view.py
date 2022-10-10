@@ -5,6 +5,9 @@ from tkinter import ttk
 from tkinter.constants import DISABLED, NORMAL
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
+from PyQt5.QtCore import QRect
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame
+
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
 from Utils.scrollable_frame import ScrollableFrame
@@ -12,9 +15,14 @@ from Utils.tktable_table import Table
 from Views.grapical_view import GraphicalView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
+from ViewsPyQT5.ViewsUtils.advanced_track_view import AdvancedTrackView
+from ViewsPyQT5.ViewsUtils.top_bar import TopSettingsBar
+from ViewsPyQT5.ViewsUtils.track_view import TrackView
+from ViewsPyQT5.ViewsUtils.views_utils import generate_button
+from ViewsPyQT5.ViewsUtils.visu import Visu
 
 
-class SonificationView(ttk.Frame):
+class SonificationView(QWidget):
     """
     Main view for the sonification process, handling both configuration and midi representation of the loaded data.
     Modules: list of tracks, each with their own config and midi view.
@@ -24,11 +32,11 @@ class SonificationView(ttk.Frame):
     #TODO: Add fast forward and backward +x/-x seconds
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        #Ctrl and model
-        self.model = Music.getInstance()
-        self.ctrl = self.model.ctrl
-        self.model.sonification_view = self
-        self.ctrl.sonification_view = self
+        # #Ctrl and model
+        # self.model = Music.getInstance()
+        # self.ctrl = self.model.ctrl
+        # self.model.sonification_view = self
+        # self.ctrl.sonification_view = self
 
         #View data
         self.configView = True #Inform which view is currently displqyed
@@ -38,6 +46,29 @@ class SonificationView(ttk.Frame):
         self.logMax = 10
         self.first_log_line = "Log:" + " "*205 + "\n"
 
+        self.setGeometry(0,0,1980,1020)
+        self.windowLayout = QVBoxLayout(self)
+        self.centralLayout = QHBoxLayout()
+        self.trackLayout = QVBoxLayout()
+        self.visualisation_layout = QVBoxLayout()
+        settings = TopSettingsBar()
+        settings.setupUi()
+        tracks = TrackView()
+        tracks.setupUi()
+        advancedTracks = AdvancedTrackView()
+        advancedTracks.setupUi()
+        visu = Visu()
+        self.visualisation_layout.addWidget(visu._main)
+        self.windowLayout.addLayout(settings.horizontalLayout)
+        self.windowLayout.addLayout(self.centralLayout)
+        self.centralLayout.addLayout(self.trackLayout)
+        self.centralLayout.addLayout(self.visualisation_layout)
+        self.trackLayout.addLayout(tracks.verticalLayout)
+        self.trackLayout.addLayout(advancedTracks.gridLayout)
+
+
+
+    def legacy(self):
         #setup view
         self.settingsFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
         self.switchViewButton = tk.Button(self.settingsFrame, text="Change view", command=self.switch_view)
@@ -70,7 +101,7 @@ class SonificationView(ttk.Frame):
 
         self.dataTable = Table(self,  row=9, col=0, width=500, height=250)
 
-        self.setup_widgets()
+        #self.setup_widgets()
 
     def setup_widgets(self):
         self.settingsFrame.grid(column=0, row=0, rowspan=6)

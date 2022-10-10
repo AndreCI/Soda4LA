@@ -96,13 +96,22 @@ class MusicCtrl:
             self.sonification_view.playButton.config(state=DISABLED)
             self.sonification_view.exportMusicButton.config(state=DISABLED)
 
+    def fast_backward(self):
+        self.view.starting_time += 2000
+        self._musicTiming += 2
+        tfactors = 0
+
     def fast_forward(self):
-        raise NotImplementedError()
-        skipped = self.model.data.get_next(iterate=True)
+        #raise NotImplementedError()
+        self.view.starting_time -= 2000
+        self._musicTiming -= 2
+        return
+        time_skip = 5000 # ms
+        skipped = self.model.data.get_next()
         tfactors = []
         for idx, row in skipped.iterrows():
             tfactors.append(self.model.get_absolute_note_timing(self.model.timeSettings.get_temporal_position(row)))
-        print(tfactors)
+        print("tfactors for next batches are")
 
     def fast_forward_leg(self):
         nonempty = True

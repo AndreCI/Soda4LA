@@ -146,6 +146,10 @@ class Music:
     # goal is skip ahead.
 
     def get_absolute_note_timing(self, tfactor):
+        """
+        Compute and return the absolute timing in sec of a tfactor, depending on music duration.
+        :param tfactor: a value between 0 and 1
+        """
         return int(tfactor * self.timeSettings.get_music_duration() * 1000)
 
     def add_track(self, track, generate_view=False):

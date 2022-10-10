@@ -39,11 +39,10 @@ import Views.main_view
 if __name__ == "__main__":
     print("starting soda at {}".format(datetime.datetime.now()))
 
-    #app = QApplication(sys.argv)
+    app = QApplication(sys.argv)
 
-    #window = MainWindow()
-    #window.showMaximized()
+    window = MainWindow()
+    window.showMaximized()
 
-    #app.exec()
-    mv = Views.main_view.MainView()
-    mv.mainloop()
+    app.exec()
+

@@ -37,7 +37,7 @@ class GraphicalView(ttk.Frame):
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.ax = self.figure.add_subplot()
         data = np.zeros((self.verticalRes, self.horizontalRes))
-        self.line = self.ax.pcolormesh(data, cmap=self.colormap, rasterized=True, vmin=0, vmax=127)
+        self.line = self.ax.pcolormesh(data, cmap=self.colormap, rasterized=True, vmin=0, vmax=100)
         self.colorbar = self.figure.colorbar(self.line, ax=self.ax)
         self.ax.set_ylabel("value")
         self.ax.set_xlabel("time (seconds)")
@@ -109,14 +109,15 @@ class GraphicalView(ttk.Frame):
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
             start_time = note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.ctrl.get_music_time() + 2
-            if (0 < start_time <= self.timeWindow / 1000):
+            note_timing = self.parent.ctrl.view.get_relative_note_timing(self.parent.ctrl.model.get_absolute_note_timing(note.tfactor))
+            if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000):
                 end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow), self.horizontalRes)
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
                 max_vertical_pos = max(0, note.value + 1)
                 min_vertical_pos = min(127, note.value - 1)
-                gain = int(note.velocity * float(self.parent.model.tracks[note.channel].gain) / 100)
+                gain = int(note.velocity * float(self.parent.model.tracks[note.channel].gain) / 128)
                 data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
-            if (start_time < 0):
+            if (start_time < 0 or note_timing < -2000):
                 past_notes.append(note)
         for note in past_notes:
             self.futureNotes.remove(note)
