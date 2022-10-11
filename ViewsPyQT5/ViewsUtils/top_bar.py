@@ -5,6 +5,8 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar
 
+from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle
+
 
 ################################################################################
 ##  generated from reading UI file 'topsettingszfbzda.ui'
@@ -20,9 +22,9 @@ class TopSettingsBar(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.TopControlFrame = QFrame()
         self.TopControlFrame.setObjectName(u"TopControlFrame")
-        self.TopControlFrame.setFrameShape(QFrame.Panel)
-        self.TopControlFrame.setFrameShadow(QFrame.Raised)
-        self.TopControlFrame.setLineWidth(3)
+        #self.TopControlFrame.setFrameShape(QFrame.Panel)
+        #self.TopControlFrame.setFrameShadow(QFrame.Raised)
+        #self.TopControlFrame.setLineWidth(3)
         self.TopControlFrame.setMaximumSize(16777215, 40)
         self.horizontalLayout_3 = QHBoxLayout(self.TopControlFrame)
         self.horizontalLayout_3.setSpacing(5)
@@ -41,20 +43,9 @@ class TopSettingsBar(object):
         self.AddTrackButton.setSizePolicy(sizePolicy)
         self.AddTrackButton.setMinimumSize(QSize(0, 0))
         self.AddTrackButton.setMaximumSize(QSize(36, 16777215))
-        self.AddTrackButton.setStyleSheet(u"QPushButton{\n"
-                                          "    background-color: red;\n"
-                                          "    border-style: outset;\n"
-                                          "    border-width: 2px;\n"
-                                          "    border-radius: 10px;\n"
-                                          "    border-color: beige;\n"
-                                          "    padding: 6px;\n"
-                                          "}\n"
-                                          "QPushButton:pressed {\n"
-                                          "    background-color: rgb(224, 0, 0);\n"
-                                          "    border-style: inset;\n"
-                                          "}")
+        self.AddTrackButton.setStyleSheet(buttonStyle)
         icon = QIcon()
-        icon.addFile(u"../../icons/circle-add.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"data/img/icons/circle-add.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.AddTrackButton.setIcon(icon)
 
         self.horizontalLayout_3.addWidget(self.AddTrackButton)
@@ -68,20 +59,9 @@ class TopSettingsBar(object):
         self.SettingsButton.setSizePolicy(sizePolicy1)
         self.SettingsButton.setMinimumSize(QSize(0, 0))
         self.SettingsButton.setMaximumSize(QSize(36, 16777215))
-        self.SettingsButton.setStyleSheet(u"QPushButton{\n"
-                                          "    background-color: red;\n"
-                                          "    border-style: outset;\n"
-                                          "    border-width: 2px;\n"
-                                          "    border-radius: 10px;\n"
-                                          "    border-color: beige;\n"
-                                          "    padding: 6px;\n"
-                                          "}\n"
-                                          "QPushButton:pressed {\n"
-                                          "    background-color: rgb(224, 0, 0);\n"
-                                          "    border-style: inset;\n"
-                                          "}")
+        self.SettingsButton.setStyleSheet(buttonStyle)
         icon1 = QIcon()
-        icon1.addFile(u"../../icons/settings.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"data/img/icons/settings.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.SettingsButton.setIcon(icon1)
 
         self.horizontalLayout_3.addWidget(self.SettingsButton)
@@ -89,6 +69,7 @@ class TopSettingsBar(object):
         self.MusicProgressBar = QProgressBar(self.TopControlFrame)
         self.MusicProgressBar.setObjectName(u"MusicProgressBar")
         self.MusicProgressBar.setValue(24)
+        self.MusicProgressBar.setStyleSheet(progressBarStyle)
 
         self.horizontalLayout_3.addWidget(self.MusicProgressBar)
 
@@ -98,20 +79,9 @@ class TopSettingsBar(object):
         self.FbwButton.setSizePolicy(sizePolicy)
         self.FbwButton.setMinimumSize(QSize(0, 0))
         self.FbwButton.setMaximumSize(QSize(36, 16777215))
-        self.FbwButton.setStyleSheet(u"QPushButton{\n"
-                                     "    background-color: red;\n"
-                                     "    border-style: outset;\n"
-                                     "    border-width: 2px;\n"
-                                     "    border-radius: 10px;\n"
-                                     "    border-color: beige;\n"
-                                     "    padding: 6px;\n"
-                                     "}\n"
-                                     "QPushButton:pressed {\n"
-                                     "    background-color: rgb(224, 0, 0);\n"
-                                     "    border-style: inset;\n"
-                                     "}")
+        self.FbwButton.setStyleSheet(buttonStyle)
         icon2 = QIcon()
-        icon2.addFile(u"../../icons/previous.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"data/img/icons/chevron-double-left.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.FbwButton.setIcon(icon2)
 
         self.horizontalLayout_3.addWidget(self.FbwButton)
@@ -122,20 +92,9 @@ class TopSettingsBar(object):
         self.PPButton.setSizePolicy(sizePolicy)
         self.PPButton.setMinimumSize(QSize(0, 0))
         self.PPButton.setMaximumSize(QSize(36, 16777215))
-        self.PPButton.setStyleSheet(u"QPushButton{\n"
-                                    "    background-color: red;\n"
-                                    "    border-style: outset;\n"
-                                    "    border-width: 2px;\n"
-                                    "    border-radius: 10px;\n"
-                                    "    border-color: beige;\n"
-                                    "    padding: 6px;\n"
-                                    "}\n"
-                                    "QPushButton:pressed {\n"
-                                    "    background-color: rgb(224, 0, 0);\n"
-                                    "    border-style: inset;\n"
-                                    "}")
+        self.PPButton.setStyleSheet(buttonStyle)
         icon3 = QIcon()
-        icon3.addFile(u"../../icons/pause.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"data/img/icons/pause.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.PPButton.setIcon(icon3)
 
         self.horizontalLayout_3.addWidget(self.PPButton)
@@ -146,20 +105,9 @@ class TopSettingsBar(object):
         self.StopButton.setSizePolicy(sizePolicy)
         self.StopButton.setMinimumSize(QSize(0, 0))
         self.StopButton.setMaximumSize(QSize(36, 16777215))
-        self.StopButton.setStyleSheet(u"QPushButton{\n"
-                                      "    background-color: red;\n"
-                                      "    border-style: outset;\n"
-                                      "    border-width: 2px;\n"
-                                      "    border-radius: 10px;\n"
-                                      "    border-color: beige;\n"
-                                      "    padding: 6px;\n"
-                                      "}\n"
-                                      "QPushButton:pressed {\n"
-                                      "    background-color: rgb(224, 0, 0);\n"
-                                      "    border-style: inset;\n"
-                                      "}")
+        self.StopButton.setStyleSheet(buttonStyle)
         icon4 = QIcon()
-        icon4.addFile(u"../../icons/stop.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"data/img/icons/stop.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.StopButton.setIcon(icon4)
         self.StopButton.setIconSize(QSize(20, 20))
 
@@ -171,20 +119,9 @@ class TopSettingsBar(object):
         self.FfwButton.setSizePolicy(sizePolicy)
         self.FfwButton.setMinimumSize(QSize(0, 0))
         self.FfwButton.setMaximumSize(QSize(36, 16777215))
-        self.FfwButton.setStyleSheet(u"QPushButton{\n"
-                                     "    background-color: red;\n"
-                                     "    border-style: outset;\n"
-                                     "    border-width: 2px;\n"
-                                     "    border-radius: 10px;\n"
-                                     "    border-color: beige;\n"
-                                     "    padding: 6px;\n"
-                                     "}\n"
-                                     "QPushButton:pressed {\n"
-                                     "    background-color: rgb(224, 0, 0);\n"
-                                     "    border-style: inset;\n"
-                                     "}")
+        self.FfwButton.setStyleSheet(buttonStyle)
         icon5 = QIcon()
-        icon5.addFile(u"../../icons/next.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"data/img/icons/chevron-double-right.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.FfwButton.setIcon(icon5)
 
         self.horizontalLayout_3.addWidget(self.FfwButton)
@@ -197,35 +134,7 @@ class TopSettingsBar(object):
         sizePolicy2.setHeightForWidth(self.GainSlider.sizePolicy().hasHeightForWidth())
         self.GainSlider.setSizePolicy(sizePolicy2)
         self.GainSlider.setMinimumSize(QSize(100, 0))
-        self.GainSlider.setStyleSheet(u"QSlider::groove:horizontal {\n"
-                                      "    border: 1px solid #999999;\n"
-                                      "    height: 8px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
-                                      "    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
-                                      "    margin: 2px 0;\n"
-                                      "}\n"
-                                      "QSlider::handle:horizontal {\n"
-                                      "    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);\n"
-                                      "    border: 1px solid #5c5c5c;\n"
-                                      "    width: 18px;\n"
-                                      "    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */\n"
-                                      "    border-radius: 3px;\n"
-                                      "}\n"
-                                      "\n"
-                                      "QSlider::groove:horizontal {\n"
-                                      "    background: red;\n"
-                                      "    position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */\n"
-                                      "    left: 4px; right: 4px;\n"
-                                      "}\n"
-                                      "\n"
-                                      "\n"
-                                      "QSlider::add-page:horizontal {\n"
-                                      "    background: white;\n"
-                                      "}\n"
-                                      "\n"
-                                      "QSlider::sub-page:horizontal {\n"
-                                      "    back"
-                                      "ground: pink;\n"
-                                      "}")
+        self.GainSlider.setStyleSheet(sliderGainStyle)
         self.GainSlider.setValue(65)
         self.GainSlider.setSliderPosition(65)
         self.GainSlider.setOrientation(Qt.Horizontal)

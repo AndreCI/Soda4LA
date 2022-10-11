@@ -6,7 +6,7 @@ from tkinter.constants import DISABLED, NORMAL
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
 from PyQt5.QtCore import QRect
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame, QSpacerItem,QSizePolicy
 
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
@@ -16,10 +16,11 @@ from Views.grapical_view import GraphicalView
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
 from ViewsPyQT5.ViewsUtils.advanced_track_view import AdvancedTrackView
+from ViewsPyQT5.ViewsUtils.table_view import TableView
 from ViewsPyQT5.ViewsUtils.top_bar import TopSettingsBar
 from ViewsPyQT5.ViewsUtils.track_view import TrackView
 from ViewsPyQT5.ViewsUtils.views_utils import generate_button
-from ViewsPyQT5.ViewsUtils.visu import Visu
+from ViewsPyQT5.ViewsUtils.graphical_view import GraphView
 
 
 class SonificationView(QWidget):
@@ -50,21 +51,30 @@ class SonificationView(QWidget):
         self.windowLayout = QVBoxLayout(self)
         self.centralLayout = QHBoxLayout()
         self.trackLayout = QVBoxLayout()
-        self.visualisation_layout = QVBoxLayout()
+        self.graphLayout = QVBoxLayout()
+        #self.visualisation_layout = QVBoxLayout()
         settings = TopSettingsBar()
         settings.setupUi()
         tracks = TrackView()
         tracks.setupUi()
         advancedTracks = AdvancedTrackView()
         advancedTracks.setupUi()
-        visu = Visu()
-        self.visualisation_layout.addWidget(visu._main)
+        visu = GraphView()
+        table = TableView()
+        table.setupUi()
+        #self.visualisation_layout.addWidget(visu._main)
         self.windowLayout.addLayout(settings.horizontalLayout)
         self.windowLayout.addLayout(self.centralLayout)
         self.centralLayout.addLayout(self.trackLayout)
-        self.centralLayout.addLayout(self.visualisation_layout)
+        self.centralLayout.addLayout(self.graphLayout)
+        self.centralLayout.setStretch(0,2)
+        self.centralLayout.setStretch(1,3)
         self.trackLayout.addLayout(tracks.verticalLayout)
         self.trackLayout.addLayout(advancedTracks.gridLayout)
+        self.graphLayout.addWidget(visu.GraphFrame)
+        self.graphLayout.addWidget(table.tableFrame)
+        #self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        #self.graphLayout.addItem(self.verticalSpacer)
 
 
 

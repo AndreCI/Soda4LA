@@ -100,6 +100,9 @@ class AdvancedTrackView(object):
         self.detailsScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.detailsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.detailsScrollArea.setWidgetResizable(True)
+        self.detailsScrollArea.setFrameShape(QFrame.Panel)
+        self.detailsScrollArea.setFrameShadow(QFrame.Raised)
+
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 308, 397))

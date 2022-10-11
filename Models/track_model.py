@@ -29,6 +29,7 @@ class Track:
         sfl = SoundfontLoader.get_instance()
         self.soundfont = sfl.get()  # soundfont selected by user, <=< instrument
 
+        self.name = "Track # {}".format(self.id)
         self.filter = FilterModule() #Filter module linked to the column, dictating which row in data is used to generate notes
         self.data = Data().getInstance()
         self.filter.column = self.data.get_variables()[0]
@@ -48,6 +49,7 @@ class Track:
         #Views
         self.midiView = None
         self.configView = None
+        self.gTrackView = None
 
     def __getstate__(self):
         state = self.__dict__.copy()
