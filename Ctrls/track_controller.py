@@ -1,6 +1,7 @@
 from Utils.soundfont_loader import SoundfontLoader
 from Views.track_config_view import TrackConfigView
 from Views.track_midi_view import TrackMidiView
+from ViewsPyQT5.ViewsUtils.views_utils import selectedTrackStyle, selectTrackButtonStyle
 
 
 class TrackCtrl:
@@ -38,6 +39,13 @@ class TrackCtrl:
         self.model.muted = not self.model.muted
         self.model.music.ctrl.change_gain(self.model.id, 0) if self.model.muted \
             else self.model.music.ctrl.change_gain(self.model.id, self.model.gain)
+
+    def select(self):
+        if(self.model.generalView.selectedTrack is not None):
+            self.model.generalView.selectedTrack.gTrackView.selectButton.setStyleSheet(selectTrackButtonStyle)
+        self.model.generalView.selectedTrack = self.model
+        self.model.generalView.display_track(self.model)
+        self.model.gTrackView.selectButton.setStyleSheet(selectedTrackStyle)
 
     def remove(self):
         for pencoding_model in self.model.pencodings.values():

@@ -19,7 +19,6 @@ from ViewsPyQT5.ViewsUtils.advanced_track_view import AdvancedTrackView
 from ViewsPyQT5.ViewsUtils.table_view import TableView
 from ViewsPyQT5.ViewsUtils.top_bar import TopSettingsBar
 from ViewsPyQT5.ViewsUtils.track_view import TrackView
-from ViewsPyQT5.ViewsUtils.views_utils import generate_button
 from ViewsPyQT5.ViewsUtils.graphical_view import GraphView
 
 

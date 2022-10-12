@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Soda4LA")
         #self.setGeometry(0,0,1920, 1080)
         self.sonification_main_widget = SonificationView(self)
+        #self.sonification_main_widget.setStyleSheet("background-color: black;")
 
         # Set the central widget of the Window.
         self.setCentralWidget(self.sonification_main_widget)

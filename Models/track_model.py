@@ -50,6 +50,7 @@ class Track:
         self.midiView = None
         self.configView = None
         self.gTrackView = None
+        self.generalView = None
 
     def __getstate__(self):
         state = self.__dict__.copy()

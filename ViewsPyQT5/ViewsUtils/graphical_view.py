@@ -62,7 +62,7 @@ class GraphView():
         self.movingGraphThread.start()
 
     def draw_notes(self):
-        data = np.ones((self.verticalRes, self.horizontalRes)) * random.randint(0,100)
+        data = np.ones((self.verticalRes, self.horizontalRes)) * random.randint(0,100) *  0
 
         self.line.set_array(data)
         self.line.figure.canvas.draw()

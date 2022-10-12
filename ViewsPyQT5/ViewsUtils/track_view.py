@@ -14,12 +14,14 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, 
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout
 
 from Models.track_model import Track
-from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, buttonStyle2, sliderGainStyle
+from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTrackButtonStyle, sliderGainStyle, sliderOffsetStyle, \
+    buttonStyle3
 
 
 class TrackView(object):
     def __init__(self):
         self.gTrackList = []
+        self.selectedTrack = None
 
     def setupUi(self):
         self.verticalLayout = QVBoxLayout()
@@ -150,11 +152,10 @@ class TrackView(object):
         sizePolicy3.setHeightForWidth(self.GainSlider.sizePolicy().hasHeightForWidth())
         self.GainSlider.setSizePolicy(sizePolicy3)
         self.GainSlider.setMinimumSize(QSize(100, 0))
-        self.GainSlider.setStyleSheet(u"")
+        self.GainSlider.setStyleSheet(sliderGainStyle)
         self.GainSlider.setValue(65)
         self.GainSlider.setSliderPosition(65)
         self.GainSlider.setOrientation(Qt.Horizontal)
-        self.GainSlider.setStyleSheet(sliderGainStyle)
 
         self.TrackSettings.addWidget(self.GainSlider)
 
@@ -163,7 +164,7 @@ class TrackView(object):
         sizePolicy3.setHeightForWidth(self.OffsetSlider.sizePolicy().hasHeightForWidth())
         self.OffsetSlider.setSizePolicy(sizePolicy3)
         self.OffsetSlider.setMinimumSize(QSize(100, 0))
-        self.OffsetSlider.setStyleSheet(u"")
+        self.OffsetSlider.setStyleSheet(sliderOffsetStyle)
         self.OffsetSlider.setValue(65)
         self.OffsetSlider.setSliderPosition(65)
         self.OffsetSlider.setOrientation(Qt.Horizontal)
@@ -259,6 +260,11 @@ class TrackView(object):
         self.ValueButton.setText(QCoreApplication.translate("TrackConfigView", u"Value", None))
     # retranslateUi
 
+    def display_track(self, track):
+        self.TrackNameLineEdit.setText(track.name)
+        self.GainSlider.setValue(track.gain)
+        self.OffsetSlider.setValue(track.offset)
+        #self.SoundfontComboBox.set
 
     def add_track(self, track):
         g_track_frame = QFrame()
@@ -286,7 +292,7 @@ class TrackView(object):
         icon = QIcon()
         icon.addFile(u"data/img/icons/delete.svg", QSize(), QIcon.Normal, QIcon.Off)
         g_track_delete_button.setIcon(icon)
-        g_track_delete_button.setStyleSheet(buttonStyle2)
+        g_track_delete_button.setStyleSheet(buttonStyle3)
         horizontal_layout.addWidget(g_track_delete_button)
 
         g_track_select_button = QPushButton(g_track_frame)
@@ -296,12 +302,16 @@ class TrackView(object):
         size_policy2.setVerticalStretch(0)
         size_policy2.setHeightForWidth(g_track_select_button.sizePolicy().hasHeightForWidth())
         g_track_select_button.setSizePolicy(size_policy2)
-        g_track_select_button.setStyleSheet(buttonStyle2)
-
+        g_track_select_button.setStyleSheet(selectTrackButtonStyle)
         horizontal_layout.addWidget(g_track_select_button)
-
         gTrackView = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button, selectButton=g_track_select_button, hLayout=horizontal_layout)
+
         self.gTrackList.append(gTrackView)
         track.gTrackView = gTrackView
+        track.generalView = self
         gTrackView.selectButton.setText(track.name)
+
+        gTrackView.selectButton.clicked.connect(lambda : track.ctrl.select())
+        gTrackView.deleteButton.clicked.connect(lambda : track.ctrl.remove())
+
         self.verticalLayout_4.insertWidget(len(self.gTrackList) - 1, g_track_frame)

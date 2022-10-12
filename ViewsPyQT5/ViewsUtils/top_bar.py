@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
 
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar
+    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar, QLabel
 
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle
 
@@ -17,6 +17,7 @@ from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sli
 ################################################################################
 
 class TopSettingsBar(object):
+    #https://stackoverflow.com/questions/56275060/pyqt5-how-to-use-progress-bar-in-pyqt5
     def setupUi(self):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -31,8 +32,6 @@ class TopSettingsBar(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.LeftSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.LeftSpacer)
 
         self.AddTrackButton = QPushButton(self.TopControlFrame)
         self.AddTrackButton.setObjectName(u"AddTrackButton")
@@ -65,13 +64,51 @@ class TopSettingsBar(object):
         self.SettingsButton.setIcon(icon1)
 
         self.horizontalLayout_3.addWidget(self.SettingsButton)
+        self.horizontalLayout_3.addItem(self.LeftSpacer)
 
-        self.MusicProgressBar = QProgressBar(self.TopControlFrame)
-        self.MusicProgressBar.setObjectName(u"MusicProgressBar")
-        self.MusicProgressBar.setValue(24)
-        self.MusicProgressBar.setStyleSheet(progressBarStyle)
+        self.musicPBLayout = QGridLayout()#self.gridLayoutWidget)
+        self.musicPBLayout.setObjectName(u"musicPBLayout")
+        self.musicPBLayout.setContentsMargins(0, 0, 0, 0)
+        self.musicPBSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.musicPBSpacer2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_3.addWidget(self.MusicProgressBar)
+        self.GainSlider = QSlider()
+        self.GainSlider.setObjectName(u"GainSlider")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.GainSlider.sizePolicy().hasHeightForWidth())
+        self.GainSlider.setSizePolicy(sizePolicy2)
+        self.GainSlider.setMinimumSize(QSize(350, 0))
+        self.GainSlider.setStyleSheet(sliderGainStyle)
+        self.GainSlider.setValue(65)
+        self.GainSlider.setSliderPosition(65)
+        self.GainSlider.setOrientation(Qt.Horizontal)
+        #self.GainSlider.setMaximumSize(100, 50)
+
+        self.musicProgressBar = QProgressBar()
+        self.musicProgressBar.setObjectName(u"musicProgressBar")
+        self.musicProgressBar.setValue(24)
+        self.musicProgressBar.setTextVisible(False)
+        self.musicProgressBar.setStyleSheet(progressBarStyle)
+        self.musicProgressBar.setMaximumSize(5000, 7)
+        self.musicProgressBar.setContentsMargins(0,0,0,10)
+
+        self.musicStartLabel = QLabel("0:42")
+        self.musicStartLabel.setObjectName(u"musicStartLabel")
+        self.musicStartLabel.setContentsMargins(10,0,0,0)
+
+        self.musicEndLabel = QLabel("13:12")
+        self.musicEndLabel.setObjectName(u"musicEndLabel")
+        self.musicEndLabel.setContentsMargins(0,0,10,0)
+
+        self.musicPBLayout.addWidget(self.musicProgressBar, 1, 0, 1, 5)
+        self.musicPBLayout.addWidget(self.musicStartLabel, 0, 0, 1, 1)
+        self.musicPBLayout.addItem(self.musicPBSpacer, 0, 1, 1, 1)
+        self.musicPBLayout.addWidget(self.GainSlider, 0, 2, 1, 1)
+        self.musicPBLayout.addItem(self.musicPBSpacer2, 0, 3, 1, 1)
+        self.musicPBLayout.addWidget(self.musicEndLabel, 0, 4, 1, 1)
+        #TODO : inverser le blanc et le fond gris et rajouter un symbole haut parleur pour communiquer que c'est du son
 
         self.FbwButton = QPushButton(self.TopControlFrame)
         self.FbwButton.setObjectName(u"FbwButton")
@@ -126,25 +163,14 @@ class TopSettingsBar(object):
 
         self.horizontalLayout_3.addWidget(self.FfwButton)
 
-        self.GainSlider = QSlider(self.TopControlFrame)
-        self.GainSlider.setObjectName(u"GainSlider")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.GainSlider.sizePolicy().hasHeightForWidth())
-        self.GainSlider.setSizePolicy(sizePolicy2)
-        self.GainSlider.setMinimumSize(QSize(100, 0))
-        self.GainSlider.setStyleSheet(sliderGainStyle)
-        self.GainSlider.setValue(65)
-        self.GainSlider.setSliderPosition(65)
-        self.GainSlider.setOrientation(Qt.Horizontal)
+        #self.horizontalLayout_3.addWidget(self.GainSlider)
 
-        self.horizontalLayout_3.addWidget(self.GainSlider)
-
+        self.MidSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.RightSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
+        self.horizontalLayout_3.addItem(self.MidSpacer)
+        self.horizontalLayout_3.addLayout(self.musicPBLayout)
         self.horizontalLayout_3.addItem(self.RightSpacer)
-
         self.horizontalLayout.addWidget(self.TopControlFrame)
 
         self.retranslateUi()

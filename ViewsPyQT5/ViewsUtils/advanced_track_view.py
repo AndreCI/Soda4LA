@@ -16,6 +16,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, 
 
 
 class AdvancedTrackView(object):
+
+    def display_track(self, track, key):
+        pass
+
     def setupUi(self):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
