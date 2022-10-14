@@ -20,6 +20,7 @@ from ViewsPyQT5.ViewsUtils.table_view import TableView
 from ViewsPyQT5.ViewsUtils.top_bar import TopSettingsBar
 from ViewsPyQT5.ViewsUtils.track_view import TrackView
 from ViewsPyQT5.ViewsUtils.graphical_view import GraphView
+from ViewsPyQT5.settings_view import SettingsView
 
 
 class SonificationView(QWidget):
@@ -37,7 +38,7 @@ class SonificationView(QWidget):
         # self.ctrl = self.model.ctrl
         # self.model.sonification_view = self
         # self.ctrl.sonification_view = self
-
+        self.parent = parent
         #View data
         self.configView = True #Inform which view is currently displqyed
         self.trackConfigViews = []
@@ -45,96 +46,42 @@ class SonificationView(QWidget):
         self.log = deque()
         self.logMax = 10
         self.first_log_line = "Log:" + " "*205 + "\n"
+        self.model = Music.getInstance()
+        self.model.sonification_view = self
 
         self.setGeometry(0,0,1980,1020)
         self.windowLayout = QVBoxLayout(self)
         self.centralLayout = QHBoxLayout()
         self.trackLayout = QVBoxLayout()
         self.graphLayout = QVBoxLayout()
-        #self.visualisation_layout = QVBoxLayout()
-        settings = TopSettingsBar()
-        settings.setupUi()
-        tracks = TrackView()
-        tracks.setupUi()
-        advancedTracks = AdvancedTrackView()
-        advancedTracks.setupUi()
-        visu = GraphView()
-        table = TableView()
-        table.setupUi()
+
+        self.settingsView = SettingsView(self)
+        self.topBarView = TopSettingsBar(self)
+        self.topBarView.setupUi()
+        self.trackView = TrackView(self)
+        self.advancedTrackView = AdvancedTrackView(self)
+        self.trackView.setupUi()
+        self.advancedTrackView.setupUi()
+        self.visualisationView = GraphView(self)
+        self.tableView = TableView(self)
+        self.tableView.setupUi()
         #self.visualisation_layout.addWidget(visu._main)
-        self.windowLayout.addLayout(settings.horizontalLayout)
+        self.windowLayout.addLayout(self.topBarView.horizontalLayout)
         self.windowLayout.addLayout(self.centralLayout)
         self.centralLayout.addLayout(self.trackLayout)
         self.centralLayout.addLayout(self.graphLayout)
         self.centralLayout.setStretch(0,2)
         self.centralLayout.setStretch(1,3)
-        self.trackLayout.addLayout(tracks.verticalLayout)
-        self.trackLayout.addLayout(advancedTracks.gridLayout)
-        self.graphLayout.addWidget(visu.GraphFrame)
-        self.graphLayout.addWidget(table.tableFrame)
+        self.trackLayout.addLayout(self.trackView.verticalLayout)
+        self.trackLayout.addLayout(self.advancedTrackView.gridLayout)
+        self.graphLayout.addWidget(self.visualisationView.GraphFrame)
+        self.graphLayout.addWidget(self.tableView.tableFrame)
+        self.visualisationView.GraphFrame.hide()
         #self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         #self.graphLayout.addItem(self.verticalSpacer)
 
-
-
-    def legacy(self):
-        #setup view
-        self.settingsFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["CONFIG"][0])
-        self.switchViewButton = tk.Button(self.settingsFrame, text="Change view", command=self.switch_view)
-        self.timeSettingsButton = tk.Button(self.settingsFrame, text="General Settings", command=self.open_time_setting)
-        self.addTrackButton = tk.Button(self.settingsFrame, text="Add track", command=self.ctrl.create_track)
-        self.exportAllTrackButton = tk.Button(self.settingsFrame, text="Export all tracks", command=self.export_all_tracks)
-        self.importAllTrackButton = tk.Button(self.settingsFrame, text="Import all tracks", command=self.import_all_tracks)
-        self.exportMusicButton = tk.Button(self.settingsFrame, text="Export music", command=self.export_music, state=DISABLED)
-
-        self.audioControlFrame = ttk.Frame(self, padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0])
-        self.playButton = tk.Button(self.audioControlFrame, text="Play", command=self.ctrl.play, state=NORMAL)
-        self.pauseButton = tk.Button(self.audioControlFrame, text="Pause", command=self.ctrl.pause, state=DISABLED)
-        self.stopButton = tk.Button(self.audioControlFrame, text="Stop", command=self.ctrl.stop, state=DISABLED)
-        self.ffwButton = tk.Button(self.audioControlFrame, text=">>>", command=self.ctrl.fast_forward, state=NORMAL)
-        self.fbwButton = tk.Button(self.audioControlFrame, text="<<<", command=self.ctrl.fast_backward, state=DISABLED)
-        self.gain_slider = tk.Scale(self.audioControlFrame, from_=0, to=100, sliderrelief='solid', orient="horizontal",
-                                    command=self.ctrl.change_global_gain)  # flat, groove, raised, ridge, solid, sunken
-        self.gain_slider.set(self.model.gain)
-        #self.generateButton = tk.Button(self.audioView, text="Generate", command=self.ctrl.generate)
-
-        self.tConfigFrame = ScrollableFrame(self, orient="horizontal", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                            width=820, height=340)
-        self.tMidiFrame = ScrollableFrame(self, orient="vertical", padding=DEFAULT_PADDING, style=TFRAME_STYLE["TRACK_COLLECTION"][0],
-                                          width=820, height=650)
-
-        self.logVar = tk.StringVar(value=self.first_log_line)
-        self.logLabel = ttk.Label(self, textvariable=self.logVar)
-
-        self.graph = GraphicalView(self)
-
-        self.dataTable = Table(self,  row=9, col=0, width=500, height=250)
-
-        #self.setup_widgets()
-
-    def setup_widgets(self):
-        self.settingsFrame.grid(column=0, row=0, rowspan=6)
-        self.audioControlFrame.grid(column=1, row=0, columnspan=5, rowspan=2, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.tConfigFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.graph.grid(column=101, row=0, rowspan=1000, columnspan=1, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-        self.logLabel.grid(column=0, row=1001, rowspan=20, columnspan=10, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
-        self.dataTable.grid(column=101, row=1001, rowspan=200)#, data=self.model.data.get_first_and_last().to_dict('records'))
-
-
-        self.switchViewButton.grid(column=0, row=0, sticky="ew")
-        self.timeSettingsButton.grid(column=0, row=1, sticky="ew")
-        self.addTrackButton.grid(column=0, row=2, rowspan=2, sticky="ew")
-        self.importAllTrackButton.grid(column=0, row=4, sticky="ew")
-        self.exportAllTrackButton.grid(column=0, row=5, sticky="ew")
-        self.exportMusicButton.grid(column=0, row=6, sticky="ew")
-
-        self.fbwButton.grid(column=0, row=0, sticky="ew")
-        self.playButton.grid(column=1, row=0, sticky="ew")
-        self.pauseButton.grid(column=2, row=0, sticky="ew")
-        self.stopButton.grid(column=3, row=0, sticky="ew")
-        self.ffwButton.grid(column=4, row=0, sticky="ew")
-        self.gain_slider.grid(column=5, row=0, sticky="ew")
-        #self.generateButton.grid(column=3, row=0, sticky="ew")
+    def set_status_text(self, line, timing=2500):
+        self.parent.statusbar.showMessage(line, timing)
 
     def add_log_line(self, log_line, debug=False):
         if(debug or not self.model.timeSettings.debugVerbose):
@@ -143,60 +90,6 @@ class SonificationView(QWidget):
             self.log.append(log_line)
             self.logVar.set(self.first_log_line + "\n".join(self.log))
             logging.info(log_line)
-
-    def reset_track_view(self):
-        for i, t in enumerate(self.trackConfigViews):
-            t.grid_remove()
-        for i, t in enumerate(self.trackMidiViews):
-            t.grid_remove()
-
-    def setup_track_view(self):
-        for i, t in enumerate(self.trackConfigViews):
-            t.grid(column=i, row=0, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
-        for i, t in enumerate(self.trackMidiViews):
-            t.grid(column=0, row=i, padx=DEFAULT_PADX, pady=DEFAULT_PADY)
-
-    def add_track(self, track):
-        """
-        Add a track to the view, creating and assigning views to it
-        :param track: a trackModel
-        """
-        config_view = TrackConfigView(self.tConfigFrame.scrollableFrame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
-                                      style=TFRAME_STYLE["TRACK"][0])
-        midi_view = TrackMidiView(self.tMidiFrame.scrollableFrame, ctrl=track.ctrl, model=track, padding=DEFAULT_PADDING,
-                                  style=TFRAME_STYLE["TRACK"][0])
-        track.configView = config_view
-        track.midiView = midi_view
-        #track.ctrl.setup(config_view, midi_view)
-
-        self.reset_track_view()
-        self.trackConfigViews.append(config_view)
-        self.trackMidiViews.append(midi_view)
-        self.setup_track_view()
-
-    def remove_track(self, track):
-        """
-        Remove a track model from the view
-        :param track: a track model
-        """
-        self.reset_track_view()
-        self.trackConfigViews.remove(track.configView)
-        self.trackMidiViews.remove(track.midiView)
-        self.setup_track_view()
-
-    def switch_view(self):
-        """
-        Switch the view between midi and config, upon user input
-        """
-        self.configView = not self.configView
-        if (self.configView):
-            self.tMidiFrame.grid_forget()
-            self.tConfigFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY, padx=DEFAULT_PADX)
-
-        else:
-            self.tConfigFrame.grid_forget()
-            self.tMidiFrame.grid(column=1, row=2, rowspan=100, columnspan=100, pady=DEFAULT_PADY,
-                                 padx=DEFAULT_PADX)
 
     def open_time_setting(self):
         self.ctrl.open_time_settings()

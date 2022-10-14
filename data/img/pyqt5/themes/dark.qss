@@ -4,7 +4,8 @@ QToolTip
      background-color: #D1DBCB;
      padding: 1px;
      border-radius: 3px;
-     opacity: 100;
+     opacity: 200;
+     font-size:17px;
 }
 
 QWidget
@@ -100,7 +101,7 @@ QPushButton
     border-color: #1e1e1e;
     border-style: solid;
     padding: 3px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 QPushButton:pressed
@@ -114,7 +115,8 @@ QComboBox
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
     border-style: solid;
     border: 1px solid #1e1e1e;
-    border-radius: 5;
+    border-radius: 10;
+    font-size: 25px;
 }
 QPushButton:hover{
     background-color: rgb(100, 100, 100);
@@ -448,30 +450,55 @@ QRadioButton::indicator:checked
     );
 }
 
-QCheckBox::indicator{
-    color: #b1b1b1;
-    background-color: #323232;
-    border: 1px solid #b1b1b1;
-    width: 9px;
-    height: 9px;
+QCheckBox{
+    font-size: 16px;
 }
+
+QCheckBox::indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: qradialgradient(spread:pad,
+                            cx:0.5,
+                            cy:0.5,
+                            radius:0.5,
+                            fx:0.5,
+                            fy:0.5,
+                            stop:0 rgba(150, 0, 0, 255),
+                            stop:1 rgba(64, 0, 0, 255));
+}
+QCheckBox::indicator:checked {
+    background-color: qradialgradient(spread:pad,
+                            cx:0.5,
+                            cy:0.5,
+                            radius:0.5,
+                            fx:0.5,
+                            fy:0.5,
+                            stop:0 rgba(0, 150, 0, 255),
+                            stop:1 rgba(0, 64, 0, 255));
+}
+
 
 QRadioButton::indicator
 {
     border-radius: 6px;
 }
 
+
 QRadioButton::indicator:hover, QCheckBox::indicator:hover
 {
     border: 1px solid #fdf6e3;
 }
 
-QCheckBox::indicator:checked
-{
-    image:url(:/images/checkbox.png);
-}
 
 QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
 {
     border: 1px solid #444;
+}
+
+QLineEdit{
+    font-size: 16px;
+    color: black;
 }

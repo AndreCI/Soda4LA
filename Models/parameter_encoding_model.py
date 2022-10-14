@@ -114,6 +114,4 @@ class ParameterEncoding:
         self.octave = octave
 
     def get_variables_instances(self):
-        varins = ["default"]
-        varins.extend(self.data.get_variables_instances(self.filter.column))
-        return varins
+        return self.data.get_variables_instances(self.filter.column)

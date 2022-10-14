@@ -30,10 +30,10 @@ class TrackCtrl:
     def change_gain(self, gain: int):
         self.model.gain = int(gain)
         self.model.music.ctrl.change_local_gain(self.model.id, self.model.gain)
-        if (self.model.midiView.local_gain_slider.get() != gain):
-            self.model.midiView.local_gain_slider.set(gain)
-        if (self.model.configView.local_gain_slider.get() != gain):
-            self.model.configView.local_gain_slider.set(gain)
+        # if (self.model.midiView.local_gain_slider.get() != gain):
+        #     self.model.midiView.local_gain_slider.set(gain)
+        # if (self.model.configView.local_gain_slider.get() != gain):
+        #     self.model.configView.local_gain_slider.set(gain)
 
     def mute_track(self):
         self.model.muted = not self.model.muted
@@ -45,12 +45,17 @@ class TrackCtrl:
             self.model.generalView.selectedTrack.gTrackView.selectButton.setStyleSheet(selectTrackButtonStyle)
         self.model.generalView.selectedTrack = self.model
         self.model.generalView.display_track(self.model)
+        self.model.advancedView.display_track(self.model)
         self.model.gTrackView.selectButton.setStyleSheet(selectedTrackStyle)
 
     def remove(self):
-        for pencoding_model in self.model.pencodings.values():
-            pencoding_model.ctrl.destroy()
+        # for pencoding_model in self.model.pencodings.values():
+        #     pencoding_model.ctrl.destroy()
         self.model.remove()
 
     def open_encoding(self, encoded_var: str):
         self.model.pencodings[encoded_var].ctrl.show_window()
+
+    def change_name(self, name):
+        self.model.name = name
+        self.model.gTrackView.selectButton.setText(name)

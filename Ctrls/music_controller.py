@@ -15,6 +15,7 @@ from Utils import m_fluidsynth
 from Utils.IterableSemaphore import ISemaphore, IBoundedSemaphore
 from Utils.tktable_table import Cell_Line
 from Views.music_view import MusicView
+from ViewsPyQT5.ViewsUtils.views_utils import playButtonReadyStyle, buttonStyle
 
 
 class MusicCtrl:
@@ -52,8 +53,8 @@ class MusicCtrl:
 
         # Threads
         self.producer_thread = threading.Thread(target=self.model.generate, daemon=True)
-        self.unpainter_thread = threading.Thread(target=self.unpaint_played_row, daemon=True)
-        self.unpainter_thread.start()
+        #self.unpainter_thread = threading.Thread(target=self.unpaint_played_row, daemon=True)
+        #self.unpainter_thread.start()
 
     def get_music_time(self):
         if(not self.playing):
@@ -69,10 +70,13 @@ class MusicCtrl:
         """
         prev_track_nbr = len(self.model.tracks)
         track = Track()
-        threading.Thread(target=self.model.add_track, args=[track, True], daemon=True).start()
+        #threading.Thread(target=self.model.add_track, args=[track, True], daemon=True).start()
+        self.add_track(track, True)
         if prev_track_nbr == 0 and len(self.model.tracks) == 1:
-            self.sonification_view.playButton.config(state=NORMAL)
-            self.sonification_view.exportMusicButton.config(state=NORMAL)
+            self.model.sonification_view.topBarView.PPButton.setEnabled(True)
+            self.model.sonification_view.topBarView.PPButton.setStyleSheet(playButtonReadyStyle)
+            #self.sonification_view.playButton.config(state=NORMAL)
+            #self.sonification_view.exportMusicButton.config(state=NORMAL)
             #self.sonification_view.ffwButton.config(state=NORMAL)
             #self.sonification_view.fbwButton.config(state=NORMAL)
 
@@ -93,8 +97,14 @@ class MusicCtrl:
         self.model.remove_track(track)
         #threading.Thread(target=self.model.remove_track, args=[track], daemon=True).start()
         if len(self.model.tracks) == 0:
-            self.sonification_view.playButton.config(state=DISABLED)
-            self.sonification_view.exportMusicButton.config(state=DISABLED)
+            self.model.sonification_view.topBarView.PPButton.setEnabled(False)
+            self.model.sonification_view.topBarView.PPButton.setStyleSheet(buttonStyle)
+            self.model.sonification_view.visualisationView.GraphFrame.hide()
+            self.model.sonification_view.trackView.TrackSettings_2.hide()
+            self.model.sonification_view.trackView.retranslateUi()
+            self.model.sonification_view.advancedTrackView.filterFrame.hide()
+            self.model.sonification_view.advancedTrackView.SettingsFrame.hide()
+            self.model.sonification_view.advancedTrackView.detailsScrollArea.hide()
 
     def fast_backward(self):
         self.view.starting_time += 2000
@@ -183,14 +193,9 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
-        self.sonification_view.dataTable.set_data(self.data.get_first_and_last().to_dict('records'))
-        self.sonification_view.graph.setup(self.maxNoteGraph)
+        self.model.sonification_view.visualisationView.setup(self.maxNoteGraph)
         self.setup_general_attribute()
         self.load_soundfonts()
-
-        self.sonification_view.playButton.config(state=DISABLED)
-        self.sonification_view.pauseButton.config(state=NORMAL)
-        self.sonification_view.stopButton.config(state=NORMAL)
 
         self.skipNextNote = False
         self.view.save_play_time()
@@ -205,8 +210,8 @@ class MusicCtrl:
         self.stoppedEvent.clear() #Send signal that we started
 
     def pause(self):
-        self.sonification_view.playButton.config(state=NORMAL)
-        self.sonification_view.pauseButton.config(state=DISABLED)
+        #self.sonification_view.playButton.config(state=NORMAL)
+        #self.sonification_view.pauseButton.config(state=DISABLED)
         self.view.save_pause_time()
         self._pausedTimed = time.perf_counter() - self._musicTiming
         self.paused = True
@@ -214,9 +219,6 @@ class MusicCtrl:
         self.pausedEvent.clear() #Block threads
 
     def stop(self):
-        self.sonification_view.pauseButton.config(state=DISABLED)
-        self.sonification_view.stopButton.config(state=DISABLED)
-        self.sonification_view.playButton.config(state=NORMAL)
 
         print("Stopping at {} with {} notes in queue . empty:{}/{}, full:{}/{}, mutex:{}".format(
             self.view.sequencer.get_tick(), self.model.notes.qsize(),
@@ -233,14 +235,17 @@ class MusicCtrl:
         # Update bools
         self.playing = False
         self.paused = False
-        self.sonification_view.graph.reset()
+
+        self.model.sonification_view.visualisationView.reset()
         # Update data
         self.data.reset_playing_index()
+
         # Reset queue
-        while(not self.unpaintQueue.empty()):
-            unpaint = self.unpaintQueue.get_nowait()
-            line = Cell_Line(None, self.sonification_view.dataTable.get_cell_line(unpaint[1]))
-            line.paint_line("white")
+        self.model.sonification_view.tableView.model.reset(self.data.get_first(), self.data.get_second())
+        # while(not self.unpaintQueue.empty()):
+        #     unpaint = self.unpaintQueue.get_nowait()
+        #     line = Cell_Line(None, self.sonification_view.dataTable.get_cell_line(unpaint[1]))
+        #     line.paint_line("white")
         try:
             while (not self.model.notes.empty()):
                 self.emptySemaphore.release()
@@ -254,12 +259,12 @@ class MusicCtrl:
             self.fullSemaphore.acquire(n=self.model.QUEUE_CAPACITY)  # Set semaphore to 0
 
         time.sleep(0.05) #needed for semaphore values display
-        self.sonification_view.add_log_line("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
-                                                   self.emptySemaphore._initial_value,
-                                                   self.fullSemaphore._value,
-                                                   self.fullSemaphore._initial_value,
-                                                   self.queueSemaphore._value),
-                                            debug=True)
+        # self.sonification_view.add_log_line("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
+        #                                            self.emptySemaphore._initial_value,
+        #                                            self.fullSemaphore._value,
+        #                                            self.fullSemaphore._initial_value,
+        #                                            self.queueSemaphore._value),
+        #                                     debug=True)
 
     def change_queue_size(self, size):
         self.emptySemaphore.update_size(size, True)
@@ -268,8 +273,14 @@ class MusicCtrl:
     def open_time_settings(self):
         self.model.timeSettings.ctrl.show_window()
 
-    def change_global_gain(self, gain): # dark magic as we interact with fluidsynth
+    def change_global_gain(self, gain, from_muted=False): # dark magic as we interact with fluidsynth
         m_fluidsynth.fluid_settings_setnum(self.view.synth.settings, b'synth.gain', float(gain)/100)
+        if not from_muted:
+            self.model.gain = gain
+            if(gain == 0 and not self.model.muted):
+                self.muteClick()
+            if(gain > 0 and self.model.muted):
+                self.muteClick()
 
     def change_local_gain(self, track, value):
         self.view.synth.cc(track, 7, int(value * 1.27))  # 7 volume command, accepting value between 1-127
@@ -279,7 +290,7 @@ class MusicCtrl:
         Assign soundfonts to channel inside fluidsynth.
         """
         # Upon hitting play, register all track and soundfonts.
-        for track in self.model.tracks:
+        for track in self.model.tracks.values():
             soundfont_fid = self.view.synth.sfload(track.soundfont)  # Load the soundfont
             self.view.synth.program_select(track.id, soundfont_fid, 0, 0)  # Assign soundfont to a channel
 
@@ -290,8 +301,8 @@ class MusicCtrl:
             self.model.sonification_view = self.sonification_view
             self.model.ctrl = self
             self.model.timeSettings.music = self.model
-            self.model.tracks = []
-            for t in m.tracks:
+            self.model.tracks = {}
+            for t in m.tracks.values():
                 self.add_track(t, True)
             for t in self.model.tracks:
                 t.configView.reset_view()
@@ -313,8 +324,10 @@ class MusicCtrl:
             self.sonification_view.add_log_line("Error while saving {}!".format(name))
 
     def push_data_to_table(self, datas):
-        for idx, data in datas.iterrows():
-            self.sonification_view.dataTable.push_row(data)
+        for data in datas.itertuples():
+            if not ((data.internal_id == self.data.get_first().internal_id).any() or
+                    (data.internal_id == self.data.get_second().internal_id).any()):
+                self.model.sonification_view.tableView.model.loadRow(data)
 
     def unpaint_played_row(self):
         while True:
@@ -335,3 +348,8 @@ class MusicCtrl:
         except queue.Full:
             pass
 
+    def muteClick(self):
+        self.model.muted = not self.model.muted
+        self.model.sonification_view.topBarView.volumeButton.setIcon(self.model.sonification_view.topBarView.mutedIcon
+                                                                     if self.model.muted else self.model.sonification_view.topBarView.volumeIcon)
+        self.model.sonification_view.topBarView.GainSlider.setValue(0 if self.model.muted else self.model.gain)

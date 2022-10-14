@@ -1,4 +1,4 @@
-
+from Models.note_model import note_to_int, int_to_note
 from Views.parameter_encoding_view import ParameterEncodingView
 
 
@@ -20,7 +20,45 @@ class ParameterEncodingCtrl:
             self.model.peView = ParameterEncodingView(self, self.model)
         self.model.peView.focus_set()
 
+    def setDefaultValue(self, value):
+        if (self.model.encoded_var == "value"):
+            if value.isnumeric():
+                try:
+                    v = note_to_int(int_to_note(int(value)), int(self.model.octave))
+                    self.model.defaultValue = v
+                except ValueError:
+                    pass
+            else:
+                try:
+                    v = note_to_int(str(value), int(self.model.octave))
+                    self.model.defaultValue = v
+                except ValueError:
+                    pass
+        elif value.isnumeric():
+            self.model.defaultValue = int(value)
+
+    def resetValue(self, variable):
+        self.model.handpickEncoding.pop(variable, None)
+
+    def setValue(self, value, variable):
+        if (self.model.encoded_var == "value"):
+            if value.isnumeric():
+                try:
+                    v = note_to_int(int_to_note(int(value)), int(self.model.octave))
+                    self.model.handpickEncoding[variable] = v
+                except ValueError:
+                    pass
+            else:
+                try:
+                    v = note_to_int(str(value), int(self.model.octave))
+                    self.model.handpickEncoding[variable] = v
+                except ValueError:
+                    pass
+        elif value.isnumeric():
+            self.model.handpickEncoding[variable] = int(value)
+
     def validate(self):
+        print("NONONO")
         self.model.handpicked = self.model.peView.handpicked_mode
         if self.model.handpicked:
             variable = []

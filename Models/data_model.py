@@ -131,6 +131,7 @@ class Data:
                 unique value from the target column
         """
         return pd.unique(self.df[column])
+
     def get_max(self, column):
         return max([float(x) for x in self.df[column]])
 
@@ -138,7 +139,10 @@ class Data:
         return min([float(x) for x in self.df[column]])
 
     def get_first(self):
-        return self.df.iloc[[0, 1, 2, 3, 4, 5, 6, 7, 8 ,9]]
+        return self.df.iloc[range(0,10)]
+
+    def get_second(self):
+        return self.df.iloc[range(9,20)]
 
     def get_first_and_last(self):
         data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]

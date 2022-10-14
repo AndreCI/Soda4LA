@@ -34,7 +34,7 @@ class Music:
             self.muted = False
 
             # Other models
-            self.tracks = []  # List of track model created by user
+            self.tracks = {}  # List of track model created by user
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
             self.QUEUE_CAPACITY = BATCH_NBR_PLANNED * self.timeSettings.batchSize
@@ -73,13 +73,13 @@ class Music:
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()
         mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False) #declare midi file
-        for i,t in enumerate(self.tracks):
+        for i,t in (self.tracks):
             mf.addTrackName(i, 0, str(t.id))
             mf.addTempo(i, 0, bpm)
         # iterate over data
         while not self.data.get_next().empty:
             current_data = self.data.get_next(iterate=True)
-            for t in self.tracks:
+            for t in self.tracks.values():
                 for note in t.generate_notes(current_data):
                     mf.addNote(track=t.id, channel=t.id, pitch=note.value,
                                time=note_model.convert_seconds_to_quarter(float(self.get_absolute_note_timing(note.tfactor))/self.timescale, bpm),
@@ -95,11 +95,11 @@ class Music:
         """
         with open(filename + "-fluidsynth_midi_to_wav.config", "w") as f:
             lines = ["set player.reset-synth 0\n"] #prevent fluidsynth to override settings
-            for t in self.tracks:
+            for t in self.tracks.values():
                 lines.append("load \"{}\"\n".format(t.soundfont)) # load soundfonts
-            for i, t in enumerate(self.tracks):
+            for i, t in (self.tracks):
                 lines.append("select {} {} 0 0\n".format(i,  i+1)) # assign soundfonts to tracks
-            for i, t in enumerate(self.tracks):
+            for i, t in (self.tracks):
                 lines.append("cc {} 7 {}\n".format(i,  t.gain* 1.27)) # update gain
             f.writelines(lines)
 
@@ -128,11 +128,11 @@ class Music:
                     self.ctrl.queueSemaphore.release()
                     self.ctrl.emptySemaphore.release(n=max_note_nbr)
                 else:
-                    for t in self.tracks:
+                    for t in self.tracks.values():
                         for note in t.generate_notes(current_data):
                             self.notes.put_nowait(note)
                             self.ctrl.graphSemaphore.acquire()
-                            self.sonification_view.graph.futureNotes.append(note)
+                            self.sonification_view.visualisationView.futureNotes.append(note)
                             self.ctrl.graphSemaphore.release()
                             note_nbr += 1 # keep track of how many note are actually generated
                     self.ctrl.queueSemaphore.release()  # Release queue
@@ -154,11 +154,13 @@ class Music:
 
     def add_track(self, track, generate_view=False):
         # with self.ctrl.trackSemaphore:
-        self.tracks.append(track)
+        self.tracks[str(track.id)] = track
         if generate_view:
-            self.sonification_view.add_track(track)
+            self.sonification_view.trackView.add_track(track)
 
     def remove_track(self, track):
+
         # with self.ctrl.trackSemaphore:
-        self.tracks.remove(track)
-        self.sonification_view.remove_track(track)
+        del self.tracks[str(track.id)]
+        #self.tracks.remove(track)
+        #self.sonification_view.remove_track(track)

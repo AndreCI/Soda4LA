@@ -71,7 +71,7 @@ class FilterModule:
             return True
         if self.mode[self.column] is FilterType.RANGE and value in self.filter[self.column]:
             return True
-        if self.mode[self.column] is FilterType.MULTIPLE and value in self.filter[self.column]:
+        if self.mode[self.column] is FilterType.MULTIPLE and str(value) not in self.filter[self.column]:
             return True
         return False
 
@@ -104,6 +104,14 @@ class FilterModule:
         self.mode[self.column] = FilterType.NONE
         self.filter[self.column] = None
         return False
+
+    def assign_quali_value(self, value, add=True):
+        if(self.column not in self.filter):
+            self.assign_quali_table([])
+        if add:
+            self.filter[self.column].append(value)
+        else:
+            self.filter[self.column].remove(value)
 
     def assign_quali_table(self, values: []):
         """

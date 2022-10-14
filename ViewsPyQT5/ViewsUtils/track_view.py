@@ -11,31 +11,39 @@ from collections import namedtuple
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout
+    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QLabel, QFileDialog
 
 from Models.track_model import Track
-from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTrackButtonStyle, sliderGainStyle, sliderOffsetStyle, \
-    buttonStyle3
+from Utils.soundfont_loader import SoundfontLoader
+from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTrackButtonStyle, sliderGainStyle, \
+    sliderOffsetStyle, \
+    buttonStyle3, selectedButtonStyle
 
 
 class TrackView(object):
-    def __init__(self):
+
+    def __init__(self, parent):
+        self.parent = parent
+        self.track = None
         self.gTrackList = []
         self.selectedTrack = None
+        self.soundfontUtil = SoundfontLoader.get_instance()
 
     def setupUi(self):
+        topTrackSettingsMaxSize = 230
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.GlobalTrackView = QHBoxLayout()
         self.GlobalTrackView.setObjectName(u"GlobalTrackView")
         self.TrackSelectScrollArea = QScrollArea()
         self.TrackSelectScrollArea.setObjectName(u"TrackSelectScrollArea")
+        self.TrackSelectScrollArea.setObjectName(u"TrackSelectScrollArea")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TrackSelectScrollArea.sizePolicy().hasHeightForWidth())
         self.TrackSelectScrollArea.setSizePolicy(sizePolicy)
-        self.TrackSelectScrollArea.setMaximumSize(QSize(16777215, 210))
+        self.TrackSelectScrollArea.setMaximumSize(QSize(16777215, topTrackSettingsMaxSize))
         self.TrackSelectScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.TrackSelectScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.TrackSelectScrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
@@ -65,9 +73,12 @@ class TrackView(object):
         self.AddTrackButton.setMinimumSize(QSize(0, 0))
         self.AddTrackButton.setStyleSheet(buttonStyle)
 
-        icon = QIcon()
-        icon.addFile(u"data/img/icons/circle-add.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.AddTrackButton.setIcon(icon)
+        self.addTrackIcon = QIcon()
+        self.addTrackIcon.addFile(u"data/img/icons/circle-add.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.AddTrackButton.setIcon(self.addTrackIcon)
+        self.AddTrackButton.setToolTip("Add a track to this project.\n"
+                                       "Each track encode each row into maximum one note.\n"
+                                       "All notes produced by a track will share the same instrument.")
 
         self.verticalLayout_4.addWidget(self.AddTrackButton)
 
@@ -81,7 +92,7 @@ class TrackView(object):
 
         self.TrackSettings_2 = QFrame()
         self.TrackSettings_2.setObjectName(u"TrackSettings_2")
-        self.TrackSettings_2.setMaximumSize(QSize(16777215, 210))
+        self.TrackSettings_2.setMaximumSize(QSize(16777215, topTrackSettingsMaxSize))
         self.TrackSettings_2.setFrameShape(QFrame.Panel)
         self.TrackSettings_2.setFrameShadow(QFrame.Raised)
 
@@ -96,55 +107,59 @@ class TrackView(object):
         self.TrackNameFrame.setMinimumSize(QSize(0, 0))
         self.TrackNameFrame.setFrameShape(QFrame.StyledPanel)
         self.TrackNameFrame.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.TrackNameFrame)
-        self.horizontalLayout_13.setSpacing(0)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.trackNameHLayout = QHBoxLayout(self.TrackNameFrame)
+        self.trackNameHLayout.setSpacing(0)
+        self.trackNameHLayout.setObjectName(u"trackNameHLayout")
+        self.trackNameHLayout.setContentsMargins(0, 0, 0, 0)
 
-        self.ImportButton = QPushButton(self.TrackNameFrame)
-        self.ImportButton.setObjectName(u"ImportButton")
-        sizePolicy2.setHeightForWidth(self.ImportButton.sizePolicy().hasHeightForWidth())
-        self.ImportButton.setSizePolicy(sizePolicy2)
-        self.ImportButton.setMinimumSize(QSize(0, 0))
-        self.ImportButton.setMaximumSize(QSize(33, 16777215))
-        self.ImportButton.setStyleSheet(buttonStyle)
+        self.importButton = QPushButton(self.TrackNameFrame)
+        self.importButton.setObjectName(u"ImportButton")
+        sizePolicy2.setHeightForWidth(self.importButton.sizePolicy().hasHeightForWidth())
+        self.importButton.setSizePolicy(sizePolicy2)
+        self.importButton.setMinimumSize(QSize(0, 0))
+        self.importButton.setMaximumSize(QSize(33, 16777215))
+        self.importButton.setStyleSheet(buttonStyle)
+        self.importButton.setToolTip("Import and replace this track with a .track file, previously exported."
+                                     "\nAll settings on this track will be override.")
 
         icon = QIcon()
         icon.addFile(u"data/img/icons/download.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.ImportButton.setIcon(icon)
+        self.importButton.setIcon(icon)
 
-        self.horizontalLayout_13.addWidget(self.ImportButton)
 
-        self.ExportButton = QPushButton(self.TrackNameFrame)
-        self.ExportButton.setObjectName(u"ExportButton")
-        sizePolicy2.setHeightForWidth(self.ExportButton.sizePolicy().hasHeightForWidth())
-        self.ExportButton.setSizePolicy(sizePolicy2)
-        self.ExportButton.setMinimumSize(QSize(0, 0))
-        self.ExportButton.setMaximumSize(QSize(33, 16777215))
-        self.ExportButton.setStyleSheet(buttonStyle)
+        self.exportButton = QPushButton(self.TrackNameFrame)
+        self.exportButton.setObjectName(u"ExportButton")
+        sizePolicy2.setHeightForWidth(self.exportButton.sizePolicy().hasHeightForWidth())
+        self.exportButton.setSizePolicy(sizePolicy2)
+        self.exportButton.setMinimumSize(QSize(0, 0))
+        self.exportButton.setMaximumSize(QSize(33, 16777215))
+        self.exportButton.setStyleSheet(buttonStyle)
 
         icon = QIcon()
         icon.addFile(u"data/img/icons/export.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.ExportButton.setIcon(icon)
+        self.exportButton.setIcon(icon)
+        self.exportButton.setToolTip("Export this track as a .track so that it can be loaded later.")
 
-        self.horizontalLayout_13.addWidget(self.ExportButton)
+        self.trackNameLineEdit = QLineEdit(self.TrackNameFrame)
+        self.trackNameLineEdit.setObjectName(u"TrackNameLineEdit")
 
+        self.trackNameHLayout.addWidget(self.trackNameLineEdit)
+        self.trackNameHLayout.addWidget(self.importButton)
+        self.trackNameHLayout.addWidget(self.exportButton)
 
-        self.TrackNameLineEdit = QLineEdit(self.TrackNameFrame)
-        self.TrackNameLineEdit.setObjectName(u"TrackNameLineEdit")
-
-        self.horizontalLayout_13.addWidget(self.TrackNameLineEdit)
-
-        self.horizontalLayout_13.setStretch(0, 1)
+        self.trackNameHLayout.setStretch(0, 1)
 
         self.TrackSettings.addWidget(self.TrackNameFrame)
 
-        self.SoundfontComboBox = QComboBox(self.TrackSettings_2)
-        self.SoundfontComboBox.setObjectName(u"SoundfontComboBox")
+        self.soundfontComboBox = QComboBox(self.TrackSettings_2)
+        self.soundfontComboBox.setObjectName(u"SoundfontComboBox")
+        self.soundfontComboBox.setEditable(False)
+        self.soundfontComboBox.addItems(self.soundfontUtil.get_names())
 
-        self.TrackSettings.addWidget(self.SoundfontComboBox)
+        self.TrackSettings.addWidget(self.soundfontComboBox)
 
-        self.GainSlider = QSlider(self.TrackSettings_2)
+        self.gainHLayout = QHBoxLayout()
+        self.GainSlider = QSlider()
         self.GainSlider.setObjectName(u"GainSlider")
         sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy3.setHorizontalStretch(0)
@@ -156,67 +171,107 @@ class TrackView(object):
         self.GainSlider.setValue(65)
         self.GainSlider.setSliderPosition(65)
         self.GainSlider.setOrientation(Qt.Horizontal)
+        self.GainSlider.setToolTip("Change the volume for this track")
 
-        self.TrackSettings.addWidget(self.GainSlider)
+        self.gainButton = QPushButton()
+        self.gainButton.setObjectName(u"SettingsButton")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.gainButton.sizePolicy().hasHeightForWidth())
+        self.gainButton.setSizePolicy(sizePolicy1)
+        self.gainButton.setMinimumSize(QSize(0, 0))
+        self.gainButton.setMaximumSize(QSize(36, 16777215))
+        self.gainButton.setStyleSheet(buttonStyle)
+        icon1 = QIcon()
+        icon1.addFile(u"data/img/icons/volume-up.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.gainButton.setIcon(icon1)
+        self.gainButton.setToolTip("Mute/Unmute this track")
 
-        self.OffsetSlider = QSlider(self.TrackSettings_2)
-        self.OffsetSlider.setObjectName(u"OffsetSlider")
-        sizePolicy3.setHeightForWidth(self.OffsetSlider.sizePolicy().hasHeightForWidth())
-        self.OffsetSlider.setSizePolicy(sizePolicy3)
-        self.OffsetSlider.setMinimumSize(QSize(100, 0))
-        self.OffsetSlider.setStyleSheet(sliderOffsetStyle)
-        self.OffsetSlider.setValue(65)
-        self.OffsetSlider.setSliderPosition(65)
-        self.OffsetSlider.setOrientation(Qt.Horizontal)
+        self.gainHLayout.addWidget(self.GainSlider)
+        self.gainHLayout.addWidget(self.gainButton)
+        self.TrackSettings.addLayout(self.gainHLayout)
 
-        self.TrackSettings.addWidget(self.OffsetSlider)
+        self.offsetHLayout = QHBoxLayout()
+        self.offsetHLayout.setSpacing(0)
+        self.offsetHLayout.setObjectName(u"offsetHLayout")
+        self.offsetHLayout.setContentsMargins(0, 0, 0, 0)
+
+        self.offsetSlider = QSlider(self.TrackSettings_2)
+        self.offsetSlider.setObjectName(u"OffsetSlider")
+        sizePolicy3.setHeightForWidth(self.offsetSlider.sizePolicy().hasHeightForWidth())
+        self.offsetSlider.setSizePolicy(sizePolicy3)
+        self.offsetSlider.setMinimumSize(QSize(100, 0))
+        self.offsetSlider.setStyleSheet(sliderOffsetStyle)
+        self.offsetSlider.setValue(65)
+        self.offsetSlider.setSliderPosition(65)
+        self.offsetSlider.setOrientation(Qt.Horizontal)
+        self.offsetSlider.setToolTip("Change the offset for this track, adding delay to all its notes.")
+
+        self.offsetLabel = QLabel()
+        self.offsetLabel.setMaximumSize(43,36)
+        self.offsetLabel.setContentsMargins(10,0,5,0)
+        self.offsetLabel.setText("0ms")
+        self.offsetLabel.setToolTip("The offset for this track, adding delay to all its notes.")
+        self.offsetHLayout.addWidget(self.offsetSlider)
+        self.offsetHLayout.addWidget(self.offsetLabel)
+
+        self.TrackSettings.addLayout(self.offsetHLayout)
 
         self.AdvancedTrackSettings = QGridLayout()
         self.AdvancedTrackSettings.setObjectName(u"AdvancedTrackSettings")
         self.AdvancedTrackSettings.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.AdvancedTrackSettings.setHorizontalSpacing(2)
-        self.AdvancedTrackSettings.setVerticalSpacing(11)
-        self.DurationButton = QPushButton(self.TrackSettings_2)
-        self.DurationButton.setObjectName(u"DurationButton")
-        sizePolicy1.setHeightForWidth(self.DurationButton.sizePolicy().hasHeightForWidth())
-        self.DurationButton.setSizePolicy(sizePolicy1)
-        self.DurationButton.setMinimumSize(QSize(30, 30))
-        self.DurationButton.setMaximumSize(QSize(16777215, 16777215))
-        self.DurationButton.setStyleSheet(buttonStyle)
+        self.AdvancedTrackSettings.setVerticalSpacing(10)
+        self.durationButton = QPushButton(self.TrackSettings_2)
+        self.durationButton.setObjectName(u"DurationButton")
+        sizePolicy1.setHeightForWidth(self.durationButton.sizePolicy().hasHeightForWidth())
+        self.durationButton.setSizePolicy(sizePolicy1)
+        self.durationButton.setMinimumSize(QSize(30, 30))
+        self.durationButton.setMaximumSize(QSize(16777215, 16777215))
+        self.durationButton.setStyleSheet(buttonStyle)
+        self.durationButton.setToolTip("Change the duration encoding for this track. Smaller durations will result in shorter notes")
 
-        self.AdvancedTrackSettings.addWidget(self.DurationButton, 1, 0, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.durationButton, 1, 0, 1, 1)
 
-        self.VelocityButton = QPushButton(self.TrackSettings_2)
-        self.VelocityButton.setObjectName(u"VelocityButton")
-        sizePolicy1.setHeightForWidth(self.VelocityButton.sizePolicy().hasHeightForWidth())
-        self.VelocityButton.setSizePolicy(sizePolicy1)
-        self.VelocityButton.setMinimumSize(QSize(30, 30))
-        self.VelocityButton.setMaximumSize(QSize(16777215, 16777215))
-        self.VelocityButton.setStyleSheet(buttonStyle)
+        self.velocityButton = QPushButton(self.TrackSettings_2)
+        self.velocityButton.setObjectName(u"VelocityButton")
+        sizePolicy1.setHeightForWidth(self.velocityButton.sizePolicy().hasHeightForWidth())
+        self.velocityButton.setSizePolicy(sizePolicy1)
+        self.velocityButton.setMinimumSize(QSize(30, 30))
+        self.velocityButton.setMaximumSize(QSize(16777215, 16777215))
+        self.velocityButton.setStyleSheet(buttonStyle)
+        self.velocityButton.setToolTip("Change the velocity encoding for this track. Higher velocity will result in louder notes")
 
-        self.AdvancedTrackSettings.addWidget(self.VelocityButton, 1, 1, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.velocityButton, 1, 1, 1, 1)
 
-        self.FilterButton = QPushButton(self.TrackSettings_2)
-        self.FilterButton.setObjectName(u"FilterButton")
-        sizePolicy1.setHeightForWidth(self.FilterButton.sizePolicy().hasHeightForWidth())
-        self.FilterButton.setSizePolicy(sizePolicy1)
-        self.FilterButton.setMinimumSize(QSize(30, 30))
-        self.FilterButton.setMaximumSize(QSize(16777215, 16777215))
-        self.FilterButton.setStyleSheet(buttonStyle)
+        self.filterButton = QPushButton(self.TrackSettings_2)
+        self.filterButton.setObjectName(u"FilterButton")
+        sizePolicy1.setHeightForWidth(self.filterButton.sizePolicy().hasHeightForWidth())
+        self.filterButton.setSizePolicy(sizePolicy1)
+        self.filterButton.setMinimumSize(QSize(30, 30))
+        self.filterButton.setMaximumSize(QSize(16777215, 16777215))
+        self.filterButton.setStyleSheet(buttonStyle)
+        self.filterButton.setToolTip("Change the global filter for this track. Rows will be skipped if they contain a value found in this filter")
         icon = QIcon()
         icon.addFile(u"data/img/icons/filter.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.FilterButton.setIcon(icon)
-        self.AdvancedTrackSettings.addWidget(self.FilterButton, 0, 0, 1, 1)
+        self.filterButton.setIcon(icon)
+        self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 0, 1, 1)
 
-        self.ValueButton = QPushButton(self.TrackSettings_2)
-        self.ValueButton.setObjectName(u"ValueButton")
-        sizePolicy1.setHeightForWidth(self.ValueButton.sizePolicy().hasHeightForWidth())
-        self.ValueButton.setSizePolicy(sizePolicy1)
-        self.ValueButton.setMinimumSize(QSize(30, 30))
-        self.ValueButton.setMaximumSize(QSize(16777215, 16777215))
-        self.ValueButton.setStyleSheet(buttonStyle)
+        self.valueButton = QPushButton(self.TrackSettings_2)
+        self.valueButton.setObjectName(u"ValueButton")
+        sizePolicy1.setHeightForWidth(self.valueButton.sizePolicy().hasHeightForWidth())
+        self.valueButton.setSizePolicy(sizePolicy1)
+        self.valueButton.setMinimumSize(QSize(30, 30))
+        self.valueButton.setMaximumSize(QSize(16777215, 16777215))
+        self.valueButton.setStyleSheet(selectedButtonStyle)
+        self.valueButton.setToolTip("Change the value encoding for this track. You can change the octave as well.")
 
-        self.AdvancedTrackSettings.addWidget(self.ValueButton, 0, 1, 1, 1)
+        self.advancedOptionButtons = {"filter":self.filterButton,
+                                "value":self.valueButton,
+                                "duration": self.durationButton,
+                                "velocity": self.velocityButton}
+        self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 1, 1, 1)
 
 
         self.TrackSettings.addLayout(self.AdvancedTrackSettings)
@@ -230,40 +285,77 @@ class TrackView(object):
 
         self.verticalLayout.addLayout(self.GlobalTrackView)
 
-        self.AdvancedSettingsFrame = QFrame()
-        self.AdvancedSettingsFrame.setObjectName(u"AdvancedSettingsFrame")
-        self.AdvancedSettingsFrame.setFrameShape(QFrame.StyledPanel)
-        self.AdvancedSettingsFrame.setFrameShadow(QFrame.Raised)
-
-        self.verticalLayout.addWidget(self.AdvancedSettingsFrame)
-
 
         self.retranslateUi()
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
-        self.add_track(Track())
+        self.connectUi()
+        self.AddTrackButton.clicked.connect(lambda: self.parent.model.ctrl.create_track())
+
+        self.TrackSettings_2.hide()
 
     # setupUi
+    def disconnectUi(self):
+        self.trackNameLineEdit.textEdited.disconnect()
+        self.GainSlider.sliderReleased.disconnect()
+        self.offsetSlider.sliderReleased.disconnect()
+        self.soundfontComboBox.activated.disconnect()
+        self.durationButton.clicked.disconnect()
+        self.valueButton.clicked.disconnect()
+        self.velocityButton.clicked.disconnect()
+        self.filterButton.clicked.disconnect()
+        self.exportButton.clicked.disconnect()
+        self.importButton.clicked.disconnect()
+
+    def connectUi(self):
+        self.trackNameLineEdit.textEdited.connect(lambda: self.track.ctrl.change_name(self.trackNameLineEdit.text()))
+        self.GainSlider.sliderReleased.connect(lambda : self.track.ctrl.change_gain(self.GainSlider.value()))
+        self.offsetSlider.sliderReleased.connect(lambda : self.track.ctrl.change_offset(self.offsetSlider.value()))
+        self.soundfontComboBox.activated.connect(lambda : self.track.ctrl.set_soundfont(self.soundfontComboBox.currentText()))
+        self.durationButton.clicked.connect(lambda : self.track.advancedView.display_track(self.track, "duration"))
+        self.valueButton.clicked.connect(lambda : self.track.advancedView.display_track(self.track, "value"))
+        self.velocityButton.clicked.connect(lambda : self.track.advancedView.display_track(self.track, "velocity"))
+        self.filterButton.clicked.connect(lambda : self.track.advancedView.display_track(self.track, "filter"))
+        self.exportButton.clicked.connect(lambda : self.exportTrack())
+        self.importButton.clicked.connect(lambda : self.importTrack())
 
     def retranslateUi(self):
         #self.AddTrackButton.setText(QCoreApplication.translate("TrackConfigView", u"+", None))
-        self.ExportButton.setText("")
-        self.ImportButton.setText("")
-        self.DurationButton.setText(QCoreApplication.translate("TrackConfigView", u"Duration", None))
-        self.VelocityButton.setText(QCoreApplication.translate("TrackConfigView", u"Velocity", None))
-        self.FilterButton.setText(QCoreApplication.translate("TrackConfigView", u"Filter", None))
-        self.ValueButton.setText(QCoreApplication.translate("TrackConfigView", u"Value", None))
+        self.exportButton.setText("")
+        self.importButton.setText("")
+        self.durationButton.setText(QCoreApplication.translate("TrackConfigView", u"Duration", None))
+        self.velocityButton.setText(QCoreApplication.translate("TrackConfigView", u"Velocity", None))
+        self.filterButton.setText(QCoreApplication.translate("TrackConfigView", u"Filter", None))
+        self.valueButton.setText(QCoreApplication.translate("TrackConfigView", u"Value", None))
+        self.AddTrackButton.setText(QCoreApplication.translate("TrackConfigView", u"\tClick here to add your first track!", None))
     # retranslateUi
 
+    def exportTrack(self):
+        file, check = QFileDialog.getSaveFileName(None, "Export track",
+                                                  self.track.name, "SodaTrack (*.soda_track)")
+        if check:
+            self.track.serialize(file)
+
+    def importTrack(self):
+        file, check = QFileDialog.getOpenFileName(None, "Import track",
+                                                  "", "SodaTrack (*.soda_track)")
+        if check:
+            self.track.unserialize(file)
+            self.display_track(self.track)
+            self.parent.advancedTrackView.display_track(self.track)
+
     def display_track(self, track):
-        self.TrackNameLineEdit.setText(track.name)
+        self.trackNameLineEdit.setText(track.name)
         self.GainSlider.setValue(track.gain)
-        self.OffsetSlider.setValue(track.offset)
+        self.offsetSlider.setValue(int(track.offset))
+        self.soundfontComboBox.setCurrentIndex(self.soundfontUtil.get_idx_from_path(track.soundfont))
+        self.track = track
+        self.disconnectUi()
+        self.connectUi()
+
+        self.TrackSettings_2.show()
+        self.track.advancedView.filterFrame.show()
+        self.track.advancedView.SettingsFrame.show()
+
+
         #self.SoundfontComboBox.set
 
     def add_track(self, track):
@@ -309,9 +401,15 @@ class TrackView(object):
         self.gTrackList.append(gTrackView)
         track.gTrackView = gTrackView
         track.generalView = self
+        track.advancedView = self.parent.advancedTrackView
         gTrackView.selectButton.setText(track.name)
 
         gTrackView.selectButton.clicked.connect(lambda : track.ctrl.select())
         gTrackView.deleteButton.clicked.connect(lambda : track.ctrl.remove())
 
         self.verticalLayout_4.insertWidget(len(self.gTrackList) - 1, g_track_frame)
+        if(len(self.gTrackList) == 1):
+            track.ctrl.select()
+            self.AddTrackButton.setText("")
+            self.parent.visualisationView.GraphFrame.show()
+

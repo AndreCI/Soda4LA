@@ -73,29 +73,28 @@ class MusicView:
                 # i.e. in how many ms should this note be played
                 note_timing_abs = self.model.get_absolute_note_timing(note.tfactor)
                 note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
-                track_log_str = np.zeros(len(self.model.tracks))  # really basic GUI
-                track_log_str[note.channel] = 1
                 while (note_timing > self.model.timeSettings.timeBuffer and  # check if next note is ripe
                        not self.ctrl.skipNextNote and  # check if next note should be skipped
                        note_timing > -100 and self.ctrl.playing):  # Check if the note is not stale
                     time.sleep(self.model.timeSettings.timeBuffer / 2000)  # wait half the buffer time
                     self.ctrl.pausedEvent.wait()  # If paused was pressed during this waiting time, wait for PLAY event
                     note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
+
                 if (self.ctrl.playing and note_timing > -100 and not self.ctrl.skipNextNote):
-                    log_line = self.write_log_line(note, track_log_str, note_timing, note_timing_abs, prev_note_idx)
+                    #log_line = self.write_log_line(note, track_log_str, note_timing, note_timing_abs, prev_note_idx)
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
-                    self.ctrl.paint_next_played_row(note.id, note_timing)
-                    prev_note_idx = note.id
                 else:
                     self.ctrl.skipNextNote = False  # Once the note is skipped, don't skip the next ones
                     log_line = "SKIPPED Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} planned scheduled in {}ms. {} notes remaining".format(
                         note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
                         self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     print(log_line)
-                    self.ctrl.paint_next_played_row(note.id, note_timing, color="red")
+                if(prev_note_idx != note.id):
+                    threading.Thread(target=self.model.sonification_view.tableView.model.pushRowToDataFrame(note_timing), daemon=True).start()
+                prev_note_idx = note.id
 
-                self.model.sonification_view.add_log_line(log_line)
+                #self.model.sonification_view.add_log_line(log_line)
             except Empty:
                 print("Empty notes queue")
                 self.ctrl.queueSemaphore.release()  # Release semaphores

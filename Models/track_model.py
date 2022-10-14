@@ -51,6 +51,7 @@ class Track:
         self.configView = None
         self.gTrackView = None
         self.generalView = None
+        self.advancedView = None
 
     def __getstate__(self):
         state = self.__dict__.copy()
@@ -58,22 +59,23 @@ class Track:
         del state["music"]
         del state["midiView"]
         del state["configView"]
+        del state["gTrackView"]
+        del state["generalView"]
+        del state["advancedView"]
         del state["ctrl"]
         return state
 
     def __setstate__(self, state):
         self.__dict__.update(state)
         self.data = Data.getInstance()
-        self.ctrl = TrackCtrl(self)
         self.music = Models.music_model.Music.getInstance()
-        #elf.music.ctrl.add_track(self)
         self.configView = None
         self.midiView = None
 
     def serialize(self, path):
         with open(path, 'wb') as f:
             pickle.dump(self, f)
-            self.music.sonification_view.add_log_line("Track saved to {}".format(f.name))
+            self.music.sonification_view.set_status_text("Track exported to {}".format(f.name))
 
     def unserialize(self, path):
         with open(path, 'rb') as f:
@@ -81,7 +83,7 @@ class Track:
             var = pickle.load(f)
             self.__dict__.update(var.__dict__)
             self.id = oldid
-            self.music.sonification_view.add_log_line("Track loaded to id {}".format(self.id))
+            self.music.sonification_view.set_status_text("Track imported to id {}".format(self.id))
 
     def generate_notes(self, batch):
         """
@@ -113,3 +115,6 @@ class Track:
 
     def remove(self):
         self.music.ctrl.remove_track(track=self)
+        self.gTrackView.frame.hide()
+        self.music.sonification_view.trackView.gTrackList.remove(self.gTrackView)
+        self.music.sonification_view.set_status_text("Track {} with ID {} deleted".format(self.name, self.id))

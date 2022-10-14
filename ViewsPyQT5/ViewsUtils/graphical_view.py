@@ -14,7 +14,10 @@ from matplotlib.backends.backend_qtagg import (
     NavigationToolbar2QT as NavigationToolbar)
 
 class GraphView():
-    def __init__(self):
+
+    def __init__(self, parent):
+        self.parent = parent
+        mpl.rcParams["figure.facecolor"] = "323232"
         self.GraphFrame = QFrame()
         self.GraphFrame.setObjectName(u"GraphFrame")
         self.GraphFrame.setFrameShape(QFrame.Panel)
@@ -23,11 +26,11 @@ class GraphView():
 
         self.verticalRes = 128
         self.horizontalRes = 1000
-        self.updateFrequency = 1000  # ms before redrawing
+        self.updateFrequency = int(1000/30)  # ms before redrawing - 30FPS
         self.timeWindow = 10000
         self.lookBackward = 0.2  # % of graph dedicated to past notes
         self.movingBarPos = int(self.lookBackward * self.horizontalRes)
-        self.futureNotes = deque(maxlen=1000)
+        self.futureNotes = deque()
         self.maxNotes = None
         self.line = None
         self.timeStep = None
@@ -62,37 +65,48 @@ class GraphView():
         self.movingGraphThread.start()
 
     def draw_notes(self):
-        data = np.ones((self.verticalRes, self.horizontalRes)) * random.randint(0,100) *  0
-
-        self.line.set_array(data)
-        self.line.figure.canvas.draw()
-
-    def draw_notes__(self):
         data = np.zeros((self.verticalRes, self.horizontalRes))
         past_notes = []
-        #self.parent.ctrl.graphSemaphore.acquire()
+        self.parent.model.ctrl.graphSemaphore.acquire()
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
-            start_time = note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.ctrl.get_music_time() + 2
-            note_timing = self.parent.ctrl.view.get_relative_note_timing(self.parent.ctrl.model.get_absolute_note_timing(note.tfactor))
+            start_time = note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time() + 2
+            note_timing = self.parent.model.ctrl.view.get_relative_note_timing(self.parent.model.get_absolute_note_timing(note.tfactor))
             if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000):
                 end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow), self.horizontalRes)
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
                 max_vertical_pos = max(0, note.value + 1)
                 min_vertical_pos = min(127, note.value - 1)
-                gain = int(note.velocity * float(self.parent.model.tracks[note.channel].gain) / 128)
-                data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
+                if(str(note.channel) in self.parent.model.tracks): #check if tracks is not destroyed since
+                    gain = int(note.velocity * float(self.parent.model.tracks[str(note.channel)].gain) / 128)
+                    data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
             if (start_time < 0 or note_timing < -2000):
                 past_notes.append(note)
         for note in past_notes:
             self.futureNotes.remove(note)
-        self.parent.ctrl.graphSemaphore.release()
+        self.parent.model.ctrl.graphSemaphore.release()
         self.line.set_array(data)
-        self.canvas.draw()
+        self.line.figure.canvas.draw()
 
     def moving_canvas(self):
         while (True):
-            #self.parent.ctrl.playingEvent.wait()  # wait if we are stopped
-            #self.parent.ctrl.pausedEvent.wait()  # wait if we are paused
+            self.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
+            self.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
             self.draw_notes()
             time.sleep(self.updateFrequency / 1000)
+
+    def setup(self, max_notes, time_window=10000, update_freq=100):
+        self.timeWindow = time_window
+        self.updateFrequency = update_freq
+        step = self.horizontalRes / (self.timeWindow / 1000)
+        self.timeStep = (self.updateFrequency) * step
+        self.maxNotes = max_notes
+        data = np.zeros((self.verticalRes, self.horizontalRes))
+        self.line.set_array(data)
+        self.line.figure.canvas.draw()
+
+    def reset(self):
+        self.futureNotes.clear()
+        data = np.zeros((self.verticalRes, self.horizontalRes))
+        self.line.set_array(data)
+        self.line.figure.canvas.draw()

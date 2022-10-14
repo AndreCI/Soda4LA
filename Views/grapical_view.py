@@ -103,6 +103,11 @@ class GraphicalView(ttk.Frame):
         return fig
 
     def draw_notes(self):
+        """
+        LEGACY CODE!
+
+        :return:
+        """
         data = np.zeros((self.verticalRes, self.horizontalRes))
         past_notes = []
         self.parent.ctrl.graphSemaphore.acquire()
@@ -115,7 +120,8 @@ class GraphicalView(ttk.Frame):
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
                 max_vertical_pos = max(0, note.value + 1)
                 min_vertical_pos = min(127, note.value - 1)
-                gain = int(note.velocity * float(self.parent.model.tracks[note.channel].gain) / 128)
+
+                gain = int(note.velocity * float(self.parent.model.tracks[str(note.channel)].gain) / 128)
                 data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
             if (start_time < 0 or note_timing < -2000):
                 past_notes.append(note)

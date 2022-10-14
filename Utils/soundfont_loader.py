@@ -25,6 +25,9 @@ class SoundfontLoader:
     def get_name_from_path(self, path):
         return [v for v in self.file_list.keys() if self.file_list[v] == path][0]
 
+    def get_idx_from_path(self, path):
+        return [i for i, v in enumerate(self.file_list.keys()) if self.file_list[v] == path][0]
+
     def get_names(self):
         return list(self.file_list.keys())
 
