@@ -1,24 +1,13 @@
 # -*- coding: utf-8 -*-
 from collections import namedtuple
 
-################################################################################
-## Form generated from reading UI file 'advancedtrackconfigLIPlSj.ui'
-##
-## Created by: Qt User Interface Compiler version 5.15.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QWidget, \
+    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
+    QSpinBox, QPlainTextEdit, QCheckBox
 
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar, QLabel, \
-    QSpinBox, QAbstractSpinBox, QPlainTextEdit, QCheckBox
-
-from Models.note_model import int_to_note, note_to_int
-from Utils.constants import ENCODING_OPTIONS
-from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectTrackButtonStyle, selectedButtonStyle
-
+from Models.note_model import int_to_note
+from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectedButtonStyle
 
 EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'valueLine', 'dlabel'])
 
@@ -32,18 +21,18 @@ class AdvancedTrackView(object):
         self.model = None
         self.encoding_boxs = []
 
-    def disconnectUi(self):
+    def disconnect_ui(self):
         self.variableComboBox.activated.disconnect()
         self.checkAllButton.clicked.disconnect()
         self.switchAllCheckButton.released.disconnect()
         self.defaultValueLineEdit.textEdited.disconnect()
 
-    def connectUi(self):
+    def connect_ui(self):
         self.variableComboBox.activated.connect(lambda: self.select_variable(self.variableComboBox.currentText()))
-        self.checkAllButton.clicked.connect(lambda: self.setAllCheck(True))
-        self.switchAllCheckButton.released.connect(self.inverseAllCheck)
-        self.defaultValueLineEdit.textEdited.connect(self.setDefaultValue)
-        self.applyToAllButton.clicked.connect(self.applyToAll)
+        self.checkAllButton.clicked.connect(lambda: self.set_all_check(True))
+        self.switchAllCheckButton.released.connect(self.inverse_all_check)
+        self.defaultValueLineEdit.textEdited.connect(self.set_default_value)
+        self.applyToAllButton.clicked.connect(self.apply_to_all)
 
     def display_track(self, track, key=None):
         self.track = track
@@ -73,39 +62,37 @@ class AdvancedTrackView(object):
         else:
             self.octaveSpinBox.hide()
             self.octaveLabel.hide()
-        self.disconnectUi()
-        self.connectUi()
+        self.disconnect_ui()
+        self.connect_ui()
 
-    def setDefaultValue(self):
-        self.model.ctrl.setDefaultValue(self.defaultValueLineEdit.text())
+    def set_default_value(self):
+        self.model.ctrl.set_default_value(self.defaultValueLineEdit.text())
         for eb in self.encoding_boxs:
             if eb.checkbox.text() not in self.model.handpickEncoding:
                 value = self.model.defaultValue
                 if (self.key == "value"):
                     value = int_to_note(value)
-                print("ere")
-                print(value)
                 eb.valueLine.setText(str(value))
                 eb.dlabel.show()
 
-    def applyToAll(self):
+    def apply_to_all(self):
         for eb in self.encoding_boxs:
             value = self.model.defaultValue
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
-            self.model.ctrl.resetValue(eb.checkbox.text())
+            self.model.ctrl.reset_value(eb.checkbox.text())
             eb.dlabel.show()
 
-    def inverseAllCheck(self):
+    def inverse_all_check(self):
         bools = [eb.checkbox.isChecked() for eb in self.encoding_boxs]
         for i, eb in enumerate(self.encoding_boxs):
             eb.checkbox.setChecked(not bools[i])
-            self.setQFilter(eb)
+            self.set_qualitative_filter(eb)
 
-    def setAllCheck(self, v):
+    def set_all_check(self, v):
         for eb in self.encoding_boxs:
-            if(not eb.checkbox.isChecked()):
+            if (not eb.checkbox.isChecked()):
                 eb.checkbox.setChecked(v)
-                self.setQFilter(eb)
+                self.set_qualitative_filter(eb)
 
     def select_variable(self, variable):
         self.variableComboBox.clear()
@@ -128,7 +115,7 @@ class AdvancedTrackView(object):
         for i, variable in enumerate(self.model.get_variables_instances()):
             if i > 20:
                 break
-            ebox = self.addEncodingBox()
+            ebox = self.add_encoding_box()
             ebox.checkbox.setText(str(variable))
             ebox.checkbox.setChecked(self.model.filter.evaluate(variable))
             if str(variable) in self.model.handpickEncoding:
@@ -139,20 +126,20 @@ class AdvancedTrackView(object):
             if (self.key == "value"):
                 value = int_to_note(value)
             ebox.valueLine.setText(str(value))
-            ebox.valueLine.textEdited.connect(lambda ch, ebx=ebox: self.setValue(ebox=ebx))
-            ebox.checkbox.clicked.connect(lambda ch2, ebx=ebox: self.setQFilter(ebox=ebx))
+            ebox.valueLine.textEdited.connect(lambda ch, ebx=ebox: self.set_value(ebox=ebx))
+            ebox.checkbox.clicked.connect(lambda ch2, ebx=ebox: self.set_qualitative_filter(ebox=ebx))
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
         self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
 
-    def setValue(self, ebox):
-        self.model.ctrl.setValue(value=ebox.valueLine.text(), variable=ebox.checkbox.text())
+    def set_value(self, ebox):
+        self.model.ctrl.set_value(value=ebox.valueLine.text(), variable=ebox.checkbox.text())
         ebox.dlabel.hide()
 
-    def setQFilter(self, ebox):
+    def set_qualitative_filter(self, ebox):
         self.model.filter.assign_quali_value(ebox.checkbox.text(), not ebox.checkbox.isChecked())
 
-    def addEncodingBox(self):
+    def add_encoding_box(self):
         encoding_box = QFrame()
         encoding_box.setObjectName(u"encoding_box")
         encoding_box.setGeometry(QRect(64, 80, 251, 41))
@@ -181,21 +168,22 @@ class AdvancedTrackView(object):
         size_policy.setVerticalStretch(0)
         size_policy.setHeightForWidth(encoding_value_line_edit.sizePolicy().hasHeightForWidth())
         encoding_value_line_edit.setSizePolicy(size_policy)
-        encoding_value_line_edit.setToolTip("Assign this encoding to this value.\n"
-                                            "Each non filtered row containing this value will use this encoding for the {} of the note".format(self.key))
+        encoding_value_line_edit.setToolTip(
+            "Assign this encoding to this value.\n"
+            "Each non filtered row containing this value will use this encoding for the {} of the note".format(
+                self.key))
 
-        defaultLabel = QLabel(encoding_box)
-        defaultLabel.setText("default")
-        defaultLabel.setToolTip("This value will play the default encoding if not filtered.")
-
+        default_label = QLabel(encoding_box)
+        default_label.setText("default")
+        default_label.setToolTip("This value will play the default encoding if not filtered.")
 
         encoding_h_layout.addWidget(encoding_value_line_edit)
-        encoding_h_layout.addWidget(defaultLabel)
+        encoding_h_layout.addWidget(default_label)
 
         return EncodingBox(frame=encoding_box, checkbox=encoding_check_box, valueLine=encoding_value_line_edit,
-                           dlabel=defaultLabel)
+                           dlabel=default_label)
 
-    def setupUi(self):
+    def setup_ui(self):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
         self.SettingsFrame = QFrame()
@@ -227,7 +215,8 @@ class AdvancedTrackView(object):
         self.octaveSpinBox.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
         self.octaveSpinBox.setMaximum(9)
         self.octaveSpinBox.setValue(4)
-        self.octaveSpinBox.setToolTip("Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
+        self.octaveSpinBox.setToolTip(
+            "Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
 
         self.gridLayout_2.addWidget(self.octaveSpinBox, 2, 1, 1, 1)
 
@@ -248,15 +237,10 @@ class AdvancedTrackView(object):
         self.gridLayout_2.addWidget(self.variableComboBox, 0, 1, 1, 2)
 
         self.horizontalSpacerName = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        # self.gridLayout_2.addItem(self.horizontalSpacerName, 0, 2, 1, 1)
-
         self.horizontalSpacerVariable = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.gridLayout_2.addItem(self.horizontalSpacerVariable, 1, 2, 1, 1)
 
         self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
 
         self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
@@ -274,7 +258,9 @@ class AdvancedTrackView(object):
 
         self.filterPlainTextEdit = QPlainTextEdit(self.filterFrame)
         self.filterPlainTextEdit.setObjectName(u"filterPlainTextEdit")
-        self.filterPlainTextEdit.setToolTip("Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded into notes.")
+        self.filterPlainTextEdit.setToolTip(
+            "Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded"
+            " into notes.")
 
         self.verticalLayout.addWidget(self.filterPlainTextEdit)
 
@@ -314,7 +300,8 @@ class AdvancedTrackView(object):
 
         self.defaultValueLineEdit = QLineEdit(self.controlFrame)
         self.defaultValueLineEdit.setObjectName(u"defaultValueLineEdit")
-        self.defaultValueLineEdit.setToolTip("If a value is not filtered and has not been assigned an encoding yet, this will be its encoding")
+        self.defaultValueLineEdit.setToolTip(
+            "If a value is not filtered and has not been assigned an encoding yet, this will be its encoding")
 
         self.defaultValueLayout.addWidget(self.defaultValueLineEdit)
 
@@ -356,15 +343,13 @@ class AdvancedTrackView(object):
 
         self.gridLayout.addWidget(self.detailsScrollArea, 0, 1, 2, 1)
 
-        self.retranslateUi()
-        self.connectUi()
+        self.retranslate_ui()
+        self.connect_ui()
         self.detailsScrollArea.hide()
         self.filterFrame.hide()
         self.SettingsFrame.hide()
 
-    # setupUi
-
-    def retranslateUi(self):
+    def retranslate_ui(self):
         self.octaveLabel.setText(QCoreApplication.translate("Form", u"Select Octave", None))
         self.variableLabel.setText(QCoreApplication.translate("Form", u"Select Variable", None))
         self.nameLabel.setText(QCoreApplication.translate("Form", u"Track Name", None))
@@ -374,4 +359,3 @@ class AdvancedTrackView(object):
         self.checkAllButton.setText(QCoreApplication.translate("Form", u"Check all", None))
         self.switchAllCheckButton.setText(QCoreApplication.translate("Form", u"Switch all", None))
         self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply to all", None))
-    # retranslateUi

@@ -5,3 +5,5 @@ python-dateutil
 pyFluidSynth
 MIDIUtil
 matplotlib
+PyQt5
+QtPy

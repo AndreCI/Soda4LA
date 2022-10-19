@@ -1,17 +1,15 @@
-import random
 import threading
 import time
 from collections import deque
 
-import numpy as np
 import matplotlib as mpl
+import numpy as np
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QFrame
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 from matplotlib.backends.qt_compat import QtWidgets
-from matplotlib.backends.backend_qtagg import (
-    NavigationToolbar2QT as NavigationToolbar)
+from matplotlib.figure import Figure
+
 
 class GraphView():
 
@@ -26,7 +24,7 @@ class GraphView():
 
         self.verticalRes = 128
         self.horizontalRes = 1000
-        self.updateFrequency = int(1000/30)  # ms before redrawing - 30FPS
+        self.updateFrequency = int(1000 / 30)  # ms before redrawing - 30FPS
         self.timeWindow = 10000
         self.lookBackward = 0.2  # % of graph dedicated to past notes
         self.movingBarPos = int(self.lookBackward * self.horizontalRes)
@@ -49,11 +47,11 @@ class GraphView():
 
         self.figure.subplots_adjust(
             top=0.98,
-            #bottom=0.0,
+            # bottom=0.0,
             left=0.07,
             right=1.08,
-            #hspace=0.2,
-            #wspace=0.2
+            # hspace=0.2,
+            # wspace=0.2
         )
 
         dynamic_canvas = FigureCanvas(self.figure)  # A tk.DrawingArea.
@@ -71,13 +69,15 @@ class GraphView():
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
             start_time = 2 + note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time()
-            note_timing = self.parent.model.ctrl.view.get_relative_note_timing(self.parent.model.get_absolute_note_timing(note.tfactor))
+            note_timing = self.parent.model.ctrl.view.get_relative_note_timing(
+                self.parent.model.get_absolute_note_timing(note.tfactor))
             if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000):
-                end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow), self.horizontalRes)
+                end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow),
+                              self.horizontalRes)
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
                 max_vertical_pos = max(0, note.value + 1)
                 min_vertical_pos = min(127, note.value - 1)
-                if(str(note.channel) in self.parent.model.tracks): #check if tracks is not destroyed since
+                if (str(note.channel) in self.parent.model.tracks):  # check if tracks is not destroyed since
                     gain = int(note.velocity * float(self.parent.model.tracks[str(note.channel)].gain) / 128)
                     data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
             if (start_time < 0 or note_timing < -2000):
@@ -99,7 +99,7 @@ class GraphView():
         self.timeWindow = time_window
         self.updateFrequency = update_freq
         step = self.horizontalRes / (self.timeWindow / 1000)
-        self.timeStep = (self.updateFrequency) * step
+        self.timeStep = self.updateFrequency * step
         self.maxNotes = max_notes
         data = np.zeros((self.verticalRes, self.horizontalRes))
         self.line.set_array(data)

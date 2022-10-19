@@ -1,7 +1,6 @@
-from PyQt5.QtCore import QRect, QCoreApplication
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMenuBar, QMenu, QStatusBar, QAction
+from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtWidgets import QMainWindow, QAction
 
-import Models
 from Models.data_model import Data
 from Models.music_model import Music
 from ViewsPyQT5.sonification_view import SonificationView
@@ -15,18 +14,15 @@ class MainWindow(QMainWindow):
         self.db = Data.getInstance()
 
         self.setWindowTitle("Soda4LA")
-        #self.setGeometry(0,0,1920, 1080)
-        self.setSB()
+        self.setup_statusbar()
         self.sonification_main_widget = SonificationView(self)
-        self.setupMenu()
+        self.setup_menu()
         self.load_data()
-
-        #self.sonification_main_widget.setStyleSheet("background-color: black;")
 
         # Set the central widget of the Window.
         self.setCentralWidget(self.sonification_main_widget)
 
-    def setupMenu(self):
+    def setup_menu(self):
         self.menubar = self.menuBar()
         self.menubar.setObjectName(u"menubar")
         self.menuFile = self.menubar.addMenu("File")
@@ -62,7 +58,7 @@ class MainWindow(QMainWindow):
         self.saveAction.triggered.connect(self.sonification_main_widget.export_all_tracks)
         self.openAction.triggered.connect(self.sonification_main_widget.import_all_tracks)
 
-    def setSB(self):
+    def setup_statusbar(self):
         self.statusbar = self.statusBar()
         self.statusbar.setObjectName(u"statusbar")
         self.setStatusBar(self.statusbar)
@@ -75,7 +71,7 @@ class MainWindow(QMainWindow):
         self.sonification_main_widget.tableView.dataViewFrame.show()
 
         self.sonification_main_widget.trackView.TrackSettings_2.hide()
-        self.sonification_main_widget.trackView.retranslateUi()
+        self.sonification_main_widget.trackView.retranslate_ui()
         self.sonification_main_widget.advancedTrackView.filterFrame.hide()
         self.sonification_main_widget.advancedTrackView.SettingsFrame.hide()
         self.sonification_main_widget.advancedTrackView.detailsScrollArea.hide()
@@ -84,18 +80,21 @@ class MainWindow(QMainWindow):
         self.settingsAction.setEnabled(False)
         self.sonification_main_widget.topBarView.AddTrackButton.setEnabled(False)
         self.sonification_main_widget.topBarView.SettingsButton.setEnabled(False)
-        self.sonification_main_widget.tableView.loadData()
+        self.sonification_main_widget.tableView.load_data()
 
     def load_data(self):
-        #TODO add other filetype
+        # TODO add other filetype
+        # TODO load multiples datafiles in tab?
         m = Music.getInstance()
-        if(m.timeSettings.autoload):
+        if (m.timeSettings.autoload):
             self.db.read_data(m.timeSettings.autoloadDataPath)
             self.db.date_column = m.timeSettings.autoloadTimestampcol
             self.db.assign_timestamps()
-            self.sonification_main_widget.tableView.setupDataModel()
+            self.sonification_main_widget.tableView.setup_data_model()
             self.statusbar.showMessage("Data loaded automatically from {} with timestamp column {}. "
-                                       "You can disable this in the settings.".format(m.timeSettings.autoloadDataPath, m.timeSettings.autoloadTimestampcol), 20000)
+                                       "You can disable this in the settings.".format(m.timeSettings.autoloadDataPath,
+                                                                                      m.timeSettings.autoloadTimestampcol),
+                                       20000)
         else:
             self.sonification_main_widget.trackView.TrackSelectScrollArea.hide()
             self.sonification_main_widget.tableView.dataViewFrame.show()

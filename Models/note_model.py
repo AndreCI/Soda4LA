@@ -4,12 +4,6 @@ _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 
-def CNote_to_TNote(note, tfactor):
-    return TNote(tfactor=tfactor, channel=note.channel, value=note.value, velocity=note.velocity, duration=note.duration)
-
-def Note_to_TNote(note, tfactor, channel):
-    return TNote(tfactor=tfactor, channel=channel, value=note.value, velocity=note.velocity, duration=note.duration)
-
 
 def is_valid_note(note):
     """Return True if note is in a recognised format. False if not."""
@@ -19,6 +13,7 @@ def is_valid_note(note):
         if post != "b" and post != "#":
             return False
     return True
+
 
 def note_to_int(note, octave):
     """Convert notes in the form of C, C#, Cb, C##, etc. to an integer in the
@@ -37,6 +32,7 @@ def note_to_int(note, octave):
         elif post == "#":
             val += 1
     return val % 12 + octave * 12
+
 
 def int_to_note(note_int, accidentals="#"):
     """Convert integers in the range of 0-11 to notes in the form of C or C#
@@ -63,6 +59,6 @@ def convert_seconds_to_quarter(time_in_sec, bpm):
     :param bpm: beats per minute
     :return: index of the beat at time_in_sec
     """
-    quarter_per_second = (bpm/60) # <=> beat per seconds
+    quarter_per_second = (bpm / 60)  # <=> beat per seconds
     time_in_quarter = time_in_sec * quarter_per_second
     return time_in_quarter

@@ -47,8 +47,6 @@ class Track:
         self.ctrl = TrackCtrl(self)
 
         #Views
-        self.midiView = None
-        self.configView = None
         self.gTrackView = None
         self.generalView = None
         self.advancedView = None
@@ -57,8 +55,6 @@ class Track:
         state = self.__dict__.copy()
         del state["data"]
         del state["music"]
-        del state["midiView"]
-        del state["configView"]
         del state["gTrackView"]
         del state["generalView"]
         del state["advancedView"]
@@ -70,8 +66,6 @@ class Track:
         self.data = Data.getInstance()
         self.music = Models.music_model.Music.getInstance()
         self.ctrl = TrackCtrl(self)
-        self.configView = None
-        self.midiView = None
 
     def serialize(self, path):
         with open(path, 'wb') as f:

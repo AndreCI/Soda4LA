@@ -3,8 +3,6 @@ import threading
 import time
 from queue import Empty
 
-import numpy as np
-
 # import fluidsynth as m_fluidsynth
 from Models.note_model import int_to_note
 from Utils import m_fluidsynth
@@ -21,8 +19,7 @@ class MusicView:
         self.synth = m_fluidsynth.Synth()
         self.sequencer = m_fluidsynth.Sequencer(time_scale=self.model.timescale)
         self.registeredSynth = self.sequencer.register_fluidsynth(self.synth)
-        # self.seqIds = self.sequencer.register_client("callback", self.wrap_consume)
-        self.now = None
+
         self.starting_time = None
         self.pause_start_time = None
         self.consumer_thread = threading.Thread(target=self.consume, daemon=True)
@@ -81,7 +78,7 @@ class MusicView:
                     note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
 
                 if (self.ctrl.playing and note_timing > -100 and not self.ctrl.skipNextNote):
-                    #log_line = self.write_log_line(note, track_log_str, note_timing, note_timing_abs, prev_note_idx)
+                    # log_line = self.write_log_line(note, track_log_str, note_timing, note_timing_abs, prev_note_idx)
                     self.sequencer.note(absolute=False, time=int(note_timing), channel=note.channel, key=note.value,
                                         duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
                 else:
@@ -90,25 +87,27 @@ class MusicView:
                         note.channel, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
                         self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     print(log_line)
-                if(prev_note_idx != note.id):
-                    threading.Thread(target=self.model.sonification_view.tableView.data_model.pushRowToDataFrame(note_timing), daemon=True).start()
+                if (prev_note_idx != note.id):
+                    threading.Thread(
+                        target=self.model.sonification_view.tableView.data_model.push_row_to_data_frame(note_timing),
+                        daemon=True).start()
                 prev_note_idx = note.id
 
-                #self.model.sonification_view.add_log_line(log_line)
+                # self.model.sonification_view.add_log_line(log_line)
             except Empty:
                 print("Empty notes queue")
                 self.ctrl.queueSemaphore.release()  # Release semaphores
                 self.ctrl.emptySemaphore.release()
 
     def write_log_line(self, note, track_log_str, note_timing, note_timing_abs, prev_note_idx):
-        if (prev_note_idx != note.id):
-            self.model.sonification_view.add_log_line("--------------------")
-        print("Note #{} with tfactor {} and absolute position to {}. absolute distance with tick is {} and relative distance is {} or {}".format(note.id, note.tfactor,
-                                                                       self.convert(note.tfactor, to_absolute=False),
-                                                                       self.get_temporal_distance(note.tfactor,
-                                                                                                  absolute=True),
-                                                                       self.get_relative_note_timing(note_timing_abs),
-                                                                       self.get_temporal_distance(self.convert(note.tfactor, False), False)))
+        print(
+            "Note #{} with tfactor {} and absolute position to {}. absolute distance with tick is {} and relative distance is {} or {}".format(
+                note.id, note.tfactor,
+                self.convert(note.tfactor, to_absolute=False),
+                self.get_temporal_distance(note.tfactor,
+                                           absolute=True),
+                self.get_relative_note_timing(note_timing_abs),
+                self.get_temporal_distance(self.convert(note.tfactor, False), False)))
         return "Note [track={}, value={}, vel={}, dur={}, timing abs={}] at t={}, data row #{} scheduled in {}ms. {} notes remaining".format(
             track_log_str, int_to_note(note.value), note.velocity, note.duration, note_timing_abs,
             self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
@@ -121,8 +120,6 @@ class MusicView:
             the temporal distance (ms) between get_tick() and the input
         """
         return int(note_timing_absolute - (self.sequencer.get_tick() - self.starting_time))
-
-
 
     def convert(self, temporal_pos, to_absolute=True):
         if to_absolute:

@@ -1,13 +1,11 @@
-
 from datetime import datetime
 
 import numpy as np
 import pandas as pd
-from Utils.constants import DATA_PATH, BATCH_SIZE
 from dateutil.parser import parse
 
 import Ctrls.data_controller
-from Utils.constants import DATA_PATH
+from Utils.constants import BATCH_SIZE
 
 
 class Data:
@@ -32,7 +30,6 @@ class Data:
                         the buffer size
         """
         if Data._instance is None:
-
             self.df = None
             self.header = None
             self.timing_span = None
@@ -40,11 +37,6 @@ class Data:
             self.index = None
             self.first_date = None
             self.last_date = None
-            # self.batch_size = BATCH_SIZE
-            # #self.date_column = "TimeStamp"
-            # self.date_column = 'date'
-            # self.size = self.df.shape[0] + 1
-            # self.assign_timestamp()
             self.path = None
             self.batch_size = None
             self.date_column = None
@@ -52,8 +44,6 @@ class Data:
             self.view = None
             self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
-
-
 
     def retrieve_data(self, path):
         """
@@ -88,7 +78,6 @@ class Data:
         self.batch_size = BATCH_SIZE
         self.size = self.df.shape[0] + 1
 
-
     @staticmethod
     def is_date(string, fuzzy=False):
         """
@@ -110,7 +99,6 @@ class Data:
         """
         candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
         return candidates
-
 
     def get_variables(self):
         """
@@ -139,10 +127,10 @@ class Data:
         return min([float(x) for x in self.df[column]])
 
     def get_first(self):
-        return self.df.iloc[range(0,10)]
+        return self.df.iloc[range(0, 10)]
 
     def get_second(self):
-        return self.df.iloc[range(9,20)]
+        return self.df.iloc[range(9, 20)]
 
     def get_first_and_last(self):
         data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]
@@ -156,7 +144,7 @@ class Data:
                 data buffered
         """
         data = self.df[self.index: self.index + self.batch_size]
-        if(iterate):
+        if (iterate):
             self.index += self.batch_size
         return data
 
@@ -169,7 +157,7 @@ class Data:
         :return:
             date: str,
                 converted date
-        """ #TODO ask user what format is date, and display guesses
+        """  # TODO ask user what format is date, and display guesses
         try:
             date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
         except ValueError:
@@ -181,7 +169,8 @@ class Data:
         Method to assign timestamp to a new column
         """
         self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-        self.df = self.df.sort_values(by='internal_timestamp', axis=0) #TODO message to user telling them that data were sorted
+        self.df = self.df.sort_values(by='internal_timestamp',
+                                      axis=0)  # TODO message to user telling them that data were sorted
         self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
         # set first and last date here
         first_date = self.get_datetime(self.df.iloc[0][self.date_column])

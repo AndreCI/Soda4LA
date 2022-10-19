@@ -25,7 +25,7 @@ class ParameterEncoding:
         # Dictionary containing information to transform a row into a parameter for a note
         self.defaultValue = 80
         if self.encoded_var == "duration":
-            self.defaultValue= 300
+            self.defaultValue = 300
         elif self.encoded_var == "velocity":
             self.defaultValue = 127
         self.octave = "4" if self.encoded_var == "value" else "0"
@@ -37,9 +37,6 @@ class ParameterEncoding:
 
         # Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
-
-        # Views
-        self.peView = None
 
     def __getstate__(self):
         state = self.__dict__.copy()

@@ -1,8 +1,5 @@
-# TODO complexify with other filter options, such as str filters.
 from enum import Enum
 
-from Models.data_model import Data
-import pandas as pd
 
 class FilterType(Enum):
     NONE = 1,
@@ -10,7 +7,9 @@ class FilterType(Enum):
     RANGE = 3,
     MULTIPLE = 4
 
-class FilterModule:
+
+class FilterModule:  # TODO complexify with other filter options, such as str filters.
+
     """
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
     """
@@ -39,18 +38,17 @@ class FilterModule:
         df["internal_filter"] = df[self.column].apply(lambda y: self.evaluate(y))
         return df[df["internal_filter"]].drop("internal_filter", axis=1)
 
-    def get_filtered_data(self, header : [], data : [[]]):
+    def get_filtered_data(self, header: [], data: [[]]):
         """
         Filter all of data based on the user selected filter
         :param header: list of names of each column in data
         :param data: all of data, as a list of list (row per row)
         :return: an iterable with filtered data, using lazy eval
         """
-        #TODO
+        # TODO
         raise NotImplementedError()
         idx = header.index(self.variable)
         return filter(self.evaluate, data)
-
 
     def evaluate(self, value):
         """
@@ -61,7 +59,7 @@ class FilterModule:
         :return: bool,
             True if value follows the filter, False otherwise.
         """
-        #print("Evaluating {} with mode {}. filter is {}".format(value, self.mode, self.filter))
+        # print("Evaluating {} with mode {}. filter is {}".format(value, self.mode, self.filter))
         if self.column not in self.mode or self.mode[self.column] is FilterType.NONE:
             return True
         if self.mode[self.column] is FilterType.SINGLE and self.filter[self.column] == value:
@@ -74,7 +72,7 @@ class FilterModule:
 
     def assign_column(self, column):
         self.column = column
-        if(column not in self.mode):
+        if (column not in self.mode):
             self.mode[self.column] = FilterType.NONE
 
     def assign(self, filter):
@@ -103,7 +101,7 @@ class FilterModule:
         return False
 
     def assign_quali_value(self, value, add=True):
-        if(self.column not in self.filter):
+        if (self.column not in self.filter):
             self.assign_quali_table([])
         if add:
             self.filter[self.column].append(value)
@@ -121,10 +119,9 @@ class FilterModule:
         return True
 
     def get_current_filter(self):
-        if(self.column in self.filter and self.filter[self.column] != None):
+        if (self.column in self.filter and self.filter[self.column] != None):
             try:
                 return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"
             except:
                 return "filter error!"
         return ""
-

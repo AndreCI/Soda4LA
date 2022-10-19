@@ -1,19 +1,13 @@
-import threading
 import time
 from collections import deque
 
 import pandas as pd
-from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
+from PyQt5.QtCore import QSize, Qt, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
     QModelIndex
-from PyQt5.QtGui import QIcon
-
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar, QLabel, \
-    QSpinBox, QAbstractSpinBox, QPlainTextEdit, QTableView, QTableWidget, QTableWidgetItem, QStyledItemDelegate, QStyle, \
-    QApplication, QFileDialog
+from PyQt5.QtWidgets import QSizePolicy, QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
+    QTableView, QFileDialog
 
 from Models.data_model import Data
-#from ViewsPyQT5.sonification_view import SonificationView
 
 
 class TableView(object):
@@ -35,48 +29,48 @@ class TableView(object):
 
         self.tableView = QTableView()
 
-        self.generate_Ui()
+        self.generate_ui()
 
-        self.verticalLayout.addWidget(self.dataViewFrame, 0, 0 ,1, 2)
-        self.verticalLayout.addWidget(self.tableView, 1, 0 ,1, 5)
+        self.verticalLayout.addWidget(self.dataViewFrame, 0, 0, 1, 2)
+        self.verticalLayout.addWidget(self.tableView, 1, 0, 1, 5)
         self.dataViewFrame.hide()
 
-        self.retranslateUi()
-        self.connectUi()
-        self.setToolTips()
+        self.retranslate_ui()
+        self.connect_ui()
+        self.set_tool_tips()
 
-
-    def setToolTips(self):
+    def set_tool_tips(self):
         self.browseDataButton.setToolTip("Browse to a datafile.")
         self.dataColumnComboBox.setToolTip("Select a column as a master timestamp, that will be used to order notes.\n"
                                            "It must be sequential.")
         self.validateDataButton.setToolTip("Validate data selection, starting the sonification process.")
 
-    def connectUi(self):
-        self.browseDataButton.clicked.connect(self.loadData)
-        self.dataColumnComboBox.currentIndexChanged.connect(self.columnSelect)
-        self.validateDataButton.clicked.connect(self.validateData)
+    def connect_ui(self):
+        self.browseDataButton.clicked.connect(self.load_data)
+        self.dataColumnComboBox.currentIndexChanged.connect(self.column_select)
+        self.validateDataButton.clicked.connect(self.validate_data)
 
-    def columnSelect(self):
+    def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
-            self.tableView.selectColumn(self.data_model._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
+            self.tableView.selectColumn(
+                self.data_model._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
 
-    def loadData(self):
+    def load_data(self):
         file, check = QFileDialog.getOpenFileName(None, "Load data file",
                                                   "", "CSV (*.csv)")
         if check:
             self.data.read_data(file)
             self.dataPathLineEdit.setText(file)
-            self.setupDataModel()
+            self.setup_data_model()
             self.dataColumnComboBox.setEnabled(True)
             self.dataColumnComboBox.addItems(self.data.get_candidates_timestamp_columns())
             self.validateDataButton.setEnabled(True)
 
-    def setupDataModel(self):
+    def setup_data_model(self):
         self.data_model = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self)
         self.tableView.setModel(self.data_model)
 
-    def validateData(self):
+    def validate_data(self):
         self.data.date_column = self.data.get_candidates_timestamp_columns()[self.dataColumnComboBox.currentIndex()]
         self.data.assign_timestamps()
         self.dataViewFrame.hide()
@@ -84,13 +78,14 @@ class TableView(object):
         self.parent.topBarView.AddTrackButton.setEnabled(True)
         self.parent.topBarView.SettingsButton.setEnabled(True)
         self.parent.parent.settingsAction.setEnabled(True)
-        self.parent.set_status_text("Data loaded: {} with timestamp column {}".format(self.dataPathLineEdit.text(), self.data.date_column))
+        self.parent.set_status_text(
+            "Data loaded: {} with timestamp column {}".format(self.dataPathLineEdit.text(), self.data.date_column))
         self.dataColumnComboBox.clear()
         self.dataPathLineEdit.setText("")
         if len(self.parent.model.tracks) > 0:
             self.parent.model.ctrl.purge_tracks()
 
-    def generate_Ui(self):
+    def generate_ui(self):
         self.dataViewFrame = QFrame()
         self.dataViewFrame.setObjectName(u"dataViewFrame")
         self.dataViewFrame.setFrameShape(QFrame.Box)
@@ -100,11 +95,7 @@ class TableView(object):
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        #self.gridLayout.addItem(self.horizontalSpacer, 0, 4, 1, 1)
-
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        #self.gridLayout.addItem(self.horizontalSpacer_3, 2, 4, 1, 1)
 
         self.browseDataButton = QPushButton(self.dataViewFrame)
         self.browseDataButton.setObjectName(u"browseDataButton")
@@ -124,8 +115,6 @@ class TableView(object):
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        #self.gridLayout.addItem(self.horizontalSpacer_2, 1, 4, 1, 1)
-
         self.dataColumnLabel = QLabel(self.dataViewFrame)
         self.dataColumnLabel.setObjectName(u"dataColumnLabel")
         self.dataColumnComboBox.setEnabled(False)
@@ -143,7 +132,7 @@ class TableView(object):
 
         self.gridLayout.addWidget(self.dataPathLabel, 0, 1, 1, 1)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         self.dataPathLabel.setStyleSheet("font-size:25px")
         self.dataColumnLabel.setStyleSheet("font-size:25px")
         self.dataColumnLabel.setText(QCoreApplication.translate("Form", u"Date Column", None))
@@ -151,6 +140,7 @@ class TableView(object):
         self.browseDataButton.setText(QCoreApplication.translate("Form", u"Browse...", None))
         self.validateDataButton.setText(QCoreApplication.translate("Form", u"Validate", None))
     # retranslateUi
+
 
 class DataFrameModel(QAbstractTableModel):
     DtypeRole = Qt.UserRole + 1000
@@ -172,28 +162,29 @@ class DataFrameModel(QAbstractTableModel):
         self._dataframe = df
         self.endResetModel()
 
-    def loadRow(self, row):
-        if(row not in self.buffer and row not in self._dataframe):
+    def load_row(self, row):
+        if (row not in self.buffer and row not in self._dataframe):
             self.buffer.append(row)
 
-    def pushRowToDataFrame(self, note_timing):
-        time.sleep(note_timing/1000)
-        if(len(self.buffer)>0 and self.mom.parent.model.ctrl.playing):
+    def push_row_to_data_frame(self, note_timing):
+        time.sleep(note_timing / 1000)
+        if (len(self.buffer) > 0 and self.mom.parent.model.ctrl.playing):
             self.mom.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
             self.beginResetModel()
             row = self.buffer.popleft()
-            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row],columns = row._fields)], ignore_index=True)
+            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
+                                        ignore_index=True)
             self.endResetModel()
 
-    def setDataFrame(self, dataframe):
+    def set_data_frame(self, dataframe):
         self.beginResetModel()
         self._dataframe = dataframe.copy()
         self.endResetModel()
 
-    def dataFrame(self):
+    def data_frame(self):
         return self._dataframe
 
-    dataFrame = pyqtProperty(pd.DataFrame, fget=dataFrame, fset=setDataFrame)
+    dataFrame = pyqtProperty(pd.DataFrame, fget=data_frame, fset=set_data_frame)
 
     @pyqtSlot(int, Qt.Orientation, result=str)
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = Qt.DisplayRole):
@@ -237,5 +228,3 @@ class DataFrameModel(QAbstractTableModel):
             DataFrameModel.ValueRole: b'value'
         }
         return roles
-
-

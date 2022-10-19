@@ -11,14 +11,14 @@ class SoundfontLoader:
         return SoundfontLoader._instance
 
     def __init__(self):
-        if(SoundfontLoader._instance is None):
+        if (SoundfontLoader._instance is None):
             self.file_list = {}
             self.reload_soundfont()
             self.default = "Jazz_Guitar"
             SoundfontLoader._instance = self
 
     def get(self, name=""):
-        if(name==""):
+        if (name == ""):
             return self.file_list[self.default]
         return self.file_list[name]
 
@@ -34,6 +34,5 @@ class SoundfontLoader:
     def reload_soundfont(self, path="data/soundfonts"):
         for file in os.listdir(path):
             p = os.path.join(path, file)
-            if(os.path.isfile(p) and file.split(".")[-1] == "sf2"):
+            if (os.path.isfile(p) and file.split(".")[-1] == "sf2"):
                 self.file_list[file.split(".")[0]] = p
-

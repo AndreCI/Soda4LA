@@ -2,37 +2,24 @@
 import threading
 import time
 
-from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
-
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar, QLabel
+from PyQt5.QtWidgets import QHBoxLayout, QSizePolicy, QPushButton, QSpacerItem, QFrame, QSlider, QGridLayout, \
+    QProgressBar, QLabel
 
 from Models.music_model import Music
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle, playButtonReadyStyle
 
 
-################################################################################
-##  generated from reading UI file 'topsettingszfbzda.ui'
-##
-## Created by: Qt User Interface Compiler version 5.15.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 class TopSettingsBar(object):
     def __init__(self, parent):
         self.parent = parent
 
-    #https://stackoverflow.com/questions/56275060/pyqt5-how-to-use-progress-bar-in-pyqt5
     def setupUi(self):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.TopControlFrame = QFrame()
         self.TopControlFrame.setObjectName(u"TopControlFrame")
-        #self.TopControlFrame.setFrameShape(QFrame.Panel)
-        #self.TopControlFrame.setFrameShadow(QFrame.Raised)
-        #self.TopControlFrame.setLineWidth(3)
         self.TopControlFrame.setMaximumSize(16777215, 40)
         self.horizontalLayout_3 = QHBoxLayout(self.TopControlFrame)
         self.horizontalLayout_3.setSpacing(5)
@@ -75,7 +62,7 @@ class TopSettingsBar(object):
         self.horizontalLayout_3.addWidget(self.SettingsButton)
         self.horizontalLayout_3.addItem(self.LeftSpacer)
 
-        self.musicPBLayout = QGridLayout()#self.gridLayoutWidget)
+        self.musicPBLayout = QGridLayout()
         self.musicPBLayout.setObjectName(u"musicPBLayout")
         self.musicPBLayout.setContentsMargins(0, 0, 0, 0)
         self.musicPBSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -94,6 +81,7 @@ class TopSettingsBar(object):
         self.GainSlider.setSliderPosition(65)
         self.GainSlider.setOrientation(Qt.Horizontal)
         self.GainSlider.setToolTip("Change volume")
+
         self.volumeButton = QPushButton(self.TopControlFrame)
         self.volumeButton.setObjectName(u"volumeButton")
         self.volumeButton.setSizePolicy(sizePolicy)
@@ -113,15 +101,15 @@ class TopSettingsBar(object):
         self.musicProgressBar.setTextVisible(False)
         self.musicProgressBar.setStyleSheet(progressBarStyle)
         self.musicProgressBar.setMaximumSize(5000, 7)
-        self.musicProgressBar.setContentsMargins(0,0,0,10)
+        self.musicProgressBar.setContentsMargins(0, 0, 0, 10)
 
         self.musicStartLabel = QLabel("0:00")
         self.musicStartLabel.setObjectName(u"musicStartLabel")
-        self.musicStartLabel.setContentsMargins(10,0,0,0)
+        self.musicStartLabel.setContentsMargins(10, 0, 0, 0)
 
         self.musicEndLabel = QLabel("--:--")
         self.musicEndLabel.setObjectName(u"musicEndLabel")
-        self.musicEndLabel.setContentsMargins(0,0,10,0)
+        self.musicEndLabel.setContentsMargins(0, 0, 10, 0)
 
         self.musicPBLayout.addWidget(self.musicProgressBar, 1, 0, 1, 6)
         self.musicPBLayout.addWidget(self.musicStartLabel, 0, 0, 1, 1)
@@ -130,7 +118,6 @@ class TopSettingsBar(object):
         self.musicPBLayout.addWidget(self.volumeButton, 0, 3, 1, 1)
         self.musicPBLayout.addItem(self.musicPBSpacer2, 0, 4, 1, 1)
         self.musicPBLayout.addWidget(self.musicEndLabel, 0, 5, 1, 1)
-        #TODO : inverser le blanc et le fond gris et rajouter un symbole haut parleur pour communiquer que c'est du son
 
         self.FbwButton = QPushButton(self.TopControlFrame)
         self.FbwButton.setObjectName(u"FbwButton")
@@ -195,8 +182,6 @@ class TopSettingsBar(object):
 
         self.horizontalLayout_3.addWidget(self.FfwButton)
 
-        #self.horizontalLayout_3.addWidget(self.GainSlider)
-
         self.MidSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.RightSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -205,23 +190,23 @@ class TopSettingsBar(object):
         self.horizontalLayout_3.addItem(self.RightSpacer)
         self.horizontalLayout.addWidget(self.TopControlFrame)
 
-        self.retranslateUi()
-        self.connectUi()
+        self.retranslate_ui()
+        self.connect_ui()
 
-    def connectUi(self):
+    def connect_ui(self):
         self.music_model = Music().getInstance()
-        self.volumeButton.clicked.connect(self.music_model.ctrl.muteClick)
-        self.GainSlider.sliderReleased.connect(lambda :self.music_model.ctrl.change_global_gain(self.GainSlider.value()))
+        self.volumeButton.clicked.connect(self.music_model.ctrl.mute_click)
+        self.GainSlider.sliderReleased.connect(
+            lambda: self.music_model.ctrl.change_global_gain(self.GainSlider.value()))
         self.AddTrackButton.clicked.connect(self.parent.model.ctrl.create_track)
-        self.PPButton.clicked.connect(self.pressPPButton)
-        self.StopButton.clicked.connect(self.pressStopButton)
-        self.SettingsButton.clicked.connect(self.pressSettingsButton)
+        self.PPButton.clicked.connect(self.press_pp_button)
+        self.StopButton.clicked.connect(self.press_stop_button)
+        self.SettingsButton.clicked.connect(self.press_settings_button)
         self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True)
         self.progress_bar_thread.start()
         self.GainSlider.setValue(self.music_model.gain)
 
-    # setupUi
-    def pressSettingsButton(self):
+    def press_settings_button(self):
         self.parent.open_settings()
 
     def handle_progress(self):
@@ -235,10 +220,10 @@ class TopSettingsBar(object):
             sh, sm = divmod(sm, 60)
             self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
             self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
-            self.musicProgressBar.setValue(int(mtime/self.parent.model.timeSettings.musicDuration))
+            self.musicProgressBar.setValue(int(mtime / self.parent.model.timeSettings.musicDuration))
             time.sleep(1)
 
-    def pressStopButton(self):
+    def press_stop_button(self):
         if self.parent.model.ctrl.playing:
             self.parent.model.ctrl.stop()
             self.musicProgressBar.setValue(0)
@@ -247,8 +232,8 @@ class TopSettingsBar(object):
             self.PPButton.setStyleSheet(playButtonReadyStyle)
             self.StopButton.setEnabled(False)
 
-    def pressPPButton(self):
-        if(self.parent.model.ctrl.playing and not self.parent.model.ctrl.paused):
+    def press_pp_button(self):
+        if (self.parent.model.ctrl.playing and not self.parent.model.ctrl.paused):
             self.parent.model.ctrl.pause()
             self.PPButton.setIcon(self.playIcon)
             self.PPButton.setStyleSheet(playButtonReadyStyle)
@@ -258,11 +243,10 @@ class TopSettingsBar(object):
             self.PPButton.setStyleSheet(buttonStyle)
         self.StopButton.setEnabled(True)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         self.AddTrackButton.setText("")
         self.SettingsButton.setText("")
         self.FbwButton.setText("")
         self.PPButton.setText("")
         self.StopButton.setText("")
         self.FfwButton.setText("")
-    # retranslateUi

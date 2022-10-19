@@ -1,12 +1,6 @@
+from PyQt5.QtCore import Qt, QRect, QCoreApplication
 from PyQt5.QtWidgets import QMainWindow, QCheckBox, QTextEdit
-from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
-    QModelIndex
-from PyQt5.QtGui import QIcon
-
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
-    QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QProgressBar, QLabel, \
-    QSpinBox, QAbstractSpinBox, QPlainTextEdit, QTableView, QTableWidget, QTableWidgetItem, QStyledItemDelegate, QStyle, \
-    QApplication
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel
 
 from Utils.constants import TIME_SETTINGS_OPTIONS, TIME_SETTINGS_OPTIONS_TOOLTIP
 from Utils.utils import is_float
@@ -149,12 +143,12 @@ class SettingsView(QMainWindow):
 
         self.gridLayout.addWidget(self.aboutFrame, 2, 3, 1, 1)
 
-        self.retranslateUi()
-        self.setToolsTips()
+        self.retranslate_ui()
+        self.set_tools_tips()
 
         # setupUi
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         self.songLengthLabel.setText(QCoreApplication.translate("Form", u"Song length, in seconds", None))
         self.batchSizeLabel.setText(QCoreApplication.translate("Form", u"Batch size to sonify", None))
         self.bpmLabel.setText(QCoreApplication.translate("Form", u"Beat/Row Per Minutes ", None))
@@ -165,33 +159,34 @@ class SettingsView(QMainWindow):
         self.validateButton.setText(QCoreApplication.translate("Form", u"Validate", None))
         self.cancelButton.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.aboutText.setHtml(QCoreApplication.translate("Form",
-          u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-          "p, li { white-space: pre-wrap; }\n"
-          "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">"
-          "Made by TECFA at Unige. Pr. Eric Sanchez & Andre Cibils. GNU GENERAL PUBLIC LICENSE"
-          "</span></p></body></html>",
+                                                          u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                          "p, li { white-space: pre-wrap; }\n"
+                                                          "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+                                                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">"
+                                                          "Soda4LA, a generalist sonification software.<br>"
+                                                          "Made by TECFA at Unige. Pr. Eric Sanchez & Andre Cibils. <br>GNU GENERAL PUBLIC LICENSE"
+                                                          "</span></p></body></html>",
                                                           None))
+
     # retranslateUi
-    def setToolsTips(self):
+    def set_tools_tips(self):
         self.songLengthLineEdit.setToolTip("Length of the music, in seconds. \nChanging this will change the bpm")
         self.batchSizeLineEdit.setToolTip("Number of rows to process as a batch.\n"
                                           "A shorter value will make the program more responsive to changes to encoding "
                                           "but it may results in rows being skipped if they are close too each others timing wise. "
                                           "Less notes will be planned in advance, and the graph may not display all future notes.")
         self.bpmLineEdit.setToolTip("Beat per minute, equivalent to the number of row being processed per minute.\n"
-                                     "Changing this will affect the final song length")
+                                    "Changing this will affect the final song length")
         self.tempoModeComboBox.setToolTip("Which tempo settings to use.\n"
                                           "{}".format("\n".join(TIME_SETTINGS_OPTIONS_TOOLTIP)))
         self.previousDataCheckBox.setToolTip("Automatically load previously loaded data and time column choice.")
         self.noteTimingLineEdit.setToolTip("The number of ms that the manager will wait before planning a note.\n"
-                                        "A shorter value will make the program more responsive to changes to encodings but "
-                                        "it may results in rows being skipped if they are close too each others timing wise.")
+                                           "A shorter value will make the program more responsive to changes to encodings but "
+                                           "it may results in rows being skipped if they are close too each others timing wise.")
 
-
-    def updateUi(self):
-        if self.model ==None:
+    def update_ui(self):
+        if self.model is None:
             return
         self.tempoModeComboBox.setCurrentIndex(TIME_SETTINGS_OPTIONS.index(self.model.type))
         self.songLengthLineEdit.setText(str(self.model.get_music_duration()))
@@ -200,40 +195,42 @@ class SettingsView(QMainWindow):
         self.noteTimingLineEdit.setText(str(self.model.timeBuffer))
         self.previousDataCheckBox.setChecked(self.model.autoload)
 
-        self.connectUi()
+        self.connect_ui()
 
-    def disconnectUi(self):
+    def disconnect_ui(self):
         self.songLengthLineEdit.textEdited.disconnect()
         self.bpmLineEdit.textEdited.disconnect()
         self.validateButton.clicked.disconnect()
         self.cancelButton.clicked.disconnect()
 
-    def connectUi(self):
+    def connect_ui(self):
         self.songLengthLineEdit.textEdited.connect(self.on_music_length_change)
         self.bpmLineEdit.textEdited.connect(self.on_bpm_change)
         self.validateButton.clicked.connect(self.validate)
         self.cancelButton.clicked.connect(self.cancel)
 
     def on_bpm_change(self):
-        if(self.updating):
+        if (self.updating):
             self.updating = False
-        elif(is_float(self.bpmLineEdit.text())):
+        elif (is_float(self.bpmLineEdit.text())):
             self.updating = True
-            self.songLengthLineEdit.setText(str(int(60 * float(self.model.data.size)/float(self.bpmLineEdit.text()))))
+            self.songLengthLineEdit.setText(str(int(60 * float(self.model.data.size) / float(self.bpmLineEdit.text()))))
 
     def on_music_length_change(self):
-        if(self.updating):
+        if (self.updating):
             self.updating = False
-        elif(is_float(self.songLengthLineEdit.text())):
+        elif (is_float(self.songLengthLineEdit.text())):
             self.updating = True
-            self.bpmLineEdit.setText(str(round(60*(float(self.model.data.size) / float(self.songLengthLineEdit.text())), 2)))
+            self.bpmLineEdit.setText(
+                str(round(60 * (float(self.model.data.size) / float(self.songLengthLineEdit.text())), 2)))
 
     def validate(self):
-        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.songLengthLineEdit.text(), self.noteTimingLineEdit.text(),
+        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.songLengthLineEdit.text(),
+                                 self.noteTimingLineEdit.text(),
                                  self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked())
 
         self.cancel()
 
     def cancel(self):
-        self.disconnectUi()
+        self.disconnect_ui()
         self.hide()

@@ -3,8 +3,6 @@ import threading
 
 from Utils.constants import BATCH_NBR_PLANNED
 from Utils.utils import is_int
-from Views.time_settings_view import TimeSettingsView
-
 
 class TimeSettingsCtrl():
     """
@@ -53,17 +51,5 @@ class TimeSettingsCtrl():
     def open_time_settings(self, view):
         self.model.view = view
         view.model = self.model
-        view.updateUi()
+        view.update_ui()
         view.show()
-
-    def show_window(self):
-        if (self.model.tsView == None):
-            self.model.tsView = TimeSettingsView(self, self.model)
-        self.model.tsView.focus_set()
-
-    def destroy(self):
-        if (self.model.tsView != None):
-            self.model.tsView.destroy()
-
-    def remove_window(self):
-        self.model.tsView = None
