@@ -27,11 +27,11 @@ class MainWindow(QMainWindow):
         self.menubar.setObjectName(u"menubar")
         self.menuFile = self.menubar.addMenu("File")
         self.menuFile.setObjectName(u"menuFile")
-        self.menuEdit = self.menubar.addMenu("Edit")
-        self.menuEdit.setObjectName(u"menuEdit")
+        #self.menuEdit = self.menubar.addMenu("Edit")
+        #self.menuEdit.setObjectName(u"menuEdit")
 
-        self.menuAbout = self.menubar.addAction("About")
-        self.menuAbout.setObjectName(u"menuEdit")
+        #self.menuAbout = self.menubar.addAction("About")
+        #self.menuAbout.setObjectName(u"menuEdit")
 
         self.dataAction = QAction('Import data', self)
         self.menuFile.addAction(self.dataAction)
@@ -48,7 +48,7 @@ class MainWindow(QMainWindow):
         self.exitAction = QAction('Exit', self)
         self.menuFile.addAction(self.exitAction)
 
-        self.menuEdit.addAction(QAction('Undo', self))
+        #self.menuEdit.addAction(QAction('Undo', self))
         self.setMenuBar(self.menubar)
 
         self.exportAction.triggered.connect(self.sonification_main_widget.export_music)

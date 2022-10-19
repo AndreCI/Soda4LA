@@ -41,7 +41,7 @@ class Track:
         #Other models
         self.pencodings = {}
         for pe in ENCODING_OPTIONS:
-            self.pencodings[pe] = ParameterEncoding(encoded_var=pe)
+            self.pencodings[pe] = ParameterEncoding(encoded_var=pe, default_col=self.data.get_best_guess_variable())
 
         #Ctrls
         self.ctrl = TrackCtrl(self)

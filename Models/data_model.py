@@ -100,6 +100,14 @@ class Data:
         candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
         return candidates
 
+    def get_best_guess_variable(self):
+        lower = self.header[0]
+        for header in self.header:
+            varins = [str(x) for x in self.get_variables_instances(header)]
+            if (len(self.get_variables_instances(lower)) > len(varins) > 5 and "nan" not in varins):
+                lower = header
+        return lower
+
     def get_variables(self):
         """
         Get the columns (header) of our dataset

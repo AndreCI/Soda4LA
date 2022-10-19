@@ -23,9 +23,9 @@ class ParameterEncoding:
         self.functionEncoding = {"min": 0,
                                  "max": 12 if self.encoded_var == "value" else 127}
         # Dictionary containing information to transform a row into a parameter for a note
-        self.defaultValue = 80
+        self.defaultValue = 81
         if self.encoded_var == "duration":
-            self.defaultValue = 300
+            self.defaultValue = 250
         elif self.encoded_var == "velocity":
             self.defaultValue = 127
         self.octave = "4" if self.encoded_var == "value" else "0"
