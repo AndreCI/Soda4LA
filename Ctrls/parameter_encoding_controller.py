@@ -52,3 +52,9 @@ class ParameterEncodingCtrl:
                     pass
         elif value.isnumeric():
             self.model.handpickEncoding[variable] = int(value)
+
+    def change_octave(self, octave):
+        self.model.octave = octave
+        for key in self.model.handpickEncoding:
+            self.set_value(int_to_note(self.model.handpickEncoding[key]), key)
+        self.set_default_value(int_to_note(int(self.model.defaultValue)))

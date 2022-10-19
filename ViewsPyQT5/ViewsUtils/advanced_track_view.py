@@ -26,8 +26,10 @@ class AdvancedTrackView(object):
         self.checkAllButton.clicked.disconnect()
         self.switchAllCheckButton.released.disconnect()
         self.defaultValueLineEdit.textEdited.disconnect()
+        self.octaveSpinBox.valueChanged.disconnect()
 
     def connect_ui(self):
+        self.octaveSpinBox.valueChanged.connect(lambda : self.set_octave())
         self.variableComboBox.activated.connect(lambda: self.select_variable(self.variableComboBox.currentText()))
         self.checkAllButton.clicked.connect(lambda: self.set_all_check(True))
         self.switchAllCheckButton.released.connect(self.inverse_all_check)
@@ -131,6 +133,9 @@ class AdvancedTrackView(object):
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
         self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
+
+    def set_octave(self):
+        self.track.pencodings[self.key].ctrl.change_octave(self.octaveSpinBox.text())
 
     def set_value(self, ebox):
         self.model.ctrl.set_value(value=ebox.valueLine.text(), variable=ebox.checkbox.text())

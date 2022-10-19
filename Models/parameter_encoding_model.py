@@ -23,7 +23,7 @@ class ParameterEncoding:
         self.functionEncoding = {"min": 0,
                                  "max": 12 if self.encoded_var == "value" else 127}
         # Dictionary containing information to transform a row into a parameter for a note
-        self.defaultValue = 81
+        self.defaultValue = 0
         if self.encoded_var == "duration":
             self.defaultValue = 250
         elif self.encoded_var == "velocity":
@@ -37,11 +37,12 @@ class ParameterEncoding:
 
         # Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
+        if(encoded_var == "value"):
+            self.ctrl.set_default_value("9")
 
     def __getstate__(self):
         state = self.__dict__.copy()
         del state["ctrl"]
-        del state["peView"]
         del state["data"]
         return state
 

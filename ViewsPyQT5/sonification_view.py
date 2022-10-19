@@ -57,6 +57,7 @@ class SonificationView(QWidget):
         self.graphLayout.addWidget(self.tableView.tableFrame)
         self.visualisationView.GraphFrame.hide()
 
+
     def set_status_text(self, line, timing=5000):
         self.parent.statusbar.showMessage(line, timing)
 

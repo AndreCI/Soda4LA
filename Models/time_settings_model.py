@@ -28,7 +28,7 @@ class TimeSettings():  # TODO rename this into general settings
         self.autoloadDataPath = ""
         self.autoloadTimestampcol = ""
         self.debugVerbose = False
-        self.type = self.possible_types[1]
+        self.type = self.possible_types[0]
 
         # Ctrl
         self.ctrl = TimeSettingsCtrl(self)
@@ -114,10 +114,10 @@ class TimeSettings():  # TODO rename this into general settings
         offset = float(offset)/(100*self.get_bpm()/60) #[0-100] to s
         offset = float(offset) / float(self.get_music_duration()) #s to tfactor
         # ratio = float(distance)/float(max)
-        if self.type == self.possible_types[0]:
+        if self.type == self.possible_types[1]:
             return_value = offset + (current["internal_timestamp"] - self.minVal) / float(
                 distance)  # (ratio - min) * current
-        elif self.type == self.possible_types[1]:
+        elif self.type == self.possible_types[0]:
             return_value = offset + float(current["internal_id"]) / float(self.idMax)
         else:
             raise NotImplementedError()

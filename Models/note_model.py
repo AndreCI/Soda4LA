@@ -1,3 +1,4 @@
+import math
 from collections import namedtuple
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
@@ -10,7 +11,7 @@ def is_valid_note(note):
     if note[0] not in _note_dict:
         return False
     for post in note[1:]:
-        if post != "b" and post != "#":
+        if post != "B" and post != "#":
             return False
     return True
 
@@ -27,7 +28,7 @@ def note_to_int(note, octave):
 
     # Check for '#' and 'b' postfixes
     for post in note[1:]:
-        if post == "b":
+        if post == "B":
             val -= 1
         elif post == "#":
             val += 1
@@ -62,3 +63,7 @@ def convert_seconds_to_quarter(time_in_sec, bpm):
     quarter_per_second = (bpm / 60)  # <=> beat per seconds
     time_in_quarter = time_in_sec * quarter_per_second
     return time_in_quarter
+
+def note_to_hz(value):
+    power = (value - 69)/12
+    return int(440 * math.pow(2, power))

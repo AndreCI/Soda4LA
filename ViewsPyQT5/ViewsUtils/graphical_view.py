@@ -1,3 +1,4 @@
+import math
 import threading
 import time
 from collections import deque
@@ -39,11 +40,11 @@ class GraphView():
         data = np.zeros((self.verticalRes, self.horizontalRes))
         self.line = self.ax.pcolormesh(data, cmap=self.colormap, rasterized=True, vmin=0, vmax=100)
         self.colorbar = self.figure.colorbar(self.line, ax=self.ax)
-        self.ax.set_ylabel("value")
-        self.ax.set_xlabel("time (seconds)")
+        self.ax.set_ylabel("Midi note (Midi Tuning Standard, Hz)")
+        self.ax.set_xlabel("Time (seconds)")
         self.ax.set_xticklabels(np.arange(-2, 9, 2))
         self.movingBar = self.ax.axvline(x=self.movingBarPos, color="darkred")
-        self.colorbar.ax.set_xlabel("volume")
+        self.colorbar.ax.set_xlabel("Volume")
 
         self.figure.subplots_adjust(
             top=0.98,

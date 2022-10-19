@@ -78,6 +78,7 @@ class Track:
             var = pickle.load(f)
             self.__dict__.update(var.__dict__)
             self.id = oldid
+            self.ctrl.model = self
             self.music.sonification_view.set_status_text("Track imported to id {}".format(self.id))
 
     def generate_notes(self, batch):
