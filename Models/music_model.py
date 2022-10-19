@@ -69,7 +69,7 @@ class Music:
         :return:
         """
         # setup
-        bpm = 100
+        bpm = self.timeSettings.get_bpm()
         self.data.reset_playing_index()
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()

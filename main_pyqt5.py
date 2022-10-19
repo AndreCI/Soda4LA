@@ -1,6 +1,8 @@
 import datetime
 import logging
 import sys
+import time
+import numpy
 
 from PyQt5.QtCore import QFile, QTextStream
 from PyQt5.QtWidgets import QApplication
