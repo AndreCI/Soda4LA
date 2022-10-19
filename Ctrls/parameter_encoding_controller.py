@@ -21,19 +21,21 @@ class ParameterEncodingCtrl:
         self.model.peView.focus_set()
 
     def setDefaultValue(self, value):
+        if value == "":
+            return
         if (self.model.encoded_var == "value"):
             if value.isnumeric():
                 try:
                     v = note_to_int(int_to_note(int(value)), int(self.model.octave))
                     self.model.defaultValue = v
                 except ValueError:
-                    pass
+                    print("Issue with value in setDefault-value {}".format(value))
             else:
                 try:
-                    v = note_to_int(str(value), int(self.model.octave))
+                    v = note_to_int(str(value).upper(), int(self.model.octave))
                     self.model.defaultValue = v
                 except ValueError:
-                    pass
+                    print("Issue with value in setDefault-value-nonnum {}".format(value))
         elif value.isnumeric():
             self.model.defaultValue = int(value)
 
@@ -50,7 +52,7 @@ class ParameterEncodingCtrl:
                     pass
             else:
                 try:
-                    v = note_to_int(str(value), int(self.model.octave))
+                    v = note_to_int(str(value).upper(), int(self.model.octave))
                     self.model.handpickEncoding[variable] = v
                 except ValueError:
                     pass

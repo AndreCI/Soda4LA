@@ -91,7 +91,7 @@ class MusicView:
                         self.sequencer.get_tick(), note.id, note_timing, self.model.notes.qsize())
                     print(log_line)
                 if(prev_note_idx != note.id):
-                    threading.Thread(target=self.model.sonification_view.tableView.model.pushRowToDataFrame(note_timing), daemon=True).start()
+                    threading.Thread(target=self.model.sonification_view.tableView.data_model.pushRowToDataFrame(note_timing), daemon=True).start()
                 prev_note_idx = note.id
 
                 #self.model.sonification_view.add_log_line(log_line)

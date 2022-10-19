@@ -1,4 +1,5 @@
 import logging
+import threading
 import tkinter as tk
 from collections import deque
 from tkinter import ttk
@@ -6,7 +7,8 @@ from tkinter.constants import DISABLED, NORMAL
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
 from PyQt5.QtCore import QRect
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame, QSpacerItem,QSizePolicy
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame, QSpacerItem, QSizePolicy, \
+    QFileDialog
 
 from Models.music_model import Music
 from Utils.constants import DEFAULT_PADDING, TFRAME_STYLE, DEFAULT_PADX, DEFAULT_PADY, FILE_PATH
@@ -30,7 +32,8 @@ class SonificationView(QWidget):
     view to control the start, pause and stop of the current music
     view to configurate time settings
     """
-    #TODO: Add fast forward and backward +x/-x seconds
+
+    # TODO: Add fast forward and backward +x/-x seconds
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         # #Ctrl and model
@@ -39,17 +42,17 @@ class SonificationView(QWidget):
         # self.model.sonification_view = self
         # self.ctrl.sonification_view = self
         self.parent = parent
-        #View data
-        self.configView = True #Inform which view is currently displqyed
+        # View data
+        self.configView = True  # Inform which view is currently displqyed
         self.trackConfigViews = []
         self.trackMidiViews = []
         self.log = deque()
         self.logMax = 10
-        self.first_log_line = "Log:" + " "*205 + "\n"
+        self.first_log_line = "Log:" + " " * 205 + "\n"
         self.model = Music.getInstance()
         self.model.sonification_view = self
 
-        self.setGeometry(0,0,1980,1020)
+        self.setGeometry(0, 0, 1980, 1020)
         self.windowLayout = QVBoxLayout(self)
         self.centralLayout = QHBoxLayout()
         self.trackLayout = QVBoxLayout()
@@ -65,49 +68,54 @@ class SonificationView(QWidget):
         self.visualisationView = GraphView(self)
         self.tableView = TableView(self)
         self.tableView.setupUi()
-        #self.visualisation_layout.addWidget(visu._main)
+        # self.visualisation_layout.addWidget(visu._main)
         self.windowLayout.addLayout(self.topBarView.horizontalLayout)
         self.windowLayout.addLayout(self.centralLayout)
         self.centralLayout.addLayout(self.trackLayout)
         self.centralLayout.addLayout(self.graphLayout)
-        self.centralLayout.setStretch(0,2)
-        self.centralLayout.setStretch(1,3)
+        self.centralLayout.setStretch(0, 2)
+        self.centralLayout.setStretch(1, 3)
         self.trackLayout.addLayout(self.trackView.verticalLayout)
         self.trackLayout.addLayout(self.advancedTrackView.gridLayout)
         self.graphLayout.addWidget(self.visualisationView.GraphFrame)
         self.graphLayout.addWidget(self.tableView.tableFrame)
         self.visualisationView.GraphFrame.hide()
-        #self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        #self.graphLayout.addItem(self.verticalSpacer)
+        #self.trackView.TrackSelectScrollArea.hide()
+        # self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # self.graphLayout.addItem(self.verticalSpacer)
 
-    def set_status_text(self, line, timing=2500):
+    def set_status_text(self, line, timing=5000):
         self.parent.statusbar.showMessage(line, timing)
 
     def add_log_line(self, log_line, debug=False):
-        if(debug or not self.model.timeSettings.debugVerbose):
-            if(len(self.log) > self.logMax):
+        if (debug or not self.model.timeSettings.debugVerbose):
+            if (len(self.log) > self.logMax):
                 self.log.popleft()
             self.log.append(log_line)
             self.logVar.set(self.first_log_line + "\n".join(self.log))
             logging.info(log_line)
 
+    def open_settings(self):
+        self.model.timeSettings.ctrl.open_time_settings(self.settingsView)
+
     def open_time_setting(self):
-        self.ctrl.open_time_settings()
+        self.model.timeSettings.ctrl.open_time_settings()
 
     def export_music(self):
-        f = asksaveasfile(title="Save music as a file", initialdir=FILE_PATH,
-                          initialfile="saved_music", mode='w',
-                          defaultextension=".wav")
-        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
-            self.ctrl.export_music(f.name)
+        file, check = QFileDialog.getSaveFileName(None, "Export music",
+                                                  "saved_music", "Wav file (*.wav)")
+        if check:
+            self.set_status_text("writing {}".format(file))
+            threading.Thread(target=self.model.ctrl.export_music, args=[file], daemon=True).start()
+
     def export_all_tracks(self):
-        f = asksaveasfile(title="Save project as a file", initialdir=FILE_PATH,
-                          initialfile="saved_project_{}".format(len(self.model.tracks)), mode='w', defaultextension=".pkl")
-        if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
-            self.ctrl.export_all_tracks(f.name)
+        file, check = QFileDialog.getSaveFileName(None, "Save project",
+                                                  "project with {} tracks".format(len(self.model.tracks)),
+                                                  "Soda4LA Project file (*.soda4la)")
+        if check:
+            self.model.ctrl.export_all_tracks(file)
 
     def import_all_tracks(self):
-        f = askopenfilename(title="Load selected project")
-        if f != "":
-            self.ctrl.import_all_tracks(f)
-
+        file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda4LA Project file (*.soda4la)")
+        if check:
+            self.model.ctrl.import_all_tracks(file)

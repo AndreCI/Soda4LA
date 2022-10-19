@@ -218,9 +218,11 @@ class TopSettingsBar(object):
         self.SettingsButton.clicked.connect(self.pressSettingsButton)
         self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True)
         self.progress_bar_thread.start()
+        self.GainSlider.setValue(self.music_model.gain)
+
     # setupUi
     def pressSettingsButton(self):
-        self.parent.settingsView.show()
+        self.parent.open_settings()
 
     def handle_progress(self):
         while True:

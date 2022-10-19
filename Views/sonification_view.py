@@ -167,6 +167,7 @@ class SonificationView(ttk.Frame):
                           defaultextension=".wav")
         if f is not None:  # asksaveasfile return `None` if dialog closed with "cancel".
             self.ctrl.export_music(f.name)
+
     def export_all_tracks(self):
         f = asksaveasfile(title="Save project as a file", initialdir=FILE_PATH,
                           initialfile="saved_project_{}".format(len(self.model.tracks)), mode='w', defaultextension=".pkl")

@@ -70,7 +70,7 @@ class GraphView():
         self.parent.model.ctrl.graphSemaphore.acquire()
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
-            start_time = note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time() + 2
+            start_time = 2 + note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time()
             note_timing = self.parent.model.ctrl.view.get_relative_note_timing(self.parent.model.get_absolute_note_timing(note.tfactor))
             if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000):
                 end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow), self.horizontalRes)

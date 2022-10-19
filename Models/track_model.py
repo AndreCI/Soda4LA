@@ -69,6 +69,7 @@ class Track:
         self.__dict__.update(state)
         self.data = Data.getInstance()
         self.music = Models.music_model.Music.getInstance()
+        self.ctrl = TrackCtrl(self)
         self.configView = None
         self.midiView = None
 

@@ -30,15 +30,10 @@ class TrackCtrl:
     def change_gain(self, gain: int):
         self.model.gain = int(gain)
         self.model.music.ctrl.change_local_gain(self.model.id, self.model.gain)
-        # if (self.model.midiView.local_gain_slider.get() != gain):
-        #     self.model.midiView.local_gain_slider.set(gain)
-        # if (self.model.configView.local_gain_slider.get() != gain):
-        #     self.model.configView.local_gain_slider.set(gain)
 
     def mute_track(self):
         self.model.muted = not self.model.muted
-        self.model.music.ctrl.change_gain(self.model.id, 0) if self.model.muted \
-            else self.model.music.ctrl.change_gain(self.model.id, self.model.gain)
+        self.model.music.ctrl.change_local_gain(self.model.id, 0 if self.model.muted else self.model.gain)
 
     def select(self):
         if(self.model.generalView.selectedTrack is not None):

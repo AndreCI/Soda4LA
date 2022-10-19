@@ -183,9 +183,11 @@ class TrackView(object):
         self.gainButton.setMinimumSize(QSize(0, 0))
         self.gainButton.setMaximumSize(QSize(36, 16777215))
         self.gainButton.setStyleSheet(buttonStyle)
-        icon1 = QIcon()
-        icon1.addFile(u"data/img/icons/volume-up.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.gainButton.setIcon(icon1)
+        self.volumeIcon = QIcon()
+        self.mutedIcon = QIcon()
+        self.volumeIcon.addFile(u"data/img/icons/volume-up.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.mutedIcon.addFile(u"data/img/icons/volume-off.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.gainButton.setIcon(self.volumeIcon)
         self.gainButton.setToolTip("Mute/Unmute this track")
 
         self.gainHLayout.addWidget(self.GainSlider)
@@ -296,6 +298,7 @@ class TrackView(object):
     def disconnectUi(self):
         self.trackNameLineEdit.textEdited.disconnect()
         self.GainSlider.sliderReleased.disconnect()
+        self.gainButton.clicked.disconnect()
         self.offsetSlider.sliderReleased.disconnect()
         self.soundfontComboBox.activated.disconnect()
         self.durationButton.clicked.disconnect()
@@ -308,6 +311,7 @@ class TrackView(object):
     def connectUi(self):
         self.trackNameLineEdit.textEdited.connect(lambda: self.track.ctrl.change_name(self.trackNameLineEdit.text()))
         self.GainSlider.sliderReleased.connect(lambda : self.track.ctrl.change_gain(self.GainSlider.value()))
+        self.gainButton.clicked.connect(lambda : self.mute_track())
         self.offsetSlider.sliderReleased.connect(lambda : self.track.ctrl.change_offset(self.offsetSlider.value()))
         self.soundfontComboBox.activated.connect(lambda : self.track.ctrl.set_soundfont(self.soundfontComboBox.currentText()))
         self.durationButton.clicked.connect(lambda : self.track.advancedView.display_track(self.track, "duration"))
@@ -328,6 +332,14 @@ class TrackView(object):
         self.AddTrackButton.setText(QCoreApplication.translate("TrackConfigView", u"\tClick here to add your first track!", None))
     # retranslateUi
 
+    def mute_track(self):
+        self.track.ctrl.mute_track()
+        self.GainSlider.setValue(0 if self.track.muted else self.track.gain)
+        if(not self.track.muted):
+            self.gainButton.setIcon(self.volumeIcon)
+        else:
+            self.gainButton.setIcon(self.mutedIcon)
+
     def exportTrack(self):
         file, check = QFileDialog.getSaveFileName(None, "Export track",
                                                   self.track.name, "SodaTrack (*.soda_track)")
@@ -344,7 +356,11 @@ class TrackView(object):
 
     def display_track(self, track):
         self.trackNameLineEdit.setText(track.name)
-        self.GainSlider.setValue(track.gain)
+        self.GainSlider.setValue(0 if track.muted else track.gain)
+        if(not track.muted):
+            self.gainButton.setIcon(self.volumeIcon)
+        else:
+            self.gainButton.setIcon(self.mutedIcon)
         self.offsetSlider.setValue(int(track.offset))
         self.soundfontComboBox.setCurrentIndex(self.soundfontUtil.get_idx_from_path(track.soundfont))
         self.track = track
@@ -403,13 +419,15 @@ class TrackView(object):
         track.generalView = self
         track.advancedView = self.parent.advancedTrackView
         gTrackView.selectButton.setText(track.name)
-
         gTrackView.selectButton.clicked.connect(lambda : track.ctrl.select())
         gTrackView.deleteButton.clicked.connect(lambda : track.ctrl.remove())
+
 
         self.verticalLayout_4.insertWidget(len(self.gTrackList) - 1, g_track_frame)
         if(len(self.gTrackList) == 1):
             track.ctrl.select()
             self.AddTrackButton.setText("")
             self.parent.visualisationView.GraphFrame.show()
+            self.parent.parent.exportAction.setEnabled(True)
+            self.parent.parent.saveAction.setEnabled(True)
 

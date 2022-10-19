@@ -35,6 +35,7 @@ class Music:
 
             # Other models
             self.tracks = {}  # List of track model created by user
+
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
             self.QUEUE_CAPACITY = BATCH_NBR_PLANNED * self.timeSettings.batchSize
@@ -73,9 +74,9 @@ class Music:
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()
         mf = MIDIFile(len(self.tracks), eventtime_is_ticks=False) #declare midi file
-        for i,t in (self.tracks):
-            mf.addTrackName(i, 0, str(t.id))
-            mf.addTempo(i, 0, bpm)
+        for key in self.tracks:
+            mf.addTrackName(int(key), 0, str(self.tracks[key].id))
+            mf.addTempo(int(key), 0, bpm)
         # iterate over data
         while not self.data.get_next().empty:
             current_data = self.data.get_next(iterate=True)
@@ -97,10 +98,10 @@ class Music:
             lines = ["set player.reset-synth 0\n"] #prevent fluidsynth to override settings
             for t in self.tracks.values():
                 lines.append("load \"{}\"\n".format(t.soundfont)) # load soundfonts
-            for i, t in (self.tracks):
-                lines.append("select {} {} 0 0\n".format(i,  i+1)) # assign soundfonts to tracks
-            for i, t in (self.tracks):
-                lines.append("cc {} 7 {}\n".format(i,  t.gain* 1.27)) # update gain
+            for key in self.tracks:
+                lines.append("select {} {} 0 0\n".format(int(key),  int(key) + 1)) # assign soundfonts to tracks
+            for key in self.tracks:
+                lines.append("cc {} 7 {}\n".format(key,  self.tracks[key].gain* 1.27)) # update gain
             f.writelines(lines)
 
     def generate(self):

@@ -83,12 +83,15 @@ class AdvancedTrackView(object):
                 value = self.model.defaultValue
                 if (self.key == "value"):
                     value = int_to_note(value)
+                print("ere")
+                print(value)
                 eb.valueLine.setText(str(value))
                 eb.dlabel.show()
 
     def applyToAll(self):
         for eb in self.encoding_boxs:
-            eb.valueLine.setText(str(self.model.defaultValue))
+            value = self.model.defaultValue
+            eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.model.ctrl.resetValue(eb.checkbox.text())
             eb.dlabel.show()
 

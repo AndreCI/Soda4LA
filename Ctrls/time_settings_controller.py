@@ -21,26 +21,23 @@ class TimeSettingsCtrl():
         self.model.data.batch_size = size
         self.model.music.ctrl.change_queue_size(size * BATCH_NBR_PLANNED)
 
-    def validate(self):
+    def validate(self, batch_size, song_length, note_timing, tempo_idx, autoload):
         """
         Validate time settings entered by user and update models accordingly
         """
 
-        if not (is_int(self.model.tsView.batchSizeValue.get()) and
-                is_int(self.model.tsView.musicLengthValue.get()) and
-                is_int(self.model.tsView.bufferSizeValue.get())):
+        if not (is_int(batch_size) and
+                is_int(song_length) and
+                is_int(note_timing)):
             return
-        size = self.model.tsView.batchSizeValue.get()
-        threading.Thread(target=self.change_batch_size, args=[size], daemon=True).start()
-
-        self.model.musicDuration = int(self.model.tsView.musicLengthValue.get())
-        self.model.timeBuffer = self.model.tsView.bufferSizeValue.get()
-        self.model.set_type(self.model.tsView.selectedTimeType.get())
-        self.model.autoload = self.model.tsView.autoloadVar.get() == 1
+        threading.Thread(target=self.change_batch_size, args=[int(batch_size)], daemon=True).start()
+        self.model.musicDuration = int(song_length)
+        self.model.timeBuffer = int(note_timing)
+        self.model.set_type(self.model.possible_types[tempo_idx])
+        self.model.autoload = autoload
         self.model.autoloadDataPath = self.model.data.path
 
         self.write_to_ini()
-        self.model.tsView.destroy()
 
     def write_to_ini(self):
         with open("settings.ini", "w") as settingsFile:
@@ -52,6 +49,12 @@ class TimeSettingsCtrl():
             settingsFile.write(line)
             line = "debugverbose=" + str(self.model.debugVerbose) + "\n"
             settingsFile.write(line)
+
+    def open_time_settings(self, view):
+        self.model.view = view
+        view.model = self.model
+        view.updateUi()
+        view.show()
 
     def show_window(self):
         if (self.model.tsView == None):

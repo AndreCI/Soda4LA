@@ -5,6 +5,9 @@ BATCH_NBR_PLANNED=5
 
 #OPTIONS
 TIME_SETTINGS_OPTIONS = ["linear", "tempo-basic"]
+TIME_SETTINGS_OPTIONS_TOOLTIP = \
+    ["Linear: Each row is processed at constant interval. The interval is always #rows/song length",
+     "tempo-basic: Ratios of temporal distance between rows are preserved."]
 FUNCTION_OPTIONS = ["linear"]  # isomorphisms
 ENCODING_OPTIONS = ["value", "duration", "velocity"]
 MOCKUP_VARS = ["timestamp", "user_id", "action", "item_id"]
