@@ -53,8 +53,8 @@ class AdvancedTrackView(object):
         self.select_variable(self.model.filter.column)
         self.defaultValueLineEdit.setText(str(int_to_note(self.model.defaultValue) if self.key == "value"
                                               else self.model.defaultValue))
-        self.nameLabel.show()
-        self.changeModeButton.show()
+        #self.nameLabel.show()
+        #self.changeModeButton.show()
         if self.key == "value":
             self.octaveSpinBox.show()
             self.octaveLabel.show()
@@ -202,11 +202,11 @@ class AdvancedTrackView(object):
 
         self.gridLayout_2.addWidget(self.variableLabel, 0, 0, 1, 1)
 
-        self.nameLabel = QLabel(self.SettingsFrame)
+        self.nameLabel = QLabel()#self.SettingsFrame)
         self.nameLabel.setObjectName(u"nameLabel")
         self.nameLabel.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_2.addWidget(self.nameLabel, 1, 0, 1, 1)
+        #self.gridLayout_2.addWidget(self.nameLabel, 1, 0, 1, 1)
 
         self.octaveSpinBox = QSpinBox(self.SettingsFrame)
         self.octaveSpinBox.setObjectName(u"octaveSpinBox")
@@ -220,10 +220,10 @@ class AdvancedTrackView(object):
 
         self.gridLayout_2.addWidget(self.octaveSpinBox, 2, 1, 1, 1)
 
-        self.changeModeButton = QPushButton(self.SettingsFrame)
+        self.changeModeButton = QPushButton()#self.SettingsFrame)
         self.changeModeButton.setObjectName(u"changeModeButton")
 
-        self.gridLayout_2.addWidget(self.changeModeButton, 1, 1, 1, 1)
+        #self.gridLayout_2.addWidget(self.changeModeButton, 1, 1, 1, 1)
 
         self.variableComboBox = QComboBox(self.SettingsFrame)
         size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
