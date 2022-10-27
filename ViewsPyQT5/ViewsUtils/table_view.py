@@ -168,13 +168,29 @@ class DataFrameModel(QAbstractTableModel):
 
     def push_row_to_data_frame(self, note_timing):
         time.sleep(note_timing / 1000)
-        if (len(self.buffer) > 0 and self.mom.parent.model.ctrl.playing):
-            self.mom.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
+        if not self.mom.parent.model.ctrl.playing:
+            return
+        self.mom.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
+        if (len(self.buffer) > 0):
             self.beginResetModel()
             row = self.buffer.popleft()
-            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
+            if (self._dataframe.shape[0] <= 9 and len(self.buffer) > 0):
+                row2 = self.buffer.popleft()
+                self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row, row2], columns=row._fields)],
+                                            ignore_index=True)
+            else:
+                self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
                                         ignore_index=True)
+
+            self._dataframe.reset_index(inplace=True, drop=True)
             self.endResetModel()
+        else:
+            self.beginResetModel()
+            #print("reducing from {}".format(self._dataframe.shape))
+            self._dataframe = self._dataframe.iloc[1:].copy()
+            self._dataframe.reset_index(inplace=True, drop=True)
+            self.endResetModel()
+
 
     def set_data_frame(self, dataframe):
         self.beginResetModel()
@@ -211,8 +227,11 @@ class DataFrameModel(QAbstractTableModel):
         row = self._dataframe.index[index.row()]
         col = self._dataframe.columns[index.column()]
         dt = self._dataframe[col].dtype
-
-        val = self._dataframe.iloc[row][col]
+        try:
+            #val = self._dataframe.loc[index.row(), index.column()]
+            val = self._dataframe.iloc[row][col]
+        except IndexError:
+            val = 0
         if role == Qt.DisplayRole:
             return str(val)
         elif role == DataFrameModel.ValueRole:

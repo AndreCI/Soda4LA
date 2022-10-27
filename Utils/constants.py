@@ -1,7 +1,7 @@
 # PARAMETERS
 TIME_BUFFER = 1000  # ms, time used to plan future notes.
 BATCH_SIZE = 1
-BATCH_NBR_PLANNED = 5
+BATCH_NBR_PLANNED = 10
 MAX_NOTE_GRAPH = 100
 
 # OPTIONS

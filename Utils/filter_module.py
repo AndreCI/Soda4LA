@@ -23,7 +23,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         state = self.__dict__.copy()
         return state
 
-    def eval_batch(self, batch):
+    def eval_batch(self, batch, discard_filtered):
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
         if the values found in the column corresponding to self.column are validated by the filter
@@ -32,8 +32,13 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         :return: pandas Dataframe,
             Dataframe w.r.t the filter
         """
-        # create a new df using batch
+
         df = batch.copy()
+        df['internal_filter'] = (df[self.column].apply(lambda y: self.evaluate(y)) & df['internal_filter'])
+        # We return row where 'new' is True and we remove the created column
+        if(discard_filtered):
+            df = df[df['internal_filter'] == True].drop('internal_filter', axis=1)
+        return df
         # Create a new column and fill it with True or False value after eval
         df["internal_filter"] = df[self.column].apply(lambda y: self.evaluate(y))
         return df[df["internal_filter"]].drop("internal_filter", axis=1)

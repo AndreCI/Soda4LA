@@ -191,9 +191,9 @@ class TrackView(object):
         self.offsetSlider.setOrientation(Qt.Horizontal)
 
         self.offsetLabel = QLabel()
-        self.offsetLabel.setMaximumSize(43, 36)
+        self.offsetLabel.setMaximumSize(100, 36)
         self.offsetLabel.setContentsMargins(10, 0, 5, 0)
-        self.offsetLabel.setText("0ms")
+        self.offsetLabel.setText("0 % of bpm")
         self.offsetHLayout.addWidget(self.offsetSlider)
         self.offsetHLayout.addWidget(self.offsetLabel)
 
@@ -277,7 +277,7 @@ class TrackView(object):
             "Change the velocity encoding for this track. Higher velocity will result in louder notes")
         self.durationButton.setToolTip(
             "Change the duration encoding for this track. Smaller durations will result in shorter notes")
-        self.offsetLabel.setToolTip("The offset for this track, adding delay to all its notes.")
+        self.offsetLabel.setToolTip("The offset (in percentage of the beat per minute) for this track, adding delay to all its notes.")
         self.offsetSlider.setToolTip("Change the offset for this track, adding delay to all its notes.")
         self.gainButton.setToolTip("Mute/Unmute this track")
         self.GainSlider.setToolTip("Change the volume for this track")
@@ -307,7 +307,7 @@ class TrackView(object):
         self.trackNameLineEdit.textEdited.connect(lambda: self.track.ctrl.change_name(self.trackNameLineEdit.text()))
         self.GainSlider.sliderReleased.connect(lambda: self.track.ctrl.change_gain(self.GainSlider.value()))
         self.gainButton.clicked.connect(lambda: self.mute_track())
-        self.offsetSlider.sliderReleased.connect(lambda: self.track.ctrl.change_offset(self.offsetSlider.value()))
+        self.offsetSlider.sliderReleased.connect(lambda: self.change_offset())
         self.soundfontComboBox.activated.connect(
             lambda: self.track.ctrl.set_soundfont(self.soundfontComboBox.currentText()))
         self.durationButton.clicked.connect(lambda: self.track.advancedView.display_track(self.track, "duration"))
@@ -329,6 +329,9 @@ class TrackView(object):
             QCoreApplication.translate("TrackConfigView", u"\tClick here to add your first track!", None))
 
     # retranslateUi
+    def change_offset(self):
+        self.track.ctrl.change_offset(self.offsetSlider.value())
+        self.offsetLabel.setText(str(int(self.track.offset)) + " % of bpm")
 
     def mute_track(self):
         self.track.ctrl.mute_track()
@@ -360,6 +363,7 @@ class TrackView(object):
         else:
             self.gainButton.setIcon(self.mutedIcon)
         self.offsetSlider.setValue(int(track.offset))
+        self.offsetLabel.setText(str(int(track.offset))+ " % of bpm")
         self.soundfontComboBox.setCurrentIndex(self.soundfontUtil.get_idx_from_path(track.soundfont))
         self.track = track
         self.disconnect_ui()

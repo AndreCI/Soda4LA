@@ -37,6 +37,9 @@ class ParameterEncodingCtrl:
         self.model.handpickEncoding.pop(variable, None)
 
     def set_value(self, value, variable):
+        if value == "":
+            return
+        #TODO bug when deleteting a value?
         if self.model.encoded_var == "value":
             if value.isnumeric():
                 try:

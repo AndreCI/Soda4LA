@@ -202,7 +202,7 @@ class TopSettingsBar(object):
         self.PPButton.clicked.connect(self.press_pp_button)
         self.StopButton.clicked.connect(self.press_stop_button)
         self.SettingsButton.clicked.connect(self.press_settings_button)
-        self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True)
+        self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True, name="music_progress_bar_handle_progress")
         self.progress_bar_thread.start()
         self.GainSlider.setValue(self.music_model.gain)
 

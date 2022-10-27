@@ -1,3 +1,4 @@
+import itertools
 from queue import PriorityQueue
 
 from midiutil.MidiFile import MIDIFile
@@ -15,6 +16,8 @@ class Music:
     A music can be played via its music view or displayed via midi view.
     """
     _instance = None
+    track_newid = itertools.count()
+
 
     @staticmethod
     def getInstance():

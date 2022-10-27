@@ -263,6 +263,7 @@ class AdvancedTrackView(object):
 
         self.filterPlainTextEdit = QPlainTextEdit(self.filterFrame)
         self.filterPlainTextEdit.setObjectName(u"filterPlainTextEdit")
+        self.filterPlainTextEdit.setReadOnly(True) #TODO change
         self.filterPlainTextEdit.setToolTip(
             "Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded"
             " into notes.")

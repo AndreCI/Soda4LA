@@ -21,11 +21,9 @@ class Track:
     via config view or midi view.
     Notes and soundfont are defined via a parameter encoding model alongside loaded data.
     """
-    newid = itertools.count()
-
-    def __init__(self):
+    def __init__(self, id):
         #Data
-        self.id = next(Track.newid)
+        self.id = id
         sfl = SoundfontLoader.get_instance()
         self.soundfont = sfl.get()  # soundfont selected by user, <=< instrument
 
@@ -81,7 +79,7 @@ class Track:
             self.ctrl.model = self
             self.music.sonification_view.set_status_text("Track imported to id {}".format(self.id))
 
-    def generate_notes(self, batch):
+    def generate_notes(self, batch, add_void_notes=False):
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
         :param batch: pandas Dataframe,
@@ -89,19 +87,20 @@ class Track:
         :return list of notes
         """
         notes = [] #Container for the next batch of data
-        for idx, row in self.filter_batch(batch).iterrows():  # iterate over index and row
+        for idx, row in self.filter_batch(batch, False).iterrows():  # iterate over index and row
             notes.append(TNote(tfactor=self.music.timeSettings.get_temporal_position(row, self.offset),
                                     channel=self.id,
                                     value=self.pencodings["value"].get_parameter(row),
                                     velocity=self.pencodings["velocity"].get_parameter(row),
                                     duration=self.pencodings["duration"].get_parameter(row),
+                                    void = not row['internal_filter'],
                                     id=row['internal_id']))
         return notes
 
-    def filter_batch(self, batch):
+    def filter_batch(self, batch, keep_filtered):
         for encoding in self.pencodings.values():
-            batch = encoding.filter.eval_batch(batch)
-        return self.filter.eval_batch(batch)
+            batch = encoding.filter.eval_batch(batch, keep_filtered)
+        return self.filter.eval_batch(batch, keep_filtered)
 
     def set_main_var(self, variable : str):
         self.filter.assign_column(variable)

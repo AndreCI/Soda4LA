@@ -166,20 +166,30 @@ class Data:
             date: str,
                 converted date
         """  # TODO ask user what format is date, and display guesses
-        try:
-            date = datetime.strptime(d, '%d/%m/%Y %H:%M:%S')
-        except ValueError:
-            date = datetime.strptime(d, '%d/%m/%y %H:%M:%S')
-        return date
+        formats = ['%d/%m/%Y %H:%M:%S',
+                   '%d/%m/%y %H:%M:%S',
+                   '%H:%M:%S PM'  #1:20:21 PM
+                   ]
+        for format in formats:
+            try:
+                date = datetime.strptime(d, format)
+                if(date.year == 1900): #years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
+                    date = date.replace(year=1986)
+                return date
+            except ValueError:
+                pass
+        raise ValueError("No format found for this timestamp.")
+
 
     def assign_timestamps(self):
         """
         Method to assign timestamp to a new column
         """
         self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
-        self.df = self.df.sort_values(by='internal_timestamp',
-                                      axis=0)  # TODO message to user telling them that data were sorted
+        #self.df = self.df.sort_values(by='internal_timestamp',
+        #                              axis=0)  # TODO message to user telling them that data were sorted
         self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
+        self.df['internal_filter'] = True
         # set first and last date here
         first_date = self.get_datetime(self.df.iloc[0][self.date_column])
         last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column])

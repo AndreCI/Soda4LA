@@ -2,7 +2,7 @@ import math
 from collections import namedtuple
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
-TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'id'])
+TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 
 

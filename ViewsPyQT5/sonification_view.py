@@ -69,7 +69,7 @@ class SonificationView(QWidget):
                                                   "saved_music", "Wav file (*.wav)")
         if check:
             self.set_status_text("writing {}".format(file))
-            threading.Thread(target=self.model.ctrl.export_music, args=[file], daemon=True).start()
+            threading.Thread(target=self.model.ctrl.export_music, args=[file], daemon=True, name="export_music_thread").start()
 
     def export_all_tracks(self):
         file, check = QFileDialog.getSaveFileName(None, "Save project",

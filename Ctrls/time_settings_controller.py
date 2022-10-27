@@ -28,7 +28,7 @@ class TimeSettingsCtrl():
                 is_int(song_length) and
                 is_int(note_timing)):
             return
-        threading.Thread(target=self.change_batch_size, args=[int(batch_size)], daemon=True).start()
+        threading.Thread(target=self.change_batch_size, args=[int(batch_size)], daemon=True, name="change_batch_size").start()
         self.model.musicDuration = int(song_length)
         self.model.timeBuffer = int(note_timing)
         self.model.set_type(self.model.possible_types[tempo_idx])

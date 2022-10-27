@@ -60,7 +60,7 @@ class GraphView():
 
         self.layout.addWidget(dynamic_canvas)
 
-        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True)
+        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True, name="graphical_canvas_moving_thread")
         self.movingGraphThread.start()
 
     def draw_notes(self):
@@ -72,7 +72,7 @@ class GraphView():
             start_time = 2 + note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time()
             note_timing = self.parent.model.ctrl.view.get_relative_note_timing(
                 self.parent.model.get_absolute_note_timing(note.tfactor))
-            if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000):
+            if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000 and not note.void):
                 end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow),
                               self.horizontalRes)
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
