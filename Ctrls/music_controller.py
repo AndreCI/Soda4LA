@@ -1,7 +1,11 @@
+import datetime
+import logging
 import pickle
 import threading
 import time
 from pathlib import Path
+
+from pandas import DataFrame
 
 from Models.data_model import Data
 from Models.track_model import Track
@@ -25,13 +29,14 @@ class MusicCtrl:
         self.maxNoteGraph = MAX_NOTE_GRAPH
         self.playing = False  # True if the music has started, regardless of wheter its paused. False when the music is stopped or ended.
         self.paused = False
+        self.finished = False
         self.skipNextNote = False
         self.queueSemaphore = ISemaphore()  # Could be seomething else ig
         self.graphSemaphore = ISemaphore()  # Could be seomething else ig
         self.trackSemaphore = threading.Lock()  # Could be seomething else ig
-        self.emptySemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
-        self.fullSemaphore = IBoundedSemaphore(model.QUEUE_CAPACITY)
-        self.fullSemaphore.acquire(n=model.QUEUE_CAPACITY)  # Set semaphore to 0
+        self.emptySemaphore = IBoundedSemaphore(model.queue_capacity)
+        self.fullSemaphore = IBoundedSemaphore(model.queue_capacity)
+        self.fullSemaphore.acquire(n=model.queue_capacity)  # Set semaphore to 0
         self.playingEvent = threading.Event()
         self.stoppedEvent = threading.Event()
         self.pausedEvent = threading.Event()
@@ -51,7 +56,7 @@ class MusicCtrl:
         if (not self.playing):
             return 0
         elif (self.paused):
-            print("returned the pause time in music_ctrl.get_music_time()")
+            logging.log(logging.DEBUG,"returned the pause time in music_ctrl.get_music_time() at {}".format(datetime.datetime.now()))
             return self._pausedTimed
         else:
             return time.perf_counter() - self._musicTiming
@@ -206,6 +211,7 @@ class MusicCtrl:
             self._musicTiming = time.perf_counter()
         self.playing = True
         self.paused = False
+        self.finished = False
         self.playingEvent.set()  # Release threads
         self.pausedEvent.set()  # Release threads
         self.stoppedEvent.clear()  # Send signal that we started
@@ -218,8 +224,7 @@ class MusicCtrl:
         self.pausedEvent.clear()  # Block threads
 
     def stop(self):
-
-        print("Stopping at {} with {} notes in queue . empty:{}/{}, full:{}/{}, mutex:{}".format(
+        logging.log(logging.INFO,"Stopping at {} with {} notes in queue . empty:{}/{}, full:{}/{}, mutex:{}".format(
             self.view.sequencer.get_tick(), self.model.notes.qsize(),
             self.emptySemaphore._value,
             self.emptySemaphore._initial_value,
@@ -249,12 +254,12 @@ class MusicCtrl:
         except ValueError:
             self.queueSemaphore = ISemaphore()  # Could be seomething else ig
             self.trackSemaphore = threading.Lock()  # Could be seomething else ig
-            self.emptySemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
-            self.fullSemaphore = IBoundedSemaphore(self.model.QUEUE_CAPACITY)
-            self.fullSemaphore.acquire(n=self.model.QUEUE_CAPACITY)  # Set semaphore to 0
+            self.emptySemaphore = IBoundedSemaphore(self.model.queue_capacity)
+            self.fullSemaphore = IBoundedSemaphore(self.model.queue_capacity)
+            self.fullSemaphore.acquire(n=self.model.queue_capacity)  # Set semaphore to 0
 
         time.sleep(0.05)  # needed for semaphore values display
-        print("semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
+        logging.log(logging.INFO,"semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
                                                    self.emptySemaphore._initial_value,
                                                    self.fullSemaphore._value,
                                                    self.fullSemaphore._initial_value,
@@ -320,7 +325,7 @@ class MusicCtrl:
         except:
             self.model.sonification_view.set_status_text("Error while saving {}!".format(name), 10000)
 
-    def push_data_to_table(self, datas):
+    def push_data_to_table(self, datas: DataFrame):
         """Push rows to the table view"""
         for data in datas.itertuples():
             if not ((data.internal_id == self.data.get_first().internal_id).any() or

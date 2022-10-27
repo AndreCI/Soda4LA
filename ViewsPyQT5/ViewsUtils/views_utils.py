@@ -1,6 +1,9 @@
 from collections import namedtuple
 
+from PyQt5.QtWidgets import QSlider, QStyle
+
 GTrackView = namedtuple('gTrack', ["frame", "deleteButton", "selectButton", "hLayout"])
+
 
 sliderGainStyle = (u"QSlider::groove:horizontal {\n"
                    "    border: 1px solid #999999;\n"
@@ -59,7 +62,38 @@ sliderOffsetStyle = (u"QSlider::groove:horizontal {\n"
                      # "ground: pink;\n"
                      # "}"
                      )
-
+sliderProgressStyle = (u"QSlider::groove:horizontal {\n"
+                     "    border: 1px solid #999999;\n"
+                     "    height: 8px;\n"
+                     # /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
+                     "background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);"
+                     "    margin: 2px 0;\n"
+                     "}\n"
+                     "QSlider::handle:horizontal {\n"
+                     "    border: 1px solid #5c5c5c;\n"
+                     "    width: 0px;\n"
+                     "    margin: -5px 0;\n "
+                     # "/* handle is placed by default on the contents rect of the groove. Expand outside the groove *"
+                     "    border-radius: 3px;\n"
+                     "}\n"
+                     # "QSlider::groove:horizontal {\n"
+                     # "    background: red;\n"
+                     # "    position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */\n"
+                     # "    left: 4px; right: 4px;\n"
+                     # "}\n"
+                     "QSlider::sub-page:horizontal {\n"
+                     "    background:  #05B8CC;\n"
+                     "    border: 1px solid #999999;\n"
+                     "    height: 8px;\n"
+                     # /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
+                     # "    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
+                     "    margin: 2px 0;\n"
+                     "}\n"
+                     # "QSlider::sub-page:horizontal {\n"
+                     # "    back"
+                     # "ground: pink;\n"
+                     # "}"
+                     )
 progressBarStyle = (u"QProgressBar::chunk {\n"
                     "    background-color: #05B8CC;\n"
                     "    width: 1px;\n"

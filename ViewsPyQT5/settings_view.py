@@ -55,17 +55,25 @@ class SettingsView(QMainWindow):
         self.NoteTimingLabel = QLabel(self.optionsFrame)
         self.NoteTimingLabel.setObjectName(u"NoteTimingLabel")
 
-        self.gridLayout_2.addWidget(self.NoteTimingLabel, 3, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.NoteTimingLabel, 4, 0, 1, 1)
 
         self.batchSizeLineEdit = QLineEdit(self.optionsFrame)
         self.batchSizeLineEdit.setObjectName(u"batchSizeLineEdit")
 
         self.gridLayout_2.addWidget(self.batchSizeLineEdit, 2, 1, 1, 1)
 
+        self.batchPlannedLabel = QLabel(self.optionsFrame)
+        self.batchPlannedLabel.setObjectName(u"batchPlannedLabel")
+
+        self.batchPlannedLineEdit = QLineEdit(self.optionsFrame)
+        self.batchPlannedLineEdit.setObjectName(u"batchPlanned")
+        self.gridLayout_2.addWidget(self.batchPlannedLabel, 3, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.batchPlannedLineEdit, 3, 1, 1, 1)
+
         self.noteTimingLineEdit = QLineEdit(self.optionsFrame)
         self.noteTimingLineEdit.setObjectName(u"noteTimingLineEdit")
 
-        self.gridLayout_2.addWidget(self.noteTimingLineEdit, 3, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.noteTimingLineEdit, 4, 1, 1, 1)
 
         self.gridLayout.addWidget(self.optionsFrame, 2, 1, 1, 1)
 
@@ -151,6 +159,7 @@ class SettingsView(QMainWindow):
     def retranslate_ui(self):
         self.songLengthLabel.setText(QCoreApplication.translate("Form", u"Song length, in seconds", None))
         self.batchSizeLabel.setText(QCoreApplication.translate("Form", u"Batch size to sonify", None))
+        self.batchPlannedLabel.setText(QCoreApplication.translate("Form", u"#batches to sonify in advance", None))
         self.bpmLabel.setText(QCoreApplication.translate("Form", u"Beat/Row Per Minutes ", None))
 
         self.NoteTimingLabel.setText(QCoreApplication.translate("Form", u"Note Timing", None))
@@ -172,8 +181,12 @@ class SettingsView(QMainWindow):
     # retranslateUi
     def set_tools_tips(self):
         self.songLengthLineEdit.setToolTip("Length of the music, in seconds. \nChanging this will change the bpm")
+        self.batchPlannedLineEdit.setToolTip("Number of batches to process in advance.\n"
+                                          "A smaller value will make the program more responsive to changes to encoding "
+                                          "but it may results in rows being skipped if they are close too each others timing wise. "
+                                          "Less notes will be planned in advance, and the graph may not display all future notes.")
         self.batchSizeLineEdit.setToolTip("Number of rows to process as a batch.\n"
-                                          "A shorter value will make the program more responsive to changes to encoding "
+                                          "A smaller value will make the program more responsive to changes to encoding "
                                           "but it may results in rows being skipped if they are close too each others timing wise. "
                                           "Less notes will be planned in advance, and the graph may not display all future notes.")
         self.bpmLineEdit.setToolTip("Beat per minute, equivalent to the number of row being processed per minute.\n"
@@ -191,6 +204,7 @@ class SettingsView(QMainWindow):
         self.tempoModeComboBox.setCurrentIndex(TIME_SETTINGS_OPTIONS.index(self.model.type))
         self.songLengthLineEdit.setText(str(self.model.get_music_duration()))
         self.batchSizeLineEdit.setText(str(self.model.batchSize))
+        self.batchPlannedLineEdit.setText(str(self.model.batchPlanned))
         self.bpmLineEdit.setText(str(self.model.get_bpm()))
         self.noteTimingLineEdit.setText(str(self.model.timeBuffer))
         self.previousDataCheckBox.setChecked(self.model.autoload)
@@ -225,7 +239,7 @@ class SettingsView(QMainWindow):
                 str(round(60 * (float(self.model.data.size) / float(self.songLengthLineEdit.text())), 2)))
 
     def validate(self):
-        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.songLengthLineEdit.text(),
+        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(), self.songLengthLineEdit.text(),
                                  self.noteTimingLineEdit.text(),
                                  self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked())
 

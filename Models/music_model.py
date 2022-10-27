@@ -1,4 +1,5 @@
 import itertools
+import time
 from queue import PriorityQueue
 
 from midiutil.MidiFile import MIDIFile
@@ -41,7 +42,7 @@ class Music:
 
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
-            self.QUEUE_CAPACITY = BATCH_NBR_PLANNED * self.timeSettings.batchSize
+            self.queue_capacity = self.timeSettings.batchPlanned * self.timeSettings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
             # Ctrl
@@ -126,7 +127,7 @@ class Music:
             # Usually hang on this ^^^
             if not self.ctrl.playing:  # Check if semaphore was acquired while stop was pressed
                 self.ctrl.emptySemaphore.release(n=max_note_nbr)  # Release if so, and return to start of loop to wait
-            else:
+            elif(not self.data.get_next().empty):
                 current_data = self.data.get_next(iterate=True)  # get the next batch
                 self.ctrl.push_data_to_table(current_data)  # display
                 self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused - can hang here
@@ -145,8 +146,10 @@ class Music:
                     self.ctrl.emptySemaphore.release(
                         n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly
                     self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
-            if (self.data.get_next().empty):  # If we have no more data, we are at the end of the music
-                self.ctrl.playing = False
+            else:  # If we have no more data, we are at the end of the music
+                print("sleeping...")
+                self.ctrl.finished = True
+                time.sleep(0.5)
 
     def get_absolute_note_timing(self, tfactor):
         """

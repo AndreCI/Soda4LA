@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMainWindow, QAction
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QAction, QShortcut
 
 from Models.data_model import Data
 from Models.music_model import Music
@@ -33,17 +34,22 @@ class MainWindow(QMainWindow):
         #self.menuAbout = self.menubar.addAction("About")
         #self.menuAbout.setObjectName(u"menuEdit")
 
-        self.dataAction = QAction('Import data', self)
+        self.dataAction = QAction('Import data\tCtrl+D', self)
+        self.dataActionShortcut = QShortcut(QKeySequence("Ctrl+D"), self)
         self.menuFile.addAction(self.dataAction)
-        self.exportAction = QAction('Export to .wav', self)
+        self.exportAction = QAction('Export to .wav\tCtrl+E', self)
+        self.exportActionShortcut = QShortcut(QKeySequence("Ctrl+E"), self)
         self.menuFile.addAction(self.exportAction)
         self.exportAction.setEnabled(False)
-        self.openAction = QAction('Open project', self)
+        self.openAction = QAction('Open project\tCtrl+L', self)
+        self.openActionShortcut = QShortcut(QKeySequence("Ctrl+L"), self)
         self.menuFile.addAction(self.openAction)
-        self.saveAction = QAction('Save project', self)
+        self.saveAction = QAction('Save project\tCtrl+S', self)
+        self.saveActionShortcut = QShortcut(QKeySequence("Ctrl+S"), self)
         self.menuFile.addAction(self.saveAction)
         self.saveAction.setEnabled(False)
-        self.settingsAction = QAction('Settings', self)
+        self.settingsAction = QAction('Settings\tCtrl+T', self)
+        self.settingsActionShortcut = QShortcut(QKeySequence("Ctrl+T"), self)
         self.menuFile.addAction(self.settingsAction)
         self.exitAction = QAction('Exit', self)
         self.menuFile.addAction(self.exitAction)
@@ -52,11 +58,17 @@ class MainWindow(QMainWindow):
         self.setMenuBar(self.menubar)
 
         self.exportAction.triggered.connect(self.sonification_main_widget.export_music)
+        self.exportActionShortcut.activated.connect(self.sonification_main_widget.export_music)
         self.settingsAction.triggered.connect(self.sonification_main_widget.open_settings)
+        self.settingsActionShortcut.activated.connect(self.sonification_main_widget.open_settings)
         self.exitAction.triggered.connect(QCoreApplication.quit)
         self.dataAction.triggered.connect(self.show_load_data)
+        self.dataActionShortcut.activated.connect(self.show_load_data)
         self.saveAction.triggered.connect(self.sonification_main_widget.export_all_tracks)
+        self.saveActionShortcut.activated.connect(self.sonification_main_widget.export_all_tracks)
         self.openAction.triggered.connect(self.sonification_main_widget.import_all_tracks)
+        self.openActionShortcut.activated.connect(self.sonification_main_widget.import_all_tracks)
+
 
     def setup_statusbar(self):
         self.statusbar = self.statusBar()
@@ -83,8 +95,8 @@ class MainWindow(QMainWindow):
         self.sonification_main_widget.tableView.load_data()
 
     def load_data(self):
-        # TODO add other filetype
-        # TODO load multiples datafiles in tab?
+        # TODO add other filetypes
+        # TODO load multiples datafiles in tab and assign files to tracks?
         m = Music.getInstance()
         if (m.timeSettings.autoload):
             self.db.read_data(m.timeSettings.autoloadDataPath)

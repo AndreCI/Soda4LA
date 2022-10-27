@@ -23,7 +23,7 @@
 
 ================================================================================
 """
-
+import logging
 from ctypes import *
 from ctypes.util import find_library
 import os
@@ -45,7 +45,8 @@ lib = find_library('fluidsynth') or \
 ##lib = "C:/Users/P17/Documents/GitHub/sodaMidi/data/bin/bin/libfluidsynth.dll"#line added by me to point to the dll
 if lib is None:
     import sys
-    print('\n'.join(sys.path))
+    logging.log(logging.FATAL,'\n'.join(sys.path))
+    logging.log(logging.FATAL,"Couldn't find the FluidSynth library. Is it added to path?")
     raise ImportError("Couldn't find the FluidSynth library. Is it added to path?")
 
 # Dynamically link the FluidSynth library

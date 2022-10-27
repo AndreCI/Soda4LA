@@ -1,3 +1,5 @@
+import logging
+
 from Models.note_model import note_to_int, int_to_note
 
 
@@ -23,13 +25,13 @@ class ParameterEncodingCtrl:
                     v = note_to_int(int_to_note(int(value)), int(self.model.octave))
                     self.model.defaultValue = v
                 except ValueError:
-                    print("Issue with value in setDefault-value {}".format(value))
+                    logging.log(logging.ERROR,"Issue with value in setDefault-value {}".format(value))
             else:
                 try:
                     v = note_to_int(str(value).upper(), int(self.model.octave))
                     self.model.defaultValue = v
                 except ValueError:
-                    print("Issue with value in setDefault-value-nonnum {}".format(value))
+                    logging.log(logging.ERROR,"Issue with value in setDefault-value-nonnum {}".format(value))
         elif value.isnumeric():
             self.model.defaultValue = int(value)
 
@@ -39,24 +41,24 @@ class ParameterEncodingCtrl:
     def set_value(self, value, variable):
         if value == "":
             return
-        #TODO bug when deleteting a value?
         if self.model.encoded_var == "value":
             if value.isnumeric():
                 try:
                     v = note_to_int(int_to_note(int(value)), int(self.model.octave))
                     self.model.handpickEncoding[variable] = v
                 except ValueError:
-                    pass
+                    return
             else:
                 try:
                     v = note_to_int(str(value).upper(), int(self.model.octave))
                     self.model.handpickEncoding[variable] = v
                 except ValueError:
-                    pass
+                    return
         elif value.isnumeric():
             self.model.handpickEncoding[variable] = int(value)
 
     def change_octave(self, octave):
+        #TODO Change octave location on view
         self.model.octave = octave
         for key in self.model.handpickEncoding:
             self.set_value(int_to_note(self.model.handpickEncoding[key]), key)

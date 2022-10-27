@@ -1,8 +1,7 @@
-numpy==1.21.5
+numpy
 pandas
 future
 python-dateutil
-pyFluidSynth
 MIDIUtil
 matplotlib
 PyQt5

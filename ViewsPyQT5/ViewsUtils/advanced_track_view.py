@@ -263,10 +263,10 @@ class AdvancedTrackView(object):
 
         self.filterPlainTextEdit = QPlainTextEdit(self.filterFrame)
         self.filterPlainTextEdit.setObjectName(u"filterPlainTextEdit")
-        self.filterPlainTextEdit.setReadOnly(True) #TODO change
+        self.filterPlainTextEdit.setReadOnly(True) #TODO filter is disabled for now, unsure if it will be kept
         self.filterPlainTextEdit.setToolTip(
             "Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded"
-            " into notes.")
+            " into notes. Function is disabled for now.")
 
         self.verticalLayout.addWidget(self.filterPlainTextEdit)
 

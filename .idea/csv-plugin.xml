@@ -17,7 +17,35 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p1_80172.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p1_92206.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p2_68144.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p2_88130.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p4_122266.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
@@ -46,6 +74,41 @@
           </value>
         </entry>
         <entry key="\data\sequential_data\tamago2014_sono_sorted.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\main_pyqt5\data\sequential_data\Tamagocours.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\main_pyqt5\data\sequential_data\tamago2014_paragon_sorted.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\main_pyqt5\data\sequential_data\tamago2014_paragon_sorted2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\main_pyqt5\data\sequential_data\tamago2014_sono.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\main_pyqt5\data\sequential_data\tamago2014_sono_sorted.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />

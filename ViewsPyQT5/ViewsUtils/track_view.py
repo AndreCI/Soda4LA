@@ -270,11 +270,11 @@ class TrackView(object):
         self.TrackSettings_2.hide()
 
     def set_tool_tips(self):
-        self.valueButton.setToolTip("Change the value encoding for this track. You can change the octave as well.")
+        self.valueButton.setToolTip("Change the pitch class encoding for this track. You can change the octave as well.")
         self.filterButton.setToolTip(
             "Change the global filter for this track. Rows will be skipped if they contain a value found in this filter")
         self.velocityButton.setToolTip(
-            "Change the velocity encoding for this track. Higher velocity will result in louder notes")
+            "Change the volume encoding for this track. Higher volume will result in louder notes")
         self.durationButton.setToolTip(
             "Change the duration encoding for this track. Smaller durations will result in shorter notes")
         self.offsetLabel.setToolTip("The offset (in percentage of the beat per minute) for this track, adding delay to all its notes.")
@@ -322,9 +322,9 @@ class TrackView(object):
         self.exportButton.setText("")
         self.importButton.setText("")
         self.durationButton.setText(QCoreApplication.translate("TrackConfigView", u"Duration", None))
-        self.velocityButton.setText(QCoreApplication.translate("TrackConfigView", u"Velocity", None))
+        self.velocityButton.setText(QCoreApplication.translate("TrackConfigView", u"Volume", None))
         self.filterButton.setText(QCoreApplication.translate("TrackConfigView", u"Filter", None))
-        self.valueButton.setText(QCoreApplication.translate("TrackConfigView", u"Value", None))
+        self.valueButton.setText(QCoreApplication.translate("TrackConfigView", u"Pitch", None))
         self.AddTrackButton.setText(
             QCoreApplication.translate("TrackConfigView", u"\tClick here to add your first track!", None))
 

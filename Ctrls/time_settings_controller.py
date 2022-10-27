@@ -12,23 +12,25 @@ class TimeSettingsCtrl():
     def __init__(self, model):
         self.model = model  # TimeSettings Model
 
-    def change_batch_size(self, size):
+    def change_batch_size(self, batch_size, batch_planned):
         if self.model.music.ctrl.playing:
             self.model.music.ctrl.stoppedEvent.wait()
-        self.model.batchSize = size
-        self.model.data.batch_size = size
-        self.model.music.ctrl.change_queue_size(size * BATCH_NBR_PLANNED)
+        self.model.batchSize = batch_size
+        self.model.batchPlanned = batch_planned
+        self.model.data.batch_size = batch_size
+        self.model.music.ctrl.change_queue_size(batch_size * batch_planned)
 
-    def validate(self, batch_size, song_length, note_timing, tempo_idx, autoload):
+    def validate(self, batch_size, batch_planned, song_length, note_timing, tempo_idx, autoload):
         """
         Validate time settings entered by user and update models accordingly
         """
 
         if not (is_int(batch_size) and
+                is_int(batch_planned) and
                 is_int(song_length) and
                 is_int(note_timing)):
             return
-        threading.Thread(target=self.change_batch_size, args=[int(batch_size)], daemon=True, name="change_batch_size").start()
+        threading.Thread(target=self.change_batch_size, args=[int(batch_size), int(batch_planned)], daemon=True, name="change_batch_size").start()
         self.model.musicDuration = int(song_length)
         self.model.timeBuffer = int(note_timing)
         self.model.set_type(self.model.possible_types[tempo_idx])
@@ -49,7 +51,7 @@ class TimeSettingsCtrl():
             settingsFile.write(line)
 
     def open_time_settings(self, view):
-        self.model.view = view
+        self.model.tsView = view
         view.model = self.model
         view.update_ui()
         view.show()

@@ -1,3 +1,5 @@
+import logging
+
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.data_model import Data
 from Models.note_model import note_to_int
@@ -72,7 +74,7 @@ class ParameterEncoding:
             else:
                 return int(self.evaluate_with_fonction(row[self.filter.column]))
         except KeyError:
-            print("Error while getting a value with {}".format(self.encoded_var))
+            logging.log(logging.ERROR,"Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
     def evaluate_with_fonction(self, value):

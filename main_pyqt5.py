@@ -8,10 +8,10 @@ from PyQt5.QtWidgets import QApplication
 
 from ViewsPyQT5.main_view import MainWindow
 
-logging.basicConfig(filename="soda.log", filemode="w", level=logging.DEBUG)
+logging.basicConfig(filename="soda.log", filemode="w", level=logging.INFO)
 
 if __name__ == "__main__":
-    print("starting soda at {}".format(datetime.datetime.now()))
+    logging.log(logging.INFO,"starting soda at {}".format(datetime.datetime.now()))
 
     app = QApplication(sys.argv)
     file = QFile("data/img/pyqt5/themes/dark.qss")
@@ -22,3 +22,4 @@ if __name__ == "__main__":
     window.showMaximized()
     window.setWindowIcon(QIcon('data/img/icons/logo_w_trans.png'))
     app.exec()
+    logging.log(logging.INFO, "soda ended normally at {}".format(datetime.datetime.now()))

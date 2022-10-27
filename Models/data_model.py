@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 import numpy as np
@@ -42,7 +43,7 @@ class Data:
             self.date_column = None
             self.size = None
             self.view = None
-            self.ctrl = Ctrls.data_controller.DataCtrl(self)
+            #self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
     def retrieve_data(self, path):
@@ -157,22 +158,28 @@ class Data:
         return data
 
     @staticmethod
-    def get_datetime(d):
+    def get_datetime(d, additional_format):
         """
         :param
             d: str,
                 date to convert
+            additional_format: str,
+                format to try
         :return:
             date: str,
                 converted date
-        """  # TODO ask user what format is date, and display guesses
+        """
+
         formats = ['%d/%m/%Y %H:%M:%S',
                    '%d/%m/%y %H:%M:%S',
                    '%H:%M:%S PM'  #1:20:21 PM
                    ]
-        for format in formats:
+        if additional_format != "":
+            formats.insert(0, additional_format)
+            logging.info(logging.INFO, "Additional format added : {}".format(additional_format))
+        for f in formats:
             try:
-                date = datetime.strptime(d, format)
+                date = datetime.strptime(d, f)
                 if(date.year == 1900): #years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
                     date = date.replace(year=1986)
                 return date
@@ -181,18 +188,18 @@ class Data:
         raise ValueError("No format found for this timestamp.")
 
 
-    def assign_timestamps(self):
+    def assign_timestamps(self, additional_format=""):
         """
         Method to assign timestamp to a new column
         """
-        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x).timestamp())
+        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x, additional_format).timestamp())
         #self.df = self.df.sort_values(by='internal_timestamp',
         #                              axis=0)  # TODO message to user telling them that data were sorted
         self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
         self.df['internal_filter'] = True
         # set first and last date here
-        first_date = self.get_datetime(self.df.iloc[0][self.date_column])
-        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column])
+        first_date = self.get_datetime(self.df.iloc[0][self.date_column], additional_format)
+        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column], additional_format)
         self.timing_span = first_date - last_date
         # first and last date into seconds
         self.first_date = first_date.timestamp()

@@ -42,7 +42,10 @@ class GraphView():
         self.colorbar = self.figure.colorbar(self.line, ax=self.ax)
         self.ax.set_ylabel("Midi note (Midi Tuning Standard, Hz)")
         self.ax.set_xlabel("Time (seconds)")
-        self.ax.set_xticklabels(np.arange(-2, 9, 2))
+        xlabels = np.arange(-2, 9, 2)
+        xticks = np.arange(0, 1100, 200)
+        self.ax.set_xticks(xticks, xlabels)
+        #self.ax.set_xticklabels(xlabels)
         self.movingBar = self.ax.axvline(x=self.movingBarPos, color="darkred")
         self.colorbar.ax.set_xlabel("Volume")
 

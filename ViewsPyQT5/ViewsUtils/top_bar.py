@@ -2,17 +2,34 @@
 import threading
 import time
 
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, pyqtSignal, QObject, QThread
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QHBoxLayout, QSizePolicy, QPushButton, QSpacerItem, QFrame, QSlider, QGridLayout, \
-    QProgressBar, QLabel
+    QProgressBar, QLabel, QStyle
 
 from Models.music_model import Music
-from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle, playButtonReadyStyle
+from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle, playButtonReadyStyle, \
+    sliderOffsetStyle, sliderProgressStyle
+
+class QJumpSlider(QSlider): #TODO: Change music value on click
+    def __init__(self, parent=None):
+        super(QJumpSlider, self).__init__(parent)
 
 
-class TopSettingsBar(object):
+    def mousePressEvent(self, event):
+        # Jump to click position
+        pass
+        #self.setValue(QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width()))
+
+    def mouseMoveEvent(self, event):
+        # Jump to pointer position while moving
+        pass
+        #self.setValue(QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width()))
+
+class TopSettingsBar(QObject):
+    progressBarSignal = pyqtSignal(int)
     def __init__(self, parent):
+        super(TopSettingsBar, self).__init__()
         self.parent = parent
 
     def setupUi(self):
@@ -95,11 +112,14 @@ class TopSettingsBar(object):
         self.volumeButton.setIcon(self.volumeIcon)
         self.volumeButton.setToolTip("Mute/Unmute")
 
-        self.musicProgressBar = QProgressBar()
+        self.musicProgressBar = QJumpSlider()
+        self.musicProgressBar.setOrientation(Qt.Horizontal)
+        self.musicProgressBar.setRange(0, 100)
         self.musicProgressBar.setObjectName(u"musicProgressBar")
         self.musicProgressBar.setValue(0)
-        self.musicProgressBar.setTextVisible(False)
-        self.musicProgressBar.setStyleSheet(progressBarStyle)
+        self.musicProgressBar.setSliderPosition(0)
+        #self.musicProgressBar.setTextVisible(False)
+        self.musicProgressBar.setStyleSheet(sliderProgressStyle)
         self.musicProgressBar.setMaximumSize(5000, 7)
         self.musicProgressBar.setContentsMargins(0, 0, 0, 10)
 
@@ -202,6 +222,8 @@ class TopSettingsBar(object):
         self.PPButton.clicked.connect(self.press_pp_button)
         self.StopButton.clicked.connect(self.press_stop_button)
         self.SettingsButton.clicked.connect(self.press_settings_button)
+        self.progressBarSignal.connect(self.musicProgressBar.setValue)
+        #TODO replace by qthread?
         self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True, name="music_progress_bar_handle_progress")
         self.progress_bar_thread.start()
         self.GainSlider.setValue(self.music_model.gain)
@@ -220,13 +242,13 @@ class TopSettingsBar(object):
             sh, sm = divmod(sm, 60)
             self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
             self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
-            self.musicProgressBar.setValue(int(mtime / self.parent.model.timeSettings.musicDuration))
-            time.sleep(1)
+            self.progressBarSignal.emit(min(99, int(100* mtime / self.parent.model.timeSettings.musicDuration)))
+            QThread.msleep(int(1000/5))
 
     def press_stop_button(self):
         if self.parent.model.ctrl.playing:
             self.parent.model.ctrl.stop()
-            self.musicProgressBar.setValue(0)
+            self.progressBarSignal.emit(0)
             self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(0, 0, 0))
             self.PPButton.setIcon(self.playIcon)
             self.PPButton.setStyleSheet(playButtonReadyStyle)

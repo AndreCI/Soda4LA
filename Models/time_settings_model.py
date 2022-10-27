@@ -2,7 +2,7 @@ from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 # TODO add other time settings
 from Models.data_model import Data
-from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER
+from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED
 
 
 class TimeSettings():  # TODO rename this into general settings
@@ -23,6 +23,7 @@ class TimeSettings():  # TODO rename this into general settings
         self.maxVal = None
         self.idMax = None
         self.batchSize = BATCH_SIZE
+        self.batchPlanned = BATCH_NBR_PLANNED
         self.timeBuffer = TIME_BUFFER
         self.autoload = False
         self.autoloadDataPath = ""

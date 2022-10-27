@@ -44,6 +44,9 @@ class TableView(object):
         self.dataColumnComboBox.setToolTip("Select a column as a master timestamp, that will be used to order notes.\n"
                                            "It must be sequential.")
         self.validateDataButton.setToolTip("Validate data selection, starting the sonification process.")
+        self.timestampFormatLineEdit.setToolTip("Informs Soda4LA about the format of the timestamp in the file\n"
+                                                "If the format is invalid or not informed, default formats will be tried.\n"
+                                                "Exemple of format: \"%d/%m/%Y %H:%M:%S\" for day/month/year hours/minutes/seconds.")
 
     def connect_ui(self):
         self.browseDataButton.clicked.connect(self.load_data)
@@ -72,7 +75,7 @@ class TableView(object):
 
     def validate_data(self):
         self.data.date_column = self.data.get_candidates_timestamp_columns()[self.dataColumnComboBox.currentIndex()]
-        self.data.assign_timestamps()
+        self.data.assign_timestamps(self.timestampFormatLineEdit.text())
         self.dataViewFrame.hide()
         self.parent.trackView.TrackSelectScrollArea.show()
         self.parent.topBarView.AddTrackButton.setEnabled(True)
@@ -121,11 +124,19 @@ class TableView(object):
 
         self.gridLayout.addWidget(self.dataColumnLabel, 1, 1, 1, 1)
 
+        self.timestampFormatLabel = QLabel(self.dataViewFrame)
+        self.timestampFormatLabel.setObjectName(u"timestampFormatLabel")
+        self.timestampFormatLineEdit = QLineEdit(self.dataViewFrame)
+        self.timestampFormatLineEdit.setObjectName(u"timestampFormatLineEdit")
+        self.gridLayout.addWidget(self.timestampFormatLabel, 2, 1, 1, 3)
+        self.gridLayout.addWidget(self.timestampFormatLineEdit, 2, 2, 1, 3)
+
+
         self.validateDataButton = QPushButton(self.dataViewFrame)
         self.validateDataButton.setObjectName(u"validateDataButton")
         self.validateDataButton.setEnabled(False)
 
-        self.gridLayout.addWidget(self.validateDataButton, 2, 1, 1, 3)
+        self.gridLayout.addWidget(self.validateDataButton, 3, 1, 1, 3)
 
         self.dataPathLabel = QLabel(self.dataViewFrame)
         self.dataPathLabel.setObjectName(u"dataPathLabel")
@@ -133,12 +144,14 @@ class TableView(object):
         self.gridLayout.addWidget(self.dataPathLabel, 0, 1, 1, 1)
 
     def retranslate_ui(self):
-        self.dataPathLabel.setStyleSheet("font-size:25px")
-        self.dataColumnLabel.setStyleSheet("font-size:25px")
-        self.dataColumnLabel.setText(QCoreApplication.translate("Form", u"Date Column", None))
+        self.dataPathLabel.setStyleSheet("font-size:18px")
+        self.dataColumnLabel.setStyleSheet("font-size:18px")
+        self.timestampFormatLabel.setStyleSheet("font-size:18px")
+        self.dataColumnLabel.setText(QCoreApplication.translate("Form", u"Timestamp Column", None))
         self.dataPathLabel.setText(QCoreApplication.translate("Form", u"Data file", None))
         self.browseDataButton.setText(QCoreApplication.translate("Form", u"Browse...", None))
         self.validateDataButton.setText(QCoreApplication.translate("Form", u"Validate", None))
+        self.timestampFormatLabel.setText(QCoreApplication.translate("Form", u"TimeStamp Format", None))
     # retranslateUi
 
 
@@ -163,33 +176,33 @@ class DataFrameModel(QAbstractTableModel):
         self.endResetModel()
 
     def load_row(self, row):
-        if (row not in self.buffer and row not in self._dataframe):
+        if(self._dataframe.shape[0] <= 9):
+            self.beginResetModel()
+            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
+                                        ignore_index=True)
+            self._dataframe.reset_index(inplace=True, drop=True)
+            self.endResetModel()
+        elif (row not in self.buffer and row not in self._dataframe):
             self.buffer.append(row)
 
     def push_row_to_data_frame(self, note_timing):
-        time.sleep(note_timing / 1000)
+        if note_timing > 0:
+            time.sleep(note_timing / 1000)
         if not self.mom.parent.model.ctrl.playing:
             return
         self.mom.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
+        self.beginResetModel()
         if (len(self.buffer) > 0):
-            self.beginResetModel()
-            row = self.buffer.popleft()
+            row = [self.buffer.popleft()]
             if (self._dataframe.shape[0] <= 9 and len(self.buffer) > 0):
-                row2 = self.buffer.popleft()
-                self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row, row2], columns=row._fields)],
-                                            ignore_index=True)
-            else:
-                self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
-                                        ignore_index=True)
-
-            self._dataframe.reset_index(inplace=True, drop=True)
-            self.endResetModel()
+                row.append(self.buffer.popleft())
+            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
+                                    ignore_index=True)
         else:
-            self.beginResetModel()
             #print("reducing from {}".format(self._dataframe.shape))
-            self._dataframe = self._dataframe.iloc[1:].copy()
-            self._dataframe.reset_index(inplace=True, drop=True)
-            self.endResetModel()
+            self._dataframe = self._dataframe.iloc[1:]
+        self._dataframe.reset_index(inplace=True, drop=True)
+        self.endResetModel()
 
 
     def set_data_frame(self, dataframe):
@@ -208,7 +221,10 @@ class DataFrameModel(QAbstractTableModel):
             if orientation == Qt.Horizontal:
                 return self._dataframe.columns[section]
             else:
-                return str(self._dataframe.index[section])
+                try:
+                    return str(self._dataframe.index[section])
+                except IndexError:
+                    return QVariant()
         return QVariant()
 
     def rowCount(self, parent=QModelIndex()):
