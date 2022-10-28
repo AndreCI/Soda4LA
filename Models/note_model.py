@@ -1,9 +1,50 @@
+from __future__ import annotations
+# from typing import TYPE_CHECKING
+# if TYPE_CHECKING:
+#     from Models.track_model import Track
+# Allows to use type hint while preventing cyclic imports
+
 import math
+import Models.track_model as track
 from collections import namedtuple
+
+from Models.data_model import Data
+from Models.parameter_encoding_model import ParameterEncoding
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
+
+
+class Note_data:
+    _instance = None
+
+    @staticmethod
+    def getInstance():
+        if not Note_data._instance:
+            Note_data()
+        return Note_data._instance
+
+    def __init__(self):
+        if Note_data._instance is None:
+            self.df = None
+            Note_data._instance = self
+
+    def setup(self, data: Data, tracks: [track.Track]):
+        pass
+
+    def generate(self):
+        """Pre compute all notes into a dataframe"""
+        pass
+
+    def update(self, track_id: int, parmeter_encoding: ParameterEncoding):
+        pass
+
+    def reset(self):
+        pass
+
+    def find_index_from_time(self, tfactor: float) -> int:
+        return self.df.indexof(tfactor)
 
 
 def is_valid_note(note):
@@ -64,6 +105,7 @@ def convert_seconds_to_quarter(time_in_sec, bpm):
     time_in_quarter = time_in_sec * quarter_per_second
     return time_in_quarter
 
+
 def note_to_hz(value):
-    power = (value - 69)/12
+    power = (value - 69) / 12
     return int(440 * math.pow(2, power))

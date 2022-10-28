@@ -1,5 +1,10 @@
+from __future__ import annotations
+
 import itertools
 import pickle
+
+from pandas import DataFrame
+
 import Models.music_model
 
 from Ctrls.track_controller import TrackCtrl
@@ -21,7 +26,7 @@ class Track:
     via config view or midi view.
     Notes and soundfont are defined via a parameter encoding model alongside loaded data.
     """
-    def __init__(self, id):
+    def __init__(self, id:int):
         #Data
         self.id = id
         sfl = SoundfontLoader.get_instance()
@@ -65,12 +70,12 @@ class Track:
         self.music = Models.music_model.Music.getInstance()
         self.ctrl = TrackCtrl(self)
 
-    def serialize(self, path):
+    def serialize(self, path:str)->None:
         with open(path, 'wb') as f:
             pickle.dump(self, f)
             self.music.sonification_view.set_status_text("Track exported to {}".format(f.name))
 
-    def unserialize(self, path):
+    def unserialize(self, path:str)->None:
         with open(path, 'rb') as f:
             oldid = self.id
             var = pickle.load(f)
@@ -79,7 +84,7 @@ class Track:
             self.ctrl.model = self
             self.music.sonification_view.set_status_text("Track imported to id {}".format(self.id))
 
-    def generate_notes(self, batch, add_void_notes=False):
+    def generate_notes(self, batch:DataFrame)->[TNote]:
         """
         Generate notes for the current track, based on main variable, parameter encoding and filters.
         :param batch: pandas Dataframe,
@@ -97,18 +102,18 @@ class Track:
                                     id=row['internal_id']))
         return notes
 
-    def filter_batch(self, batch, keep_filtered):
+    def filter_batch(self, batch:DataFrame, keep_filtered:bool)->DataFrame:
         for encoding in self.pencodings.values():
             batch = encoding.filter.eval_batch(batch, keep_filtered)
         return self.filter.eval_batch(batch, keep_filtered)
 
-    def set_main_var(self, variable : str):
+    def set_main_var(self, variable : str)->None:
         self.filter.assign_column(variable)
 
-    def set_soundfont(self, soundfont):
+    def set_soundfont(self, soundfont:str)->None:
         self.soundfont = soundfont
 
-    def remove(self):
+    def remove(self)->None:
         self.music.ctrl.remove_track(track=self)
         self.gTrackView.frame.hide()
         self.music.sonification_view.trackView.gTrackList.remove(self.gTrackView)

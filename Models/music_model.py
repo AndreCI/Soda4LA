@@ -8,6 +8,7 @@ from Ctrls.music_controller import MusicCtrl
 from Models import note_model
 from Models.data_model import Data
 from Models.time_settings_model import TimeSettings
+from Models.track_model import Track
 from Utils.constants import BATCH_NBR_PLANNED
 
 
@@ -164,7 +165,7 @@ class Music:
         if generate_view:
             self.sonification_view.trackView.add_track(track)
 
-    def remove_track(self, track):
+    def remove_track(self, track : Track) -> None:
 
         # with self.ctrl.trackSemaphore:
         del self.tracks[str(track.id)]

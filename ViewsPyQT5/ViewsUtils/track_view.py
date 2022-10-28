@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
 
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
 from PyQt5.QtGui import QIcon
@@ -13,7 +14,7 @@ from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTra
 
 class TrackView(object):
 
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         self.track = None
         self.gTrackList = []

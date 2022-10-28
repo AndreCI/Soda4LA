@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
+
 import threading
 import time
 
@@ -18,17 +20,17 @@ class QJumpSlider(QSlider): #TODO: Change music value on click
 
     def mousePressEvent(self, event):
         # Jump to click position
-        pass
-        #self.setValue(QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width()))
+        position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
+        self.setValue(position)
 
     def mouseMoveEvent(self, event):
         # Jump to pointer position while moving
-        pass
-        #self.setValue(QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width()))
+        position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
+        self.setValue(position)
 
 class TopSettingsBar(QObject):
     progressBarSignal = pyqtSignal(int)
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         super(TopSettingsBar, self).__init__()
         self.parent = parent
 

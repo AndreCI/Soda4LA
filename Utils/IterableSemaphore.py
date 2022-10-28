@@ -23,7 +23,7 @@ class IBoundedSemaphore(BoundedSemaphore):
     def __init__(self, value=1):
         super().__init__(value=value)
 
-    def update_size(self, size:int=2, update_value:bool=False):
+    def update_size(self, size:int=2, update_value:bool=False)->None:
         if size<1:
             raise ValueError("semaphore initial value must be >= 1")
         s = self._value

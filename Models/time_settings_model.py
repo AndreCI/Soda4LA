@@ -1,17 +1,19 @@
+from __future__ import annotations
 from Ctrls.time_settings_controller import TimeSettingsCtrl
 
 # TODO add other time settings
 from Models.data_model import Data
+import Models.music_model as music
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED
 
 
-class TimeSettings():  # TODO rename this into general settings
+class TimeSettings:  # TODO rename this into general settings
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.
     """
 
-    def __init__(self, music):
+    def __init__(self, music : music.Music):
         # Other models
         self.music = music
         self.data = Data.getInstance()
@@ -67,21 +69,21 @@ class TimeSettings():  # TODO rename this into general settings
         self.tsView = None
         self.data = Data.getInstance()
 
-    def get_music_duration(self):
+    def get_music_duration(self) -> int:
         return self.data.size if self.musicDuration is None else self.musicDuration
 
-    def get_bpm(self): #bpm = size/length
+    def get_bpm(self) ->float: #bpm = size/length
         return 60 * float(self.data.size) / self.get_music_duration()
 
     def set_bpm(self, bpm): #length = size/bpm
         self.musicDuration = int(60 * float(self.data.size)/float(bpm))
 
-    def set_type(self, type: str):
+    def set_type(self, type: str)->None:
         if (type not in self.possible_types):
             raise NotImplementedError()
         self.type = type
 
-    def set_attribute(self, minVal, maxVal, idMax):
+    def set_attribute(self, minVal:float, maxVal:float, idMax:int)->None:
         """
         Setup attributes needed to compute later a temporal position
         :param minVal: float,
@@ -97,7 +99,7 @@ class TimeSettings():  # TODO rename this into general settings
         if not self.musicDuration:
             self.musicDuration = idMax
 
-    def get_temporal_position(self, current, offset=0):
+    def get_temporal_position(self, current, offset=0) -> float:
         """
         Return the temporal position of a data point, based on the minimum and maximum and the current selected type.
         Regardless of type, if min=current, then this will return 0. if max=current, then this will return 1.

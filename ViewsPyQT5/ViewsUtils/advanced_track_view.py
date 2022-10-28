@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
 from collections import namedtuple
 
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
@@ -14,7 +15,7 @@ EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'valueLine', 'dlab
 
 class AdvancedTrackView(object):
 
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         self.key = "value"
         self.track = None

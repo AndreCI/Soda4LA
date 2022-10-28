@@ -1,3 +1,5 @@
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
 import time
 from collections import deque
 
@@ -12,7 +14,7 @@ from Models.data_model import Data
 
 class TableView(object):
 
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         self.data_model = None
 
