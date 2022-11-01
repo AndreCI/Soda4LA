@@ -8,6 +8,23 @@ class TestFilterModule(TestCase):
         self.module = FilterModule()
         self.range_value = "[3, 10]"
         self.multiple_value = "3;5;10"
+        self.dummyDataHeader = ["timestamp", "user_id", "action"]
+        self.dummyData = [
+                          ["12:12:12", 3, "action1"],
+                          ["12:12:13", 2, "action2"],
+                          ["12:12:14", 1, "action1"],
+                          ["12:12:15", 3, "action2"],
+                          ["12:12:126", 3, "action1"],
+                          ]
+
+
+    def test_get_filtered_data(self):
+        self.module.assign("3")
+        self.module.assign_variable(self.dummyDataHeader[1])
+        for f in self.module.get_filtered_data(self.dummyDataHeader, self.dummyData):
+            self.assertEqual(f, False)
+
+
 
     def test_evaluate(self):
         self.module.assign("3")

@@ -1,5 +1,6 @@
-from Models.data_model import Data
-from Views.parameter_encoding_view import ParameterEncodingView
+import logging
+
+from Models.note_model import note_to_int, int_to_note
 
 
 class ParameterEncodingCtrl:
@@ -8,34 +9,57 @@ class ParameterEncodingCtrl:
     """
 
     def __init__(self, model):
-        #Model
+        # Model
         self.model = model
 
     def assign_main_var(self, main_var):
-        self.model.set_main_var(main_var)
+        self.model.filter.assign_column(main_var)
+        self.model.initialized = True
 
-    def show_window(self):
-        if (self.model.peView == None):
-            self.model.peView = ParameterEncodingView(self, self.model)
-        self.model.peView.focus_set()
+    def set_default_value(self, value):
+        if value == "":
+            return
+        if self.model.encoded_var == "value":
+            if value.isnumeric():
+                try:
+                    v = note_to_int(int_to_note(int(value)), int(self.model.octave))
+                    self.model.defaultValue = v
+                except ValueError:
+                    logging.log(logging.ERROR,"Issue with value in setDefault-value {}".format(value))
+            else:
+                try:
+                    v = note_to_int(str(value).upper(), int(self.model.octave))
+                    self.model.defaultValue = v
+                except ValueError:
+                    logging.log(logging.ERROR,"Issue with value in setDefault-value-nonnum {}".format(value))
+        elif value.isnumeric():
+            self.model.defaultValue = int(value)
 
-    def validate(self):
-        self.model.handpicked = self.model.peView.handpicked_mode
-        variable = []
-        values = []
-        for var, val in zip(self.model.peView.variableList, self.model.peView.valueList):
-            variable.append(var.cget("text"))
-            values.append(val.get())
-        self.model.assign_handpicked_encoding(variable, values)
+    def reset_value(self, variable):
+        self.model.handpickEncoding.pop(variable, None)
 
-        self.model.assign_function_encoding(function=self.model.peView.selectFunctionCB.get(), min_val=self.model.peView.fMinVar, max_val=self.model.peView.fMaxVar)
+    def set_value(self, value, variable):
+        if value == "":
+            return
+        if self.model.encoded_var == "value":
+            if value.isnumeric():
+                try:
+                    v = note_to_int(int_to_note(int(value)), int(self.model.octave))
+                    self.model.handpickEncoding[variable] = v
+                except ValueError:
+                    return
+            else:
+                try:
+                    v = note_to_int(str(value).upper(), int(self.model.octave))
+                    self.model.handpickEncoding[variable] = v
+                except ValueError:
+                    return
+        elif value.isnumeric():
+            self.model.handpickEncoding[variable] = int(value)
 
-        self.model.filter.assign(self.model.peView.filterEntry.get())
-        self.model.peView.destroy()
-
-    def destroy(self):
-        if (self.model.peView != None):
-            self.model.peView.destroy()
-
-    def remove_window(self):
-        self.model.peView = None
+    def change_octave(self, octave):
+        #TODO Change octave location on view
+        self.model.octave = octave
+        for key in self.model.handpickEncoding:
+            self.set_value(int_to_note(self.model.handpickEncoding[key]), key)
+        self.set_default_value(int_to_note(int(self.model.defaultValue)))

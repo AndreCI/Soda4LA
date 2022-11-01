@@ -6,8 +6,13 @@
       <excludeFolder url="file://$MODULE_DIR$/venv36" />
       <excludeFolder url="file://$MODULE_DIR$/venv37" />
       <excludeFolder url="file://$MODULE_DIR$/venv64" />
+      <excludeFolder url="file://$MODULE_DIR$/venv310" />
+      <excludeFolder url="file://$MODULE_DIR$/venv311" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.7 (sodaMidi)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (sodaMidi) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PackageRequirementsSettings">
+    <option name="versionSpecifier" value="Don't specify version" />
   </component>
 </module>
