@@ -11,6 +11,7 @@ from pandas import DataFrame
 
 from Models.data_model import Data
 import Models.music_model as music
+from Models.note_model import NoteData
 from Models.track_model import Track
 # import fluidsynth as m_fluidsynth
 from Utils import m_fluidsynth
@@ -208,6 +209,8 @@ class MusicCtrl:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
         """
+
+
         self.model.sonification_view.visualisationView.setup(self.maxNoteGraph)
         self.setup_general_attribute()
         self.load_soundfonts()
@@ -221,6 +224,8 @@ class MusicCtrl:
             self._musicTiming += (time.perf_counter() - self._pausedTimed)
         else:
             self._musicTiming = time.perf_counter()
+        self.model.generate_dataframe()
+        #self.view.play_dataframe()
         self.playing = True
         self.paused = False
         self.finished = False

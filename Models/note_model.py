@@ -5,6 +5,10 @@ from __future__ import annotations
 # Allows to use type hint while preventing cyclic imports
 
 import math
+
+import pandas as pd
+from pandas import DataFrame
+
 import Models.track_model as track
 from collections import namedtuple
 
@@ -12,30 +16,47 @@ from Models.data_model import Data
 from Models.parameter_encoding_model import ParameterEncoding
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+NNote = namedtuple('NNote', 'tfactor channel value velocity duration void id')
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
+ANote = namedtuple('TNote', ['timing', 'tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
 
 
-class Note_data:
+
+class NoteData:
     _instance = None
 
     @staticmethod
     def getInstance():
-        if not Note_data._instance:
-            Note_data()
-        return Note_data._instance
+        if not NoteData._instance:
+            NoteData()
+        return NoteData._instance
 
     def __init__(self):
-        if Note_data._instance is None:
+        if NoteData._instance is None:
             self.df = None
-            Note_data._instance = self
+            self.data:Data = None
+            self.tracks = None
+            self.tracks_note = None
+            NoteData._instance = self
 
-    def setup(self, data: Data, tracks: [track.Track]):
-        pass
+    def setup(self, tracks: [track.Track]):
+        self.data = Data.getInstance()
+        self.tracks = tracks
+        self.tracks_note = []
+
+    def create_note(self, row):
+        return TNote(tfactor=0, channel=0, value=0, velocity=100, duration=100, void=False, id=-1)
 
     def generate(self):
         """Pre compute all notes into a dataframe"""
-        pass
+
+        notes = self.data.df.apply(lambda x: self.create_note(x), axis=1)
+        print(notes)
+        for track in self.tracks:
+            notes = self.data.df.apply(lambda x:self.create_note(x), axis=1)
+            print(notes)
+            self.tracks_note.append(notes)
 
     def update(self, track_id: int, parmeter_encoding: ParameterEncoding):
         pass
@@ -45,6 +66,7 @@ class Note_data:
 
     def find_index_from_time(self, tfactor: float) -> int:
         return self.df.indexof(tfactor)
+
 
 
 def is_valid_note(note):

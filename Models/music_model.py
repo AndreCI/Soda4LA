@@ -2,6 +2,7 @@ import itertools
 import time
 from queue import PriorityQueue
 
+import pandas as pd
 from midiutil.MidiFile import MIDIFile
 
 from Ctrls.music_controller import MusicCtrl
@@ -40,6 +41,7 @@ class Music:
 
             # Other models
             self.tracks = {}  # List of track model created by user
+            self.tracks_note = {}
 
             self.timeSettings = TimeSettings(self)
             self.data = Data.getInstance()
@@ -111,7 +113,16 @@ class Music:
                 lines.append("cc {} 7 {}\n".format(key, self.tracks[key].gain * 1.27))  # update gain
             f.writelines(lines)
 
-    def generate(self):
+    def generate_dataframe(self):
+        """Pre compute all notes into a dataframe"""
+        t1 = time.perf_counter()
+        for track in self.tracks.values():
+            evaluated_data = track.filter_batch(self.data.df, False)
+            notes = evaluated_data.apply(lambda x: track.build_note2(x), axis=1)
+            self.tracks_note[str(track.id)] = notes
+        print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
+
+    def generate(self): 
         """
         Threaded.
         Produce at regular intervals a note, based on data and tracks configuration and put it into self.notes
