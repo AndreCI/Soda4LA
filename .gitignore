@@ -1,4 +1,9 @@
 .sf2
+*.sf2
+*.soda4la
+*.config
+*.mid
+*.wav
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

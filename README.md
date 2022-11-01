@@ -4,32 +4,16 @@
 Open source application to sonify learning analytics data based on users preference.
 Designed to be used as a data exploration tool.
 
+###Sonification
+“a systematic and reproducible transformation technique that can be used with different input data to produce sound that reflects objective properties or relations in the data.”
 
-## Fluidsynth install
-### WINDOWS
-Install fluidsynth by copy pasting the dll to system32. 
+We think that new radical ideas are needed for learning analytics and we want to drastically reverse the traditional approach that is actually based on data visualization. We want to explore the potential of data sonification for the analysis of complex datasets in the field of educational sciences. Thus, SODA4LA aims at evaluating the feasibility and the potential value of sonification for learning analytics.
 
-Adding dlls to path seems to work but ends up with weird errors and no sounds:
+###Install
+Check release page for the latest version.
+github.com/AndreCI/sodaMidi/releases
 
-ImportError: Couldn't find the FluidSynth library.
-
-OSError: [WinError 193] %1 is not a valid Win32 application fluidsynth -> check if versions are 64 bits (python, fluidsynth)
-After fixing those, I got:
-
-pyfluidsynth fluidsynth: error: not enough MIDI in devices found expected 1 found 0
-
-fluidsynth: error: Device "default" does not exists
-
-fluidsynth: warning: sequencer: Usage of the system timer has been deprecated!
-
-----------------------------------------------
-
-Also build from source using https://github.com/FluidSynth/fluidsynth/wiki/BuildingWithCMake#building-with-msys2-on-windows
-Did it help?
----------------------------------------------
-Alternative: Add libfluidsynth.dll to path as environement variable in configuration.
-
-
-### UBUNTU
-install fluidsynth using apt-get install, then update ld_library_path to specify where it is
-fluidsynth synth must be started by specififing the alsa driver, see https://github.com/nwhitehead/pyfluidsynth/issues/22
+#### About
+André Cibils\
+UNIGE - Technologies de Formation et d'Apprentissage\
+Sous la supervision du Pr. Eric Sanchez
