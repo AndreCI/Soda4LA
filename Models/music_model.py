@@ -70,6 +70,7 @@ class Music:
         self.data = Data.getInstance()
 
     def generate_midi(self, filename="output"):
+
         """
         Generate and populate a midi file based on current parameters and data.
         :param filename:

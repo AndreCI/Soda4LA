@@ -1,5 +1,8 @@
 import logging
+import random
+from typing import Tuple, Any
 
+import numpy as np
 from pandas import DataFrame
 
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
@@ -117,3 +120,14 @@ class ParameterEncoding:
 
     def get_variables_instances(self) -> [str]:
         return self.data.get_variables_instances(self.filter.column)
+
+    def generate_preset(self, variable:[]) -> [int]:
+        minimum_val = 0
+        maximum_val = 127
+        if self.encoded_var == "value":
+            maximum_val = 12
+        elif self.encoded_var == "duration":
+            maximum_val = 300
+        values = np.linspace(start=minimum_val, stop=maximum_val, num=len(variable))
+        random.shuffle(values)
+        return values

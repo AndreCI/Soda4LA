@@ -224,7 +224,7 @@ class MusicCtrl:
             self._musicTiming += (time.perf_counter() - self._pausedTimed)
         else:
             self._musicTiming = time.perf_counter()
-        self.model.generate_dataframe()
+        #self.model.generate_dataframe()
         #self.view.play_dataframe()
         self.playing = True
         self.paused = False
