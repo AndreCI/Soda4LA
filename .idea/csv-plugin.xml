@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\sequential_data\sliced\tamago2014_p2_4984.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\sequential_data\sliced\tamago2014_p3_116137.csv">
           <value>
             <Attribute>
@@ -144,6 +151,13 @@
           </value>
         </entry>
         <entry key="\dist\main_pyqt5\data\sequential_data\tamago2014_sono_sorted.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\tamago2014_paragon_sorted2.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />

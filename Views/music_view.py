@@ -35,8 +35,12 @@ class MusicView:
         if platform.system() == "Windows":
             # Use the line below if for MS Windows driver
             self.synth.start()
-        else:
+        elif platform.system() == "Linux":
             self.synth.start(driver="alsa")
+            # you might have to use other drivers:
+            # fs.start(driver="alsa", midi_driver="alsa_seq")
+        else:
+            self.synth.start(driver="coreaudio")
             # you might have to use other drivers:
             # fs.start(driver="alsa", midi_driver="alsa_seq")
 
