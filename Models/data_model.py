@@ -1,9 +1,10 @@
 import logging
 from datetime import datetime
 
+import dateutil
 import numpy as np
 import pandas as pd
-from dateutil.parser import parse
+from dateutil.parser import parse, ParserError
 from pandas import DataFrame
 
 import Ctrls.data_controller
@@ -173,6 +174,8 @@ class Data:
 
         formats = ['%d/%m/%Y %H:%M:%S',
                    '%d/%m/%y %H:%M:%S',
+                   '%Y-%m-%d %H:%M:%S', #2014-03-31 13:28:25
+                   '%y-%m-%d %H:%M:%S', #14-03-31 13:28:25
                    '%H:%M:%S PM'  #1:20:21 PM
                    ]
         if additional_format != "":
@@ -186,7 +189,11 @@ class Data:
                 return date
             except ValueError:
                 pass
-        raise ValueError("No format found for this timestamp.")
+        try:
+            yourdate = dateutil.parser.parse(d)
+            return yourdate
+        except ParserError:
+            raise ValueError("No format found for this timestamp: {}".format(d))
 
 
     def assign_timestamps(self, additional_format="") -> None:

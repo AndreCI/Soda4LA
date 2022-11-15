@@ -1,0 +1,239 @@
+id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetypemou;code;message;codage_chat_message;help;resource_id;item_id;resourcetype;mode_of_use;resource_title;creationdate;rightsagreements;resource_size;item_size;reason;game_id;level_id;iswon
+27423;2014-04-03 15:05:20;chat;chat;92;206;92206;p1_92206;O;;NC;bonjour !;NC_bonjour !;;;;;;;;;/;;;930;1;1
+20958;2014-04-03 15:05:20;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;117;541;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;726;1;1
+27427;2014-04-03 15:05:26;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;113;531;journal;;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;930;1;1
+27448;2014-04-03 15:05:55;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;113;531;journal;printedCopies;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;930;1;1
+20971;2014-04-03 15:06:02;addToFridge;addToFridge;68;145;68145;p2_68145;O;journalprojection;;;_;;117;541;journal;projection;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;726;1;1
+27457;2014-04-03 15:06:05;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;113;531;journal;printedCopies;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;930;1;1
+27471;2014-04-03 15:06:26;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;102;474;journal;;Histoire, Monde & cultures religieuses;2013;Droits d'auteur;/;6 articles;;930;1;1
+27489;2014-04-03 15:06:44;chat;chat;92;206;92206;p1_92206;O;;NC;bien joue :p;NC_bien joue :p;;;;;;;;;/;;;930;1;1
+20985;2014-04-03 15:06:47;tuto;tuto;68;145;68145;p2_68145;O;;;;_;;;;;;;;;/;;;726;1;1
+27498;2014-04-03 15:06:52;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;107;501;journal;;L'Humanite hebdo;1997;Droits d'auteur;/;1 article;;930;1;1
+27500;2014-04-03 15:06:58;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;111;520;journal;;Journal de l'enseignement;1898;Domaine public;/;2 articles;;930;1;1
+27505;2014-04-03 15:07:02;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;47;362;book;;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;7;;930;1;1
+27521;2014-04-03 15:07:18;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookprintedCopies;;;_;;47;362;book;printedCopies;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;7;;930;1;1
+27524;2014-04-03 15:07:20;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;bookprintedCopies;;;_;;47;362;book;printedCopies;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;7;;930;1;1
+21000;2014-04-03 15:07:30;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;34;307;book;;La laicite nouveaux regard sur l'Antiquite et le Moyen Age;2013;Droits d'auteur;/1 vol. (192 p.);21;;726;1;1
+21008;2014-04-03 15:07:52;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookoral;;;_;;34;307;book;oral;La laicite nouveaux regard sur l'Antiquite et le Moyen Age;2013;Droits d'auteur;/1 vol. (192 p.);21;;726;1;1
+27550;2014-04-03 15:07:54;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;110;511;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;integrale;;930;1;1
+21012;2014-04-03 15:07:55;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookoral;;;_;;34;307;book;oral;La laicite nouveaux regard sur l'Antiquite et le Moyen Age;2013;Droits d'auteur;/1 vol. (192 p.);21;;726;1;1
+27564;2014-04-03 15:08:08;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;47;360;book;;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;930;1;1
+27578;2014-04-03 15:08:20;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookoral;;;_;;47;360;book;oral;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;930;1;1
+27580;2014-04-03 15:08:22;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;bookoral;;;_;;47;360;book;oral;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;930;1;1
+27591;2014-04-03 15:08:32;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;35;311;book;;L'instrument de musique une etude philosophique;2013;Droits d'auteur;/1 vol., (367 p.);9;;930;1;1
+27607;2014-04-03 15:08:47;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookoral;;;_;;35;311;book;oral;L'instrument de musique une etude philosophique;2013;Droits d'auteur;/1 vol., (367 p.);9;;930;1;1
+21039;2014-04-03 15:08:55;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;43;337;book;;Le Grand Meaulnes;1913;Domaine Public;/;100;;726;1;1
+27631;2014-04-03 15:09:09;chat;chat;92;206;92206;p1_92206;O;;NC;je suis extremement content d'avoir reussi ce defi avec toi;NC_je suis extremement content d'avoir reussi ce defi avec toi;;;;;;;;;/;;;938;2;0
+27641;2014-04-03 15:09:16;chat;chat;92;206;92206;p1_92206;O;;NC;bravo :p;NC_bravo :p;;;;;;;;;/;;;938;2;0
+27649;2014-04-03 15:09:22;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;313;411;sound;;Rolling in the deep;2011;Droits d'auteur;3 min/;25 s;;938;2;0
+21054;2014-04-03 15:09:29;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;726;1;1
+21055;2014-04-03 15:09:30;showItem;showItemFRIDGE;68;145;68145;p2_68145;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;726;1;1
+21060;2014-04-03 15:09:39;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;726;1;1
+21070;2014-04-03 15:09:56;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;42;330;book;;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);integrale;;726;1;1
+27687;2014-04-03 15:10:01;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookassessments;;;_;;47;365;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;938;2;0
+27689;2014-04-03 15:10:02;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;bookassessments;;;_;;47;365;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;938;2;0
+27701;2014-04-03 15:10:13;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;938;2;0
+27703;2014-04-03 15:10:14;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;938;2;0
+21077;2014-04-03 15:10:14;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookoral;;;_;;42;330;book;oral;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);integrale;;726;1;1
+21079;2014-04-03 15:10:16;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookoral;;;_;;42;330;book;oral;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);integrale;;726;1;1
+27710;2014-04-03 15:10:18;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;337;458;sound;;People, hell and angels;2013;Droits d'auteur;/;3 min;;938;2;0
+21083;2014-04-03 15:10:20;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;48;366;book;;a l'aveugle;2013;Droits d'auteur;/1 vol. (119 p.);8;;726;1;1
+27716;2014-04-03 15:10:23;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;337;455;sound;;People, hell and angels;2013;Droits d'auteur;/;25 s;;938;2;0
+21092;2014-04-03 15:10:40;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;338;461;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;728;2;0
+27736;2014-04-03 15:10:43;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundassessments;;;_;;337;455;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;25 s;;938;2;0
+27739;2014-04-03 15:10:44;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;soundassessments;;;_;;337;455;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;25 s;;938;2;0
+27745;2014-04-03 15:10:54;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;35;310;book;;L'instrument de musique une etude philosophique;2013;Droits d'auteur;/1 vol., (367 p.);9;;938;2;0
+21099;2014-04-03 15:10:54;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundassessments;;;_;;338;461;sound;assessments;Carnet de Mo;2012;Droits d'auteur;/;3 s;;728;2;0
+21104;2014-04-03 15:10:56;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundassessments;;;_;;338;461;sound;assessments;Carnet de Mo;2012;Droits d'auteur;/;3 s;;728;2;0
+21108;2014-04-03 15:11:01;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;128;591;journal;;Distances et savoirs;2003;Droits d'auteur CFC;/;1 article;;728;2;0
+27756;2014-04-03 15:11:02;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;309;403;sound;;J'attends l'orage;2006;Creative Commons;3 min/;Integrale;;938;2;0
+27762;2014-04-03 15:11:07;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;121;561;journal;;Le Monde;1944;Droits d'auteur CFC;/;1 article;;938;2;0
+27775;2014-04-03 15:11:19;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprojection;;;_;;121;561;journal;projection;Le Monde;1944;Droits d'auteur CFC;/;1 article;Non couvert par l'accord;938;2;0
+27777;2014-04-03 15:11:20;feedTamago;feedTamagoBad;92;206;92206;p1_92206;O;journalprojection;;;_;;121;561;journal;projection;Le Monde;1944;Droits d'auteur CFC;/;1 article;Non couvert par l'accord;938;2;0
+21119;2014-04-03 15:11:24;addToFridge;addToFridge;68;145;68145;p2_68145;O;journalprintedCopies;;;_;;128;591;journal;printedCopies;Distances et savoirs;2003;Droits d'auteur CFC;/;1 article;Non couvert par l'accord;728;2;0
+21123;2014-04-03 15:11:27;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;journalprintedCopies;;;_;;128;591;journal;printedCopies;Distances et savoirs;2003;Droits d'auteur CFC;/;1 article;Non couvert par l'accord;728;2;0
+21126;2014-04-03 15:11:32;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;45;346;book;;Litterature pour ma classe;2013;Creative Commons;/12p;integrale;;728;2;0
+21129;2014-04-03 15:11:36;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;1;119;book;;L'illusion comique;2003;Droits d'auteur CFC;/1 vol. (206 p.);5;;728;2;0
+21131;2014-04-03 15:11:40;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;311;407;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;10 s;;728;2;0
+27806;2014-04-03 15:11:43;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundassessments;;;_;;309;402;sound;assessments;J'attends l'orage;2006;Creative Commons;3 min/;3 min;;938;2;0
+27809;2014-04-03 15:11:44;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;soundassessments;;;_;;309;402;sound;assessments;J'attends l'orage;2006;Creative Commons;3 min/;3 min;;938;2;0
+27812;2014-04-03 15:11:48;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;303;384;sound;;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;35 min;;938;2;0
+21141;2014-04-03 15:12:02;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;35;314;book;;L'instrument de musique une etude philosophique;2013;Droits d'auteur;/1 vol., (367 p.);40;;729;2;1
+27842;2014-04-03 15:12:13;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;489;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;938;2;0
+21150;2014-04-03 15:12:17;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;105;487;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;729;2;1
+27855;2014-04-03 15:12:20;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;938;2;0
+21152;2014-04-03 15:12:20;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;46;353;book;;Silas Corey - Le reseau Aquila - Tome 1;2013;Droits d'auteur;/1 vol. (64 p.);2;;729;2;1
+27858;2014-04-03 15:12:21;feedTamago;feedTamagoBad;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;938;2;0
+21156;2014-04-03 15:12:23;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;12;219;journal;;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;729;2;1
+21158;2014-04-03 15:12:27;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;337;455;sound;;People, hell and angels;2013;Droits d'auteur;/;25 s;;729;2;1
+27871;2014-04-03 15:12:33;chat;chat;92;206;92206;p1_92206;O;;NC;damned;NC_damned;;;;;;;;;/;;;948;2;0
+21163;2014-04-03 15:12:34;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundassessments;;;_;;337;455;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;25 s;;729;2;1
+21166;2014-04-03 15:12:38;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundassessments;;;_;;337;455;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;25 s;;729;2;1
+21168;2014-04-03 15:12:41;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;337;458;sound;;People, hell and angels;2013;Droits d'auteur;/;3 min;;729;2;1
+21171;2014-04-03 15:12:46;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;121;559;journal;;Le Monde;1944;Droits d'auteur CFC;/;1 article;;729;2;1
+27882;2014-04-03 15:12:47;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundassessments;;;_;;337;458;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;3 min;;948;2;0
+27884;2014-04-03 15:12:48;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;soundassessments;;;_;;337;458;sound;assessments;People, hell and angels;2013;Droits d'auteur;/;3 min;;948;2;0
+21174;2014-04-03 15:12:52;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;313;412;sound;;Rolling in the deep;2011;Droits d'auteur;3 min/;Integrale;;729;2;1
+27891;2014-04-03 15:12:53;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;121;562;journal;;Le Monde;1944;Droits d'auteur CFC;/;3 articles;;948;2;0
+21182;2014-04-03 15:12:56;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;47;365;book;;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;729;2;1
+27907;2014-04-03 15:12:59;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprojection;;;_;;121;562;journal;projection;Le Monde;1944;Droits d'auteur CFC;/;3 articles;Nombre de page / article non valide;948;2;0
+27909;2014-04-03 15:13:00;feedTamago;feedTamagoBad;92;206;92206;p1_92206;O;journalprojection;;;_;;121;562;journal;projection;Le Monde;1944;Droits d'auteur CFC;/;3 articles;Nombre de page / article non valide;948;2;0
+21190;2014-04-03 15:13:05;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookassessments;;;_;;47;365;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;729;2;1
+27914;2014-04-03 15:13:08;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;121;561;journal;;Le Monde;1944;Droits d'auteur CFC;/;1 article;;948;2;0
+21196;2014-04-03 15:13:12;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookassessments;;;_;;47;365;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;729;2;1
+27929;2014-04-03 15:13:20;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;489;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;948;2;0
+27934;2014-04-03 15:13:24;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;492;journal;;20 minutes;2005;Droits d'auteur;/;3 articles;;948;2;0
+21203;2014-04-03 15:13:25;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;502;735;printedmusic;;Sonates pour le piano;1917;Droits d'auteur CFC;/1 partition (283 p.);3;;730;3;1
+27938;2014-04-03 15:13:27;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;489;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;948;2;0
+27947;2014-04-03 15:13:34;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;948;2;0
+27949;2014-04-03 15:13:35;feedTamago;feedTamagoBad;92;206;92206;p1_92206;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;948;2;0
+21213;2014-04-03 15:13:38;addToFridge;addToFridge;68;145;68145;p2_68145;O;printedmusicassessments;;;_;;502;735;printedmusic;assessments;Sonates pour le piano;1917;Droits d'auteur CFC;/1 partition (283 p.);3;Non couvert par l'accord;730;3;1
+21215;2014-04-03 15:13:40;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;printedmusicassessments;;;_;;502;735;printedmusic;assessments;Sonates pour le piano;1917;Droits d'auteur CFC;/1 partition (283 p.);3;Non couvert par l'accord;730;3;1
+21217;2014-04-03 15:13:46;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;image;;;_;;403;26;image;;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;;730;3;1
+21219;2014-04-03 15:13:49;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;333;437;sound;;Momentum;2013;Droits d'auteur;52 mi/;10 s;;730;3;1
+21223;2014-04-03 15:13:53;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;300;376;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;Integrale;;730;3;1
+27981;2014-04-03 15:14:03;chat;chat;92;206;92206;p1_92206;O;;OJ;il faut double-cliquer pour savoir si la ressource qu'on utilise est libre de droit;OJ_il faut double-cliquer pour savoir si la ressource qu'on utilise est libre de droit;;;;;;;;;/;;;952;2;1
+21229;2014-04-03 15:14:03;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;124;572;journal;;Le Monde diplomatique;1954;Droits d'auteur CFC;/;1 article;;730;3;1
+21233;2014-04-03 15:14:07;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;110;516;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;5 articles;;730;3;1
+21236;2014-04-03 15:14:10;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;534;985;printedmusic;;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;730;3;1
+21242;2014-04-03 15:14:20;addToFridge;addToFridge;68;145;68145;p2_68145;O;printedmusicprintedCopies;;;_;;534;985;printedmusic;printedCopies;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;730;3;1
+21244;2014-04-03 15:14:21;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;printedmusicprintedCopies;;;_;;534;985;printedmusic;printedCopies;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;730;3;1
+21246;2014-04-03 15:14:23;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;13;222;journal;;Madame Bovary;2009;Droits d'auteur CFC;/1 vol. (416 p.);5;;730;3;1
+28001;2014-04-03 15:14:28;chat;chat;92;206;92206;p1_92206;O;;F;par exemple tu as le droit de photocopier jusqu'a 10% d'un bouquin et 30% d'un periodique;F_par exemple tu as le droit de photocopier jusqu'a 10% d'un bouquin et 30% d'un periodique;;;;;;;;;/;;;952;2;1
+28016;2014-04-03 15:14:36;chat;chat;92;206;92206;p1_92206;O;;H;donc s'il n'y a qu'un article, je crois que c'est bon;H_donc s'il n'y a qu'un article, je crois que c'est bon;;;;;;;;;/;;;952;2;1
+21256;2014-04-03 15:14:36;addToFridge;addToFridge;68;145;68145;p2_68145;O;journalassessments;;;_;;13;222;journal;assessments;Madame Bovary;2009;Droits d'auteur CFC;/1 vol. (416 p.);5;;730;3;1
+21257;2014-04-03 15:14:38;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;journalassessments;;;_;;13;222;journal;assessments;Madame Bovary;2009;Droits d'auteur CFC;/1 vol. (416 p.);5;;730;3;1
+28018;2014-04-03 15:14:39;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;489;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;952;2;1
+28031;2014-04-03 15:14:48;chat;chat;92;206;92206;p1_92206;O;;NC;(je crois);NC_(je crois);;;;;;;;;/;;;952;2;1
+28035;2014-04-03 15:14:51;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;113;532;journal;;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;952;2;1
+21264;2014-04-03 15:14:54;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;300;375;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;;732;4;0
+21267;2014-04-03 15:14:58;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;529;952;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);2;;732;4;0
+28049;2014-04-03 15:15:01;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalprojection;;;_;;113;532;journal;projection;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;952;2;1
+28053;2014-04-03 15:15:02;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;journalprojection;;;_;;113;532;journal;projection;Le Figaro collection 1826-1935;;Domaine public;/;1 article;;952;2;1
+21271;2014-04-03 15:15:02;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;529;957;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);7;;732;4;0
+28058;2014-04-03 15:15:05;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;121;562;journal;;Le Monde;1944;Droits d'auteur CFC;/;3 articles;;952;2;1
+21274;2014-04-03 15:15:05;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;video;;;_;;211;646;video;;Simone Veil La loi d'une femme;208;Droits d'auteur;52 mI/;3 min;;732;4;0
+21280;2014-04-03 15:15:08;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;10;202;book;;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);integrale;;732;4;0
+28062;2014-04-03 15:15:09;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;105;487;journal;;20 minutes;2005;Droits d'auteur;/;1 article;;952;2;1
+28072;2014-04-03 15:15:13;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;303;383;sound;;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;;952;2;1
+21283;2014-04-03 15:15:13;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;117;541;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;732;4;0
+21286;2014-04-03 15:15:16;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;9;194;book;;Dictionnaire de la pensee du cinema;2012;Droits d'auteur;/1 vol. (XV-792 p.);4;;732;4;0
+21293;2014-04-03 15:15:19;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;110;514;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;2 articles;;732;4;0
+28077;2014-04-03 15:15:24;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;952;2;1
+21296;2014-04-03 15:15:24;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;110;511;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;integrale;;732;4;0
+28081;2014-04-03 15:15:25;feedTamago;feedTamagoBad;92;206;92206;p1_92206;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;952;2;1
+21304;2014-04-03 15:15:30;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;10;198;book;;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;732;4;0
+28094;2014-04-03 15:15:31;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;313;412;sound;;Rolling in the deep;2011;Droits d'auteur;3 min/;Integrale;;952;2;1
+21311;2014-04-03 15:15:40;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookassessments;;;_;;10;198;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;732;4;0
+21313;2014-04-03 15:15:42;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookassessments;;;_;;10;198;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;732;4;0
+21318;2014-04-03 15:15:48;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;34;302;book;;La laicite nouveaux regard sur l'Antiquite et le Moyen Age;2013;Droits d'auteur;/1 vol. (192 p.);3;;732;4;0
+28126;2014-04-03 15:15:59;chat;chat;92;206;92206;p1_92206;O;;NC;eeerf;NC_eeerf;;;;;;;;;/;;;952;2;1
+28128;2014-04-03 15:16:01;chat;chat;92;206;92206;p1_92206;O;;NC;apparemment;NC_apparemment;;;;;;;;;/;;;952;2;1
+28140;2014-04-03 15:16:12;chat;chat;92;206;92206;p1_92206;O;;OJ;sinon il y a des petits dictionnaires au-dessus du frigo;OJ_sinon il y a des petits dictionnaires au-dessus du frigo;;;;;;;;;/;;;952;2;1
+28143;2014-04-03 15:16:15;help;help;92;206;92206;p1_92206;O;;;;_;Acces aide en ligne;;;;;;;;/;;;952;2;1
+21332;2014-04-03 15:16:16;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;10;198;book;;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;734;4;0
+21337;2014-04-03 15:16:23;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookassessments;;;_;;10;198;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;734;4;0
+21340;2014-04-03 15:16:25;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookassessments;;;_;;10;198;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);5;;734;4;0
+21344;2014-04-03 15:16:27;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;43;334;book;;Le Grand Meaulnes;1913;Domaine Public;/;integrale;;734;4;0
+28163;2014-04-03 15:16:28;helpLink;helpLink;92;206;92206;p1_92206;O;;;;_;Synthese exception pedagogique - Enregistrements a;;;;;;;;/;;;952;2;1
+21350;2014-04-03 15:16:33;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookassessments;;;_;;43;334;book;assessments;Le Grand Meaulnes;1913;Domaine Public;/;integrale;;734;4;0
+21352;2014-04-03 15:16:36;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;bookassessments;;;_;;43;334;book;assessments;Le Grand Meaulnes;1913;Domaine Public;/;integrale;;734;4;0
+21355;2014-04-03 15:16:37;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;10;202;book;;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);integrale;;734;4;0
+21360;2014-04-03 15:16:47;addToFridge;addToFridge;68;145;68145;p2_68145;O;bookassessments;;;_;;10;202;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);integrale;Nombre de page / article non valide;734;4;0
+28184;2014-04-03 15:16:49;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;112;523;journal;;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;952;2;1
+21362;2014-04-03 15:16:49;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;bookassessments;;;_;;10;202;book;assessments;Les aventures d'Huckleberry Finn;2011;Droits d'auteur;/1 vol. (380 p.);integrale;Nombre de page / article non valide;734;4;0
+21365;2014-04-03 15:16:53;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;9;191;book;;Dictionnaire de la pensee du cinema;2012;Droits d'auteur;/1 vol. (XV-792 p.);19;;734;4;0
+28192;2014-04-03 15:16:56;addToFridge;addToFridge;92;206;92206;p1_92206;O;journalassessments;;;_;;112;523;journal;assessments;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;952;2;1
+28194;2014-04-03 15:16:57;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;journalassessments;;;_;;112;523;journal;assessments;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;952;2;1
+21371;2014-04-03 15:17:01;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;531;965;printedmusic;;Sonate pour le piano a 4 mains : oeuv. 6;1878;Domaine Public;"/13 p. ; 36 cm";3;;734;4;0
+21377;2014-04-03 15:17:12;addToFridge;addToFridge;68;145;68145;p2_68145;O;printedmusicintranet;;;_;;531;965;printedmusic;intranet;Sonate pour le piano a 4 mains : oeuv. 6;1878;Domaine Public;"/13 p. ; 36 cm";3;;734;4;0
+28213;2014-04-03 15:17:13;chat;chat;92;206;92206;p1_92206;O;;F;"les trucs faciles c'est avec ""domaine public""";"F_les trucs faciles c'est avec ""domaine public""";;;;;;;;;/;;;962;3;1
+21379;2014-04-03 15:17:14;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;printedmusicintranet;;;_;;531;965;printedmusic;intranet;Sonate pour le piano a 4 mains : oeuv. 6;1878;Domaine Public;"/13 p. ; 36 cm";3;;734;4;0
+28221;2014-04-03 15:17:17;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;printedmusic;;;_;;529;951;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);2;;962;3;1
+21383;2014-04-03 15:17:18;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;529;952;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);2;;734;4;0
+21385;2014-04-03 15:17:22;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;529;957;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);7;;734;4;0
+21386;2014-04-03 15:17:24;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;521;892;printedmusic;;Jesus, toi ma joie Motet a cinq voix;1949;Droits d'auteur CFC;/1 partition (32 p.);9;;734;4;0
+28234;2014-04-03 15:17:28;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;415;115;image;;Fontaine Baroque;2013;;/;72 dpi;;962;3;1
+21390;2014-04-03 15:17:29;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;110;514;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;2 articles;;734;4;0
+21395;2014-04-03 15:17:33;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;117;544;journal;;Science et vie;1913;Droits d'auteur;/;8 articles;;734;4;0
+21397;2014-04-03 15:17:36;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;image;;;_;;412;103;image;;Ambroise Thomas;1880;Domaine Public;/;72 dpi;;734;4;0
+21399;2014-04-03 15:17:39;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;300;375;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;;734;4;0
+21403;2014-04-03 15:17:42;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;117;541;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;734;4;0
+21406;2014-04-03 15:17:44;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;521;891;printedmusic;;Jesus, toi ma joie Motet a cinq voix;1949;Droits d'auteur CFC;/1 partition (32 p.);9;;734;4;0
+28264;2014-04-03 15:17:47;addToFridge;addToFridge;92;206;92206;p1_92206;O;imageintranet;;;_;;415;115;image;intranet;Fontaine Baroque;2013;;/;72 dpi;;962;3;1
+21408;2014-04-03 15:17:47;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;;;_;;110;511;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;integrale;;734;4;0
+28267;2014-04-03 15:17:49;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;imageintranet;;;_;;415;115;image;intranet;Fontaine Baroque;2013;;/;72 dpi;;962;3;1
+21410;2014-04-03 15:17:50;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;video;;;_;;221;677;video;;Madagascar le monde perdu;213;Droits d'auteur;180 m/;10 min;;734;4;0
+21413;2014-04-03 15:17:53;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;;;_;;9;191;book;;Dictionnaire de la pensee du cinema;2012;Droits d'auteur;/1 vol. (XV-792 p.);19;;734;4;0
+28273;2014-04-03 15:17:54;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;403;26;image;;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;;962;3;1
+21424;2014-04-03 15:18:07;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;306;393;sound;;Noctuelles;1905;Domaine Public;4 min/;3 min;;735;4;0
+21429;2014-04-03 15:18:13;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundassessments;;;_;;306;393;sound;assessments;Noctuelles;1905;Domaine Public;4 min/;3 min;;735;4;0
+21433;2014-04-03 15:18:17;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundassessments;;;_;;306;393;sound;assessments;Noctuelles;1905;Domaine Public;4 min/;3 min;;735;4;0
+28301;2014-04-03 15:18:18;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;305;390;sound;;Sonata in C major Op.1 - I. Allegro;1853;Domaine Public;4 min/;2 min;;962;3;1
+28311;2014-04-03 15:18:26;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundassessments;;;_;;305;390;sound;assessments;Sonata in C major Op.1 - I. Allegro;1853;Domaine Public;4 min/;2 min;;962;3;1
+28326;2014-04-03 15:18:34;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;soundassessments;;;_;;305;390;sound;assessments;Sonata in C major Op.1 - I. Allegro;1853;Domaine Public;4 min/;2 min;;962;3;1
+21446;2014-04-03 15:18:41;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;;;_;;529;957;printedmusic;;Jimi Hendrix [Musique imprimee] : live at Woodstock / music transcriptions by Andy Aledort, Jesse Gress, and Pete Billmann;2000;Droits d'auteur;/1 partition (199 p.);7;;735;4;0
+21452;2014-04-03 15:18:45;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;video;;;_;;231;706;video;;Pulp Fiction;1994;Droits d'auteur;154 m/;4 min;;735;4;0
+21454;2014-04-03 15:18:47;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;image;;;_;;403;26;image;;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;;735;4;0
+28350;2014-04-03 15:18:51;chat;chat;92;206;92206;p1_92206;O;;NC;yeah ! bien joue ! ^^;NC_yeah ! bien joue ! ^^;;;;;;;;;/;;;966;4;1
+21460;2014-04-03 15:18:57;addToFridge;addToFridge;68;145;68145;p2_68145;O;imageassessments;;;_;;403;26;image;assessments;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;Non couvert par l'accord;735;4;0
+21461;2014-04-03 15:18:59;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;imageassessments;;;_;;403;26;image;assessments;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;Non couvert par l'accord;735;4;0
+28359;2014-04-03 15:19:01;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;403;25;image;;Schema interrupteur simple;;Droits d'auteur;/;72 dpi;;966;4;1
+28365;2014-04-03 15:19:04;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;414;111;image;;Paysage de montagne;2002;Creative Commons;/;300x300;;966;4;1
+21470;2014-04-03 15:19:12;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;;;_;;300;375;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;;736;4;0
+28375;2014-04-03 15:19:13;help;help;92;206;92206;p1_92206;O;;;;_;Acces aide en ligne;;;;;;;;/;;;966;4;1
+28378;2014-04-03 15:19:18;helpLink;helpLink;92;206;92206;p1_92206;O;;;;_;Licences Creative Commons;;;;;;;;/;;;966;4;1
+21482;2014-04-03 15:19:28;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundintranet;OJ;;OJ_;;300;375;sound;intranet;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;Durée non valide + Non couvert par l'accord;736;4;0
+21484;2014-04-03 15:19:30;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;soundintranet;Q;;Q_;;300;375;sound;intranet;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;Durée non valide + Non couvert par l'accord;736;4;0
+21485;2014-04-03 15:19:36;help;help;68;145;68145;p2_68145;O;;OJ;;OJ_;Acces aide en ligne;;;;;;;;/;;;736;4;0
+28403;2014-04-03 15:19:47;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;414;111;image;;Paysage de montagne;2002;Creative Commons;/;300x300;;966;4;1
+28409;2014-04-03 15:19:57;addToFridge;addToFridge;92;206;92206;p1_92206;O;imageschoolWebsite;;;_;;414;111;image;schoolWebsite;Paysage de montagne;2002;Creative Commons;/;300x300;;966;4;1
+28413;2014-04-03 15:19:58;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;imageschoolWebsite;;;_;;414;111;image;schoolWebsite;Paysage de montagne;2002;Creative Commons;/;300x300;;966;4;1
+28416;2014-04-03 15:20:02;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;printedmusic;;;_;;521;891;printedmusic;;Jesus, toi ma joie Motet a cinq voix;1949;Droits d'auteur CFC;/1 partition (32 p.);9;;966;4;1
+28425;2014-04-03 15:20:15;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;406;49;image;;Nu bleu;1952;Droits d'auteur;/;72 dpi;;966;4;1
+28434;2014-04-03 15:20:23;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;journal;;;_;;117;541;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;966;4;1
+28440;2014-04-03 15:20:28;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;sound;;;_;;338;459;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;966;4;1
+28451;2014-04-03 15:20:43;addToFridge;addToFridge;92;206;92206;p1_92206;O;soundassessments;;;_;;338;459;sound;assessments;Carnet de Mo;2012;Droits d'auteur;/;3 s;;966;4;1
+28452;2014-04-03 15:20:44;showItem;showItemFRIDGE;92;206;92206;p1_92206;O;soundassessments;;;_;;338;459;sound;assessments;Carnet de Mo;2012;Droits d'auteur;/;3 s;;966;4;1
+21530;2014-04-03 15:20:51;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;310;405;sound;;Life's Things;2007;Creative Commons;3 min/;2 min;;739;4;0
+28465;2014-04-03 15:20:59;chat;chat;92;206;92206;p1_92206;O;;NC;plus qu'un niveau je crois;NC_plus qu'un niveau je crois;;;;;;;;;/;;;970;5;1
+21536;2014-04-03 15:21:03;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundintranet;NC;;NC_;;310;405;sound;intranet;Life's Things;2007;Creative Commons;3 min/;2 min;;739;4;0
+21537;2014-04-03 15:21:04;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundintranet;NC;;NC_;;310;405;sound;intranet;Life's Things;2007;Creative Commons;3 min/;2 min;;739;4;0
+28468;2014-04-03 15:21:05;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;7;179;book;;"Feydeau ""Un fil a la patte"", ""On purge Bebe !""";2012;Droits d'auteur;/1 vol. (72 p.);4;;970;5;1
+21543;2014-04-03 15:21:07;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;302;381;sound;;On va tous y passer !;2013;Droits d'auteur;90 mi/;25 min;;739;4;0
+28480;2014-04-03 15:21:17;addToFridge;addToFridge;92;206;92206;p1_92206;O;bookassessments;;;_;;7;179;book;assessments;"Feydeau ""Un fil a la patte"", ""On purge Bebe !""";2012;Droits d'auteur;/1 vol. (72 p.);4;;970;5;1
+28481;2014-04-03 15:21:18;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;bookassessments;;;_;;7;179;book;assessments;"Feydeau ""Un fil a la patte"", ""On purge Bebe !""";2012;Droits d'auteur;/1 vol. (72 p.);4;;970;5;1
+21554;2014-04-03 15:21:20;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundschoolWebsite;OJ;;OJ_;;302;381;sound;schoolWebsite;On va tous y passer !;2013;Droits d'auteur;90 mi/;25 min;Non couvert par l'accord;739;4;0
+28483;2014-04-03 15:21:22;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;46;354;book;;Silas Corey - Le reseau Aquila - Tome 1;2013;Droits d'auteur;/1 vol. (64 p.);2;;970;5;1
+21556;2014-04-03 15:21:22;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;soundschoolWebsite;OJ;;OJ_;;302;381;sound;schoolWebsite;On va tous y passer !;2013;Droits d'auteur;90 mi/;25 min;Non couvert par l'accord;739;4;0
+21561;2014-04-03 15:21:27;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;NC;;NC_;;15;238;journal;;La Machine a explorer le temps;2010;Droits d'auteur CFC;/1 vol. (187 p.);2;;739;4;0
+28490;2014-04-03 15:21:28;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;book;;;_;;7;175;book;;"Feydeau ""Un fil a la patte"", ""On purge Bebe !""";2012;Droits d'auteur;/1 vol. (72 p.);26;;970;5;1
+28494;2014-04-03 15:21:33;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;printedmusic;;;_;;530;963;printedmusic;;Douce brunette : valse pour piano;1913;Domaine Public;"/7 p. ; 35 cm";integrale;;970;5;1
+21564;2014-04-03 15:21:33;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;H;;H_;;526;927;printedmusic;;Benabar [Musique imprimee] : 25 titres : pour piano, guitare et chant avec accords et grilles;2003;Droits d'auteur CFC;/1 partition (112 p.);3;;739;4;0
+21569;2014-04-03 15:21:37;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;image;NC;;NC_;;407;63;image;;Le baiser de l?Hotel de Ville;1950;Droits d'auteur;/;72 dpi;;739;4;0
+28507;2014-04-03 15:21:47;addToFridge;addToFridge;92;206;92206;p1_92206;O;printedmusicintranet;;;_;;530;963;printedmusic;intranet;Douce brunette : valse pour piano;1913;Domaine Public;"/7 p. ; 35 cm";integrale;;970;5;1
+28512;2014-04-03 15:21:50;feedTamago;feedTamagoGood;92;206;92206;p1_92206;O;printedmusicintranet;;;_;;530;963;printedmusic;intranet;Douce brunette : valse pour piano;1913;Domaine Public;"/7 p. ; 35 cm";integrale;;970;5;1
+21582;2014-04-03 15:21:55;help;help;68;145;68145;p2_68145;O;;NC;;NC_;Acces aide en ligne;;;;;;;;/;;;741;4;1
+21585;2014-04-03 15:21:58;helpLink;helpLink;68;145;68145;p2_68145;O;;H;;H_;Synthese exception pedagogique - Livres, Periodiqu;;;;;;;;/;;;741;4;1
+28525;2014-04-03 15:22:05;showItemCupboard;showItemCupboard;92;206;92206;p1_92206;O;image;;;_;;410;93;image;;Vue de Lyon, colline de Fourviere;;Creative Commons;/;72 dpi;;970;5;1
+21616;2014-04-03 15:22:58;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;H;;H_;;300;376;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;Integrale;;741;4;1
+21619;2014-04-03 15:23:03;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;H;;H_;;306;393;sound;;Noctuelles;1905;Domaine Public;4 min/;3 min;;741;4;1
+21623;2014-04-03 15:23:10;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;315;416;sound;;Chansons pour la classe;2004;;12 mi/;10 min;;741;4;1
+21626;2014-04-03 15:23:14;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;314;413;sound;;Is This Love;2003;Droits d'auteur;3 min/;15 s;;741;4;1
+21631;2014-04-03 15:23:23;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundintranet;NC;;NC_;;314;413;sound;intranet;Is This Love;2003;Droits d'auteur;3 min/;15 s;Non couvert par l'accord;741;4;1
+21633;2014-04-03 15:23:25;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;soundintranet;NC;;NC_;;314;413;sound;intranet;Is This Love;2003;Droits d'auteur;3 min/;15 s;Non couvert par l'accord;741;4;1
+21641;2014-04-03 15:23:42;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;300;375;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;;741;4;1
+21653;2014-04-03 15:23:53;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;338;459;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;741;4;1
+21665;2014-04-03 15:24:09;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;OJ;;OJ_;;306;394;sound;;Noctuelles;1905;Domaine Public;4 min/;Integrale;;744;5;1
+21686;2014-04-03 15:24:48;chat;chat;68;145;68145;p2_68145;O;;NC;En bleu c'est moi !;NC_En bleu c'est moi !;;;;;;;;;/;;;744;5;1
+21716;2014-04-03 15:25:24;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;printedmusic;NC;;NC_;;528;949;printedmusic;;Les plus belles chansons de Johnny Halliday [Musique imprimee];1994;Droits d'auteur;/1 partition (207 p.);13;;744;5;1
+21726;2014-04-03 15:25:35;addToFridge;addToFridge;68;145;68145;p2_68145;O;printedmusicassessments;O;;O_;;528;949;printedmusic;assessments;Les plus belles chansons de Johnny Halliday [Musique imprimee];1994;Droits d'auteur;/1 partition (207 p.);13;Sous droits d'auteur;744;5;1
+21730;2014-04-03 15:25:37;feedTamago;feedTamagoBad;68;145;68145;p2_68145;O;printedmusicassessments;H;;H_;;528;949;printedmusic;assessments;Les plus belles chansons de Johnny Halliday [Musique imprimee];1994;Droits d'auteur;/1 partition (207 p.);13;Sous droits d'auteur;744;5;1
+21744;2014-04-03 15:25:54;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;OJ;;OJ_;;306;394;sound;;Noctuelles;1905;Domaine Public;4 min/;Integrale;;744;5;1
+21750;2014-04-03 15:26:01;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;book;O;;O_;;44;340;book;;Discours de la methode;1637;Domaine Public;/;integrale;;744;5;1
+21754;2014-04-03 15:26:04;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;OJ;;OJ_;;17;258;journal;;Les clients du Bon Chien Jaune;2011;Droits d'auteur CFC;/1 vol. (138 p.);integrale;;744;5;1
+21758;2014-04-03 15:26:08;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;300;376;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;Integrale;;744;5;1
+21761;2014-04-03 15:26:12;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;journal;NC;;NC_;;100;463;journal;;Mediapart;2008;Droits d'auteur;/;1 article;;744;5;1
+21767;2014-04-03 15:26:17;showItemCupboard;showItemCupboard;68;145;68145;p2_68145;O;sound;NC;;NC_;;333;436;sound;;Momentum;2013;Droits d'auteur;52 mi/;3 min;;744;5;1
+21771;2014-04-03 15:26:29;addToFridge;addToFridge;68;145;68145;p2_68145;O;soundassessments;NC;;NC_;;333;436;sound;assessments;Momentum;2013;Droits d'auteur;52 mi/;3 min;;744;5;1
+21773;2014-04-03 15:26:30;feedTamago;feedTamagoGood;68;145;68145;p2_68145;O;soundassessments;NC;;NC_;;333;436;sound;assessments;Momentum;2013;Droits d'auteur;52 mi/;3 min;;744;5;1
