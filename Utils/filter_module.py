@@ -1,5 +1,7 @@
 from enum import Enum
 
+from pandas import DataFrame
+
 
 class FilterType(Enum):
     NONE = 1,
@@ -23,7 +25,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         state = self.__dict__.copy()
         return state
 
-    def eval_batch(self, batch, discard_filtered):
+    def eval_batch(self, batch:DataFrame, discard_filtered:bool)->None:
         """
         Determines which rows of a batch should be converted as notes, based on filter. A row can be converted as a note
         if the values found in the column corresponding to self.column are validated by the filter
@@ -55,7 +57,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         idx = header.index(self.variable)
         return filter(self.evaluate, data)
 
-    def evaluate(self, value):
+    def evaluate(self, value:int)->bool:
         """
         Determines whether a row should be converted as a note, based on filter and the selected value. Value must comes
         from the column corresponding to self.column
@@ -75,12 +77,12 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
             return True
         return False
 
-    def assign_column(self, column):
+    def assign_column(self, column:str)->None:
         self.column = column
         if (column not in self.mode):
             self.mode[self.column] = FilterType.NONE
 
-    def assign(self, filter):
+    def assign(self, filter:str)->None:
         """
         Setup a filter, based on implemented options
         :param filter: str,
@@ -105,7 +107,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         self.filter[self.column] = None
         return False
 
-    def assign_quali_value(self, value, add=True):
+    def assign_quali_value(self, value:str, add=True)->None:
         if (self.column not in self.filter):
             self.assign_quali_table([])
         if add:
@@ -113,7 +115,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         else:
             self.filter[self.column].remove(value)
 
-    def assign_quali_table(self, values: []):
+    def assign_quali_table(self, values: [str])->None:
         """
         Assign a list of qualitatives variable as a filter.
         :param values: a list of string variable
@@ -123,7 +125,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         self.filter[self.column] = values
         return True
 
-    def get_current_filter(self):
+    def get_current_filter(self)->str:
         if (self.column in self.filter and self.filter[self.column] != None):
             try:
                 return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"

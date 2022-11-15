@@ -17,21 +17,21 @@ class SoundfontLoader:
             self.default = "Jazz_Guitar"
             SoundfontLoader._instance = self
 
-    def get(self, name=""):
+    def get(self, name:str ="")->str:
         if (name == ""):
             return self.file_list[self.default]
         return self.file_list[name]
 
-    def get_name_from_path(self, path):
+    def get_name_from_path(self, path:str)->str:
         return [v for v in self.file_list.keys() if self.file_list[v] == path][0]
 
-    def get_idx_from_path(self, path):
+    def get_idx_from_path(self, path:str)->int:
         return [i for i, v in enumerate(self.file_list.keys()) if self.file_list[v] == path][0]
 
-    def get_names(self):
+    def get_names(self)->str:
         return list(self.file_list.keys())
 
-    def reload_soundfont(self, path="data/soundfonts"):
+    def reload_soundfont(self, path:str="data/soundfonts")->None:
         for file in os.listdir(path):
             p = os.path.join(path, file)
             if (os.path.isfile(p) and file.split(".")[-1] == "sf2"):

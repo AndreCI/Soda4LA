@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
 from collections import namedtuple
 
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
@@ -14,7 +15,7 @@ EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'valueLine', 'dlab
 
 class AdvancedTrackView(object):
 
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         self.key = "value"
         self.track = None
@@ -34,7 +35,8 @@ class AdvancedTrackView(object):
         self.checkAllButton.clicked.connect(lambda: self.set_all_check(True))
         self.switchAllCheckButton.released.connect(self.inverse_all_check)
         self.defaultValueLineEdit.textEdited.connect(self.set_default_value)
-        self.applyToAllButton.clicked.connect(self.apply_to_all)
+        self.applyToAllButton.clicked.connect(self.apply_default_to_all)
+        self.randomToAllButton.clicked.connect(self.apply_random_to_all)
 
     def display_track(self, track, key=None):
         self.track = track
@@ -77,7 +79,18 @@ class AdvancedTrackView(object):
                 eb.valueLine.setText(str(value))
                 eb.dlabel.show()
 
-    def apply_to_all(self):
+    def apply_random_to_all(self):
+        variables = []
+        for eb in self.encoding_boxs:
+            variables.append(eb.checkbox.text())
+        values = self.model.generate_preset(variables)
+        for i, eb in enumerate(self.encoding_boxs):
+            value = int(values[i])
+            eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
+            self.model.ctrl.set_value(eb.checkbox.text(), str(value))
+            eb.dlabel.hide()
+
+    def apply_default_to_all(self):
         for eb in self.encoding_boxs:
             value = self.model.defaultValue
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
@@ -321,23 +334,32 @@ class AdvancedTrackView(object):
         self.switchAllCheckButton.setStyleSheet(buttonStyle)
         self.switchAllCheckButton.setToolTip("Inverse the filter")
 
+        self.randomToAllButton = QPushButton(self.controlFrame)
+        self.randomToAllButton.setObjectName(u"randomToAllButton")
+        self.randomToAllButton.setStyleSheet(buttonStyle)
+        self.randomToAllButton.setToolTip("Apply a random value to all the encoding below.")
+
         self.applyToAllButton = QPushButton(self.controlFrame)
         self.applyToAllButton.setObjectName(u"applyToAllButton")
         self.applyToAllButton.setStyleSheet(buttonStyle)
         self.applyToAllButton.setToolTip("Apply the default value to all the encoding below.")
 
-        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 2, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 2, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 2, 0, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 0, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 0, 0, 1, 1)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacer, 0, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacer, 0, 2, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacer_2, 1, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacer_2, 1, 2, 1, 1)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacer_2, 2, 2, 1, 1)
 
         self.detailsQModeLayout.addWidget(self.controlFrame)
 
@@ -365,3 +387,4 @@ class AdvancedTrackView(object):
         self.checkAllButton.setText(QCoreApplication.translate("Form", u"Check all", None))
         self.switchAllCheckButton.setText(QCoreApplication.translate("Form", u"Switch all", None))
         self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply to all", None))
+        self.randomToAllButton.setText(QCoreApplication.translate("Form", u"Randomize all", None))

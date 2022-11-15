@@ -1,3 +1,6 @@
+from __future__ import annotations
+import ViewsPyQT5.sonification_view as sv
+
 import math
 import threading
 import time
@@ -14,7 +17,7 @@ from matplotlib.figure import Figure
 
 class GraphView():
 
-    def __init__(self, parent):
+    def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         mpl.rcParams["figure.facecolor"] = "323232"
         self.GraphFrame = QFrame()

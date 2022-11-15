@@ -1,9 +1,11 @@
 import logging
 from datetime import datetime
 
+import dateutil
 import numpy as np
 import pandas as pd
-from dateutil.parser import parse
+from dateutil.parser import parse, ParserError
+from pandas import DataFrame
 
 import Ctrls.data_controller
 from Utils.constants import BATCH_SIZE
@@ -46,7 +48,7 @@ class Data:
             #self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
-    def retrieve_data(self, path):
+    def retrieve_data(self, path:str):
         """
         Regarding the file extension, this file calls the right method to retrieve data
         :param path: str,
@@ -64,7 +66,7 @@ class Data:
         else:
             raise FileNotFoundError("Specified data file has not been found at location: {}".format(path))
 
-    def read_data(self, path):
+    def read_data(self, path:str):
         """
         :param path: str
         """
@@ -80,7 +82,7 @@ class Data:
         self.size = self.df.shape[0] + 1
 
     @staticmethod
-    def is_date(string, fuzzy=False):
+    def is_date(string:str, fuzzy=False) ->bool:
         """
         Return whether the string can be interpreted as a date.
         :param string: str, string to check for date
@@ -94,14 +96,14 @@ class Data:
         except TypeError:
             return False
 
-    def get_candidates_timestamp_columns(self):
+    def get_candidates_timestamp_columns(self) -> [str]:
         """
         find and return all columns that looks like a timestamp
         """
         candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
         return candidates
 
-    def get_best_guess_variable(self):
+    def get_best_guess_variable(self) -> str:
         lower = self.header[0]
         for header in self.header:
             varins = [str(x) for x in self.get_variables_instances(header)]
@@ -109,7 +111,7 @@ class Data:
                 lower = header
         return lower
 
-    def get_variables(self):
+    def get_variables(self) -> [str]:
         """
         Get the columns (header) of our dataset
         :return:
@@ -118,7 +120,7 @@ class Data:
         """
         return self.header
 
-    def get_variables_instances(self, column):
+    def get_variables_instances(self, column:str) -> [str]:
         """
         Get unique instances from a column
         :param
@@ -129,10 +131,10 @@ class Data:
         """
         return pd.unique(self.df[column])
 
-    def get_max(self, column):
+    def get_max(self, column:str)->float:
         return max([float(x) for x in self.df[column]])
 
-    def get_min(self, column):
+    def get_min(self, column:str)->float:
         return min([float(x) for x in self.df[column]])
 
     def get_first(self):
@@ -145,7 +147,7 @@ class Data:
         data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]
         return data
 
-    def get_next(self, iterate=False):
+    def get_next(self, iterate=False) -> DataFrame:
         """
         This method send a batch of samples at a same time
         :return:
@@ -158,7 +160,7 @@ class Data:
         return data
 
     @staticmethod
-    def get_datetime(d, additional_format):
+    def get_datetime(d, additional_format:str) -> datetime:
         """
         :param
             d: str,
@@ -172,6 +174,8 @@ class Data:
 
         formats = ['%d/%m/%Y %H:%M:%S',
                    '%d/%m/%y %H:%M:%S',
+                   '%Y-%m-%d %H:%M:%S', #2014-03-31 13:28:25
+                   '%y-%m-%d %H:%M:%S', #14-03-31 13:28:25
                    '%H:%M:%S PM'  #1:20:21 PM
                    ]
         if additional_format != "":
@@ -185,10 +189,14 @@ class Data:
                 return date
             except ValueError:
                 pass
-        raise ValueError("No format found for this timestamp.")
+        try:
+            yourdate = dateutil.parser.parse(d)
+            return yourdate
+        except ParserError:
+            raise ValueError("No format found for this timestamp: {}".format(d))
 
 
-    def assign_timestamps(self, additional_format=""):
+    def assign_timestamps(self, additional_format="") -> None:
         """
         Method to assign timestamp to a new column
         """
@@ -205,7 +213,7 @@ class Data:
         self.first_date = first_date.timestamp()
         self.last_date = last_date.timestamp()
 
-    def reset_playing_index(self):
+    def reset_playing_index(self) -> None:
         self.index = 0
 
     def get_insight(self, col):

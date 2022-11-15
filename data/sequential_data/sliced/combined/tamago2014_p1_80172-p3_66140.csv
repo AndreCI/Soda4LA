@@ -1,0 +1,202 @@
+id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetypemou;code;message;codage_chat_message;help;resource_id;item_id;resourcetype;mode_of_use;resource_title;creationdate;rightsagreements;resource_size;item_size;reason;game_id;level_id;iswon
+24461;2014-04-03 13:05:25;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;18;264;book;;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20632;2014-04-03 13:05:25;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;journal;;;_;;119;550;journal;;Le Nouvel observateur;1964;Droits d'auteur;/;10 articles;;713;1;1
+20633;2014-04-03 13:05:35;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;book;;;_;;3;149;book;;L'illusion comique : comedie;1639;Domaine Public;/124 p.;4;;713;1;1
+20637;2014-04-03 13:05:53;addToFridge;addToFridge;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;3;149;book;printedCopies;L'illusion comique : comedie;1639;Domaine Public;/124 p.;4;;713;1;1
+24466;2014-04-03 13:06:00;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;18;264;book;;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20640;2014-04-03 13:06:26;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;book;;;_;;43;337;book;;Le Grand Meaulnes;1913;Domaine Public;/;100;;713;1;1
+24474;2014-04-03 13:06:32;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;18;264;book;;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20643;2014-04-03 13:06:38;addToFridge;addToFridge;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;713;1;1
+20644;2014-04-03 13:06:46;help;help;66;140;66140;p3_66140;O;;;;_;Acces aide en ligne;;;;;;;;/;;;713;1;1
+20650;2014-04-03 13:06:53;helpLink;helpLink;66;140;66140;p3_66140;O;;;;_;Droit d'auteur et exception pedagogique;;;;;;;;/;;;713;1;1
+20653;2014-04-03 13:07:08;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;journal;;;_;;117;542;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;713;1;1
+24484;2014-04-03 13:07:11;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;18;264;book;;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20655;2014-04-03 13:07:17;addToFridge;addToFridge;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;117;542;journal;printedCopies;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;713;1;1
+20658;2014-04-03 13:07:23;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;3;149;book;printedCopies;L'illusion comique : comedie;1639;Domaine Public;/124 p.;4;;713;1;1
+20659;2014-04-03 13:07:27;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;713;1;1
+24491;2014-04-03 13:07:33;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookoral;;;_;;18;264;book;oral;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+24498;2014-04-03 13:08:01;help;help;80;172;80172;p1_80172;O;;;;_;Acces aide en ligne;;;;;;;;/;;;850;1;1
+20667;2014-04-03 13:08:03;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;book;;;_;;42;326;book;;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);1;;713;1;1
+24506;2014-04-03 13:08:16;helpLink;helpLink;80;172;80172;p1_80172;O;;;;_;Droit d'auteur et exception pedagogique;;;;;;;;/;;;850;1;1
+20668;2014-04-03 13:08:17;addToFridge;addToFridge;66;140;66140;p3_66140;O;bookprojection;;;_;;42;326;book;projection;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);1;Sous droits d'auteur;713;1;1
+20670;2014-04-03 13:08:21;showItem;showItemFRIDGE;66;140;66140;p3_66140;O;bookprojection;;;_;;42;326;book;projection;La litterature de jeunesse migrante recits d'immigration de l'Algerie a la France;2013;Droits d'auteur;/1 vol. (419 p.);1;Sous droits d'auteur;713;1;1
+20673;2014-04-03 13:08:37;showItem;showItemFRIDGE;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;3;144;book;printedCopies;L'illusion comique : comedie;1639;Domaine Public;/124 p.;integrale;;713;1;1
+20674;2014-04-03 13:08:45;feedTamago;feedTamagoBad;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;117;542;journal;printedCopies;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;713;1;1
+20677;2014-04-03 13:08:59;chat;chat;66;140;66140;p3_66140;O;;NC;salut !;NC_salut !;;;;;;;;;/;;;713;1;1
+20680;2014-04-03 13:09:24;chat;chat;66;140;66140;p3_66140;O;;O;Je l'ai fait tomber malade avec science et vie ...;O_Je l'ai fait tomber malade avec science et vie ...;;;;;;;;;/;;;713;1;1
+20685;2014-04-03 13:09:37;showItem;showItemLEVEL;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;117;542;journal;printedCopies;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;714;2;1
+24533;2014-04-03 13:09:41;tuto;tuto;80;172;80172;p1_80172;O;;;;_;;;;;;;;;/;;;850;1;1
+20688;2014-04-03 13:09:48;showItem;showItemLEVEL;66;140;66140;p3_66140;O;journalprojection;;;_;;119;547;journal;projection;Le Nouvel observateur;1964;Droits d'auteur;/;1 article;Sous droits d'auteur;714;2;1
+20689;2014-04-03 13:09:53;showItem;showItemLEVEL;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;43;337;book;printedCopies;Le Grand Meaulnes;1913;Domaine Public;/;100;;714;2;1
+20690;2014-04-03 13:09:57;showItem;showItemLEVEL;66;140;66140;p3_66140;O;bookprintedCopies;;;_;;3;149;book;printedCopies;L'illusion comique : comedie;1639;Domaine Public;/124 p.;4;;714;2;1
+20691;2014-04-03 13:10:03;showItem;showItemLEVEL;66;140;66140;p3_66140;O;journaloral;;;_;;105;492;journal;oral;20 minutes;2005;Droits d'auteur;/;3 articles;;714;2;1
+20693;2014-04-03 13:10:08;showItem;showItemLEVEL;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;113;534;journal;printedCopies;Le Figaro collection 1826-1935;;Domaine public;/;3 articles;;714;2;1
+20696;2014-04-03 13:10:15;showItem;showItemLEVEL;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;117;542;journal;printedCopies;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;714;2;1
+24551;2014-04-03 13:10:20;showItem;showItemFRIDGE;80;172;80172;p1_80172;O;bookoral;;;_;;18;264;book;oral;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20697;2014-04-03 13:10:32;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;book;;;_;;47;360;book;;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;714;2;1
+20704;2014-04-03 13:10:51;addToFridge;addToFridge;66;140;66140;p3_66140;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;714;2;1
+24572;2014-04-03 13:11:09;help;help;80;172;80172;p1_80172;O;;;;_;Acces aide en ligne;;;;;;;;/;;;850;1;1
+20708;2014-04-03 13:11:11;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;journal;;;_;;112;524;journal;;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;714;2;1
+20712;2014-04-03 13:11:26;addToFridge;addToFridge;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;112;524;journal;printedCopies;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;714;2;1
+20716;2014-04-03 13:11:52;showItem;showItemFRIDGE;66;140;66140;p3_66140;O;bookassessments;;;_;;47;365;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;1;;714;2;1
+20718;2014-04-03 13:11:59;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;714;2;1
+20721;2014-04-03 13:12:07;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;journalprintedCopies;;;_;;112;524;journal;printedCopies;education nationale. Journal general de l'enseignement primaire;1890;Domaine public;/;integrale;;714;2;1
+20723;2014-04-03 13:12:16;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;sound;;;_;;337;458;sound;;People, hell and angels;2013;Droits d'auteur;/;3 min;;714;2;1
+20725;2014-04-03 13:12:34;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;journal;;;_;;12;218;journal;;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;714;2;1
+20726;2014-04-03 13:12:45;addToFridge;addToFridge;66;140;66140;p3_66140;O;journalphotocopy;;;_;;12;218;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;714;2;1
+20727;2014-04-03 13:12:47;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;journalphotocopy;;;_;;12;218;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;714;2;1
+24618;2014-04-03 13:12:52;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;bookoral;;;_;;18;264;book;oral;Giotto et les humanistes la decouverte de la composition en peinture 1340-1450;2013;Droits d'auteur;/1 vol. (277 p.);12;;850;1;1
+20728;2014-04-03 13:12:57;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;sound;;;_;;303;383;sound;;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;;714;2;1
+20731;2014-04-03 13:13:13;addToFridge;addToFridge;66;140;66140;p3_66140;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;714;2;1
+24630;2014-04-03 13:13:15;chat;chat;80;172;80172;p1_80172;O;;NC;il est pas tres difficile;NC_il est pas tres difficile;;;;;;;;;/;;;850;1;1
+20733;2014-04-03 13:13:26;addToFridge;addToFridge;66;140;66140;p3_66140;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;714;2;1
+20735;2014-04-03 13:13:30;showItem;showItemFRIDGE;66;140;66140;p3_66140;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;714;2;1
+20737;2014-04-03 13:13:46;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;714;2;1
+24661;2014-04-03 13:14:06;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;313;412;sound;;Rolling in the deep;2011;Droits d'auteur;3 min/;Integrale;;855;2;0
+20741;2014-04-03 13:14:09;addToFridge;addToFridge;66;140;66140;p3_66140;O;journalphotocopy;;;_;;13;222;journal;photocopy;Madame Bovary;2009;Droits d'auteur CFC;/1 vol. (416 p.);5;;715;3;1
+20743;2014-04-03 13:14:13;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;image;;;_;;403;36;image;;Schema interrupteur simple;;Droits d'auteur;/;25 Images;;715;3;1
+24669;2014-04-03 13:14:18;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;337;458;sound;;People, hell and angels;2013;Droits d'auteur;/;3 min;;855;2;0
+20745;2014-04-03 13:14:22;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;printedmusic;;;_;;534;985;printedmusic;;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;715;3;1
+24674;2014-04-03 13:14:23;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;301;379;sound;;Unknown Legend;2009;Droits d'auteur;5 min/;Integrale;;855;2;0
+20747;2014-04-03 13:14:32;addToFridge;addToFridge;66;140;66140;p3_66140;O;printedmusicprintedCopies;;;_;;534;985;printedmusic;printedCopies;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;715;3;1
+20749;2014-04-03 13:14:34;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;printedmusicprintedCopies;;;_;;534;985;printedmusic;printedCopies;Barcarolle pour piano : op. 60 / par F. Chopin;1846;Domaine Public;"/11 p. : couv. orn. ; 35 cm";8;;715;3;1
+20752;2014-04-03 13:14:52;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;journalphotocopy;;;_;;13;222;journal;photocopy;Madame Bovary;2009;Droits d'auteur CFC;/1 vol. (416 p.);5;;715;3;1
+20756;2014-04-03 13:15:02;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;image;;;_;;415;115;image;;Fontaine Baroque;2013;;/;72 dpi;;715;3;1
+20758;2014-04-03 13:15:10;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;image;;;_;;415;115;image;;Fontaine Baroque;2013;;/;72 dpi;;715;3;1
+20759;2014-04-03 13:15:23;addToFridge;addToFridge;66;140;66140;p3_66140;O;imageprojection;;;_;;415;115;image;projection;Fontaine Baroque;2013;;/;72 dpi;;715;3;1
+24704;2014-04-03 13:15:26;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;855;2;0
+20761;2014-04-03 13:15:26;feedTamago;feedTamagoGood;66;140;66140;p3_66140;O;imageprojection;;;_;;415;115;image;projection;Fontaine Baroque;2013;;/;72 dpi;;715;3;1
+20764;2014-04-03 13:15:48;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;sound;;;_;;300;376;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;Integrale;;715;3;1
+24714;2014-04-03 13:15:50;chat;chat;80;172;80172;p1_80172;O;;NC;c'est toujours aussi obscur les regles pour vous ?;NC_c'est toujours aussi obscur les regles pour vous ?;;;;;;;;;/;;;855;2;0
+24724;2014-04-03 13:16:01;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;855;2;0
+24731;2014-04-03 13:16:17;chat;chat;80;172;80172;p1_80172;O;;OJ;non vous faites n'importe quoi;OJ_non vous faites n'importe quoi;;;;;;;;;/;;;855;2;0
+24734;2014-04-03 13:16:21;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;309;403;sound;;J'attends l'orage;2006;Creative Commons;3 min/;Integrale;;855;2;0
+20771;2014-04-03 13:16:22;showItemCupboard;showItemCupboard;66;140;66140;p3_66140;O;video;;;_;;206;636;video;;Les predateurs de la savane, une lutte pour la survie;212;Droits d'auteur;50 mi/;2 min;;716;4;0
+24745;2014-04-03 13:16:41;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;855;2;0
+24746;2014-04-03 13:16:44;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;855;2;0
+24756;2014-04-03 13:16:56;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;12;218;journal;;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;855;2;0
+24769;2014-04-03 13:17:29;chat;chat;80;172;80172;p1_80172;O;;NC;bon calmons nous il va mourir;NC_bon calmons nous il va mourir;;;;;;;;;/;;;855;2;0
+24787;2014-04-03 13:17:53;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalphotocopy;;;_;;12;218;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;855;2;0
+24792;2014-04-03 13:17:55;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;journalphotocopy;;;_;;12;218;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);6;;855;2;0
+24804;2014-04-03 13:18:11;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;journalassessments;;;_;;121;561;journal;assessments;Le Monde;1944;Droits d'auteur CFC;/;1 article;Non couvert par l'accord;855;2;0
+24813;2014-04-03 13:18:23;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;bookassessments;;;_;;47;360;book;assessments;Exercices de Mathematiques pour ma classe de 2nd;2012;Creative Commons;/25p;24;;855;2;0
+24817;2014-04-03 13:18:31;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;855;2;0
+24833;2014-04-03 13:18:52;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;855;2;0
+24834;2014-04-03 13:18:54;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;soundprojection;;;_;;337;455;sound;projection;People, hell and angels;2013;Droits d'auteur;/;25 s;;855;2;0
+24845;2014-04-03 13:19:08;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;soundprojection;;;_;;303;383;sound;projection;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;15 s;Non couvert par l'accord;855;2;0
+24854;2014-04-03 13:19:22;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;46;358;book;;Silas Corey - Le reseau Aquila - Tome 1;2013;Droits d'auteur;/1 vol. (64 p.);7;;855;2;0
+24860;2014-04-03 13:19:38;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookprojection;;;_;;46;358;book;projection;Silas Corey - Le reseau Aquila - Tome 1;2013;Droits d'auteur;/1 vol. (64 p.);7;Sous droits d'auteur;855;2;0
+24864;2014-04-03 13:19:41;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;bookprojection;;;_;;46;358;book;projection;Silas Corey - Le reseau Aquila - Tome 1;2013;Droits d'auteur;/1 vol. (64 p.);7;Sous droits d'auteur;855;2;0
+24877;2014-04-03 13:20:00;chat;chat;80;172;80172;p1_80172;O;;NC;Martin le plongeur qu'en dis tu ?;NC_Martin le plongeur qu'en dis tu ?;;;;;;;;;/;;;855;2;0
+24887;2014-04-03 13:20:11;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;301;379;sound;;Unknown Legend;2009;Droits d'auteur;5 min/;Integrale;;855;2;0
+24950;2014-04-03 13:21:48;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;855;2;0
+24952;2014-04-03 13:21:50;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;journalprintedCopies;;;_;;105;489;journal;printedCopies;20 minutes;2005;Droits d'auteur;/;1 article;Sous droits d'auteur;855;2;0
+24977;2014-04-03 13:22:24;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;461;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;864;2;0
+24996;2014-04-03 13:22:57;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;351;book;;Litterature pour ma classe;2013;Creative Commons;/12p;6;;864;2;0
+25002;2014-04-03 13:23:07;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookprintedCopies;;;_;;45;351;book;printedCopies;Litterature pour ma classe;2013;Creative Commons;/12p;6;;864;2;0
+25003;2014-04-03 13:23:10;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;bookprintedCopies;;;_;;45;351;book;printedCopies;Litterature pour ma classe;2013;Creative Commons;/12p;6;;864;2;0
+25011;2014-04-03 13:23:17;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;335;447;sound;;The next day;2013;Droits d'auteur;/;15 s;;864;2;0
+25035;2014-04-03 13:23:59;chat;chat;80;172;80172;p1_80172;O;;NC;Ok je crois que j'ai compris;NC_Ok je crois que j'ai compris;;;;;;;;;/;;;864;2;0
+25042;2014-04-03 13:24:11;chat;chat;80;172;80172;p1_80172;O;;OJ;il y a plusieurs exemplaires du meme objet pedagogique;OJ_il y a plusieurs exemplaires du meme objet pedagogique;;;;;;;;;/;;;864;2;0
+25045;2014-04-03 13:24:24;chat;chat;80;172;80172;p1_80172;O;;OJ;et a mon avis il faut voir ce qui varie dans les caracteristiques et choisir le bon;OJ_et a mon avis il faut voir ce qui varie dans les caracteristiques et choisir le bon;;;;;;;;;/;;;864;2;0
+25050;2014-04-03 13:24:40;chat;chat;80;172;80172;p1_80172;O;;OJ;moi je vais comparer les differents comparer les carnets de Mo;OJ_moi je vais comparer les differents comparer les carnets de Mo;;;;;;;;;/;;;864;2;0
+25063;2014-04-03 13:25:08;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;461;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;864;2;0
+25072;2014-04-03 13:25:24;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;460;sound;;Carnet de Mo;2012;Droits d'auteur;/;4 min;;864;2;0
+25078;2014-04-03 13:25:37;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;462;sound;;Carnet de Mo;2012;Droits d'auteur;/;2 min;;864;2;0
+25083;2014-04-03 13:25:43;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;461;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;864;2;0
+25087;2014-04-03 13:25:52;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;338;462;sound;projection;Carnet de Mo;2012;Droits d'auteur;/;2 min;;864;2;0
+25088;2014-04-03 13:25:54;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundprojection;;;_;;338;462;sound;projection;Carnet de Mo;2012;Droits d'auteur;/;2 min;;864;2;0
+25111;2014-04-03 13:26:55;chat;chat;80;172;80172;p1_80172;O;;OJ;Bon je m'attaque a arret sur image;OJ_Bon je m'attaque a arret sur image;;;;;;;;;/;;;864;2;0
+25113;2014-04-03 13:27:10;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;101;467;journal;;arret sur image;1995;Droits d'auteur;/;2 articles;;864;2;0
+25128;2014-04-03 13:27:48;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;101;468;journal;;arret sur image;1995;Droits d'auteur;/;5 articles;;864;2;0
+25133;2014-04-03 13:28:02;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalprintedCopies;;;_;;101;467;journal;printedCopies;arret sur image;1995;Droits d'auteur;/;2 articles;Sous droits d'auteur;864;2;0
+25134;2014-04-03 13:28:07;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;journalprintedCopies;;;_;;101;467;journal;printedCopies;arret sur image;1995;Droits d'auteur;/;2 articles;Sous droits d'auteur;864;2;0
+25140;2014-04-03 13:28:21;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;24;286;book;;L'oracle della Luna Tome 2 lea amants de Venise;2013;Droits d'auteur;/1 vol. (56 p.);4;;864;2;0
+25143;2014-04-03 13:28:35;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;311;407;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;10 s;;864;2;0
+25150;2014-04-03 13:28:49;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;311;408;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;2 min;;864;2;0
+25153;2014-04-03 13:28:54;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;460;sound;;Carnet de Mo;2012;Droits d'auteur;/;4 min;;864;2;0
+25162;2014-04-03 13:29:09;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;311;408;sound;projection;Salt Peanuts;1961;Droits d'auteur;6 min/;2 min;Non couvert par l'accord;864;2;0
+25164;2014-04-03 13:29:11;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;soundprojection;;;_;;311;408;sound;projection;Salt Peanuts;1961;Droits d'auteur;6 min/;2 min;Non couvert par l'accord;864;2;0
+25183;2014-04-03 13:29:51;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;311;408;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;2 min;;867;2;1
+25185;2014-04-03 13:29:55;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;311;407;sound;;Salt Peanuts;1961;Droits d'auteur;6 min/;10 s;;867;2;1
+25191;2014-04-03 13:30:05;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;461;sound;;Carnet de Mo;2012;Droits d'auteur;/;3 s;;867;2;1
+25194;2014-04-03 13:30:10;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;338;462;sound;;Carnet de Mo;2012;Droits d'auteur;/;2 min;;867;2;1
+25200;2014-04-03 13:30:19;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;338;462;sound;projection;Carnet de Mo;2012;Droits d'auteur;/;2 min;;867;2;1
+25203;2014-04-03 13:30:21;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundprojection;;;_;;338;462;sound;projection;Carnet de Mo;2012;Droits d'auteur;/;2 min;;867;2;1
+25214;2014-04-03 13:30:41;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;349;book;;Litterature pour ma classe;2013;Creative Commons;/12p;2;;867;2;1
+25223;2014-04-03 13:30:54;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;351;book;;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25235;2014-04-03 13:31:21;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;351;book;;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25240;2014-04-03 13:31:31;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;349;book;;Litterature pour ma classe;2013;Creative Commons;/12p;2;;867;2;1
+25250;2014-04-03 13:31:45;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;346;book;;Litterature pour ma classe;2013;Creative Commons;/12p;integrale;;867;2;1
+25257;2014-04-03 13:31:52;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;351;book;;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25260;2014-04-03 13:32:03;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookprintedCopies;;;_;;45;351;book;printedCopies;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25261;2014-04-03 13:32:06;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;bookprintedCopies;;;_;;45;351;book;printedCopies;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25267;2014-04-03 13:32:16;chat;chat;80;172;80172;p1_80172;O;;OJ;Bon maintenant il faut reflechjir;OJ_Bon maintenant il faut reflechjir;;;;;;;;;/;;;867;2;1
+25270;2014-04-03 13:32:20;chat;chat;80;172;80172;p1_80172;O;;NC;il est en forme l)a;NC_il est en forme l)a;;;;;;;;;/;;;867;2;1
+25272;2014-04-03 13:32:26;chat;chat;80;172;80172;p1_80172;O;;NC;il faut pas qu'on perde a nouveau;NC_il faut pas qu'on perde a nouveau;;;;;;;;;/;;;867;2;1
+25274;2014-04-03 13:32:39;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;307;395;sound;;Mystic River;2006;Creative Commons;1 min/;10 s;;867;2;1
+25281;2014-04-03 13:33:03;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;307;397;sound;;Mystic River;2006;Creative Commons;1 min/;Integrale;;867;2;1
+25291;2014-04-03 13:33:26;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;307;397;sound;projection;Mystic River;2006;Creative Commons;1 min/;Integrale;;867;2;1
+25292;2014-04-03 13:33:30;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundprojection;;;_;;307;397;sound;projection;Mystic River;2006;Creative Commons;1 min/;Integrale;;867;2;1
+25299;2014-04-03 13:33:43;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;101;468;journal;;arret sur image;1995;Droits d'auteur;/;5 articles;;867;2;1
+25303;2014-04-03 13:33:47;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;101;467;journal;;arret sur image;1995;Droits d'auteur;/;2 articles;;867;2;1
+25311;2014-04-03 13:33:55;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalassessments;;;_;;101;467;journal;assessments;arret sur image;1995;Droits d'auteur;/;2 articles;Sous droits d'auteur;867;2;1
+25313;2014-04-03 13:33:58;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;journalassessments;;;_;;101;467;journal;assessments;arret sur image;1995;Droits d'auteur;/;2 articles;Sous droits d'auteur;867;2;1
+25329;2014-04-03 13:34:47;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;110;514;journal;;L'Aurore : litteraire, artistique, sociale;;Domaine public;/;2 articles;;867;2;1
+25337;2014-04-03 13:35:03;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;soundprojection;;;_;;307;397;sound;projection;Mystic River;2006;Creative Commons;1 min/;Integrale;;867;2;1
+25340;2014-04-03 13:35:16;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;bookprintedCopies;;;_;;45;351;book;printedCopies;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25346;2014-04-03 13:35:21;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;soundprojection;;;_;;338;462;sound;projection;Carnet de Mo;2012;Droits d'auteur;/;2 min;;867;2;1
+25358;2014-04-03 13:35:57;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;soundprojection;;;_;;300;375;sound;projection;What We Are Worth;2010;Droits d'auteur;6 min/;25 min;;867;2;1
+25383;2014-04-03 13:37:08;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;45;350;book;;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25386;2014-04-03 13:37:16;addToFridge;addToFridge;80;172;80172;p1_80172;O;bookassessments;;;_;;45;350;book;assessments;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25390;2014-04-03 13:37:23;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;bookassessments;;;_;;45;350;book;assessments;Litterature pour ma classe;2013;Creative Commons;/12p;6;;867;2;1
+25398;2014-04-03 13:37:46;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;532;974;printedmusic;;Les ruines d'Athenes : paraphrase sur le drame lyrique de Beethoven : [pour piano] : op. 342 / par J. L. Battmann;1873;Domaine Public;"/7 p. ; 35 cm";5;;873;3;1
+25404;2014-04-03 13:38:04;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;532;971;printedmusic;;Les ruines d'Athenes : paraphrase sur le drame lyrique de Beethoven : [pour piano] : op. 342 / par J. L. Battmann;1873;Domaine Public;"/7 p. ; 35 cm";2;;873;3;1
+25407;2014-04-03 13:38:12;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;532;974;printedmusic;;Les ruines d'Athenes : paraphrase sur le drame lyrique de Beethoven : [pour piano] : op. 342 / par J. L. Battmann;1873;Domaine Public;"/7 p. ; 35 cm";5;;873;3;1
+25425;2014-04-03 13:38:59;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;315;416;sound;;Chansons pour la classe;2004;;12 mi/;10 min;;873;3;1
+25431;2014-04-03 13:39:31;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundprojection;;;_;;315;416;sound;projection;Chansons pour la classe;2004;;12 mi/;10 min;;873;3;1
+25435;2014-04-03 13:39:40;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundprojection;;;_;;315;416;sound;projection;Chansons pour la classe;2004;;12 mi/;10 min;;873;3;1
+25442;2014-04-03 13:40:22;chat;chat;80;172;80172;p1_80172;O;;NC;Bon on comprend rien mais on a de la chance;NC_Bon on comprend rien mais on a de la chance;;;;;;;;;/;;;873;3;1
+25445;2014-04-03 13:40:43;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;1;image;;Plan de Paris;;Droits d'auteur;/;72 dpi;;873;3;1
+25448;2014-04-03 13:40:54;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;3;image;;Plan de Paris;;Droits d'auteur;/;72 dpi;;873;3;1
+25452;2014-04-03 13:41:20;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;4;image;;Plan de Paris;;Droits d'auteur;/;150 dpi;;873;3;1
+25455;2014-04-03 13:41:27;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;1;image;;Plan de Paris;;Droits d'auteur;/;72 dpi;;873;3;1
+25458;2014-04-03 13:41:39;addToFridge;addToFridge;80;172;80172;p1_80172;O;imageintranet;;;_;;401;4;image;intranet;Plan de Paris;;Droits d'auteur;/;150 dpi;Résolution non valide;873;3;1
+25459;2014-04-03 13:41:42;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;imageintranet;;;_;;401;4;image;intranet;Plan de Paris;;Droits d'auteur;/;150 dpi;Résolution non valide;873;3;1
+25464;2014-04-03 13:41:59;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;3;image;;Plan de Paris;;Droits d'auteur;/;72 dpi;;873;3;1
+25466;2014-04-03 13:42:07;help;help;80;172;80172;p1_80172;O;;;;_;Acces aide en ligne;;;;;;;;/;;;873;3;1
+25471;2014-04-03 13:42:30;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;117;546;journal;;Science et vie;1913;Droits d'auteur;/;8 articles;;873;3;1
+25475;2014-04-03 13:42:46;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;117;541;journal;;Science et vie;1913;Droits d'auteur;/;1 article;;873;3;1
+25479;2014-04-03 13:43:03;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;117;546;journal;;Science et vie;1913;Droits d'auteur;/;8 articles;;873;3;1
+25483;2014-04-03 13:43:20;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalphotocopy;;;_;;117;541;journal;photocopy;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;873;3;1
+25484;2014-04-03 13:43:23;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;journalphotocopy;;;_;;117;541;journal;photocopy;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;873;3;1
+25485;2014-04-03 13:43:27;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;journalphotocopy;;;_;;117;541;journal;photocopy;Science et vie;1913;Droits d'auteur;/;1 article;Sous droits d'auteur;873;3;1
+25491;2014-04-03 13:43:44;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;303;384;sound;;Chefs d'oeuvre et decouvertes;2013;Droits d'auteur;120 m/;35 min;;873;3;1
+25492;2014-04-03 13:43:49;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;336;452;sound;;Comedown Machine;2013;Droits d'auteur;39 mi/;2 min;;873;3;1
+25496;2014-04-03 13:43:55;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;519;871;printedmusic;;Concert italien pour le piano;1915;Droits d'auteur;/1 partition (12 p.);2;;873;3;1
+25497;2014-04-03 13:44:00;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;journal;;;_;;12;214;journal;;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);4;;873;3;1
+25500;2014-04-03 13:44:16;addToFridge;addToFridge;80;172;80172;p1_80172;O;journalphotocopy;;;_;;12;214;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);4;;873;3;1
+25503;2014-04-03 13:44:29;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;journalphotocopy;;;_;;12;214;journal;photocopy;Celle qui m'aime et autres nouvelles;2012;Droits d'auteur;/1 vol. (223 p.);4;;873;3;1
+25505;2014-04-03 13:44:45;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;314;413;sound;;Is This Love;2003;Droits d'auteur;3 min/;15 s;;874;4;1
+25510;2014-04-03 13:44:59;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;video;;;_;;211;646;video;;Simone Veil La loi d'une femme;208;Droits d'auteur;52 mI/;3 min;;874;4;1
+25517;2014-04-03 13:45:45;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;403;26;image;;Schema interrupteur simple;;Droits d'auteur;/;100 dpi;;874;4;1
+25532;2014-04-03 13:46:59;addToFridge;addToFridge;80;172;80172;p1_80172;O;soundintranet;;;_;;315;416;sound;intranet;Chansons pour la classe;2004;;12 mi/;10 min;;874;4;1
+25533;2014-04-03 13:47:03;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;soundintranet;;;_;;315;416;sound;intranet;Chansons pour la classe;2004;;12 mi/;10 min;;874;4;1
+25536;2014-04-03 13:47:14;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;book;;;_;;9;194;book;;Dictionnaire de la pensee du cinema;2012;Droits d'auteur;/1 vol. (XV-792 p.);4;;874;4;1
+25543;2014-04-03 13:47:59;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;video;;;_;;202;622;video;;Metropolis;1923;Domaine Public;153 m/;50 min;;875;5;1
+25545;2014-04-03 13:48:08;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;video;;;_;;202;621;video;;Metropolis;1923;Domaine Public;153 m/;5 min;;875;5;1
+25546;2014-04-03 13:48:19;addToFridge;addToFridge;80;172;80172;p1_80172;O;videointranet;;;_;;202;621;video;intranet;Metropolis;1923;Domaine Public;153 m/;5 min;;875;5;1
+25547;2014-04-03 13:48:21;feedTamago;feedTamagoGood;80;172;80172;p1_80172;O;videointranet;;;_;;202;621;video;intranet;Metropolis;1923;Domaine Public;153 m/;5 min;;875;5;1
+25549;2014-04-03 13:48:31;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;402;22;image;;Carte du Monde;;Droits d'auteur;/;23 Images;;875;5;1
+25551;2014-04-03 13:48:38;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;401;11;image;;Plan de Paris;;Droits d'auteur;/;10 Images;;875;5;1
+25556;2014-04-03 13:48:58;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;527;936;printedmusic;;M [Musique imprimee] : Qui de nous deux : solfege-tablatures-chant-guitares-claviers-basse-batterie-percussions-violons-kazoo / M;2003;Droits d'auteur CFC;/1 partition (128 p.);1;;875;5;1
+25560;2014-04-03 13:49:18;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;printedmusic;;;_;;522;899;printedmusic;;Fugue en sol mineur pour orgue;1937;Droits d'auteur;"/1 partition (7p.); 32 cm";6;;875;5;1
+25565;2014-04-03 13:49:31;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;300;374;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;3 s;;875;5;1
+25567;2014-04-03 13:49:40;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;300;376;sound;;What We Are Worth;2010;Droits d'auteur;6 min/;Integrale;;875;5;1
+25573;2014-04-03 13:50:13;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;412;103;image;;Ambroise Thomas;1880;Domaine Public;/;72 dpi;;875;5;1
+25576;2014-04-03 13:50:23;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;image;;;_;;406;51;image;;Nu bleu;1952;Droits d'auteur;/;72 dpi;;875;5;1
+25579;2014-04-03 13:50:38;addToFridge;addToFridge;80;172;80172;p1_80172;O;imageintranet;;;_;;406;51;image;intranet;Nu bleu;1952;Droits d'auteur;/;72 dpi;Sous droits d'auteur;875;5;1
+25580;2014-04-03 13:50:40;feedTamago;feedTamagoBad;80;172;80172;p1_80172;O;imageintranet;;;_;;406;51;image;intranet;Nu bleu;1952;Droits d'auteur;/;72 dpi;Sous droits d'auteur;875;5;1
+25582;2014-04-03 13:50:46;showItem;showItemTAMAGO;80;172;80172;p1_80172;O;imageintranet;;;_;;406;51;image;intranet;Nu bleu;1952;Droits d'auteur;/;72 dpi;Sous droits d'auteur;875;5;1
+25585;2014-04-03 13:50:53;showItem;showItemSTOMACH;80;172;80172;p1_80172;O;imageintranet;;;_;;406;51;image;intranet;Nu bleu;1952;Droits d'auteur;/;72 dpi;Sous droits d'auteur;875;5;1
+25589;2014-04-03 13:51:12;showItemCupboard;showItemCupboard;80;172;80172;p1_80172;O;sound;;;_;;331;427;sound;;The symphonies;2013;Droits d'auteur;/;25 s;;875;5;1

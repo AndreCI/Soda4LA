@@ -1,8 +1,13 @@
 import logging
+import random
+from typing import Tuple, Any
+
+import numpy as np
+from pandas import DataFrame
 
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Models.data_model import Data
-from Models.note_model import note_to_int
+import Models.note_model as note
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
 
@@ -54,7 +59,7 @@ class ParameterEncoding:
         self.peView = None
         self.data = Data.getInstance()
 
-    def get_parameter(self, row):
+    def get_parameter(self, row:DataFrame) -> int:
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user
         and the encoding.
@@ -77,7 +82,7 @@ class ParameterEncoding:
             logging.log(logging.ERROR,"Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
-    def evaluate_with_fonction(self, value):
+    def evaluate_with_fonction(self, value:str)->int:
         return_value = self.defaultValue
         if (self.functionEncoding["function"] == "linear"):
             ratio = float((self.data.get_min(self.filter.column)) / self.data.get_max(self.filter.column))
@@ -86,7 +91,7 @@ class ParameterEncoding:
             raise NotImplementedError()
         return return_value if self.encoded_var != "value" else return_value + 12 * int(self.octave)
 
-    def assign_function_encoding(self, function: str, min_val: int, max_val: int):
+    def assign_function_encoding(self, function: str, min_val: int, max_val: int)->None:
         """
         Assign a function with parameter as encoding, according to user preference
         :param function: type of encoding to use, such as linear or log
@@ -97,7 +102,7 @@ class ParameterEncoding:
         self.functionEncoding["min"] = min_val
         self.functionEncoding["max"] = max_val
 
-    def assign_handpicked_encoding(self, variables: [], values: [], octave="4"):
+    def assign_handpicked_encoding(self, variables: [], values: [], octave="4")->None:
         """
         Assign values to variable, accordingly to user preference.
         :param variables: list,
@@ -109,9 +114,20 @@ class ParameterEncoding:
             raise ValueError()
         for var, val in zip(variables, values):
             # self.handpickEncoding[var] = []
-            self.handpickEncoding[var] = note_to_int(val, int(octave)) if self.encoded_var == "value" else val
-        self.defaultValue = note_to_int(values[0], int(octave)) if self.encoded_var == "value" else values[0]
+            self.handpickEncoding[var] = note.note_to_int(val, int(octave)) if self.encoded_var == "value" else val
+        self.defaultValue = note.note_to_int(values[0], int(octave)) if self.encoded_var == "value" else values[0]
         self.octave = octave
 
-    def get_variables_instances(self):
+    def get_variables_instances(self) -> [str]:
         return self.data.get_variables_instances(self.filter.column)
+
+    def generate_preset(self, variable:[]) -> [int]:
+        minimum_val = 0
+        maximum_val = 127
+        if self.encoded_var == "value":
+            maximum_val = 12
+        elif self.encoded_var == "duration":
+            maximum_val = 300
+        values = np.linspace(start=minimum_val, stop=maximum_val, num=len(variable))
+        random.shuffle(values)
+        return values

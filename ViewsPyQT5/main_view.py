@@ -76,6 +76,7 @@ class MainWindow(QMainWindow):
         self.setStatusBar(self.statusbar)
 
     def show_load_data(self):
+        self.sonification_main_widget.topBarView.press_stop_button()
         if self.sonification_main_widget.tableView.data_model is not None:
             self.sonification_main_widget.tableView.data_model.reset()
         self.sonification_main_widget.trackView.TrackSelectScrollArea.hide()
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
         self.settingsAction.setEnabled(False)
         self.sonification_main_widget.topBarView.AddTrackButton.setEnabled(False)
         self.sonification_main_widget.topBarView.SettingsButton.setEnabled(False)
+
         self.sonification_main_widget.tableView.load_data()
 
     def load_data(self):
