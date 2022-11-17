@@ -17,13 +17,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_p1_56107-p2_4984.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\data\sequential_data\sliced\tamago2014_p2_4984.csv">
           <value>
             <Attribute>
@@ -32,62 +25,6 @@
           </value>
         </entry>
         <entry key="\data\sequential_data\sliced\tamago2014_p3_116137.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_p4_62127.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p1_80172.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p1_92206.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p2_68144.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p2_88130.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_p4_122266.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\tamago2014_paragon_sorted2_parangon.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\sequential_data\sliced\test.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />

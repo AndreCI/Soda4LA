@@ -87,8 +87,9 @@ class AdvancedTrackView(object):
         for i, eb in enumerate(self.encoding_boxs):
             value = int(values[i])
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
-            self.model.ctrl.set_value(eb.checkbox.text(), str(value))
-            eb.dlabel.hide()
+            self.set_value(eb)
+            #self.model.ctrl.set_value(eb.checkbox.text(), str(value))
+            #eb.dlabel.hide()
 
     def apply_default_to_all(self):
         for eb in self.encoding_boxs:
