@@ -207,6 +207,12 @@ class MusicCtrl:
 
 
     def play_note(self, note):
+        if(not self.playing):
+            self.setup_general_attribute()
+            self.load_soundfonts()
+            for track in self.model.tracks:
+                self.change_local_gain(self.model.tracks[track].id, self.model.tracks[track].gain)
+            self.change_global_gain(self.model.gain)
         self.view.play_note(note)
 
     def play(self)->None:

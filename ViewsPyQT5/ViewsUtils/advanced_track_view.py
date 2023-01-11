@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, 
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
     QSpinBox, QPlainTextEdit, QCheckBox
 
-from Models.note_model import int_to_note, TNote
+from Models.note_model import int_to_note, TNote, note_to_int, is_valid_note
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectedButtonStyle
 
 EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'testButton', 'valueLine'])
@@ -159,9 +159,9 @@ class AdvancedTrackView(object):
     def set_qualitative_filter(self, ebox):
         self.model.filter.assign_quali_value(ebox.checkbox.text(), not ebox.checkbox.isChecked())
 
-
     def play_test_sound(self, ebox):
-        self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=0, id=0, duration=100, velocity=100, value=55, void=False))
+        if is_valid_note(ebox.valueLine.text()):
+            self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=self.track.id, id=0, duration=100, velocity=100, value=note_to_int(ebox.valueLine.text(), octave=int(self.octaveSpinBox.text())), void=False))
 
     def add_encoding_box(self):
         """
