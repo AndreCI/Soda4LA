@@ -70,12 +70,13 @@ class GraphView():
         self.movingGraphThread.start()
 
     def draw_notes(self):
+        #TODO https://www.youtube.com/watch?v=CFRhGnuXG-4
         data = np.zeros((self.verticalRes, self.horizontalRes))
         past_notes = []
         self.parent.model.ctrl.graphSemaphore.acquire()
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
-            start_time = 2 + note.tfactor * self.parent.model.timeSettings.musicDuration - self.parent.model.ctrl.get_music_time()
+            start_time = 2 + note.tfactor * self.parent.model.timeSettings.get_music_duration() - self.parent.model.ctrl.get_music_time()
             note_timing = self.parent.model.ctrl.view.get_relative_note_timing(
                 self.parent.model.get_absolute_note_timing(note.tfactor))
             if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000 and not note.void):

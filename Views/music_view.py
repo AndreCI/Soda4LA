@@ -76,6 +76,9 @@ class MusicView:
                 self.sequencer.note(absolute=False, time=int(note.timing), channel=note.channel, key=note.value,
                                     duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
 
+    def play_note(self, note):
+        self.sequencer.note(absolute=True, time=0, channel=note.channel, key=note.value,
+                            duration=note.duration, velocity=note.velocity, dest=self.registeredSynth)
     def consume(self)->None: #TODO test if 3.11 is faster. Issues with pyqt5 installer the 27th October 2022.
         """
         Threaded.
@@ -85,7 +88,7 @@ class MusicView:
         while True:  # This thread never stops.
             if(self.ctrl.finished):
                 self.model.sonification_view.topBarView.press_stop_button()
-                self.model.sonification_view.set_status_text("Music ended after {} secs".format(self.model.timeSettings.musicDuration), 10000)
+                self.model.sonification_view.set_status_text("Music ended after {} secs".format(self.model.timeSettings.get_music_duration()), 10000)
                 time.sleep(0.1)
             self.ctrl.playingEvent.wait()  # Wait for the playing event
             self.ctrl.pausedEvent.wait()  # Wait for the playing event

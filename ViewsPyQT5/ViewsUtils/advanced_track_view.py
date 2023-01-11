@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from PyQt5.QtGui import QIcon
+
 import ViewsPyQT5.sonification_view as sv
 from collections import namedtuple
 
@@ -7,10 +10,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, 
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
     QSpinBox, QPlainTextEdit, QCheckBox
 
-from Models.note_model import int_to_note
+from Models.note_model import int_to_note, TNote
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectedButtonStyle
 
-EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'valueLine', 'dlabel'])
+EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'testButton', 'valueLine'])
 
 
 class AdvancedTrackView(object):
@@ -77,7 +80,6 @@ class AdvancedTrackView(object):
                 if (self.key == "value"):
                     value = int_to_note(value)
                 eb.valueLine.setText(str(value))
-                eb.dlabel.show()
 
     def apply_random_to_all(self):
         variables = []
@@ -89,14 +91,12 @@ class AdvancedTrackView(object):
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.set_value(eb)
             #self.model.ctrl.set_value(eb.checkbox.text(), str(value))
-            #eb.dlabel.hide()
 
     def apply_default_to_all(self):
         for eb in self.encoding_boxs:
             value = self.model.defaultValue
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.model.ctrl.reset_value(eb.checkbox.text())
-            eb.dlabel.show()
 
     def inverse_all_check(self):
         bools = [eb.checkbox.isChecked() for eb in self.encoding_boxs]
@@ -123,9 +123,11 @@ class AdvancedTrackView(object):
             self.detailsQModeLayout.removeWidget(var.frame)
             var.valueLine.textEdited.disconnect()
             var.checkbox.clicked.disconnect()
+            var.testButton.clicked.disconnect()
             var.frame.destroy()
             var.checkbox.destroy()
             var.valueLine.destroy()
+            var.testButton.destroy()
         self.encoding_boxs = []
         # Create and setup object linked to new variable
         for i, variable in enumerate(self.model.get_variables_instances()):
@@ -135,7 +137,6 @@ class AdvancedTrackView(object):
             ebox.checkbox.setText(str(variable))
             ebox.checkbox.setChecked(self.model.filter.evaluate(variable))
             if str(variable) in self.model.handpickEncoding:
-                ebox.dlabel.hide()
                 value = self.model.handpickEncoding[str(variable)]
             else:
                 value = self.model.defaultValue
@@ -144,6 +145,7 @@ class AdvancedTrackView(object):
             ebox.valueLine.setText(str(value))
             ebox.valueLine.textEdited.connect(lambda ch, ebx=ebox: self.set_value(ebox=ebx))
             ebox.checkbox.clicked.connect(lambda ch2, ebx=ebox: self.set_qualitative_filter(ebox=ebx))
+            ebox.testButton.clicked.connect(lambda ch3, ebx=ebox: self.play_test_sound(ebox=ebx))
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
         self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
@@ -153,12 +155,19 @@ class AdvancedTrackView(object):
 
     def set_value(self, ebox):
         self.model.ctrl.set_value(value=ebox.valueLine.text(), variable=ebox.checkbox.text())
-        ebox.dlabel.hide()
 
     def set_qualitative_filter(self, ebox):
         self.model.filter.assign_quali_value(ebox.checkbox.text(), not ebox.checkbox.isChecked())
 
+
+    def play_test_sound(self, ebox):
+        self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=0, id=0, duration=100, velocity=100, value=55, void=False))
+
     def add_encoding_box(self):
+        """
+        Create an encoding box, with these elements: checkbox, name, spacer, sound button, lineedit
+        :return: a QFrame with all elements to customize the encoding of a value
+        """
         encoding_box = QFrame()
         encoding_box.setObjectName(u"encoding_box")
         encoding_box.setGeometry(QRect(64, 80, 251, 41))
@@ -179,28 +188,37 @@ class AdvancedTrackView(object):
 
         encoding_h_layout.addItem(encoding_spacer)
 
-        encoding_value_line_edit = QLineEdit(encoding_box)
-        encoding_value_line_edit.setObjectName(u"encoding_value_line_edit")
-        # encoding_value_line_edit.setMinimumSize(10, encoding_value_line_edit.minimumHeight())
+
         size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
+
+        soundButton = QPushButton(encoding_box)
+        soundButton.setObjectName(u"soundButton")
+        soundButton.setSizePolicy(size_policy)
+        soundButton.setMinimumSize(QSize(0, 0))
+        soundButton.setMaximumSize(QSize(36, 16777215))
+        soundButton.setStyleSheet(buttonStyle)
+        soundIcon = QIcon()
+        soundIcon.addFile(u"data/img/icons/volume-up.svg", QSize(), QIcon.Normal, QIcon.Off)
+        soundButton.setIcon(soundIcon)
+        soundButton.setToolTip("Test this sound")
+
+        encoding_value_line_edit = QLineEdit(encoding_box)
+        encoding_value_line_edit.setObjectName(u"encoding_value_line_edit")
         size_policy.setHeightForWidth(encoding_value_line_edit.sizePolicy().hasHeightForWidth())
+        # encoding_value_line_edit.setMinimumSize(10, encoding_value_line_edit.minimumHeight())
         encoding_value_line_edit.setSizePolicy(size_policy)
         encoding_value_line_edit.setToolTip(
             "Assign this encoding to this value.\n"
             "Each non filtered row containing this value will use this encoding for the {} of the note".format(
                 self.key))
 
-        default_label = QLabel(encoding_box)
-        default_label.setText("default")
-        default_label.setToolTip("This value will play the default encoding if not filtered.")
-
         encoding_h_layout.addWidget(encoding_value_line_edit)
-        encoding_h_layout.addWidget(default_label)
+        encoding_h_layout.addWidget(soundButton)
 
         return EncodingBox(frame=encoding_box, checkbox=encoding_check_box, valueLine=encoding_value_line_edit,
-                           dlabel=default_label)
+                           testButton=soundButton)
 
     def setup_ui(self):
         self.gridLayout = QGridLayout()
@@ -347,9 +365,9 @@ class AdvancedTrackView(object):
 
         self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 1, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 2, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 0, 0, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 0, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 2, 0, 1, 1)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -387,5 +405,5 @@ class AdvancedTrackView(object):
         self.defaultValueLabel.setText(QCoreApplication.translate("Form", u"Default:", None))
         self.checkAllButton.setText(QCoreApplication.translate("Form", u"Check all", None))
         self.switchAllCheckButton.setText(QCoreApplication.translate("Form", u"Switch all", None))
-        self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply to all", None))
+        self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply default to all", None))
         self.randomToAllButton.setText(QCoreApplication.translate("Form", u"Randomize all", None))

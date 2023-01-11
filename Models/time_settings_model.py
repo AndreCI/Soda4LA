@@ -70,7 +70,7 @@ class TimeSettings:  # TODO rename this into general settings
         self.data = Data.getInstance()
 
     def get_music_duration(self) -> int:
-        return self.data.size if self.musicDuration is None else self.musicDuration
+        return int(float(self.data.size)/1.5) if self.musicDuration is None else self.musicDuration
 
     def get_bpm(self) ->float: #bpm = size/length
         return 60 * float(self.data.size) / self.get_music_duration()
@@ -97,7 +97,7 @@ class TimeSettings:  # TODO rename this into general settings
         self.maxVal = maxVal
         self.idMax = idMax
         if not self.musicDuration:
-            self.musicDuration = idMax
+            self.musicDuration = int(float(idMax)/1.5)
 
     def get_temporal_position(self, current, offset=0) -> float:
         """

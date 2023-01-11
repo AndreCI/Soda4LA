@@ -205,6 +205,10 @@ class MusicCtrl:
         self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date,
                                               self.model.data.size)
 
+
+    def play_note(self, note):
+        self.view.play_note(note)
+
     def play(self)->None:
         """
         Start a thread via music model to produce notes for the music view, then start the sequencer
