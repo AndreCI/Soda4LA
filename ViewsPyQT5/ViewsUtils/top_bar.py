@@ -125,11 +125,13 @@ class TopSettingsBar(QObject):
         self.musicProgressBar.setMaximumSize(5000, 7)
         self.musicProgressBar.setContentsMargins(0, 0, 0, 10)
 
-        self.musicStartLabel = QLabel("0:00")
+        self.musicStartLabel = QLabel(self.TopControlFrame)
+        self.musicStartLabel.setText("0:00")
         self.musicStartLabel.setObjectName(u"musicStartLabel")
         self.musicStartLabel.setContentsMargins(10, 0, 0, 0)
 
-        self.musicEndLabel = QLabel("--:--")
+        self.musicEndLabel = QLabel(self.TopControlFrame)
+        self.musicEndLabel.setText("--:--")
         self.musicEndLabel.setObjectName(u"musicEndLabel")
         self.musicEndLabel.setContentsMargins(0, 0, 10, 0)
 
@@ -242,8 +244,11 @@ class TopSettingsBar(QObject):
             eh, em = divmod(em, 60)
             sm, ss = divmod(mtime, 60)
             sh, sm = divmod(sm, 60)
-            self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
-            self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
+            try:
+                self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
+                self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
+            except RuntimeError:
+                print("Runtime error on updating music start and end label.")
             self.progressBarSignal.emit(min(99, int(100* mtime / self.parent.model.timeSettings.get_music_duration())))
             QThread.msleep(int(1000/5))
 
