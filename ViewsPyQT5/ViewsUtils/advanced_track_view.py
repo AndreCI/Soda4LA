@@ -160,8 +160,10 @@ class AdvancedTrackView(object):
         self.model.filter.assign_quali_value(ebox.checkbox.text(), not ebox.checkbox.isChecked())
 
     def play_test_sound(self, ebox):
-        if is_valid_note(ebox.valueLine.text()):
-            self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=self.track.id, id=0, duration=100, velocity=100, value=note_to_int(ebox.valueLine.text(), octave=int(self.octaveSpinBox.text())), void=False))
+        value = self.track.pencodings["value"].get_parameter_from_variable(ebox.checkbox.text())
+        duration = self.track.pencodings["duration"].get_parameter_from_variable(ebox.checkbox.text())
+        velocity = self.track.pencodings["velocity"].get_parameter_from_variable(ebox.checkbox.text())
+        self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=self.track.id, id=0, duration=duration, velocity=velocity, value=value, void=False))
 
     def add_encoding_box(self):
         """

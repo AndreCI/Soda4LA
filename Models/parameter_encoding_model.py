@@ -82,6 +82,10 @@ class ParameterEncoding:
             logging.log(logging.ERROR,"Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
+    def get_parameter_from_variable(self, variable:str)->int:
+        if (variable not in self.handpickEncoding):
+            return self.defaultValue
+        return int(self.handpickEncoding[variable])
     def evaluate_with_fonction(self, value:str)->int:
         return_value = self.defaultValue
         if (self.functionEncoding["function"] == "linear"):
