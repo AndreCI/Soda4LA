@@ -231,10 +231,6 @@ class AdvancedTrackView(object):
         self.SettingsFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_2 = QGridLayout(self.SettingsFrame)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.octaveLabel = QLabel(self.SettingsFrame)
-        self.octaveLabel.setObjectName(u"octaveLabel")
-
-        self.gridLayout_2.addWidget(self.octaveLabel, 2, 0, 1, 1)
 
         self.variableLabel = QLabel(self.SettingsFrame)
         self.variableLabel.setObjectName(u"variableLabel")
@@ -244,20 +240,6 @@ class AdvancedTrackView(object):
         self.nameLabel = QLabel()#self.SettingsFrame)
         self.nameLabel.setObjectName(u"nameLabel")
         self.nameLabel.setAlignment(Qt.AlignCenter)
-
-        #self.gridLayout_2.addWidget(self.nameLabel, 1, 0, 1, 1)
-
-        self.octaveSpinBox = QSpinBox(self.SettingsFrame)
-        self.octaveSpinBox.setObjectName(u"octaveSpinBox")
-        self.octaveSpinBox.setBaseSize(QSize(0, 0))
-        self.octaveSpinBox.setWrapping(True)
-        self.octaveSpinBox.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-        self.octaveSpinBox.setMaximum(9)
-        self.octaveSpinBox.setValue(4)
-        self.octaveSpinBox.setToolTip(
-            "Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
-
-        self.gridLayout_2.addWidget(self.octaveSpinBox, 2, 1, 1, 1)
 
         self.changeModeButton = QPushButton()#self.SettingsFrame)
         self.changeModeButton.setObjectName(u"changeModeButton")
@@ -365,11 +347,29 @@ class AdvancedTrackView(object):
         self.applyToAllButton.setStyleSheet(buttonStyle)
         self.applyToAllButton.setToolTip("Apply the default value to all the encoding below.")
 
-        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 0, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 2, 0, 1, 1)
+        self.octaveLayout = QHBoxLayout()
+        self.octaveLayout.setObjectName(u"octaveLayout")
+
+        self.octaveLabel = QLabel(self.controlFrame)
+        self.octaveLabel.setObjectName(u"octaveLabel")
+        self.octaveSpinBox = QSpinBox(self.controlFrame)
+        self.octaveSpinBox.setObjectName(u"octaveSpinBox")
+        self.octaveSpinBox.setBaseSize(QSize(0, 0))
+        self.octaveSpinBox.setWrapping(True)
+        self.octaveSpinBox.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.octaveSpinBox.setMaximum(9)
+        self.octaveSpinBox.setValue(4)
+        self.octaveSpinBox.setToolTip(
+            "Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
+        self.octaveLayout.addWidget(self.octaveLabel)
+        self.octaveLayout.addWidget(self.octaveSpinBox)
+
+        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 2, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 2, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.octaveLayout, 0, 1, 1, 1)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
