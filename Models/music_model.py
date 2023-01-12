@@ -21,6 +21,11 @@ class Music:
     _instance = None
     track_newid = itertools.count()
 
+    def generate_track_id(self):
+        id = next(self.track_newid)
+        while(str(id) in self.tracks.keys()):
+            id = next(self.track_newid)
+        return id
 
     @staticmethod
     def getInstance():

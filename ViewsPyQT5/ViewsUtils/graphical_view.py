@@ -29,8 +29,8 @@ class GraphView():
         self.verticalRes = 128
         self.horizontalRes = 1000
         self.updateFrequency = int(1000 / 30)  # ms before redrawing - 30FPS
-        self.timeWindow = 10000
-        self.lookBackward = 0.2  # % of graph dedicated to past notes
+        self.timeWindow = 20000
+        self.lookBackward = 0.5  # % of graph dedicated to past notes
         self.movingBarPos = int(self.lookBackward * self.horizontalRes)
         self.futureNotes = deque()
         self.maxNotes = None
@@ -45,7 +45,10 @@ class GraphView():
         self.colorbar = self.figure.colorbar(self.line, ax=self.ax)
         self.ax.set_ylabel("Midi note (Midi Tuning Standard, Hz)")
         self.ax.set_xlabel("Time (seconds)")
-        xlabels = np.arange(-2, 9, 2)
+        self.startx = int(- self.lookBackward * self.timeWindow/1000)
+        self.endx = int(self.timeWindow/1000 + 1 + self.startx)
+        self.stepx = int(self.timeWindow/5000)
+        xlabels = np.arange(self.startx, self.endx, self.stepx)
         xticks = np.arange(0, 1100, 200)
         self.ax.set_xticks(xticks, xlabels)
         #self.ax.set_xticklabels(xlabels)
@@ -76,10 +79,10 @@ class GraphView():
         self.parent.model.ctrl.graphSemaphore.acquire()
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
-            start_time = 2 + note.tfactor * self.parent.model.timeSettings.get_music_duration() - self.parent.model.ctrl.get_music_time()
+            start_time = -self.startx + note.tfactor * self.parent.model.timeSettings.get_music_duration() - self.parent.model.ctrl.get_music_time()
             note_timing = self.parent.model.ctrl.view.get_relative_note_timing(
                 self.parent.model.get_absolute_note_timing(note.tfactor))
-            if (0 < start_time <= self.timeWindow / 1000 and note_timing > -2000 and not note.void):
+            if (0 < start_time <= self.timeWindow / 1000 and note_timing > self.startx * 1000 and not note.void):
                 end_pos = min(int(self.horizontalRes * (start_time * 1000 + note.duration) / self.timeWindow),
                               self.horizontalRes)
                 start_pos = int(self.horizontalRes * (start_time * 1000) / self.timeWindow)
@@ -88,7 +91,7 @@ class GraphView():
                 if (str(note.channel) in self.parent.model.tracks):  # check if tracks is not destroyed since
                     gain = int(note.velocity * float(self.parent.model.tracks[str(note.channel)].gain) / 128)
                     data[min_vertical_pos:max_vertical_pos, start_pos:end_pos] = gain
-            if (start_time < 0 or note_timing < -2000):
+            if (start_time < 0 or note_timing < self.startx * 1000):
                 past_notes.append(note)
         for note in past_notes:
             self.futureNotes.remove(note)
@@ -104,8 +107,8 @@ class GraphView():
             time.sleep(self.updateFrequency / 1000)
 
     def setup(self, max_notes, time_window=10000, update_freq=100):
-        self.timeWindow = time_window
-        self.updateFrequency = update_freq
+        #self.timeWindow = time_window
+        #self.updateFrequency = update_freq
         step = self.horizontalRes / (self.timeWindow / 1000)
         self.timeStep = self.updateFrequency * step
         self.maxNotes = max_notes
