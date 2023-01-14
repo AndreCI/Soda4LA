@@ -98,7 +98,7 @@ class Track:
         return notes
 
     def build_note(self, row):
-        return note.TNote(tfactor=self.music.timeSettings.get_temporal_position(row, self.offset),
+        return note.TNote(tfactor=self.music.settings.get_temporal_position(row, self.offset),
                           channel=self.id,
                           value=self.pencodings["value"].get_parameter(row),
                           velocity=self.pencodings["velocity"].get_parameter(row),
@@ -107,7 +107,7 @@ class Track:
                           id=row['internal_id'])
 
     def build_note2(self, row):
-        return pd.Series({'tfactor':self.music.timeSettings.get_temporal_position(row, self.offset),
+        return pd.Series({'tfactor':self.music.settings.get_temporal_position(row, self.offset),
                           'channel':self.id,
                           'value':self.pencodings["value"].get_parameter(row),
                           'velocity':self.pencodings["velocity"].get_parameter(row),

@@ -88,7 +88,7 @@ class MusicView:
         while True:  # This thread never stops.
             if(self.ctrl.finished):
                 self.model.sonification_view.topBarView.press_stop_button()
-                self.model.sonification_view.set_status_text("Music ended after {} secs".format(self.model.timeSettings.get_music_duration()), 10000)
+                self.model.sonification_view.set_status_text("Music ended after {} secs".format(self.model.settings.get_music_duration()), 10000)
                 time.sleep(0.1)
             self.ctrl.playingEvent.wait()  # Wait for the playing event
             self.ctrl.pausedEvent.wait()  # Wait for the playing event
@@ -103,10 +103,10 @@ class MusicView:
                 note_timing_abs = self.model.get_absolute_note_timing(note.tfactor)
                 note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
                 if(not note.void):
-                    while (note_timing > self.model.timeSettings.timeBuffer and  # check if next note is ripe
+                    while (note_timing > self.model.settings.timeBuffer and  # check if next note is ripe
                            not self.ctrl.skipNextNote and  # check if next note should be skipped
                            note_timing > -100 and self.ctrl.playing):  # Check if the note is not stale
-                        time.sleep(self.model.timeSettings.timeBuffer / 2000)  # wait half the buffer time
+                        time.sleep(self.model.settings.timeBuffer / 2000)  # wait half the buffer time
                         self.ctrl.pausedEvent.wait()  # If paused was pressed during this waiting time, wait for PLAY event
                         note_timing = self.get_relative_note_timing(note_timing_abs)  # update timing
 
@@ -143,15 +143,15 @@ class MusicView:
 
     def convert(self, temporal_pos:int, to_absolute:bool=True)->float:
         if to_absolute:
-            return float(temporal_pos - self.starting_time) / (self.model.timeSettings.get_music_duration() * 1000)
+            return float(temporal_pos - self.starting_time) / (self.model.settings.get_music_duration() * 1000)
         else:
-            return (temporal_pos) * self.model.timeSettings.get_music_duration() * 1000 + self.starting_time
+            return (temporal_pos) * self.model.settings.get_music_duration() * 1000 + self.starting_time
 
     def get_absolute_tick(self)->float:
         return self.convert(self.sequencer.get_tick(), to_absolute=True)
 
     def set_relative_tick(self, absolute_tick:float)->float:
-        self.starting_time = self.sequencer.get_tick() - absolute_tick * self.model.timeSettings.get_music_duration() * 1000
+        self.starting_time = self.sequencer.get_tick() - absolute_tick * self.model.settings.get_music_duration() * 1000
 
     def get_temporal_distance(self, temporal_pos:float, absolute:bool=True)->float:
         if absolute:

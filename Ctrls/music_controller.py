@@ -204,8 +204,8 @@ class MusicCtrl:
     #     pass
 
     def setup_general_attribute(self)->None:
-        self.model.timeSettings.set_attribute(self.model.data.first_date, self.model.data.last_date,
-                                              self.model.data.size)
+        self.model.settings.set_attribute(self.model.data.first_date, self.model.data.last_date,
+                                          self.model.data.size)
 
 
     def play_note(self, note):
@@ -223,7 +223,7 @@ class MusicCtrl:
         """
 
 
-        self.model.sonification_view.visualisationView.setup(self.maxNoteGraph)
+        self.model.sonification_view.visualisationView.setup(self.maxNoteGraph, self.model.settings.graphicalLength, self.model.settings.graphicalBarPercentage)
         self.setup_general_attribute()
         self.load_soundfonts()
         for track in self.model.tracks:
@@ -333,7 +333,7 @@ class MusicCtrl:
             self.model.tracks = {}  # Needed as updating the model dict populates tracks but does not update ui
             self.model.sonification_view = s_view
             self.model.ctrl = self
-            self.model.timeSettings.music = self.model
+            self.model.settings.music = self.model
             for k in m.tracks:
                 self.add_track(m.tracks[k], True)
                 #next(self.model.track_newid)

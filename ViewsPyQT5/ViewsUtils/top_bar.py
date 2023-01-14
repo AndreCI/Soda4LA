@@ -240,7 +240,7 @@ class TopSettingsBar(QObject):
             self.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
             self.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
             mtime = self.parent.model.ctrl.get_music_time()
-            em, es = divmod(self.parent.model.timeSettings.get_music_duration(), 60)
+            em, es = divmod(self.parent.model.settings.get_music_duration(), 60)
             eh, em = divmod(em, 60)
             sm, ss = divmod(mtime, 60)
             sh, sm = divmod(sm, 60)
@@ -249,7 +249,7 @@ class TopSettingsBar(QObject):
                 self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
             except RuntimeError:
                 print("Runtime error on updating music start and end label.")
-            self.progressBarSignal.emit(min(99, int(100* mtime / self.parent.model.timeSettings.get_music_duration())))
+            self.progressBarSignal.emit(min(99, int(100 * mtime / self.parent.model.settings.get_music_duration())))
             QThread.msleep(int(1000/5))
 
     def press_stop_button(self):

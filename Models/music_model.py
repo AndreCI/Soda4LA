@@ -8,7 +8,7 @@ from midiutil.MidiFile import MIDIFile
 from Ctrls.music_controller import MusicCtrl
 from Models import note_model
 from Models.data_model import Data
-from Models.time_settings_model import TimeSettings
+from Models.settings_model import GeneralSettings
 from Models.track_model import Track
 from Utils.constants import BATCH_NBR_PLANNED
 
@@ -48,9 +48,9 @@ class Music:
             self.tracks = {}  # List of track model created by user
             self.tracks_note = {}
 
-            self.timeSettings = TimeSettings(self)
+            self.settings = GeneralSettings(self)
             self.data = Data.getInstance()
-            self.queue_capacity = self.timeSettings.batchPlanned * self.timeSettings.batchSize
+            self.queue_capacity = self.settings.batchPlanned * self.settings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
             # Ctrl
@@ -82,7 +82,7 @@ class Music:
         :return:
         """
         # setup
-        bpm = self.timeSettings.get_bpm()
+        bpm = self.settings.get_bpm()
         self.data.reset_playing_index()
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()
@@ -174,7 +174,7 @@ class Music:
         Compute and return the absolute timing in sec of a tfactor, depending on music duration.
         :param tfactor: a value between 0 and 1
         """
-        return int(tfactor * self.timeSettings.get_music_duration() * 1000)
+        return int(tfactor * self.settings.get_music_duration() * 1000)
 
     def add_track(self, track, generate_view=False):
         # with self.ctrl.trackSemaphore:

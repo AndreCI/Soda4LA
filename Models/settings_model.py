@@ -1,5 +1,5 @@
 from __future__ import annotations
-from Ctrls.time_settings_controller import TimeSettingsCtrl
+from Ctrls.settings_controller import SettingsCtrl
 
 # TODO add other time settings
 from Models.data_model import Data
@@ -7,7 +7,7 @@ import Models.music_model as music
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED
 
 
-class TimeSettings:  # TODO rename this into general settings
+class GeneralSettings:  # TODO rename this into general settings
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.
@@ -32,9 +32,11 @@ class TimeSettings:  # TODO rename this into general settings
         self.autoloadTimestampcol = ""
         self.debugVerbose = False
         self.type = self.possible_types[0]
+        self.graphicalBarPercentage = 0.2
+        self.graphicalLength = 10000
 
         # Ctrl
-        self.ctrl = TimeSettingsCtrl(self)
+        self.ctrl = SettingsCtrl(self)
         # View
         self.tsView = None
 
@@ -51,6 +53,10 @@ class TimeSettings:  # TODO rename this into general settings
                         self.autoloadTimestampcol = eval(value)
                     elif (identifier == "debugverbose"):
                         self.debugVerbose = eval(value)
+                    elif (identifier == "graphicalLength"):
+                        self.graphicalLength = eval(value)
+                    elif (identifier == "graphicalBarPercentage"):
+                        self.graphicalBarPercentage = eval(value)
 
         except FileNotFoundError:
             self.ctrl.write_to_ini()
@@ -65,7 +71,7 @@ class TimeSettings:  # TODO rename this into general settings
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        self.ctrl = TimeSettingsCtrl(self)
+        self.ctrl = SettingsCtrl(self)
         self.tsView = None
         self.data = Data.getInstance()
 

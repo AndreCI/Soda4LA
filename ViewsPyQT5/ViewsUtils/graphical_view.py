@@ -14,11 +14,15 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.qt_compat import QtWidgets
 from matplotlib.figure import Figure
 
+from Models.music_model import Music
+
 
 class GraphView():
 
     def __init__(self, parent:sv.SonificationView):
         self.parent = parent
+        self.music_model = Music().getInstance()
+
         mpl.rcParams["figure.facecolor"] = "323232"
         self.GraphFrame = QFrame()
         self.GraphFrame.setObjectName(u"GraphFrame")
@@ -29,8 +33,8 @@ class GraphView():
         self.verticalRes = 128
         self.horizontalRes = 1000
         self.updateFrequency = int(1000 / 30)  # ms before redrawing - 30FPS
-        self.timeWindow = 20000
-        self.lookBackward = 0.5  # % of graph dedicated to past notes
+        self.timeWindow = self.music_model.settings.graphicalLength
+        self.lookBackward = self.music_model.settings.graphicalBarPercentage  # % of graph dedicated to past notes
         self.movingBarPos = int(self.lookBackward * self.horizontalRes)
         self.futureNotes = deque()
         self.maxNotes = None
@@ -38,6 +42,14 @@ class GraphView():
         self.timeStep = None
 
         self.colormap = mpl.colormaps['viridis'].resampled(128)
+
+        self.setup_canvas()
+        self.layout.addWidget(self.dynamic_canvas)
+
+        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True, name="graphical_canvas_moving_thread")
+        self.movingGraphThread.start()
+
+    def setup_canvas(self):
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.ax = self.figure.add_subplot()
         data = np.zeros((self.verticalRes, self.horizontalRes))
@@ -64,13 +76,8 @@ class GraphView():
             # wspace=0.2
         )
 
-        dynamic_canvas = FigureCanvas(self.figure)  # A tk.DrawingArea.
-        dynamic_canvas.setMinimumSize(QSize(720, 300))
-
-        self.layout.addWidget(dynamic_canvas)
-
-        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True, name="graphical_canvas_moving_thread")
-        self.movingGraphThread.start()
+        self.dynamic_canvas = FigureCanvas(self.figure)  # A tk.DrawingArea.
+        self.dynamic_canvas.setMinimumSize(QSize(720, 300))
 
     def draw_notes(self):
         #TODO https://www.youtube.com/watch?v=CFRhGnuXG-4
@@ -79,7 +86,7 @@ class GraphView():
         self.parent.model.ctrl.graphSemaphore.acquire()
         for note in self.futureNotes:
             # time is seconds telling when the note will be played
-            start_time = -self.startx + note.tfactor * self.parent.model.timeSettings.get_music_duration() - self.parent.model.ctrl.get_music_time()
+            start_time = -self.startx + note.tfactor * self.parent.model.settings.get_music_duration() - self.parent.model.ctrl.get_music_time()
             note_timing = self.parent.model.ctrl.view.get_relative_note_timing(
                 self.parent.model.get_absolute_note_timing(note.tfactor))
             if (0 < start_time <= self.timeWindow / 1000 and note_timing > self.startx * 1000 and not note.void):
@@ -106,9 +113,15 @@ class GraphView():
             self.draw_notes()
             time.sleep(self.updateFrequency / 1000)
 
-    def setup(self, max_notes, time_window=10000, update_freq=100):
-        #self.timeWindow = time_window
-        #self.updateFrequency = update_freq
+    def setup(self, max_notes, time_window, backward_percentage):
+        self.timeWindow = time_window
+        self.lookBackward = backward_percentage
+        self.movingBarPos = int(self.lookBackward * self.horizontalRes)
+
+        self.layout.removeWidget(self.dynamic_canvas)
+        self.setup_canvas()
+        self.layout.addWidget(self.dynamic_canvas)
+
         step = self.horizontalRes / (self.timeWindow / 1000)
         self.timeStep = self.updateFrequency * step
         self.maxNotes = max_notes

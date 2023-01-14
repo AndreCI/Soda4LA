@@ -62,7 +62,7 @@ class SonificationView(QWidget):
         self.parent.statusbar.showMessage(line, timing)
 
     def open_settings(self):
-        self.model.timeSettings.ctrl.open_time_settings(self.settingsView)
+        self.model.settings.ctrl.open_settings(self.settingsView)
 
     def export_music(self):
         file, check = QFileDialog.getSaveFileName(None, "Export music",

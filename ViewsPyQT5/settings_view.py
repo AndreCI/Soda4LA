@@ -10,6 +10,7 @@ from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle
 class SettingsView(QMainWindow):
     def __init__(self, parent=None):
         super(SettingsView, self).__init__(parent)
+        self.parent = parent
         self.updating = False
         self.model = None
         self.setWindowTitle("Soda4LA - Settings")
@@ -25,55 +26,55 @@ class SettingsView(QMainWindow):
         self.optionsFrame.setObjectName(u"optionsFrame")
         self.optionsFrame.setFrameShape(QFrame.Panel)
         self.optionsFrame.setFrameShadow(QFrame.Raised)
-        self.gridLayout_2 = QGridLayout(self.optionsFrame)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_timesettings = QGridLayout(self.optionsFrame)
+        self.gridLayout_timesettings.setObjectName(u"gridLayout_timesettings")
         self.bpmLineEdit = QLineEdit(self.optionsFrame)
         self.bpmLineEdit.setObjectName(u"bpmLineEdit")
 
-        self.gridLayout_2.addWidget(self.bpmLineEdit, 1, 1, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.bpmLineEdit, 1, 1, 1, 1)
 
         self.songLengthLineEdit = QLineEdit(self.optionsFrame)
         self.songLengthLineEdit.setObjectName(u"songLengthLineEdit")
 
-        self.gridLayout_2.addWidget(self.songLengthLineEdit, 0, 1, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.songLengthLineEdit, 0, 1, 1, 1)
 
         self.songLengthLabel = QLabel(self.optionsFrame)
         self.songLengthLabel.setObjectName(u"songLengthLabel")
 
-        self.gridLayout_2.addWidget(self.songLengthLabel, 0, 0, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.songLengthLabel, 0, 0, 1, 1)
 
         self.batchSizeLabel = QLabel(self.optionsFrame)
         self.batchSizeLabel.setObjectName(u"batchSizeLabel")
 
-        self.gridLayout_2.addWidget(self.batchSizeLabel, 2, 0, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.batchSizeLabel, 2, 0, 1, 1)
 
         self.bpmLabel = QLabel(self.optionsFrame)
         self.bpmLabel.setObjectName(u"bpmLabel")
 
-        self.gridLayout_2.addWidget(self.bpmLabel, 1, 0, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.bpmLabel, 1, 0, 1, 1)
 
         self.NoteTimingLabel = QLabel(self.optionsFrame)
         self.NoteTimingLabel.setObjectName(u"NoteTimingLabel")
 
-        self.gridLayout_2.addWidget(self.NoteTimingLabel, 4, 0, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.NoteTimingLabel, 4, 0, 1, 1)
 
         self.batchSizeLineEdit = QLineEdit(self.optionsFrame)
         self.batchSizeLineEdit.setObjectName(u"batchSizeLineEdit")
 
-        self.gridLayout_2.addWidget(self.batchSizeLineEdit, 2, 1, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.batchSizeLineEdit, 2, 1, 1, 1)
 
         self.batchPlannedLabel = QLabel(self.optionsFrame)
         self.batchPlannedLabel.setObjectName(u"batchPlannedLabel")
 
         self.batchPlannedLineEdit = QLineEdit(self.optionsFrame)
         self.batchPlannedLineEdit.setObjectName(u"batchPlanned")
-        self.gridLayout_2.addWidget(self.batchPlannedLabel, 3, 0, 1, 1)
-        self.gridLayout_2.addWidget(self.batchPlannedLineEdit, 3, 1, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.batchPlannedLabel, 3, 0, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.batchPlannedLineEdit, 3, 1, 1, 1)
 
         self.noteTimingLineEdit = QLineEdit(self.optionsFrame)
         self.noteTimingLineEdit.setObjectName(u"noteTimingLineEdit")
 
-        self.gridLayout_2.addWidget(self.noteTimingLineEdit, 4, 1, 1, 1)
+        self.gridLayout_timesettings.addWidget(self.noteTimingLineEdit, 4, 1, 1, 1)
 
         self.gridLayout.addWidget(self.optionsFrame, 2, 1, 1, 1)
 
@@ -128,14 +129,7 @@ class SettingsView(QMainWindow):
 
         self.horizontalLayout.addWidget(self.cancelButton)
 
-        self.gridLayout.addWidget(self.closeFrame, 4, 1, 1, 3)
-
-        self.line = QFrame(self.settingsFrame)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.VLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout.addWidget(self.line, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.closeFrame, 5, 1, 1, 3)
 
         self.aboutFrame = QFrame(self.settingsFrame)
         self.aboutFrame.setObjectName(u"aboutFrame")
@@ -151,6 +145,29 @@ class SettingsView(QMainWindow):
 
         self.gridLayout.addWidget(self.aboutFrame, 2, 3, 1, 1)
 
+        self.graphicalOptionsFrame = QFrame(self.settingsFrame)
+        self.graphicalOptionsFrame.setObjectName(u"graphicalOptionsFrame")
+        self.graphicalOptionsFrame.setFrameShape(QFrame.Panel)
+        self.graphicalOptionsFrame.setFrameShadow(QFrame.Raised)
+        self.gridLayout_graphsettings = QGridLayout(self.graphicalOptionsFrame)
+        self.gridLayout_graphsettings.setObjectName(u"gridLayout_graphsettings")
+
+        self.graphicalLengthLabel = QLabel(self.graphicalOptionsFrame)
+        self.graphicalLengthLabel.setObjectName(u"graphicalLengthLabel")
+        self.graphicalLengthLineedit = QLineEdit(self.graphicalOptionsFrame)
+        self.graphicalLengthLineedit.setObjectName(u"graphicalLengthLineedit")
+
+        self.graphicalPercentageLabel = QLabel(self.graphicalOptionsFrame)
+        self.graphicalPercentageLabel.setObjectName(u"graphicalPercentageLabel")
+        self.graphicalPercentageLineedit = QLineEdit(self.graphicalOptionsFrame)
+        self.graphicalPercentageLineedit.setObjectName(u"graphicalPercentageLineedit")
+
+        self.gridLayout_graphsettings.addWidget(self.graphicalLengthLabel, 1, 0, 1, 1)
+        self.gridLayout_graphsettings.addWidget(self.graphicalLengthLineedit, 1, 1, 1, 1)
+        self.gridLayout_graphsettings.addWidget(self.graphicalPercentageLabel, 2, 0, 1, 1)
+        self.gridLayout_graphsettings.addWidget(self.graphicalPercentageLineedit, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.graphicalOptionsFrame, 4, 1, 1, 3)
+
         self.retranslate_ui()
         self.set_tools_tips()
 
@@ -161,6 +178,9 @@ class SettingsView(QMainWindow):
         self.batchSizeLabel.setText(QCoreApplication.translate("Form", u"Batch size to sonify", None))
         self.batchPlannedLabel.setText(QCoreApplication.translate("Form", u"#batches to sonify in advance", None))
         self.bpmLabel.setText(QCoreApplication.translate("Form", u"Beat/Row Per Minutes ", None))
+
+        self.graphicalLengthLabel.setText(QCoreApplication.translate("Form", u"#seconds displayed on the x axis of the graph", None))
+        self.graphicalPercentageLabel.setText(QCoreApplication.translate("Form", u"% of graph displayed in the past", None))
 
         self.NoteTimingLabel.setText(QCoreApplication.translate("Form", u"Note Timing", None))
         self.previousDataCheckBox.setText(QCoreApplication.translate("Form", u"Load previous data on start", None))
@@ -208,6 +228,8 @@ class SettingsView(QMainWindow):
         self.bpmLineEdit.setText(str(self.model.get_bpm()))
         self.noteTimingLineEdit.setText(str(self.model.timeBuffer))
         self.previousDataCheckBox.setChecked(self.model.autoload)
+        self.graphicalPercentageLineedit.setText(str(int(self.model.graphicalBarPercentage*100)))
+        self.graphicalLengthLineedit.setText(str(int(self.model.graphicalLength/1000)))
 
         self.connect_ui()
 
@@ -241,7 +263,8 @@ class SettingsView(QMainWindow):
     def validate(self):
         self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(), self.songLengthLineEdit.text(),
                                  self.noteTimingLineEdit.text(),
-                                 self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked())
+                                 self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked(),
+                                 self.graphicalLengthLineedit.text(), self.graphicalPercentageLineedit.text())
 
         self.cancel()
 

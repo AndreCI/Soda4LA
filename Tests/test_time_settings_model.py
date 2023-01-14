@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-from Models.time_settings_model import TimeSettings
+from Models.settings_model import GeneralSettings
 
 
 class TestTimeSettings(TestCase):
     def setUp(self):
-        self.settings = TimeSettings()
+        self.settings = GeneralSettings()
 
 
     def test_get_temporal_position(self):

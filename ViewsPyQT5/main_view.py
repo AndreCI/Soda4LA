@@ -100,14 +100,14 @@ class MainWindow(QMainWindow):
         # TODO add other filetypes
         # TODO load multiples datafiles in tab and assign files to tracks?
         m = Music.getInstance()
-        if (m.timeSettings.autoload):
-            self.db.read_data(m.timeSettings.autoloadDataPath)
-            self.db.date_column = m.timeSettings.autoloadTimestampcol
+        if (m.settings.autoload):
+            self.db.read_data(m.settings.autoloadDataPath)
+            self.db.date_column = m.settings.autoloadTimestampcol
             self.db.assign_timestamps()
             self.sonification_main_widget.tableView.setup_data_model()
             self.statusbar.showMessage("Data loaded automatically from {} with timestamp column {}. "
-                                       "You can disable this in the settings.".format(m.timeSettings.autoloadDataPath,
-                                                                                      m.timeSettings.autoloadTimestampcol),
+                                       "You can disable this in the settings.".format(m.settings.autoloadDataPath,
+                                                                                      m.settings.autoloadTimestampcol),
                                        20000)
         else:
             self.sonification_main_widget.trackView.TrackSelectScrollArea.hide()
