@@ -60,6 +60,11 @@ class TableView(object):
         self.browseDataButton.clicked.connect(self.load_data)
         self.dataColumnComboBox.currentIndexChanged.connect(self.column_select)
         self.validateDataButton.clicked.connect(self.validate_data)
+        self.tabWidget.currentChanged.connect(self.change_tab)
+
+    def change_tab(self):
+        self.parent.topBarView.press_stop_button()
+        self.data.set_data_index(self.tabWidget.currentIndex())
 
     def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
@@ -90,10 +95,11 @@ class TableView(object):
             self.data.assign_timestamps(self.timestampFormatLineEdit.text())
             self.tableViews.append(QTableView())
 
-            self.data_model2 = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self,
-                                             size=self.data.sample_size)
-            self.tableViews[self.data.data_index].setModel(self.data_model2)
+            self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self,
+                                             size=self.data.sample_size))
+            self.tableViews[self.data.data_index].setModel(self.data_model[self.data.data_index])
             self.tabWidget.addTab(self.tableViews[self.data.data_index], Path(file).stem)
+            self.tabWidget.setCurrentIndex(len(self.tableViews) - 1)
             #self.setup_data_model()
 
     def setup_data_model(self):

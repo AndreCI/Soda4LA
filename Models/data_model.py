@@ -244,6 +244,8 @@ class Data:
         self.first_date = first_date.timestamp()
         self.last_date = last_date.timestamp()
 
+    def set_data_index(self, index)->None:
+        self.data_index = index
     def reset_playing_index(self) -> None:
         self.index = 0
 
