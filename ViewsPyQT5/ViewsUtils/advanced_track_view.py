@@ -47,14 +47,6 @@ class AdvancedTrackView(object):
             self.track.generalView.advancedOptionButtons[self.key].setStyleSheet(buttonStyle)
             self.track.generalView.advancedOptionButtons[key].setStyleSheet(selectedButtonStyle)
             self.key = key
-        if (self.key == "filter"):
-            self.detailsScrollArea.hide()
-            self.octaveSpinBox.hide()
-            self.octaveLabel.hide()
-            self.nameLabel.hide()
-            self.changeModeButton.hide()
-            self.select_variable(self.track.filter.column)
-            return
         self.detailsScrollArea.show()
         self.model = track.pencodings[self.key]
         self.select_variable(self.model.filter.column)
@@ -148,7 +140,7 @@ class AdvancedTrackView(object):
             ebox.testButton.clicked.connect(lambda ch3, ebx=ebox: self.play_test_sound(ebox=ebx))
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
-        self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
+        #self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
 
     def set_octave(self):
         self.track.pencodings[self.key].ctrl.change_octave(self.octaveSpinBox.text())
@@ -225,68 +217,6 @@ class AdvancedTrackView(object):
     def setup_ui(self):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.SettingsFrame = QFrame()
-        self.SettingsFrame.setObjectName(u"SettingsFrame")
-        self.SettingsFrame.setFrameShape(QFrame.Panel)
-        self.SettingsFrame.setFrameShadow(QFrame.Raised)
-        self.gridLayout_2 = QGridLayout(self.SettingsFrame)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-
-        self.variableLabel = QLabel(self.SettingsFrame)
-        self.variableLabel.setObjectName(u"variableLabel")
-
-        self.gridLayout_2.addWidget(self.variableLabel, 0, 0, 1, 1)
-
-        self.nameLabel = QLabel()#self.SettingsFrame)
-        self.nameLabel.setObjectName(u"nameLabel")
-        self.nameLabel.setAlignment(Qt.AlignCenter)
-
-        self.changeModeButton = QPushButton()#self.SettingsFrame)
-        self.changeModeButton.setObjectName(u"changeModeButton")
-
-        #self.gridLayout_2.addWidget(self.changeModeButton, 1, 1, 1, 1)
-
-        self.variableComboBox = QComboBox(self.SettingsFrame)
-        size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        size_policy.setHorizontalStretch(0)
-        size_policy.setVerticalStretch(0)
-        size_policy.setHeightForWidth(self.variableComboBox.sizePolicy().hasHeightForWidth())
-        self.variableComboBox.setObjectName(u"variableComboBox")
-        self.variableComboBox.setSizePolicy(size_policy)
-        self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
-
-        self.gridLayout_2.addWidget(self.variableComboBox, 0, 1, 1, 2)
-
-        self.horizontalSpacerName = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.horizontalSpacerVariable = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(self.horizontalSpacerVariable, 1, 2, 1, 1)
-
-        self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
-
-        self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
-
-        self.filterFrame = QFrame()
-        self.filterFrame.setObjectName(u"filterFrame")
-        self.filterFrame.setFrameShape(QFrame.Panel)
-        self.filterFrame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.filterFrame)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.filterLabel = QLabel(self.filterFrame)
-        self.filterLabel.setObjectName(u"filterLabel")
-
-        self.verticalLayout.addWidget(self.filterLabel)
-
-        self.filterPlainTextEdit = QPlainTextEdit(self.filterFrame)
-        self.filterPlainTextEdit.setObjectName(u"filterPlainTextEdit")
-        self.filterPlainTextEdit.setReadOnly(True) #TODO filter is disabled for now, unsure if it will be kept
-        self.filterPlainTextEdit.setToolTip(
-            "Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded"
-            " into notes. Function is disabled for now.")
-
-        self.verticalLayout.addWidget(self.filterPlainTextEdit)
-
-        self.gridLayout.addWidget(self.filterFrame, 1, 0, 1, 1)
 
         self.detailsScrollArea = QScrollArea()
         self.detailsScrollArea.setObjectName(u"detailsScrollArea")
@@ -347,6 +277,30 @@ class AdvancedTrackView(object):
         self.applyToAllButton.setStyleSheet(buttonStyle)
         self.applyToAllButton.setToolTip("Apply the default value to all the encoding below.")
 
+
+        self.variableGridLayout = QGridLayout()#self.controlFrame)
+        self.variableGridLayout.setObjectName(u"variableGridLayout")
+
+        self.variableLabel = QLabel(self.controlFrame)
+        self.variableLabel.setObjectName(u"variableLabel")
+
+        self.variableGridLayout.addWidget(self.variableLabel, 0, 0, 1, 1)
+
+        self.variableComboBox = QComboBox(self.controlFrame)
+        size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.variableComboBox.sizePolicy().hasHeightForWidth())
+        self.variableComboBox.setObjectName(u"variableComboBox")
+        self.variableComboBox.setSizePolicy(size_policy)
+        self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
+
+        self.variableGridLayout.addWidget(self.variableComboBox, 0, 1, 1, 2)
+
+
+        # self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        # self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
+
         self.octaveLayout = QHBoxLayout()
         self.octaveLayout.setObjectName(u"octaveLayout")
 
@@ -364,12 +318,20 @@ class AdvancedTrackView(object):
         self.octaveLayout.addWidget(self.octaveLabel)
         self.octaveLayout.addWidget(self.octaveSpinBox)
 
-        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 2, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 2, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addLayout(self.octaveLayout, 0, 1, 1, 1)
+        self.horizontalSpacerTop = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacerBottom = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 1, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.variableGridLayout, 0, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerTop, 0, 1, 1, 4)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerBottom, 1, 2, 1, 4)
+        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 0, 3, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 1, 3, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 0, 4, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 1, 4, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.octaveLayout, 1, 1, 1, 1)
+        #self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
+
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -395,15 +357,10 @@ class AdvancedTrackView(object):
         self.retranslate_ui()
         self.connect_ui()
         self.detailsScrollArea.hide()
-        self.filterFrame.hide()
-        self.SettingsFrame.hide()
 
     def retranslate_ui(self):
         self.octaveLabel.setText(QCoreApplication.translate("Form", u"Select Octave", None))
         self.variableLabel.setText(QCoreApplication.translate("Form", u"Select Variable", None))
-        self.nameLabel.setText(QCoreApplication.translate("Form", u"Track Name", None))
-        self.changeModeButton.setText(QCoreApplication.translate("Form", u"Change Mode", None))
-        self.filterLabel.setText(QCoreApplication.translate("Form", u"Filter", None))
         self.defaultValueLabel.setText(QCoreApplication.translate("Form", u"Default:", None))
         self.checkAllButton.setText(QCoreApplication.translate("Form", u"Check all", None))
         self.switchAllCheckButton.setText(QCoreApplication.translate("Form", u"Switch all", None))

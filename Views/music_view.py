@@ -86,7 +86,7 @@ class MusicView:
         """
         prev_note_idx = 0
         while True:  # This thread never stops.
-            if(self.ctrl.finished):
+            if(self.ctrl.finished and self.model.notes.empty()):
                 self.model.sonification_view.topBarView.press_stop_button()
                 self.model.sonification_view.set_status_text("Music ended after {} secs".format(self.model.settings.get_music_duration()), 10000)
                 time.sleep(0.1)

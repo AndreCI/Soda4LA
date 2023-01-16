@@ -271,7 +271,7 @@ class MusicCtrl:
 
         # Update data
         self.data.reset_playing_index()
-        self.model.sonification_view.tableView.data_model.reset(self.data.get_first(), self.data.get_second())
+        self.model.sonification_view.tableView.data_model.reset(self.data.sample_size, self.data.get_first(), self.data.get_second())
         self.model.sonification_view.visualisationView.reset()
 
         # Reset queue

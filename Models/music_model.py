@@ -10,8 +10,6 @@ from Models import note_model
 import Models.data_model as data_model
 from Models.settings_model import GeneralSettings
 from Models.track_model import Track
-from Utils.constants import BATCH_NBR_PLANNED
-
 
 class Music:
     """

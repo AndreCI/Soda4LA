@@ -8,9 +8,7 @@ import pandas as pd
 from dateutil.parser import parse, ParserError
 from pandas import DataFrame
 
-import Ctrls.data_controller
 import Models.music_model as music_model
-from Utils.constants import BATCH_SIZE
 from Utils.error_manager import ErrorManager
 
 
@@ -37,6 +35,7 @@ class Data:
         """
         if Data._instance is None:
             self.df = None
+            self.data_index = 0
             self.header = None
             self.timing_span = None
             self.set_data_timespan = None
@@ -49,6 +48,7 @@ class Data:
             self.size = None
             self.view = None
             self.formats = None
+            self.sample_size = None
             #self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
@@ -70,7 +70,7 @@ class Data:
         else:
             raise FileNotFoundError("Specified data file has not been found at location: {}".format(path))
 
-    def read_data(self, path:str):
+    def read_primary_data(self, path:str):
         """
         :param path: str
         """
@@ -82,10 +82,14 @@ class Data:
         self.index = 0
         self.first_date = None
         self.last_date = None
-        self.batch_size = BATCH_SIZE
-        self.size = self.df.shape[0] + 1
         music = music_model.Music.getInstance()
+        self.batch_size = music.settings.batchSize
+        self.sample_size = music.settings.sampleSize
+        self.size = self.df.shape[0] + 1
         music.settings.reset_music_duration()
+
+    def read_additional_data(self, path:str):
+        pass
 
     @staticmethod
     def is_date(string:str, fuzzy=False) ->bool:
@@ -145,14 +149,10 @@ class Data:
         return min([float(x) for x in self.df[column]])
 
     def get_first(self):
-        return self.df.iloc[range(0, 10)]
+        return self.df.iloc[range(0, self.sample_size)]
 
     def get_second(self):
-        return self.df.iloc[range(9, 20)]
-
-    def get_first_and_last(self):
-        data = self.df.iloc[[0, 1, 2, 3, 4, -5, -4, -3, -2, -1]]
-        return data
+        return self.df.iloc[range(self.sample_size - 1, self.sample_size*2)]
 
     def get_next(self, iterate=False) -> DataFrame:
         """

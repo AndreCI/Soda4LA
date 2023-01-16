@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from pathlib import Path
+
 import ViewsPyQT5.sonification_view as sv
 import time
 from collections import deque
@@ -7,7 +10,7 @@ import pandas as pd
 from PyQt5.QtCore import QSize, Qt, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
     QModelIndex
 from PyQt5.QtWidgets import QSizePolicy, QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
-    QTableView, QFileDialog, QMessageBox
+    QTableView, QFileDialog, QMessageBox, QTabWidget
 
 from Models.data_model import Data
 from Utils.error_manager import ErrorManager
@@ -30,12 +33,14 @@ class TableView(object):
         self.verticalLayout = QGridLayout(self.tableFrame)
         self.verticalLayout.setObjectName(u"verticalLayout")
 
+        self.tabWidget = QTabWidget()
         self.tableView = QTableView()
+        self.tabWidget.addTab(self.tableView, "")
 
         self.generate_ui()
 
         self.verticalLayout.addWidget(self.dataViewFrame, 0, 0, 1, 2)
-        self.verticalLayout.addWidget(self.tableView, 1, 0, 1, 5)
+        self.verticalLayout.addWidget(self.tabWidget, 1, 0, 1, 5)
         self.dataViewFrame.hide()
 
         self.retranslate_ui()
@@ -65,7 +70,7 @@ class TableView(object):
         file, check = QFileDialog.getOpenFileName(None, "Load data file",
                                                   "", "CSV (*.csv)")
         if check:
-            self.data.read_data(file)
+            self.data.read_primary_data(file)
             self.dataPathLineEdit.setText(file)
             self.setup_data_model()
             self.dataColumnComboBox.setEnabled(True)
@@ -75,9 +80,20 @@ class TableView(object):
                 ErrorManager.getInstance().timestamp_warning()
             self.dataColumnComboBox.addItems(candidates)
             self.validateDataButton.setEnabled(True)
+            self.tabWidget.setTabText(0, Path(file).stem)
+
+    def load_additional_data(self):
+        file, check = QFileDialog.getOpenFileName(None, "Load data file",
+                                                  "", "CSV (*.csv)")
+        if check:
+            self.data.read_additional_data(file)
+            self.tableView2 = QTableView()
+
+            self.tabWidget.addTab(self.tableView2, Path(file).stem)
+            #self.setup_data_model()
 
     def setup_data_model(self):
-        self.data_model = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self)
+        self.data_model = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size)
         self.tableView.setModel(self.data_model)
 
     def validate_data(self):
@@ -166,15 +182,18 @@ class DataFrameModel(QAbstractTableModel):
     DtypeRole = Qt.UserRole + 1000
     ValueRole = Qt.UserRole + 1001
 
-    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), parent=None, mom=None):
+    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), size = 20, parent=None, mom=None):
         super(DataFrameModel, self).__init__(parent)
         self._dataframe = df
+        self.size = size
         self.buffer = deque()
         self.mom = mom
         for d in dfb.itertuples():
             self.buffer.append(d)
 
-    def reset(self, df=pd.DataFrame(), dfb=pd.DataFrame()):
+    def reset(self, size=None, df=pd.DataFrame(), dfb=pd.DataFrame()):
+        if size is not None:
+            self.size = size
         self.buffer.clear()
         for d in dfb.itertuples():
             self.buffer.append(d)
@@ -183,7 +202,7 @@ class DataFrameModel(QAbstractTableModel):
         self.endResetModel()
 
     def load_row(self, row):
-        if(self._dataframe.shape[0] <= 9):
+        if(self._dataframe.shape[0] <= self.size - 1):
             self.beginResetModel()
             self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
                                         ignore_index=True)
@@ -201,7 +220,7 @@ class DataFrameModel(QAbstractTableModel):
         self.beginResetModel()
         if (len(self.buffer) > 0):
             row = [self.buffer.popleft()]
-            if (self._dataframe.shape[0] <= 9 and len(self.buffer) > 0):
+            if (self._dataframe.shape[0] <= self.size - 1 and len(self.buffer) > 0):
                 row.append(self.buffer.popleft())
             self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
                                     ignore_index=True)

@@ -232,10 +232,7 @@ class TrackView(object):
         self.filterButton.setMinimumSize(QSize(30, 30))
         self.filterButton.setMaximumSize(QSize(16777215, 16777215))
         self.filterButton.setStyleSheet(buttonStyle)
-        icon = QIcon()
-        icon.addFile(u"data/img/icons/filter.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.filterButton.setIcon(icon)
-        self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 0, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 1, 1, 1)
 
         self.valueButton = QPushButton(self.TrackSettings_2)
         self.valueButton.setObjectName(u"ValueButton")
@@ -249,7 +246,7 @@ class TrackView(object):
                                       "value": self.valueButton,
                                       "duration": self.durationButton,
                                       "velocity": self.velocityButton}
-        self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 1, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 0, 1, 1)
 
         self.TrackSettings.addLayout(self.AdvancedTrackSettings)
         # self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -371,10 +368,6 @@ class TrackView(object):
         self.connect_ui()
 
         self.TrackSettings_2.show()
-        self.track.advancedView.filterFrame.show()
-        self.track.advancedView.SettingsFrame.show()
-
-        # self.SoundfontComboBox.set
 
     def add_track(self, track):
         g_track_frame = QFrame()

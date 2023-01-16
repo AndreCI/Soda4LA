@@ -3,7 +3,6 @@ import math
 import threading
 
 import Models.settings_model as ts
-from Utils.constants import BATCH_NBR_PLANNED
 from Utils.utils import is_int
 import ViewsPyQT5.settings_view as sv
 
@@ -24,7 +23,7 @@ class SettingsCtrl():
         self.model.data.batch_size = batch_size
         self.model.music.ctrl.change_queue_size(batch_size * batch_planned)
 
-    def validate(self, batch_size:int, batch_planned:int, song_length:int, note_timing:int, tempo_idx:int,
+    def validate(self, batch_size:int, batch_planned:int, song_length:int, note_timing:int, sample_size:int, tempo_idx:int,
                  autoload:bool, graphical_length:int, graphical_precentage:int)->None:
         """
         Validate time settings entered by user and update models accordingly
@@ -34,12 +33,14 @@ class SettingsCtrl():
                 is_int(batch_planned) and
                 is_int(song_length) and
                 is_int(note_timing) and
+                is_int(sample_size) and
                 is_int(graphical_length) and
                 is_int(graphical_precentage)):
             return
         threading.Thread(target=self.change_batch_size, args=[int(batch_size), int(batch_planned)], daemon=True, name="change_batch_size").start()
         self.model.musicDuration = int(song_length)
         self.model.timeBuffer = int(note_timing)
+        self.model.sampleSize = int(sample_size)
         self.model.set_type(self.model.possible_types[tempo_idx])
         self.model.autoload = autoload
         self.model.autoloadDataPath = self.model.data.path
@@ -61,6 +62,14 @@ class SettingsCtrl():
             line = "graphicalLength=" + str(self.model.graphicalLength) + "\n"
             settingsFile.write(line)
             line = "graphicalBarPercentage=" + str(self.model.graphicalBarPercentage) + "\n"
+            settingsFile.write(line)
+            line = "batchSize=" + str(self.model.batchSize) + "\n"
+            settingsFile.write(line)
+            line = "batchPlanned=" + str(self.model.batchPlanned) + "\n"
+            settingsFile.write(line)
+            line = "timeBuffer=" + str(self.model.timeBuffer) + "\n"
+            settingsFile.write(line)
+            line = "sampleSize=" + str(self.model.sampleSize) + "\n"
             settingsFile.write(line)
 
     def open_settings(self, view:sv.SettingsView):

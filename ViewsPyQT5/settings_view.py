@@ -58,6 +58,11 @@ class SettingsView(QMainWindow):
 
         self.gridLayout_timesettings.addWidget(self.NoteTimingLabel, 4, 0, 1, 1)
 
+        self.sampleSizeLabel = QLabel(self.optionsFrame)
+        self.sampleSizeLabel.setObjectName(u"sampleSizeLabel")
+
+        self.gridLayout_timesettings.addWidget(self.sampleSizeLabel, 5, 0, 1, 1)
+
         self.batchSizeLineEdit = QLineEdit(self.optionsFrame)
         self.batchSizeLineEdit.setObjectName(u"batchSizeLineEdit")
 
@@ -75,6 +80,11 @@ class SettingsView(QMainWindow):
         self.noteTimingLineEdit.setObjectName(u"noteTimingLineEdit")
 
         self.gridLayout_timesettings.addWidget(self.noteTimingLineEdit, 4, 1, 1, 1)
+
+        self.sampleSizeLineEdit = QLineEdit(self.optionsFrame)
+        self.sampleSizeLineEdit.setObjectName(u"sampleSizeLineEdit")
+
+        self.gridLayout_timesettings.addWidget(self.sampleSizeLineEdit, 5, 1, 1, 1)
 
         self.gridLayout.addWidget(self.optionsFrame, 2, 1, 1, 1)
 
@@ -176,8 +186,9 @@ class SettingsView(QMainWindow):
     def retranslate_ui(self):
         self.songLengthLabel.setText(QCoreApplication.translate("Form", u"Song length, in seconds", None))
         self.batchSizeLabel.setText(QCoreApplication.translate("Form", u"Batch size to sonify", None))
-        self.batchPlannedLabel.setText(QCoreApplication.translate("Form", u"#batches to sonify in advance", None))
+        self.batchPlannedLabel.setText(QCoreApplication.translate("Form", u"#Batches to sonify in advance", None))
         self.bpmLabel.setText(QCoreApplication.translate("Form", u"Beat/Row Per Minutes ", None))
+        self.sampleSizeLabel.setText(QCoreApplication.translate("Form", u"#Rows displayed ", None))
 
         self.graphicalLengthLabel.setText(QCoreApplication.translate("Form", u"#seconds displayed on the x axis of the graph", None))
         self.graphicalPercentageLabel.setText(QCoreApplication.translate("Form", u"% of graph displayed in the past", None))
@@ -201,6 +212,7 @@ class SettingsView(QMainWindow):
     # retranslateUi
     def set_tools_tips(self):
         self.songLengthLineEdit.setToolTip("Length of the music, in seconds. \nChanging this will change the bpm")
+        self.sampleSizeLabel.setToolTip("Number of rows displayed on the table below the graph.\n You will need to restart the program.")
         self.batchPlannedLineEdit.setToolTip("Number of batches to process in advance.\n"
                                           "A smaller value will make the program more responsive to changes to encoding "
                                           "but it may results in rows being skipped if they are close too each others timing wise. "
@@ -225,6 +237,7 @@ class SettingsView(QMainWindow):
         self.songLengthLineEdit.setText(str(self.model.get_music_duration()))
         self.batchSizeLineEdit.setText(str(self.model.batchSize))
         self.batchPlannedLineEdit.setText(str(self.model.batchPlanned))
+        self.sampleSizeLineEdit.setText(str(self.model.sampleSize))
         self.bpmLineEdit.setText(str(self.model.get_bpm()))
         self.noteTimingLineEdit.setText(str(self.model.timeBuffer))
         self.previousDataCheckBox.setChecked(self.model.autoload)
@@ -262,7 +275,7 @@ class SettingsView(QMainWindow):
 
     def validate(self):
         self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(), self.songLengthLineEdit.text(),
-                                 self.noteTimingLineEdit.text(),
+                                 self.noteTimingLineEdit.text(), self.sampleSizeLineEdit.text(),
                                  self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked(),
                                  self.graphicalLengthLineedit.text(), self.graphicalPercentageLineedit.text())
 

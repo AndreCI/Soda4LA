@@ -1,10 +1,13 @@
 from __future__ import annotations
+
+import os.path
+
 from Ctrls.settings_controller import SettingsCtrl
 
 # TODO add other time settings
 import Models.data_model as data_model
 import Models.music_model as music
-from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED
+from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED, SAMPLE_SIZE
 
 
 class GeneralSettings:  # TODO rename this into general settings
@@ -27,6 +30,7 @@ class GeneralSettings:  # TODO rename this into general settings
         self.batchSize = BATCH_SIZE
         self.batchPlanned = BATCH_NBR_PLANNED
         self.timeBuffer = TIME_BUFFER
+        self.sampleSize = SAMPLE_SIZE
         self.autoload = False
         self.autoloadDataPath = ""
         self.autoloadTimestampcol = ""
@@ -40,7 +44,7 @@ class GeneralSettings:  # TODO rename this into general settings
         # View
         self.tsView = None
 
-        try:  # TODO replace with an if/else
+        if os.path.exists("settings.ini"):
             with open("settings.ini", "r") as settingsFile:
                 for line in settingsFile.readlines():
                     identifier = line.split("=")[0]
@@ -57,9 +61,17 @@ class GeneralSettings:  # TODO rename this into general settings
                         self.graphicalLength = eval(value)
                     elif (identifier == "graphicalBarPercentage"):
                         self.graphicalBarPercentage = eval(value)
-
-        except FileNotFoundError:
+                    elif (identifier == "batchSize"):
+                        self.batchSize = eval(value)
+                    elif (identifier == "batchPlanned"):
+                        self.batchPlanned = eval(value)
+                    elif (identifier == "timeBuffer"):
+                        self.timeBuffer = eval(value)
+                    elif (identifier == "sampleSize"):
+                        self.sampleSize = eval(value)
+        else:
             self.ctrl.write_to_ini()
+
 
     def __getstate__(self):
         state = self.__dict__.copy()
