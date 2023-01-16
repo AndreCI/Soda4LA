@@ -34,7 +34,7 @@ class Data:
                         the buffer size
         """
         if Data._instance is None:
-            self.df = None
+            self.df = []
             self.data_index = 0
             self.header = None
             self.timing_span = None
@@ -42,7 +42,7 @@ class Data:
             self.index = None
             self.first_date = None
             self.last_date = None
-            self.path = None
+            self.primary_data_path = None
             self.batch_size = None
             self.date_column = None
             self.size = None
@@ -60,13 +60,13 @@ class Data:
         """
         if '.csv' in path:
             try:
-                self.df = pd.read_csv(path, sep=";")
+                self.df.append(pd.read_csv(path, sep=";"))
             except:
-                self.df = pd.read_csv(path)
+                self.df.append(pd.read_csv(path))
         elif '.json' in path:
-            self.df = pd.read_json(path)
+            self.df.append(pd.read_json(path))
         elif '.xsl' in path:
-            self.df = pd.read_excel(path)
+            self.df.append(pd.read_excel(path))
         else:
             raise FileNotFoundError("Specified data file has not been found at location: {}".format(path))
 
@@ -74,9 +74,9 @@ class Data:
         """
         :param path: str
         """
-        self.path = path
+        self.primary_data_path = path
         self.retrieve_data(path)
-        self.header = list(self.df.columns)
+        self.header = list(self.df[0].columns)
         self.timing_span = None
         self.set_data_timespan = None
         self.index = 0
@@ -85,11 +85,12 @@ class Data:
         music = music_model.Music.getInstance()
         self.batch_size = music.settings.batchSize
         self.sample_size = music.settings.sampleSize
-        self.size = self.df.shape[0] + 1
+        self.size = self.df[0].shape[0] + 1
         music.settings.reset_music_duration()
 
     def read_additional_data(self, path:str):
-        pass
+        self.data_index+=1
+        self.retrieve_data(path)
 
     @staticmethod
     def is_date(string:str, fuzzy=False) ->bool:
@@ -110,7 +111,7 @@ class Data:
         """
         find and return all columns that looks like a timestamp
         """
-        candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
+        candidates = [c for c in self.header if self.is_date(self.df[0][c].loc[self.df[0][c].first_valid_index()])]
         return candidates
 
 
@@ -140,19 +141,19 @@ class Data:
         :return: list,
                 unique value from the target column
         """
-        return pd.unique(self.df[column])
+        return pd.unique(self.df[0][column])
 
     def get_max(self, column:str)->float:
-        return max([float(x) for x in self.df[column]])
+        return max([float(x) for x in self.df[self.data_index][column]])
 
     def get_min(self, column:str)->float:
-        return min([float(x) for x in self.df[column]])
+        return min([float(x) for x in self.df[self.data_index][column]])
 
     def get_first(self):
-        return self.df.iloc[range(0, self.sample_size)]
+        return self.df[self.data_index].iloc[range(0, self.sample_size)]
 
     def get_second(self):
-        return self.df.iloc[range(self.sample_size - 1, self.sample_size*2)]
+        return self.df[self.data_index].iloc[range(self.sample_size - 1, self.sample_size*2)]
 
     def get_next(self, iterate=False) -> DataFrame:
         """
@@ -161,7 +162,7 @@ class Data:
             data: pd.Dataframe,
                 data buffered
         """
-        data = self.df[self.index: self.index + self.batch_size]
+        data = self.df[self.data_index][self.index: self.index + self.batch_size]
         if (iterate):
             self.index += self.batch_size
         return data
@@ -226,18 +227,18 @@ class Data:
         """
         Method to assign timestamp to a new column
         """
-        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x, self.get_timestamp_formats(additional_format)).timestamp())
-        if not self.df['internal_timestamp'].is_monotonic_increasing:
+        self.df[self.data_index]['internal_timestamp'] = self.df[self.data_index][self.date_column].apply(lambda x: self.get_datetime(x, self.get_timestamp_formats(additional_format)).timestamp())
+        if not self.df[self.data_index]['internal_timestamp'].is_monotonic_increasing:
             sort_data = ErrorManager.getInstance().sorted_data_warning()
             if(sort_data):
-                self.df = self.df.sort_values(by='internal_timestamp', axis=0)
+                self.df[self.data_index] = self.df[self.data_index].sort_values(by='internal_timestamp', axis=0)
             else:
                 exit()
-        self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
-        self.df['internal_filter'] = True
+        self.df[self.data_index]['internal_id'] = np.arange(1, self.df[self.data_index].shape[0] + 1)
+        self.df[self.data_index]['internal_filter'] = True
         # set first and last date here
-        first_date = self.get_datetime(self.df.iloc[0][self.date_column], self.get_timestamp_formats(additional_format))
-        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column], self.get_timestamp_formats(additional_format))
+        first_date = self.get_datetime(self.df[self.data_index].iloc[0][self.date_column], self.get_timestamp_formats(additional_format))
+        last_date = self.get_datetime(self.df[self.data_index].iloc[len(self.df[self.data_index]) - 1][self.date_column], self.get_timestamp_formats(additional_format))
         self.timing_span = first_date - last_date
         # first and last date into seconds
         self.first_date = first_date.timestamp()
@@ -254,9 +255,9 @@ class Data:
         """
         insight = {}
 
-        if col in self.df.select_dtypes(exclude='object'):  # if col is continious
-            return {'mode': self.df[col].mode(), 'mean': self.df[col].mean(), 'min': self.df[col].min(),
-                    'max': self.df[col].max(), 'median': self.df[col].median()}
+        if col in self.df[self.data_index].select_dtypes(exclude='object'):  # if col is continious
+            return {'mode': self.df[self.data_index][col].mode(), 'mean': self.df[self.data_index][col].mean(), 'min': self.df[self.data_index][col].min(),
+                    'max': self.df[self.data_index][col].max(), 'median': self.df[self.data_index][col].median()}
 
         else:  # col is an object/categorical
-            return self.df[col].value_counts().to_dict()
+            return self.df[self.data_index][col].value_counts().to_dict()

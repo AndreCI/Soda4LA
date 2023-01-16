@@ -119,9 +119,10 @@ class Music:
 
     def generate_dataframe(self):
         """Pre compute all notes into a dataframe"""
+        raise NotImplementedError()
         t1 = time.perf_counter()
         for track in self.tracks.values():
-            evaluated_data = track.filter_batch(self.data.df, False)
+            evaluated_data = track.filter_batch(self.data.df[self.data.data_index], False)
             notes = evaluated_data.apply(lambda x: track.build_note2(x), axis=1)
             self.tracks_note[str(track.id)] = notes
         print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))

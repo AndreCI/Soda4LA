@@ -43,7 +43,7 @@ class SettingsCtrl():
         self.model.sampleSize = int(sample_size)
         self.model.set_type(self.model.possible_types[tempo_idx])
         self.model.autoload = autoload
-        self.model.autoloadDataPath = self.model.data.path
+        self.model.autoloadDataPath = self.model.data.primary_data_path
         self.model.graphicalLength = int(graphical_length) * 1000
         self.model.graphicalBarPercentage = float(graphical_precentage) / 100
 

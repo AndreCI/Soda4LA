@@ -122,7 +122,7 @@ class MusicView:
                         logging.log(logging.INFO,log_line)
                 if (prev_note_idx != note.id):
                     threading.Thread(
-                        target=self.model.sonification_view.tableView.data_model.push_row_to_data_frame,
+                        target=self.model.sonification_view.tableView.data_model[self.model.data.data_index].push_row_to_data_frame,
                         args=[note_timing],
                         daemon=True).start()
                 prev_note_idx = note.id

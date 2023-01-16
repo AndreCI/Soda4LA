@@ -50,11 +50,11 @@ class NoteData:
 
     def generate(self):
         """Pre compute all notes into a dataframe"""
-
-        notes = self.data.df.apply(lambda x: self.create_note(x), axis=1)
+        raise NotImplementedError()
+        notes = self.data.df[self.data.data_index].apply(lambda x: self.create_note(x), axis=1)
         print(notes)
         for track in self.tracks:
-            notes = self.data.df.apply(lambda x:self.create_note(x), axis=1)
+            notes = self.data[self.data.data_index].df.apply(lambda x:self.create_note(x), axis=1)
             print(notes)
             self.tracks_note.append(notes)
 

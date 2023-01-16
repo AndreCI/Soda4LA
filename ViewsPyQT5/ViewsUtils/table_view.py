@@ -20,7 +20,7 @@ class TableView(object):
 
     def __init__(self, parent:sv.SonificationView):
         self.parent = parent
-        self.data_model = None
+        self.data_model = []
 
     def setupUi(self):
         self.data = Data.getInstance()
@@ -34,8 +34,8 @@ class TableView(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
 
         self.tabWidget = QTabWidget()
-        self.tableView = QTableView()
-        self.tabWidget.addTab(self.tableView, "")
+        self.tableViews = [QTableView()]
+        self.tabWidget.addTab(self.tableViews[0], "")
 
         self.generate_ui()
 
@@ -63,8 +63,8 @@ class TableView(object):
 
     def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
-            self.tableView.selectColumn(
-                self.data_model._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
+            self.tableViews[0].selectColumn(
+                self.data_model[0]._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
 
     def load_data(self):
         file, check = QFileDialog.getOpenFileName(None, "Load data file",
@@ -87,14 +87,18 @@ class TableView(object):
                                                   "", "CSV (*.csv)")
         if check:
             self.data.read_additional_data(file)
-            self.tableView2 = QTableView()
+            self.data.assign_timestamps(self.timestampFormatLineEdit.text())
+            self.tableViews.append(QTableView())
 
-            self.tabWidget.addTab(self.tableView2, Path(file).stem)
+            self.data_model2 = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self,
+                                             size=self.data.sample_size)
+            self.tableViews[self.data.data_index].setModel(self.data_model2)
+            self.tabWidget.addTab(self.tableViews[self.data.data_index], Path(file).stem)
             #self.setup_data_model()
 
     def setup_data_model(self):
-        self.data_model = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size)
-        self.tableView.setModel(self.data_model)
+        self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
+        self.tableViews[0].setModel(self.data_model[0])
 
     def validate_data(self):
         self.data.date_column = self.data.get_candidates_timestamp_columns()[self.dataColumnComboBox.currentIndex()]
