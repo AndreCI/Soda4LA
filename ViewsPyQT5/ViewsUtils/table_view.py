@@ -7,9 +7,10 @@ import pandas as pd
 from PyQt5.QtCore import QSize, Qt, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
     QModelIndex
 from PyQt5.QtWidgets import QSizePolicy, QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
-    QTableView, QFileDialog
+    QTableView, QFileDialog, QMessageBox
 
 from Models.data_model import Data
+from Utils.error_manager import ErrorManager
 
 
 class TableView(object):
@@ -46,7 +47,7 @@ class TableView(object):
         self.dataColumnComboBox.setToolTip("Select a column as a master timestamp, that will be used to order notes.\n"
                                            "It must be sequential.")
         self.validateDataButton.setToolTip("Validate data selection, starting the sonification process.")
-        self.timestampFormatLineEdit.setToolTip("Informs Soda4LA about the format of the timestamp in the file\n"
+        self.timestampFormatLineEdit.setToolTip("Informs Soda about the format of the timestamp in the file\n"
                                                 "If the format is invalid or not informed, default formats will be tried.\n"
                                                 "Exemple of format: \"%d/%m/%Y %H:%M:%S\" for day/month/year hours/minutes/seconds.")
 
@@ -68,7 +69,11 @@ class TableView(object):
             self.dataPathLineEdit.setText(file)
             self.setup_data_model()
             self.dataColumnComboBox.setEnabled(True)
-            self.dataColumnComboBox.addItems(self.data.get_candidates_timestamp_columns())
+            candidates = self.data.get_candidates_timestamp_columns()
+            if(len(candidates)==0):
+                candidates = self.data.header
+                ErrorManager.getInstance().timestamp_warning()
+            self.dataColumnComboBox.addItems(candidates)
             self.validateDataButton.setEnabled(True)
 
     def setup_data_model(self):

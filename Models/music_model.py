@@ -7,7 +7,7 @@ from midiutil.MidiFile import MIDIFile
 
 from Ctrls.music_controller import MusicCtrl
 from Models import note_model
-from Models.data_model import Data
+import Models.data_model as data_model
 from Models.settings_model import GeneralSettings
 from Models.track_model import Track
 from Utils.constants import BATCH_NBR_PLANNED
@@ -49,7 +49,7 @@ class Music:
             self.tracks_note = {}
 
             self.settings = GeneralSettings(self)
-            self.data = Data.getInstance()
+            self.data = data_model.Data.getInstance()
             self.queue_capacity = self.settings.batchPlanned * self.settings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 

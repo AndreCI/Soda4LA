@@ -9,7 +9,7 @@ from pathlib import Path
 
 from pandas import DataFrame
 
-from Models.data_model import Data
+import Models.data_model as data_model
 import Models.music_model as music
 from Models.note_model import NoteData
 from Models.track_model import Track
@@ -47,7 +47,7 @@ class MusicCtrl:
         # Model
         self.model = model  # Music model
         self.view = MusicView(model, self)
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
         # Threads
         self.producer_thread = threading.Thread(target=self.model.generate, daemon=True, name="Notes_producer_thread")

@@ -1,6 +1,7 @@
 .sf2
 *.sf2
 *.soda4la
+*.soda
 *.config
 *.mid
 *.wav

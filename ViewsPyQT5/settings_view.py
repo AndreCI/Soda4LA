@@ -13,7 +13,7 @@ class SettingsView(QMainWindow):
         self.parent = parent
         self.updating = False
         self.model = None
-        self.setWindowTitle("Soda4LA - Settings")
+        self.setWindowTitle("Soda - Settings")
         self.settingsFrame = QFrame()
         self.setCentralWidget(self.settingsFrame)
         self.settingsFrame.setObjectName(u"settingsFrame")
@@ -193,7 +193,7 @@ class SettingsView(QMainWindow):
                                                           "p, li { white-space: pre-wrap; }\n"
                                                           "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
                                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">"
-                                                          "Soda4LA, a generalist sonification software.<br>"
+                                                          "Soda, a generalist sonification software.<br>"
                                                           "Made by TECFA at Unige. Pr. Eric Sanchez & Andre Cibils. <br>GNU GENERAL PUBLIC LICENSE"
                                                           "</span></p></body></html>",
                                                           None))

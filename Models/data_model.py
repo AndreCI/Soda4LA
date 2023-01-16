@@ -1,4 +1,5 @@
 import logging
+import os.path
 from datetime import datetime
 
 import dateutil
@@ -8,7 +9,9 @@ from dateutil.parser import parse, ParserError
 from pandas import DataFrame
 
 import Ctrls.data_controller
+import Models.music_model as music_model
 from Utils.constants import BATCH_SIZE
+from Utils.error_manager import ErrorManager
 
 
 class Data:
@@ -45,6 +48,7 @@ class Data:
             self.date_column = None
             self.size = None
             self.view = None
+            self.formats = None
             #self.ctrl = Ctrls.data_controller.DataCtrl(self)
             Data._instance = self
 
@@ -80,6 +84,8 @@ class Data:
         self.last_date = None
         self.batch_size = BATCH_SIZE
         self.size = self.df.shape[0] + 1
+        music = music_model.Music.getInstance()
+        music.settings.reset_music_duration()
 
     @staticmethod
     def is_date(string:str, fuzzy=False) ->bool:
@@ -102,6 +108,7 @@ class Data:
         """
         candidates = [c for c in self.header if self.is_date(self.df[c].loc[self.df[c].first_valid_index()])]
         return candidates
+
 
     def get_best_guess_variable(self) -> str:
         lower = self.header[0]
@@ -159,8 +166,35 @@ class Data:
             self.index += self.batch_size
         return data
 
+    def get_timestamp_formats(self, additional_format:str="")-> [str]:
+        """
+        Read, write and returns currently used formats for timestamp. Formats are stored on disk and regenerated to default if the file is deleted.
+        :param additional_format: an additional timestamp format that will be saved to disk.
+        :return: a list of str of formats for the timestamp column.
+        """
+        if self.formats != None and (additional_format=="" or additional_format in self.formats):
+            return self.formats
+        if(not os.path.exists("timestamp_formats.ini")):
+            with open("timestamp_formats.ini", "w") as file:
+                file.writelines(['%d/%m/%Y %H:%M:%S\n',
+                   '%d/%m/%y %H:%M:%S\n',
+                   '%Y-%m-%d %H:%M:%S\n', #2014-03-31 13:28:25
+                   '%y-%m-%d %H:%M:%S\n', #14-03-31 13:28:25
+                   '%H:%M:%S PM'] #1:20:21 PM
+                   )
+        formats = []
+        with open('timestamp_formats.ini', "r+") as file:
+            for line in file.readlines():
+                formats.append(line.removesuffix("\n"))
+            if(additional_format != "" and additional_format not in formats):
+                formats.insert(0, additional_format)
+                logging.info(logging.INFO, "Additional format added : {}".format(additional_format))
+                file.write('\n' + additional_format)
+        self.formats = formats
+        return self.formats
+
     @staticmethod
-    def get_datetime(d, additional_format:str) -> datetime:
+    def get_datetime(d, formats) -> datetime:
         """
         :param
             d: str,
@@ -172,20 +206,12 @@ class Data:
                 converted date
         """
 
-        formats = ['%d/%m/%Y %H:%M:%S',
-                   '%d/%m/%y %H:%M:%S',
-                   '%Y-%m-%d %H:%M:%S', #2014-03-31 13:28:25
-                   '%y-%m-%d %H:%M:%S', #14-03-31 13:28:25
-                   '%H:%M:%S PM'  #1:20:21 PM
-                   ]
-        if additional_format != "":
-            formats.insert(0, additional_format)
-            logging.info(logging.INFO, "Additional format added : {}".format(additional_format))
         for f in formats:
             try:
                 date = datetime.strptime(d, f)
-                if(date.year == 1900): #years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
-                    date = date.replace(year=1986)
+                if(date.year <= 1970): #years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
+                    date = date.replace(year=1971)
+                    ErrorManager.getInstance().datetime_replacement_warning()
                 return date
             except ValueError:
                 pass
@@ -200,14 +226,18 @@ class Data:
         """
         Method to assign timestamp to a new column
         """
-        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x, additional_format).timestamp())
-        #self.df = self.df.sort_values(by='internal_timestamp',
-        #                              axis=0)  # TODO message to user telling them that data were sorted
+        self.df['internal_timestamp'] = self.df[self.date_column].apply(lambda x: self.get_datetime(x, self.get_timestamp_formats(additional_format)).timestamp())
+        if not self.df['internal_timestamp'].is_monotonic_increasing:
+            sort_data = ErrorManager.getInstance().sorted_data_warning()
+            if(sort_data):
+                self.df = self.df.sort_values(by='internal_timestamp', axis=0)
+            else:
+                exit()
         self.df['internal_id'] = np.arange(1, self.df.shape[0] + 1)
         self.df['internal_filter'] = True
         # set first and last date here
-        first_date = self.get_datetime(self.df.iloc[0][self.date_column], additional_format)
-        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column], additional_format)
+        first_date = self.get_datetime(self.df.iloc[0][self.date_column], self.get_timestamp_formats(additional_format))
+        last_date = self.get_datetime(self.df.iloc[len(self.df) - 1][self.date_column], self.get_timestamp_formats(additional_format))
         self.timing_span = first_date - last_date
         # first and last date into seconds
         self.first_date = first_date.timestamp()

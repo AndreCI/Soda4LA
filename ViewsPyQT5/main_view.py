@@ -14,7 +14,7 @@ class MainWindow(QMainWindow):
 
         self.db = Data.getInstance()
 
-        self.setWindowTitle("Soda4LA")
+        self.setWindowTitle("Soda")
         self.setup_statusbar()
         self.sonification_main_widget = SonificationView(self)
         self.setup_menu()

@@ -74,11 +74,11 @@ class SonificationView(QWidget):
     def export_all_tracks(self):
         file, check = QFileDialog.getSaveFileName(None, "Save project",
                                                   "project with {} tracks".format(len(self.model.tracks)),
-                                                  "Soda4LA Project file (*.soda4la)")
+                                                  "Soda Project file (*.soda)")
         if check:
             self.model.ctrl.export_all_tracks(file)
 
     def import_all_tracks(self):
-        file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda4LA Project file (*.soda4la)")
+        file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda Project file (*.soda)")
         if check:
             self.model.ctrl.import_all_tracks(file)

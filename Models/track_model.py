@@ -8,7 +8,7 @@ from pandas import DataFrame
 import Models.music_model
 
 from Ctrls.track_controller import TrackCtrl
-from Models.data_model import Data
+import Models.data_model as data_model
 
 from Utils.constants import ENCODING_OPTIONS
 
@@ -35,7 +35,7 @@ class Track:
 
         self.name = "Track # {}".format(self.id)
         self.filter = FilterModule()  # Filter module linked to the column, dictating which row in data is used to generate notes
-        self.data = Data().getInstance()
+        self.data = data_model.Data.getInstance()
         self.filter.column = self.data.get_variables()[0]
         self.gain = 100  # Volume of the current track, between 0 and 100
         self.muted = False

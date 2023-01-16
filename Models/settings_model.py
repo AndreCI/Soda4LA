@@ -2,7 +2,7 @@ from __future__ import annotations
 from Ctrls.settings_controller import SettingsCtrl
 
 # TODO add other time settings
-from Models.data_model import Data
+import Models.data_model as data_model
 import Models.music_model as music
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED
 
@@ -16,7 +16,7 @@ class GeneralSettings:  # TODO rename this into general settings
     def __init__(self, music : music.Music):
         # Other models
         self.music = music
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
         # Data
         self.musicDuration = None  # in sec. 1 row per seconds is default
@@ -73,16 +73,19 @@ class GeneralSettings:  # TODO rename this into general settings
         self.__dict__.update(state)
         self.ctrl = SettingsCtrl(self)
         self.tsView = None
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
     def get_music_duration(self) -> int:
         return int(float(self.data.size)/1.5) if self.musicDuration is None else self.musicDuration
 
+    def reset_music_duration(self) -> None:
+        self.musicDuration = int(float(self.data.size)/1.5)
+
     def get_bpm(self) ->float: #bpm = size/length
-        return 60 * float(self.data.size) / self.get_music_duration()
+        return int(round(60 * float(self.data.size) / self.get_music_duration()))
 
     def set_bpm(self, bpm): #length = size/bpm
-        self.musicDuration = int(60 * float(self.data.size)/float(bpm))
+        self.musicDuration = int(round(60 * float(self.data.size)/float(bpm)))
 
     def set_type(self, type: str)->None:
         if (type not in self.possible_types):

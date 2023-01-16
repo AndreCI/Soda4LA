@@ -12,7 +12,7 @@ from pandas import DataFrame
 import Models.track_model as track
 from collections import namedtuple
 
-from Models.data_model import Data
+import Models.data_model as data_model
 from Models.parameter_encoding_model import ParameterEncoding
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
@@ -35,13 +35,13 @@ class NoteData:
     def __init__(self):
         if NoteData._instance is None:
             self.df = None
-            self.data:Data = None
+            self.data:data_model.Data = None
             self.tracks = None
             self.tracks_note = None
             NoteData._instance = self
 
     def setup(self, tracks: [track.Track]):
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
         self.tracks = tracks
         self.tracks_note = []
 
