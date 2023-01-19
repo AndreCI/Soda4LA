@@ -21,6 +21,8 @@ class TableView(object):
     def __init__(self, parent:sv.SonificationView):
         self.parent = parent
         self.data_model = []
+        self.currentDataModel = None
+        self.currentTableView = None
 
     def setupUi(self):
         self.data = Data.getInstance()
@@ -35,6 +37,7 @@ class TableView(object):
 
         self.tabWidget = QTabWidget()
         self.tableViews = [QTableView()]
+        self.currentTableView = self.tableViews[0]
         self.tabWidget.addTab(self.tableViews[0], "")
 
         self.generate_ui()
@@ -65,6 +68,8 @@ class TableView(object):
     def change_tab(self):
         self.parent.topBarView.press_stop_button()
         self.data.set_data_index(self.tabWidget.currentIndex())
+        self.currentTableView = self.tableViews[self.tabWidget.currentIndex()]
+        self.currentDataModel = self.data_model[self.tabWidget.currentIndex()]
 
     def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
@@ -105,6 +110,8 @@ class TableView(object):
     def setup_data_model(self):
         self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
         self.tableViews[0].setModel(self.data_model[0])
+        self.currentDataModel = self.data_model[0]
+        self.currentTableView = self.tableViews[0]
 
     def validate_data(self):
         self.data.date_column = self.data.get_candidates_timestamp_columns()[self.dataColumnComboBox.currentIndex()]

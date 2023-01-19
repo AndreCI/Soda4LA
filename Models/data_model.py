@@ -34,6 +34,7 @@ class Data:
                         the buffer size
         """
         if Data._instance is None:
+            self.current_dataset = None
             self.df = []
             self.data_index = 0
             self.header = None
@@ -74,6 +75,8 @@ class Data:
         """
         :param path: str
         """
+        if len(self.df) > 0:
+            raise ValueError("There is already primary data loaded!")
         self.primary_data_path = path
         self.retrieve_data(path)
         self.header = list(self.df[0].columns)
@@ -87,6 +90,7 @@ class Data:
         self.sample_size = music.settings.sampleSize
         self.size = self.df[0].shape[0] + 1
         music.settings.reset_music_duration()
+        self.current_dataset = self.df[0]
 
     def read_additional_data(self, path:str):
         self.data_index+=1
@@ -111,7 +115,7 @@ class Data:
         """
         find and return all columns that looks like a timestamp
         """
-        candidates = [c for c in self.header if self.is_date(self.df[0][c].loc[self.df[0][c].first_valid_index()])]
+        candidates = [c for c in self.header if self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
         return candidates
 
 
@@ -144,16 +148,16 @@ class Data:
         return pd.unique(self.df[0][column])
 
     def get_max(self, column:str)->float:
-        return max([float(x) for x in self.df[self.data_index][column]])
+        return max([float(x) for x in self.current_dataset[column]])
 
     def get_min(self, column:str)->float:
-        return min([float(x) for x in self.df[self.data_index][column]])
+        return min([float(x) for x in self.current_dataset[column]])
 
     def get_first(self):
-        return self.df[self.data_index].iloc[range(0, self.sample_size)]
+        return self.current_dataset.iloc[range(0, self.sample_size)]
 
     def get_second(self):
-        return self.df[self.data_index].iloc[range(self.sample_size - 1, self.sample_size*2)]
+        return self.current_dataset.iloc[range(self.sample_size - 1, self.sample_size*2)]
 
     def get_next(self, iterate=False) -> DataFrame:
         """
@@ -162,7 +166,7 @@ class Data:
             data: pd.Dataframe,
                 data buffered
         """
-        data = self.df[self.data_index][self.index: self.index + self.batch_size]
+        data = self.current_dataset[self.index: self.index + self.batch_size]
         if (iterate):
             self.index += self.batch_size
         return data
@@ -246,6 +250,8 @@ class Data:
 
     def set_data_index(self, index)->None:
         self.data_index = index
+        self.current_dataset = self.df[self.data_index]
+
     def reset_playing_index(self) -> None:
         self.index = 0
 

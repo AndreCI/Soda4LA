@@ -84,8 +84,8 @@ class MainWindow(QMainWindow):
 
     def show_load_data(self):
         self.sonification_main_widget.topBarView.press_stop_button()
-        if self.sonification_main_widget.tableView.data_model is not None:
-            self.sonification_main_widget.tableView.data_model.reset()
+        if self.sonification_main_widget.tableView.currentDataModel is not None:
+            self.sonification_main_widget.tableView.currentDataModel.reset()
         self.sonification_main_widget.trackView.TrackSelectScrollArea.hide()
         self.sonification_main_widget.visualisationView.GraphFrame.hide()
         self.sonification_main_widget.tableView.dataViewFrame.show()

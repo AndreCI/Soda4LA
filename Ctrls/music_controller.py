@@ -271,7 +271,7 @@ class MusicCtrl:
 
         # Update data
         self.data.reset_playing_index()
-        self.model.sonification_view.tableView.data_model[self.data.data_index].reset(self.data.sample_size, self.data.get_first(), self.data.get_second())
+        self.model.sonification_view.tableView.currentDataModel.reset(self.data.sample_size, self.data.get_first(), self.data.get_second())
         self.model.sonification_view.visualisationView.reset()
 
         # Reset queue
@@ -359,7 +359,7 @@ class MusicCtrl:
         for data in datas.itertuples():
             if not ((data.internal_id == self.data.get_first().internal_id).any() or
                     (data.internal_id == self.data.get_second().internal_id).any()):
-                self.model.sonification_view.tableView.data_model[self.data.data_index].load_row(data)
+                self.model.sonification_view.tableView.currentDataModel.load_row(data)
 
     def mute_click(self)->None:
         self.model.muted = not self.model.muted
