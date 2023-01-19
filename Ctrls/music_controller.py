@@ -85,6 +85,7 @@ class MusicCtrl:
         self.model.add_track(track, generate_view)
         if prev_track_nbr == 0 and len(self.model.tracks) == 1:
             self.model.sonification_view.topBarView.PPButton.setEnabled(True)
+            self.model.sonification_view.parent.playAction.setEnabled(True)
             self.model.sonification_view.topBarView.PPButton.setStyleSheet(playButtonReadyStyle)
         # threading.Thread(target=self.model.add_track, args=[track, generate_view], daemon=True).start()
 
@@ -97,6 +98,7 @@ class MusicCtrl:
         # threading.Thread(target=self.model.remove_track, args=[track], daemon=True).start()
         if len(self.model.tracks) == 0:
             self.model.sonification_view.topBarView.PPButton.setEnabled(False)
+            self.model.sonification_view.parent.playAction.setEnabled(False)
             self.model.sonification_view.topBarView.PPButton.setStyleSheet(buttonStyle)
             self.model.sonification_view.visualisationView.GraphFrame.hide()
             self.model.sonification_view.trackView.TrackSettings_2.hide()

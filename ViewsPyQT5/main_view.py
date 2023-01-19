@@ -56,6 +56,10 @@ class MainWindow(QMainWindow):
         self.settingsAction = QAction('Settings\tCtrl+T', self)
         self.settingsActionShortcut = QShortcut(QKeySequence("Ctrl+T"), self)
         self.menuFile.addAction(self.settingsAction)
+        self.playAction = QAction('Play/Pause\tSpace', self)
+        self.playAction.setEnabled(False)
+        self.playActionShortcut = QShortcut(QKeySequence("Space"), self)
+        self.menuFile.addAction(self.playAction)
         self.exitAction = QAction('Exit', self)
         self.menuFile.addAction(self.exitAction)
 
@@ -73,6 +77,8 @@ class MainWindow(QMainWindow):
         self.dataAdditionalShortcut.activated.connect(self.show_load_additional_data)
         self.saveAction.triggered.connect(self.sonification_main_widget.export_all_tracks)
         self.saveActionShortcut.activated.connect(self.sonification_main_widget.export_all_tracks)
+        self.playAction.triggered.connect(self.sonification_main_widget.topBarView.press_pp_button)
+        self.playActionShortcut.activated.connect(self.sonification_main_widget.topBarView.press_pp_button)
         self.openAction.triggered.connect(self.sonification_main_widget.import_all_tracks)
         self.openActionShortcut.activated.connect(self.sonification_main_widget.import_all_tracks)
 
