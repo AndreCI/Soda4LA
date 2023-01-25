@@ -180,7 +180,7 @@ class AdvancedTrackView(object):
 
         encoding_spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        encoding_h_layout.addItem(encoding_spacer)
+        #encoding_h_layout.addItem(encoding_spacer)
 
 
         size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -208,8 +208,8 @@ class AdvancedTrackView(object):
             "Each non filtered row containing this value will use this encoding for the {} of the note".format(
                 self.key))
 
-        encoding_h_layout.addWidget(encoding_value_line_edit)
         encoding_h_layout.addWidget(soundButton)
+        encoding_h_layout.addWidget(encoding_value_line_edit)
 
         return EncodingBox(frame=encoding_box, checkbox=encoding_check_box, valueLine=encoding_value_line_edit,
                            testButton=soundButton)
@@ -295,7 +295,7 @@ class AdvancedTrackView(object):
         self.variableComboBox.setSizePolicy(size_policy)
         self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
 
-        self.variableGridLayout.addWidget(self.variableComboBox, 0, 1, 1, 2)
+        self.variableGridLayout.addWidget(self.variableComboBox, 0, 1, 1, 1)
 
 
         # self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -323,8 +323,8 @@ class AdvancedTrackView(object):
 
         self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 1, 0, 1, 1)
         self.qualitiveModeOptionsLayout.addLayout(self.variableGridLayout, 0, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerTop, 0, 1, 1, 4)
-        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerBottom, 1, 2, 1, 4)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerTop, 0, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerBottom, 1, 2, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 0, 3, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 1, 3, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 0, 4, 1, 1)

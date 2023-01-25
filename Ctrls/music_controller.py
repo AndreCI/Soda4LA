@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+import copy
 import datetime
 import itertools
 import logging
@@ -35,11 +37,11 @@ class MusicCtrl:
         self.paused = False
         self.finished = False
         self.skipNextNote = False
-        self.queueSemaphore = ISemaphore()  # Could be seomething else ig
-        self.graphSemaphore = ISemaphore()  # Could be seomething else ig
+        self.queueSemaphore = ISemaphore(name="queue")  # Could be seomething else ig
+        self.graphSemaphore = ISemaphore(name="graph")  # Could be seomething else ig
         self.trackSemaphore = threading.Lock()  # Could be seomething else ig
-        self.emptySemaphore = IBoundedSemaphore(model.queue_capacity)
-        self.fullSemaphore = IBoundedSemaphore(model.queue_capacity)
+        self.emptySemaphore = IBoundedSemaphore(model.queue_capacity, "empty")
+        self.fullSemaphore = IBoundedSemaphore(model.queue_capacity, "full")
         self.fullSemaphore.acquire(n=model.queue_capacity)  # Set semaphore to 0
         self.playingEvent = threading.Event()
         self.stoppedEvent = threading.Event()
@@ -73,6 +75,15 @@ class MusicCtrl:
         # threading.Thread(target=self.model.add_track, args=[track, True], daemon=True).start()
         self.add_track(track, True)
 
+    def duplicate_track(self, track:Track)->None:
+        new_track = Track(self.model.generate_track_id())
+        new_track.soundfont = track.soundfont
+        new_track.ctrl.change_gain(track.gain)
+        new_track.ctrl.change_offset(track.offset)
+        for pe in track.pencodings:
+            new_track.pencodings[pe] = copy.deepcopy(track.pencodings[pe])
+        self.add_track(new_track, True)
+
     def add_track(self, track:Track, generate_view:bool=False)->None:
         """
         Add an existing track to music model
@@ -103,8 +114,6 @@ class MusicCtrl:
             self.model.sonification_view.visualisationView.GraphFrame.hide()
             self.model.sonification_view.trackView.TrackSettings_2.hide()
             self.model.sonification_view.trackView.retranslate_ui()
-            self.model.sonification_view.advancedTrackView.filterFrame.hide()
-            self.model.sonification_view.advancedTrackView.SettingsFrame.hide()
             self.model.sonification_view.advancedTrackView.detailsScrollArea.hide()
             self.model.sonification_view.parent.saveAction.setEnabled(False)
             self.model.sonification_view.parent.exportAction.setEnabled(False)
@@ -207,7 +216,7 @@ class MusicCtrl:
 
     def setup_general_attribute(self)->None:
         self.model.settings.set_attribute(self.model.data.first_date, self.model.data.last_date,
-                                          self.model.data.size)
+                                          self.model.data.get_size())
 
 
     def play_note(self, note):
@@ -246,6 +255,7 @@ class MusicCtrl:
         self.playingEvent.set()  # Release threads
         self.pausedEvent.set()  # Release threads
         self.stoppedEvent.clear()  # Send signal that we started
+        print("play!")
 
     def pause(self)->None:
         self.view.save_pause_time()
@@ -265,8 +275,9 @@ class MusicCtrl:
         self.playingEvent.clear()  # Send stop event
         self.stoppedEvent.set()
         self.skipNextNote = True  # if a note is ripping, make it stale
-        self.view.synth.system_reset()  # Reset synth to prevent future note from being played
-        self.view.synth.program_reset()
+        m_fluidsynth.fluid_settings_setnum(self.view.synth.settings, b'synth.gain', float(0) / 100)
+        #self.view.synth.system_reset()  # Reset synth to prevent future note from being played
+        #self.view.synth.program_reset()
         # Update bools
         self.playing = False
         self.paused = False
@@ -283,13 +294,13 @@ class MusicCtrl:
                 self.fullSemaphore.acquire()
                 self.model.notes.get_nowait()
         except ValueError:
-            self.queueSemaphore = ISemaphore()  # Could be seomething else ig
+            self.queueSemaphore = ISemaphore(name="queue")  # Could be seomething else ig
             self.trackSemaphore = threading.Lock()  # Could be seomething else ig
-            self.emptySemaphore = IBoundedSemaphore(self.model.queue_capacity)
-            self.fullSemaphore = IBoundedSemaphore(self.model.queue_capacity)
+            self.fullSemaphore = IBoundedSemaphore(self.model.queue_capacity, "full")
             self.fullSemaphore.acquire(n=self.model.queue_capacity)  # Set semaphore to 0
+        self.emptySemaphore = IBoundedSemaphore(self.model.queue_capacity, "empty") # reset it anyway because it tends to not reset correctly at the end of song
 
-        time.sleep(0.05)  # needed for semaphore values display
+        time.sleep(0.1)  # needed for semaphore values display
         logging.log(logging.INFO,"semaphore: {}/{}, {}/{}, {}".format(self.emptySemaphore._value,
                                                    self.emptySemaphore._initial_value,
                                                    self.fullSemaphore._value,
@@ -368,3 +379,4 @@ class MusicCtrl:
         self.model.sonification_view.topBarView.volumeButton.setIcon(self.model.sonification_view.topBarView.mutedIcon
                                                                      if self.model.muted else self.model.sonification_view.topBarView.volumeIcon)
         self.model.sonification_view.topBarView.GainSlider.setValue(0 if self.model.muted else self.model.gain)
+        self.change_global_gain(self.model.sonification_view.topBarView.GainSlider.value(), from_muted=True)

@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+import logging
+
 import ViewsPyQT5.sonification_view as sv
 
 import threading
@@ -29,10 +32,11 @@ class QJumpSlider(QSlider): #TODO: Change music value on click
         self.setValue(position)
 
 class TopSettingsBar(QObject):
-    progressBarSignal = pyqtSignal(int)
+    progressBarSignal = pyqtSignal(int, name="ProgressBarSignal")
     def __init__(self, parent:sv.SonificationView):
         super(TopSettingsBar, self).__init__()
         self.parent = parent
+        self.progress_bar_thread = External(parent=self)
 
     def setupUi(self):
         self.horizontalLayout = QHBoxLayout()
@@ -226,40 +230,42 @@ class TopSettingsBar(QObject):
         self.PPButton.clicked.connect(self.press_pp_button)
         self.StopButton.clicked.connect(self.press_stop_button)
         self.SettingsButton.clicked.connect(self.press_settings_button)
-        self.progressBarSignal.connect(self.musicProgressBar.setValue)
-        #TODO replace by qthread?
-        self.progress_bar_thread = threading.Thread(target=self.handle_progress, daemon=True, name="music_progress_bar_handle_progress")
+        #self.progressBarSignal.connect(self.musicProgressBar.setValue)
+        self.progress_bar_thread.progressBarSignal.connect(self.musicProgressBar.setValue)
         self.progress_bar_thread.start()
         self.GainSlider.setValue(self.music_model.gain)
 
     def press_settings_button(self):
         self.parent.open_settings()
 
-    def handle_progress(self):
-        while True:
-            self.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
-            self.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
-            mtime = self.parent.model.ctrl.get_music_time()
-            em, es = divmod(self.parent.model.settings.get_music_duration(), 60)
-            eh, em = divmod(em, 60)
-            sm, ss = divmod(mtime, 60)
-            sh, sm = divmod(sm, 60)
-            try:
-                self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
-                self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
-                self.progressBarSignal.emit(min(99, int(100 * mtime / self.parent.model.settings.get_music_duration())))
-            except RuntimeError:
-                print("Runtime error on updating music start and end label.")
-            QThread.msleep(int(1000/5))
+    # def handle_progress(self):
+    #     while True:
+    #         self.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
+    #         self.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
+    #         mtime = self.parent.model.ctrl.get_music_time()
+    #         em, es = divmod(self.parent.model.settings.get_music_duration(), 60)
+    #         eh, em = divmod(em, 60)
+    #         sm, ss = divmod(mtime, 60)
+    #         sh, sm = divmod(sm, 60)
+    #         try:
+    #             self.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
+    #             self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
+    #             self.progressBarSignal.emit(min(99, int(100 * mtime / self.parent.model.settings.get_music_duration())))
+    #         except RuntimeError:
+    #             print("Runtime error on updating music start and end label.")
+    #         QThread.msleep(int(1000/5))
 
     def press_stop_button(self):
         if self.parent.model.ctrl.playing:
             self.parent.model.ctrl.stop()
-            self.progressBarSignal.emit(0)
-            self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(0, 0, 0))
-            self.PPButton.setIcon(self.playIcon)
-            self.PPButton.setStyleSheet(playButtonReadyStyle)
-            self.StopButton.setEnabled(False)
+            try:
+                self.progress_bar_thread.progressBarSignal.emit(0)
+                self.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(0, 0, 0))
+                self.PPButton.setIcon(self.playIcon)
+                self.PPButton.setStyleSheet(playButtonReadyStyle)
+                self.StopButton.setEnabled(False)
+            except:
+                logging.log(logging.DEBUG, "Issue with UI top bar")
 
     def press_pp_button(self):
         if (self.parent.model.ctrl.playing and not self.parent.model.ctrl.paused):
@@ -279,3 +285,32 @@ class TopSettingsBar(QObject):
         self.PPButton.setText("")
         self.StopButton.setText("")
         self.FfwButton.setText("")
+
+
+
+class External(QThread):
+    """
+    Runs a counter thread.
+    """
+    progressBarSignal = pyqtSignal(int)
+
+    def __init__(self, parent:TopSettingsBar):
+        super(External, self).__init__()
+        self.parent = parent
+
+    def run(self):
+        while True:
+            self.parent.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
+            self.parent.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
+            mtime = self.parent.parent.model.ctrl.get_music_time()
+            em, es = divmod(self.parent.parent.model.settings.get_music_duration(), 60)
+            eh, em = divmod(em, 60)
+            sm, ss = divmod(mtime, 60)
+            sh, sm = divmod(sm, 60)
+            try:
+                self.parent.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
+                self.parent.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
+                self.progressBarSignal.emit(min(99, int(100 * mtime / self.parent.parent.model.settings.get_music_duration())))
+            except RuntimeError:
+                print("Runtime error on updating music start and end label.")
+            QThread.msleep(int(1000 / 5))

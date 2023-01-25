@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import os.path
 
+import numpy
+
 from Ctrls.settings_controller import SettingsCtrl
 
 # TODO add other time settings
@@ -27,6 +29,9 @@ class GeneralSettings:  # TODO rename this into general settings
         self.minVal = None
         self.maxVal = None
         self.idMax = None
+        self.tempoNValue = 4
+        self.tempoDurValue = 100
+        self.tempoOffsetValue = 0
         self.batchSize = BATCH_SIZE
         self.batchPlanned = BATCH_NBR_PLANNED
         self.timeBuffer = TIME_BUFFER
@@ -86,18 +91,26 @@ class GeneralSettings:  # TODO rename this into general settings
         self.ctrl = SettingsCtrl(self)
         self.tsView = None
         self.data = data_model.Data.getInstance()
+        self.tempoOffsetValue = 0
+        self.tempoNValue = 4
+        self.tempoDurValue = 0
 
     def get_music_duration(self) -> int:
-        return int(float(self.data.size)/1.5) if self.musicDuration is None else self.musicDuration
-
+        md = int(float(self.data.get_size())/1.5) if self.musicDuration is None else self.musicDuration
+        if(self.type == self.possible_types[1]):
+            bpm = int(round(60 * float(self.data.get_size()) / md))
+            aoffset = float(self.tempoDurValue) / (100 * bpm / 60)  # [0-100] to s
+            aoffset = numpy.trunc((self.data.get_size() + (self.tempoNValue-1 + self.tempoOffsetValue)) / self.tempoNValue) * float(aoffset)
+            md += aoffset
+        return md
     def reset_music_duration(self) -> None:
-        self.musicDuration = int(float(self.data.size)/1.5)
+        self.musicDuration = int(float(self.data.get_size())/1.5)
 
     def get_bpm(self) ->float: #bpm = size/length
-        return int(round(60 * float(self.data.size) / self.get_music_duration()))
+        return int(round(60 * float(self.data.get_size()) / self.get_music_duration()))
 
     def set_bpm(self, bpm): #length = size/bpm
-        self.musicDuration = int(round(60 * float(self.data.size)/float(bpm)))
+        self.musicDuration = int(round(60 * float(self.data.get_size())/float(bpm)))
 
     def set_type(self, type: str)->None:
         if (type not in self.possible_types):
@@ -137,16 +150,20 @@ class GeneralSettings:  # TODO rename this into general settings
 
         offset = float(offset)/(100*self.get_bpm()/60) #[0-100] to s
         offset = float(offset) / float(self.get_music_duration()) #s to tfactor
-        # ratio = float(distance)/float(max)
-        if self.type == self.possible_types[1]:
+
+        if self.type == self.possible_types[2]:
             return_value = offset + (current["internal_timestamp"] - self.minVal) / float(
                 distance)  # (ratio - min) * current
+        elif self.type == self.possible_types[1]:
+            aoffset = float(self.tempoDurValue) / (100 * self.get_bpm() / 60)  # [0-100] to s
+            aoffset = numpy.trunc((current["internal_id"] + (self.tempoNValue-1 + self.tempoOffsetValue)) / self.tempoNValue) * float(aoffset) / float(self.get_music_duration())  # s to tfactor
+            return_value =aoffset + offset + float(current["internal_id"]) / float(self.idMax)
         elif self.type == self.possible_types[0]:
             return_value = offset + float(current["internal_id"]) / float(self.idMax)
         else:
             raise NotImplementedError()
-        if (return_value < 0 or return_value > 1):
-            raise ValueError("absolute temporal position computation ended up with a non valid value ({}). "
-                             "the current timestamp {} is between the maximun {} and the minimum {}"
-                             .format(return_value, current.internal_timestamp, self.maxVal, self.minVal))
+        # if (return_value < 0 or return_value > 1):
+        #     raise ValueError("absolute temporal position computation ended up with a non valid value ({}). "
+        #                      "the current timestamp {} is between the maximun {} and the minimum {}"
+        #                      .format(return_value, current.internal_timestamp, self.maxVal, self.minVal))
         return return_value

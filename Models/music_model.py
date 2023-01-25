@@ -70,7 +70,7 @@ class Music:
         self.__dict__.update(state)
         self.notes = PriorityQueue()
         self.sonification_view = None
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
     def generate_midi(self, filename="output"):
 
@@ -166,7 +166,7 @@ class Music:
             else:  # If we have no more data, we are at the end of the music
                 print("sleeping...")
                 self.ctrl.finished = True
-                time.sleep(0.5)
+                time.sleep(2.0)
 
     def get_absolute_note_timing(self, tfactor):
         """

@@ -70,6 +70,7 @@ class TableView(object):
         self.data.set_data_index(self.tabWidget.currentIndex())
         self.currentTableView = self.tableViews[self.tabWidget.currentIndex()]
         self.currentDataModel = self.data_model[self.tabWidget.currentIndex()]
+        self.currentDataModel.reset(self.data.sample_size, self.data.get_first(), self.data.get_second())
 
     def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
@@ -105,9 +106,9 @@ class TableView(object):
             self.tableViews[self.data.data_index].setModel(self.data_model[self.data.data_index])
             self.tabWidget.addTab(self.tableViews[self.data.data_index], Path(file).stem)
             self.tabWidget.setCurrentIndex(len(self.tableViews) - 1)
-            #self.setup_data_model()
 
     def setup_data_model(self):
+        self.data_model = []
         self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
         self.tableViews[0].setModel(self.data_model[0])
         self.currentDataModel = self.data_model[0]

@@ -67,7 +67,7 @@ class Track:
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
         self.music = Models.music_model.Music.getInstance()
         self.ctrl = TrackCtrl(self)
 
@@ -125,6 +125,9 @@ class Track:
 
     def set_soundfont(self, soundfont: str) -> None:
         self.soundfont = soundfont
+
+    def duplicate(self)->None:
+        self.music.ctrl.duplicate_track(track=self)
 
     def remove(self) -> None:
         self.music.ctrl.remove_track(track=self)

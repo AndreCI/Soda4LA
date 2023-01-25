@@ -110,7 +110,10 @@ class GraphView():
         while (True):
             self.parent.model.ctrl.playingEvent.wait()  # wait if we are stopped
             self.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
-            self.draw_notes()
+            try:
+                self.draw_notes()
+            except:
+                pass
             time.sleep(self.updateFrequency / 1000)
 
     def setup(self, max_notes, time_window, backward_percentage):

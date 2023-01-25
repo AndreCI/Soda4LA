@@ -94,13 +94,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\dist\soda\tamago2014_paragon_sorted2.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
       </map>
     </option>
   </component>

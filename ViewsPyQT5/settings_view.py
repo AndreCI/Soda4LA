@@ -11,7 +11,8 @@ class SettingsView(QMainWindow):
     def __init__(self, parent=None):
         super(SettingsView, self).__init__(parent)
         self.parent = parent
-        self.updating = False
+        self.updatingBpm = False
+        self.updatingLenght = False
         self.model = None
         self.setWindowTitle("Soda - Settings")
         self.settingsFrame = QFrame()
@@ -119,6 +120,31 @@ class SettingsView(QMainWindow):
 
         self.gridLayout_3.addWidget(self.tempoModeLabel, 0, 0, 1, 1)
 
+        self.tempoNLabel = QLabel(self.tempoModeFrame)
+        self.tempoNLabel.setObjectName(u"tempoNLabel")
+        self.tempoNLineedit = QLineEdit(self.tempoModeFrame)
+        self.tempoNLineedit.setObjectName(u"tempoNLineedit")
+
+        self.gridLayout_3.addWidget(self.tempoNLabel, 1, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.tempoNLineedit, 1, 1, 1, 1)
+
+        self.tempoDureeLabel = QLabel(self.tempoModeFrame)
+        self.tempoDureeLabel.setObjectName(u"tempoDureeLabel")
+        self.tempoDureeLineedit = QLineEdit(self.tempoModeFrame)
+        self.tempoDureeLineedit.setObjectName(u"tempoDureeLineedit")
+
+        self.gridLayout_3.addWidget(self.tempoDureeLabel, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.tempoDureeLineedit, 2, 1, 1, 1)
+
+        self.tempoOffsetLabel = QLabel(self.tempoModeFrame)
+        self.tempoOffsetLabel.setObjectName(u"tempoOffsetLabel")
+        self.tempoOffsetLineedit = QLineEdit(self.tempoModeFrame)
+        self.tempoOffsetLineedit.setObjectName(u"tempoOffsetLineedit")
+
+        self.gridLayout_3.addWidget(self.tempoOffsetLabel, 3, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.tempoOffsetLineedit, 3, 1, 1, 1)
+
+
         self.gridLayout.addWidget(self.tempoModeFrame, 0, 1, 1, 1)
 
         self.closeFrame = QFrame(self.settingsFrame)
@@ -196,6 +222,9 @@ class SettingsView(QMainWindow):
         self.NoteTimingLabel.setText(QCoreApplication.translate("Form", u"Note Timing", None))
         self.previousDataCheckBox.setText(QCoreApplication.translate("Form", u"Load previous data on start", None))
         self.tempoModeLabel.setText(QCoreApplication.translate("Form", u"Tempo", None))
+        self.tempoNLabel.setText(QCoreApplication.translate("Form", u"Tempo N Value", None))
+        self.tempoDureeLabel.setText(QCoreApplication.translate("Form", u"Tempo pause duration", None))
+        self.tempoOffsetLabel.setText(QCoreApplication.translate("Form", u"Tempo offset duration", None))
         self.validateButton.setText(QCoreApplication.translate("Form", u"Validate", None))
         self.cancelButton.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.aboutText.setHtml(QCoreApplication.translate("Form",
@@ -234,6 +263,9 @@ class SettingsView(QMainWindow):
         if self.model is None:
             return
         self.tempoModeComboBox.setCurrentIndex(TIME_SETTINGS_OPTIONS.index(self.model.type))
+        self.tempoNLineedit.setText(str(self.model.tempoNValue))
+        self.tempoDureeLineedit.setText(str(self.model.tempoDurValue))
+        self.tempoOffsetLineedit.setText(str(self.model.tempoOffsetValue))
         self.songLengthLineEdit.setText(str(self.model.get_music_duration()))
         self.batchSizeLineEdit.setText(str(self.model.batchSize))
         self.batchPlannedLineEdit.setText(str(self.model.batchPlanned))
@@ -259,24 +291,26 @@ class SettingsView(QMainWindow):
         self.cancelButton.clicked.connect(self.cancel)
 
     def on_bpm_change(self):
-        if (self.updating):
-            self.updating = False
-        elif (is_float(self.bpmLineEdit.text())):
-            self.updating = True
-            self.songLengthLineEdit.setText(str(int(60 * float(self.model.data.size) / float(self.bpmLineEdit.text()))))
+        if (self.updatingLenght):
+            self.updatingLenght = False
+        elif (is_float(self.bpmLineEdit.text()) and float(self.bpmLineEdit.text()) != 0):
+            self.updatingBpm = True
+            self.songLengthLineEdit.setText(str(int(60 * float(self.model.data.get_size()) / float(self.bpmLineEdit.text()))))
 
     def on_music_length_change(self):
-        if (self.updating):
-            self.updating = False
-        elif (is_float(self.songLengthLineEdit.text())):
-            self.updating = True
+        if (self.updatingBpm):
+            self.updatingBpm = False
+        elif (is_float(self.songLengthLineEdit.text()) and float(self.songLengthLineEdit.text()) != 0):
+            self.updatingLenght = True
             self.bpmLineEdit.setText(
-                str(round(60 * (float(self.model.data.size) / float(self.songLengthLineEdit.text())), 2)))
+                str(round(60 * (float(self.model.data.get_size()) / float(self.songLengthLineEdit.text())), 2)))
 
     def validate(self):
         self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(), self.songLengthLineEdit.text(),
                                  self.noteTimingLineEdit.text(), self.sampleSizeLineEdit.text(),
-                                 self.tempoModeComboBox.currentIndex(), self.previousDataCheckBox.isChecked(),
+                                 self.tempoModeComboBox.currentIndex(), self.tempoNLineedit.text(),
+                                 self.tempoDureeLineedit.text(), self.tempoOffsetLineedit.text(),
+                                 self.previousDataCheckBox.isChecked(),
                                  self.graphicalLengthLineedit.text(), self.graphicalPercentageLineedit.text())
 
         self.cancel()

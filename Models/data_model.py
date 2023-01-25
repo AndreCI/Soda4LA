@@ -50,7 +50,8 @@ class Data:
             self.view = None
             self.formats = None
             self.sample_size = None
-            #self.ctrl = Ctrls.data_controller.DataCtrl(self)
+
+            self.music = None
             Data._instance = self
 
     def retrieve_data(self, path:str):
@@ -76,24 +77,24 @@ class Data:
         :param path: str
         """
         if len(self.df) > 0:
-            raise ValueError("There is already primary data loaded!")
+            self.df = []
         self.primary_data_path = path
         self.retrieve_data(path)
+        self.current_dataset = self.df[0]
         self.header = list(self.df[0].columns)
         self.timing_span = None
         self.set_data_timespan = None
         self.index = 0
         self.first_date = None
         self.last_date = None
-        music = music_model.Music.getInstance()
-        self.batch_size = music.settings.batchSize
-        self.sample_size = music.settings.sampleSize
+        self.music = music_model.Music.getInstance()
+        self.batch_size = self.music.settings.batchSize
+        self.sample_size = self.music.settings.sampleSize
         self.size = self.df[0].shape[0] + 1
-        music.settings.reset_music_duration()
-        self.current_dataset = self.df[0]
+        self.music.settings.reset_music_duration()
 
     def read_additional_data(self, path:str):
-        self.data_index+=1
+        self.data_index=len(self.df)
         self.retrieve_data(path)
 
     @staticmethod
@@ -136,6 +137,8 @@ class Data:
         """
         return self.header
 
+
+
     def get_variables_instances(self, column:str) -> [str]:
         """
         Get unique instances from a column
@@ -152,6 +155,9 @@ class Data:
 
     def get_min(self, column:str)->float:
         return min([float(x) for x in self.current_dataset[column]])
+
+    def get_size(self)->int:
+        return self.current_dataset.shape[0] + 1
 
     def get_first(self):
         return self.current_dataset.iloc[range(0, self.sample_size)]
@@ -249,8 +255,10 @@ class Data:
         self.last_date = last_date.timestamp()
 
     def set_data_index(self, index)->None:
+        bpm = self.music.settings.get_bpm()
         self.data_index = index
         self.current_dataset = self.df[self.data_index]
+        self.music.settings.set_bpm(bpm)
 
     def reset_playing_index(self) -> None:
         self.index = 0

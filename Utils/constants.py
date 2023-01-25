@@ -6,7 +6,7 @@ MAX_NOTE_GRAPH = 100
 SAMPLE_SIZE = 10
 
 # OPTIONS
-TIME_SETTINGS_OPTIONS = ["tempo-basic", "linear"]
+TIME_SETTINGS_OPTIONS = ["tempo-basic", "tempo-4-notes", "linear"]
 TIME_SETTINGS_OPTIONS_TOOLTIP = \
     ["tempo-basic: Each row is processed at constant interval. The interval is always #rows/song length.",
      "Linear: Ratios of temporal distance between rows are preserved. Experimental."]

@@ -398,6 +398,16 @@ class TrackView(object):
         g_track_delete_button.setStyleSheet(buttonStyle3)
         horizontal_layout.addWidget(g_track_delete_button)
 
+        g_track_duplicate_button = QPushButton(g_track_frame)
+        g_track_duplicate_button.setObjectName(u"g_track_duplicate_button")
+        g_track_duplicate_button.setSizePolicy(size_policy1)
+        g_track_duplicate_button.setMinimumSize(QSize(20, 20))
+        icon = QIcon()
+        icon.addFile(u"data/img/icons/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
+        g_track_duplicate_button.setIcon(icon)
+        g_track_duplicate_button.setStyleSheet(buttonStyle3)
+        horizontal_layout.addWidget(g_track_duplicate_button)
+
         g_track_select_button = QPushButton(g_track_frame)
         g_track_select_button.setObjectName(u"gTrackSelectButton")
         size_policy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -408,7 +418,7 @@ class TrackView(object):
         g_track_select_button.setStyleSheet(selectTrackButtonStyle)
         horizontal_layout.addWidget(g_track_select_button)
 
-        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button,
+        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button, duplicateButton=g_track_duplicate_button,
                                 selectButton=g_track_select_button, hLayout=horizontal_layout)
 
         self.gTrackList.append(g_track_view)
@@ -418,6 +428,9 @@ class TrackView(object):
         g_track_view.selectButton.setText(track.name)
         g_track_view.selectButton.clicked.connect(lambda: track.ctrl.select())
         g_track_view.deleteButton.clicked.connect(lambda: track.remove())
+        g_track_view.deleteButton.setToolTip("Delete this track")
+        g_track_view.duplicateButton.clicked.connect(lambda: track.duplicate())
+        g_track_view.duplicateButton.setToolTip("Create a duplicate of this track")
 
         self.verticalLayout_4.insertWidget(len(self.gTrackList) - 1, g_track_frame)
         if (len(self.gTrackList) == 1):
