@@ -222,9 +222,9 @@ class SettingsView(QMainWindow):
         self.NoteTimingLabel.setText(QCoreApplication.translate("Form", u"Note Timing", None))
         self.previousDataCheckBox.setText(QCoreApplication.translate("Form", u"Load previous data on start", None))
         self.tempoModeLabel.setText(QCoreApplication.translate("Form", u"Tempo", None))
-        self.tempoNLabel.setText(QCoreApplication.translate("Form", u"Tempo N Value", None))
-        self.tempoDureeLabel.setText(QCoreApplication.translate("Form", u"Tempo pause duration", None))
-        self.tempoOffsetLabel.setText(QCoreApplication.translate("Form", u"Tempo offset duration", None))
+        self.tempoNLabel.setText(QCoreApplication.translate("Form", u"Tempo-N Value", None))
+        self.tempoDureeLabel.setText(QCoreApplication.translate("Form", u"Tempo-N pause duration", None))
+        self.tempoOffsetLabel.setText(QCoreApplication.translate("Form", u"Tempo-N offset at start", None))
         self.validateButton.setText(QCoreApplication.translate("Form", u"Validate", None))
         self.cancelButton.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.aboutText.setHtml(QCoreApplication.translate("Form",
@@ -258,7 +258,9 @@ class SettingsView(QMainWindow):
         self.noteTimingLineEdit.setToolTip("The number of ms that the manager will wait before planning a note.\n"
                                            "A shorter value will make the program more responsive to changes to encodings but "
                                            "it may results in rows being skipped if they are close too each others timing wise.")
-
+        self.tempoNLabel.setToolTip("Group notes in cluster of N (only when using the tempo-N option)")
+        self.tempoDureeLabel.setToolTip("% of the bpm between each cluster of notes (only when using the tempo-N option)")
+        self.tempoOffsetLabel.setToolTip("Number of notes to skip in the first cluster, must be inferior to tempo-N value (only when using the tempo-N option)")
     def update_ui(self):
         if self.model is None:
             return

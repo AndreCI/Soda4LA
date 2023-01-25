@@ -91,9 +91,6 @@ class GeneralSettings:  # TODO rename this into general settings
         self.ctrl = SettingsCtrl(self)
         self.tsView = None
         self.data = data_model.Data.getInstance()
-        self.tempoOffsetValue = 0
-        self.tempoNValue = 4
-        self.tempoDurValue = 0
 
     def get_music_duration(self) -> int:
         md = int(float(self.data.get_size())/1.5) if self.musicDuration is None else self.musicDuration
