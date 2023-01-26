@@ -97,7 +97,13 @@ class TableView(object):
         file, check = QFileDialog.getOpenFileName(None, "Load data file",
                                                   "", "CSV (*.csv)")
         if check:
+            header = self.data.current_dataset.columns
             self.data.read_additional_data(file)
+            if(not ErrorManager.compare_headers(self.data.header, list(self.data.current_dataset.columns))):
+                self.data.set_data_index(self.data.data_index - 1)
+                del self.data.df[-1]
+                ErrorManager.getInstance().wrong_data_error()
+                return
             self.data.assign_timestamps(self.timestampFormatLineEdit.text())
             self.tableViews.append(QTableView())
 

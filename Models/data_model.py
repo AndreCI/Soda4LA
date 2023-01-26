@@ -96,6 +96,7 @@ class Data:
     def read_additional_data(self, path:str):
         self.data_index=len(self.df)
         self.retrieve_data(path)
+        self.set_data_index(self.data_index)
 
     @staticmethod
     def is_date(string:str, fuzzy=False) ->bool:

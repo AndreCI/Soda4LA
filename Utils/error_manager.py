@@ -48,3 +48,20 @@ class ErrorManager:
                                    'column.')
             msg.setWindowTitle("Warning")
             msg.exec_()
+
+    def wrong_data_error(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Error: additional data do not match already loaded data!")
+        msg.setInformativeText('Loading additional data to compare it with already loaded data requires the new'
+                               ' files header to be the same as the original data \nTry loading another file'
+                               ' as additional, load this file directly as primary data or reformat your data.')
+        msg.setWindowTitle("Error")
+        msg.exec_()
+
+    @staticmethod
+    def compare_headers(header_primary, header)->bool:
+        for value in header:
+            if value not in header_primary:
+                return False
+        return True
