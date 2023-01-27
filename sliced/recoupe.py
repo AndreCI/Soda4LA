@@ -35,6 +35,55 @@ def get_datetime(d, additional_format: str="") -> datetime:
     raise ValueError("No format found for this timestamp {}.".format(d))
 
 
+path = "sliced"
+
+def anon_date(d1, dif):
+    t1 = get_datetime(d1.split(";")[1]).timestamp() - dif
+    return str(datetime.fromtimestamp(t1))
+
+headeroff = "id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetypemou;code;message;codage_chat_message;help;resource_id;item_id;resourcetype;mode_of_use;resource_title;creationdate;rightsagreements;resource_size;item_size;reason;game_id;level_id;iswon"
+i=0
+for h in headeroff.split(";"):
+    print("{} to {}".format(i, h))
+    i+=1
+delheaders = [2, 6, 7, 8, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+delheaders.sort(reverse=True)
+print(delheaders)
+
+def anon(path, f):
+    with open(os.path.join(path, f), "r") as f1:
+        d1 = f1.readlines()
+        f1_timestamp = get_datetime(d1[1].split(";")[1]).timestamp()
+        f2_timestamp = get_datetime("01/01/2000 00:00:00").timestamp()
+        dif = abs(f1_timestamp - f2_timestamp)
+
+        pname = d1[1].split(";")[7]
+        with open(os.path.join(path + "/annoned", f), 'w') as f:
+            header = d1[0].split(";")
+            for h in delheaders:
+                del header[h]
+            nheader = ";".join(header)+ "\n"
+            f.write(nheader)
+            for i in range(1, len(d1) - 1):
+                line = d1[i].split(";")
+                line[1] = anon_date(d1[i], dif)
+                for h in delheaders:
+                    del line[h]
+                nline = ";".join(line) + "\n"
+                f.write(nline)
+
+anon(path, "tamago2014_p1_56107.csv")
+exit()
+
+pkeys = ["p1", "p2", "p3", "p4", "p5"]
+parangons = {}
+for k in pkeys:
+    parangons[k] = []
+for f in os.listdir(path):
+    if os.path.isfile(os.path.join(path, f)):
+        if "paragon" in f:
+            exit()
+
 
 
 path = "data/sequential_data/sliced"

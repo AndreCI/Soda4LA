@@ -54,7 +54,7 @@ class Data:
             self.music = None
             Data._instance = self
 
-    def retrieve_data(self, path:str):
+    def retrieve_data(self, path: str):
         """
         Regarding the file extension, this file calls the right method to retrieve data
         :param path: str,
@@ -72,7 +72,7 @@ class Data:
         else:
             raise FileNotFoundError("Specified data file has not been found at location: {}".format(path))
 
-    def read_primary_data(self, path:str):
+    def read_primary_data(self, path: str):
         """
         :param path: str
         """
@@ -93,13 +93,13 @@ class Data:
         self.size = self.df[0].shape[0] + 1
         self.music.settings.reset_music_duration()
 
-    def read_additional_data(self, path:str):
-        self.data_index=len(self.df)
+    def read_additional_data(self, path: str):
+        self.data_index = len(self.df)
         self.retrieve_data(path)
         self.set_data_index(self.data_index)
 
     @staticmethod
-    def is_date(string:str, fuzzy=False) ->bool:
+    def is_date(string: str, fuzzy=False) -> bool:
         """
         Return whether the string can be interpreted as a date.
         :param string: str, string to check for date
@@ -117,9 +117,10 @@ class Data:
         """
         find and return all columns that looks like a timestamp
         """
-        candidates = [c for c in self.header if self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
+        print(self.header)
+        candidates = [c for c in self.header if
+                      self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
         return candidates
-
 
     def get_best_guess_variable(self) -> str:
         lower = self.header[0]
@@ -138,9 +139,7 @@ class Data:
         """
         return self.header
 
-
-
-    def get_variables_instances(self, column:str) -> [str]:
+    def get_variables_instances(self, column: str) -> [str]:
         """
         Get unique instances from a column
         :param
@@ -151,20 +150,20 @@ class Data:
         """
         return pd.unique(self.df[0][column])
 
-    def get_max(self, column:str)->float:
+    def get_max(self, column: str) -> float:
         return max([float(x) for x in self.current_dataset[column]])
 
-    def get_min(self, column:str)->float:
+    def get_min(self, column: str) -> float:
         return min([float(x) for x in self.current_dataset[column]])
 
-    def get_size(self)->int:
+    def get_size(self) -> int:
         return self.current_dataset.shape[0] + 1
 
     def get_first(self):
         return self.current_dataset.iloc[range(0, self.sample_size)]
 
     def get_second(self):
-        return self.current_dataset.iloc[range(self.sample_size - 1, self.sample_size*2)]
+        return self.current_dataset.iloc[range(self.sample_size - 1, self.sample_size * 2)]
 
     def get_next(self, iterate=False) -> DataFrame:
         """
@@ -178,27 +177,27 @@ class Data:
             self.index += self.batch_size
         return data
 
-    def get_timestamp_formats(self, additional_format:str="")-> [str]:
+    def get_timestamp_formats(self, additional_format: str = "") -> [str]:
         """
         Read, write and returns currently used formats for timestamp. Formats are stored on disk and regenerated to default if the file is deleted.
         :param additional_format: an additional timestamp format that will be saved to disk.
         :return: a list of str of formats for the timestamp column.
         """
-        if self.formats != None and (additional_format=="" or additional_format in self.formats):
+        if self.formats != None and (additional_format == "" or additional_format in self.formats):
             return self.formats
-        if(not os.path.exists("timestamp_formats.ini")):
+        if (not os.path.exists("timestamp_formats.ini")):
             with open("timestamp_formats.ini", "w") as file:
                 file.writelines(['%d/%m/%Y %H:%M:%S\n',
-                   '%d/%m/%y %H:%M:%S\n',
-                   '%Y-%m-%d %H:%M:%S\n', #2014-03-31 13:28:25
-                   '%y-%m-%d %H:%M:%S\n', #14-03-31 13:28:25
-                   '%H:%M:%S PM'] #1:20:21 PM
-                   )
+                                 '%d/%m/%y %H:%M:%S\n',
+                                 '%Y-%m-%d %H:%M:%S\n',  # 2014-03-31 13:28:25
+                                 '%y-%m-%d %H:%M:%S\n',  # 14-03-31 13:28:25
+                                 '%H:%M:%S PM']  # 1:20:21 PM
+                                )
         formats = []
         with open('timestamp_formats.ini', "r+") as file:
             for line in file.readlines():
                 formats.append(line.removesuffix("\n"))
-            if(additional_format != "" and additional_format not in formats):
+            if (additional_format != "" and additional_format not in formats):
                 formats.insert(0, additional_format)
                 logging.info(logging.INFO, "Additional format added : {}".format(additional_format))
                 file.write('\n' + additional_format)
@@ -221,7 +220,8 @@ class Data:
         for f in formats:
             try:
                 date = datetime.strptime(d, f)
-                if(date.year <= 1970): #years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
+                if (
+                        date.year <= 1970):  # years before 1970-01-02 02:00:00 or beyond 3001-01-19 07:59:59 will raise oserror
                     date = date.replace(year=1971)
                     ErrorManager.getInstance().datetime_replacement_warning()
                 return date
@@ -233,29 +233,32 @@ class Data:
         except ParserError:
             raise ValueError("No format found for this timestamp: {}".format(d))
 
-
     def assign_timestamps(self, additional_format="") -> None:
         """
         Method to assign timestamp to a new column
         """
-        self.df[self.data_index]['internal_timestamp'] = self.df[self.data_index][self.date_column].apply(lambda x: self.get_datetime(x, self.get_timestamp_formats(additional_format)).timestamp())
+        self.df[self.data_index]['internal_timestamp'] = self.df[self.data_index][self.date_column].apply(
+            lambda x: self.get_datetime(x, self.get_timestamp_formats(additional_format)).timestamp())
         if not self.df[self.data_index]['internal_timestamp'].is_monotonic_increasing:
             sort_data = ErrorManager.getInstance().sorted_data_warning()
-            if(sort_data):
+            if (sort_data):
                 self.df[self.data_index] = self.df[self.data_index].sort_values(by='internal_timestamp', axis=0)
             else:
                 exit()
         self.df[self.data_index]['internal_id'] = np.arange(1, self.df[self.data_index].shape[0] + 1)
         self.df[self.data_index]['internal_filter'] = True
         # set first and last date here
-        first_date = self.get_datetime(self.df[self.data_index].iloc[0][self.date_column], self.get_timestamp_formats(additional_format))
-        last_date = self.get_datetime(self.df[self.data_index].iloc[len(self.df[self.data_index]) - 1][self.date_column], self.get_timestamp_formats(additional_format))
+        first_date = self.get_datetime(self.df[self.data_index].iloc[0][self.date_column],
+                                       self.get_timestamp_formats(additional_format))
+        last_date = self.get_datetime(
+            self.df[self.data_index].iloc[len(self.df[self.data_index]) - 1][self.date_column],
+            self.get_timestamp_formats(additional_format))
         self.timing_span = first_date - last_date
         # first and last date into seconds
         self.first_date = first_date.timestamp()
         self.last_date = last_date.timestamp()
 
-    def set_data_index(self, index)->None:
+    def set_data_index(self, index) -> None:
         bpm = self.music.settings.get_bpm()
         self.data_index = index
         self.current_dataset = self.df[self.data_index]
@@ -273,7 +276,8 @@ class Data:
         insight = {}
 
         if col in self.df[self.data_index].select_dtypes(exclude='object'):  # if col is continious
-            return {'mode': self.df[self.data_index][col].mode(), 'mean': self.df[self.data_index][col].mean(), 'min': self.df[self.data_index][col].min(),
+            return {'mode': self.df[self.data_index][col].mode(), 'mean': self.df[self.data_index][col].mean(),
+                    'min': self.df[self.data_index][col].min(),
                     'max': self.df[self.data_index][col].max(), 'median': self.df[self.data_index][col].median()}
 
         else:  # col is an object/categorical
