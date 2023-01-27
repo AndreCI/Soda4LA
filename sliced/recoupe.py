@@ -51,6 +51,10 @@ delheaders.sort(reverse=True)
 print(delheaders)
 
 def anon(path, f):
+    newf = f.split("_")
+    print(newf)
+    del newf[1]
+    newf = ("_".join(newf))
     with open(os.path.join(path, f), "r") as f1:
         d1 = f1.readlines()
         f1_timestamp = get_datetime(d1[1].split(";")[1]).timestamp()
@@ -58,7 +62,7 @@ def anon(path, f):
         dif = abs(f1_timestamp - f2_timestamp)
 
         pname = d1[1].split(";")[7]
-        with open(os.path.join(path + "/annoned", f), 'w') as f:
+        with open(os.path.join(path + "/annoned", newf), 'w') as f:
             header = d1[0].split(";")
             for h in delheaders:
                 del header[h]
@@ -72,17 +76,11 @@ def anon(path, f):
                 nline = ";".join(line) + "\n"
                 f.write(nline)
 
-anon(path, "tamago2014_p1_56107.csv")
-exit()
-
-pkeys = ["p1", "p2", "p3", "p4", "p5"]
-parangons = {}
-for k in pkeys:
-    parangons[k] = []
 for f in os.listdir(path):
     if os.path.isfile(os.path.join(path, f)):
-        if "paragon" in f:
-            exit()
+        if "tamago" in f:
+            anon(path, f)
+exit()
 
 
 

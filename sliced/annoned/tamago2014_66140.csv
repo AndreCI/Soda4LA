@@ -1,0 +1,57 @@
+id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
+20632;2000-01-01 00:00:00;showItemCupboard;66;140;journal;;119
+20633;2000-01-01 00:00:10;showItemCupboard;66;140;book;;3
+20637;2000-01-01 00:00:28;addToFridge;66;140;bookprintedCopies;;3
+20640;2000-01-01 00:01:01;showItemCupboard;66;140;book;;43
+20643;2000-01-01 00:01:13;addToFridge;66;140;bookprintedCopies;;43
+20644;2000-01-01 00:01:21;help;66;140;;Acces aide en ligne;
+20650;2000-01-01 00:01:28;helpLink;66;140;;Droit d'auteur et exception pedagogique;
+20653;2000-01-01 00:01:43;showItemCupboard;66;140;journal;;117
+20655;2000-01-01 00:01:52;addToFridge;66;140;journalprintedCopies;;117
+20658;2000-01-01 00:01:58;feedTamagoGood;66;140;bookprintedCopies;;3
+20659;2000-01-01 00:02:02;feedTamagoGood;66;140;bookprintedCopies;;43
+20667;2000-01-01 00:02:38;showItemCupboard;66;140;book;;42
+20668;2000-01-01 00:02:52;addToFridge;66;140;bookprojection;;42
+20670;2000-01-01 00:02:56;showItemFRIDGE;66;140;bookprojection;;42
+20673;2000-01-01 00:03:12;showItemFRIDGE;66;140;bookprintedCopies;;3
+20674;2000-01-01 00:03:20;feedTamagoBad;66;140;journalprintedCopies;;117
+20677;2000-01-01 00:03:34;chat;66;140;;;
+20680;2000-01-01 00:03:59;chat;66;140;;;
+20685;2000-01-01 00:04:12;showItemLEVEL;66;140;journalprintedCopies;;117
+20688;2000-01-01 00:04:23;showItemLEVEL;66;140;journalprojection;;119
+20689;2000-01-01 00:04:28;showItemLEVEL;66;140;bookprintedCopies;;43
+20690;2000-01-01 00:04:32;showItemLEVEL;66;140;bookprintedCopies;;3
+20691;2000-01-01 00:04:38;showItemLEVEL;66;140;journaloral;;105
+20693;2000-01-01 00:04:43;showItemLEVEL;66;140;journalprintedCopies;;113
+20696;2000-01-01 00:04:50;showItemLEVEL;66;140;journalprintedCopies;;117
+20697;2000-01-01 00:05:07;showItemCupboard;66;140;book;;47
+20704;2000-01-01 00:05:26;addToFridge;66;140;bookassessments;;47
+20708;2000-01-01 00:05:46;showItemCupboard;66;140;journal;;112
+20712;2000-01-01 00:06:01;addToFridge;66;140;journalprintedCopies;;112
+20716;2000-01-01 00:06:27;showItemFRIDGE;66;140;bookassessments;;47
+20718;2000-01-01 00:06:34;feedTamagoGood;66;140;bookassessments;;47
+20721;2000-01-01 00:06:42;feedTamagoGood;66;140;journalprintedCopies;;112
+20723;2000-01-01 00:06:51;showItemCupboard;66;140;sound;;337
+20725;2000-01-01 00:07:09;showItemCupboard;66;140;journal;;12
+20726;2000-01-01 00:07:20;addToFridge;66;140;journalphotocopy;;12
+20727;2000-01-01 00:07:22;feedTamagoGood;66;140;journalphotocopy;;12
+20728;2000-01-01 00:07:32;showItemCupboard;66;140;sound;;303
+20731;2000-01-01 00:07:48;addToFridge;66;140;soundprojection;;303
+20733;2000-01-01 00:08:01;addToFridge;66;140;soundprojection;;337
+20735;2000-01-01 00:08:05;showItemFRIDGE;66;140;soundprojection;;337
+20737;2000-01-01 00:08:21;feedTamagoGood;66;140;soundprojection;;337
+20741;2000-01-01 00:08:44;addToFridge;66;140;journalphotocopy;;13
+20743;2000-01-01 00:08:48;showItemCupboard;66;140;image;;403
+20745;2000-01-01 00:08:57;showItemCupboard;66;140;printedmusic;;534;1
+
+20747;2000-01-01 00:09:07;addToFridge;66;140;printedmusicprintedCopies;;534;1
+
+20749;2000-01-01 00:09:09;feedTamagoGood;66;140;printedmusicprintedCopies;;534;1
+
+20752;2000-01-01 00:09:27;feedTamagoGood;66;140;journalphotocopy;;13
+20756;2000-01-01 00:09:37;showItemCupboard;66;140;image;;415
+20758;2000-01-01 00:09:45;showItemCupboard;66;140;image;;415
+20759;2000-01-01 00:09:58;addToFridge;66;140;imageprojection;;415
+20761;2000-01-01 00:10:01;feedTamagoGood;66;140;imageprojection;;415
+20764;2000-01-01 00:10:23;showItemCupboard;66;140;sound;;300
+20771;2000-01-01 00:10:57;showItemCupboard;66;140;video;;206

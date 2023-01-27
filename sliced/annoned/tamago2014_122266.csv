@@ -1,0 +1,56 @@
+id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
+36343;2000-01-01 00:00:00;addToFridge;122;266;journaloral;;102
+36355;2000-01-01 00:00:30;addToFridge;122;266;journalprintedCopies;;110
+36359;2000-01-01 00:00:41;help;122;266;;Acces aide en ligne;
+36370;2000-01-01 00:01:12;showItemCupboard;122;266;sound;;338
+36378;2000-01-01 00:01:34;showItemCupboard;122;266;journal;;101
+36381;2000-01-01 00:01:46;showItemCupboard;122;266;book;;24
+36384;2000-01-01 00:01:50;showItemCupboard;122;266;journal;;113
+36391;2000-01-01 00:02:05;addToFridge;122;266;journalprintedCopies;;113
+36399;2000-01-01 00:02:30;showItemCupboard;122;266;sound;;338
+36404;2000-01-01 00:02:46;addToFridge;122;266;soundprojection;;338
+36410;2000-01-01 00:03:13;chat;122;266;;;
+36412;2000-01-01 00:03:22;chat;122;266;;;
+36417;2000-01-01 00:04:34;showItemFRIDGE;122;266;soundprojection;;338
+36420;2000-01-01 00:04:39;feedTamagoGood;122;266;journalprintedCopies;;113
+36421;2000-01-01 00:04:45;feedTamagoGood;122;266;soundprojection;;338
+36427;2000-01-01 00:05:11;addToFridge;122;266;bookassessments;;1
+36429;2000-01-01 00:05:14;feedTamagoBad;122;266;bookassessments;;1
+36477;2000-01-01 00:07:47;chat;122;266;;;
+36485;2000-01-01 00:08:12;addToFridge;122;266;journalprintedCopies;;101
+36486;2000-01-01 00:08:15;feedTamagoBad;122;266;journalprintedCopies;;101
+36500;2000-01-01 00:08:50;showItemCupboard;122;266;sound;;313
+36508;2000-01-01 00:09:11;addToFridge;122;266;journalphotocopy;;121
+36512;2000-01-01 00:09:14;feedTamagoGood;122;266;journalphotocopy;;121
+36526;2000-01-01 00:10:07;addToFridge;122;266;journalprintedCopies;;121
+36528;2000-01-01 00:10:10;feedTamagoBad;122;266;journalprintedCopies;;121
+36549;2000-01-01 00:11:02;addToFridge;122;266;journalprintedCopies;;105
+36551;2000-01-01 00:11:05;feedTamagoBad;122;266;journalprintedCopies;;105
+36577;2000-01-01 00:12:14;help;122;266;;Acces aide en ligne;
+36583;2000-01-01 00:12:36;addToFridge;122;266;bookprintedCopies;;35
+36585;2000-01-01 00:12:39;feedTamagoBad;122;266;bookprintedCopies;;35
+36590;2000-01-01 00:12:51;addToFridge;122;266;journalprojection;;121
+36671;2000-01-01 00:16:07;showItemLEVEL;122;266;imageprojection;;404
+36672;2000-01-01 00:16:08;showItemLEVEL;122;266;imageprojection;;404
+36673;2000-01-01 00:16:08;showItemLEVEL;122;266;imageprojection;;404
+36674;2000-01-01 00:16:10;showItemLEVEL;122;266;imageprojection;;404
+36676;2000-01-01 00:16:16;showItemCupboard;122;266;image;;406
+36683;2000-01-01 00:16:35;addToFridge;122;266;imageintranet;;411
+36685;2000-01-01 00:16:41;feedTamagoGood;122;266;imageintranet;;411
+36695;2000-01-01 00:16:59;addToFridge;122;266;printedmusicintranet;;531;0
+
+36697;2000-01-01 00:17:02;feedTamagoGood;122;266;printedmusicintranet;;531;0
+
+36713;2000-01-01 00:17:45;addToFridge;122;266;printedmusicintranet;;531;0
+
+36714;2000-01-01 00:17:48;feedTamagoGood;122;266;printedmusicintranet;;531;0
+
+36722;2000-01-01 00:18:05;addToFridge;122;266;bookprintedCopies;;9
+36723;2000-01-01 00:18:08;feedTamagoBad;122;266;bookprintedCopies;;9
+36729;2000-01-01 00:18:23;addToFridge;122;266;soundintranet;;300
+36732;2000-01-01 00:18:27;feedTamagoBad;122;266;soundintranet;;300
+36747;2000-01-01 00:19:02;addToFridge;122;266;printedmusicintranet;;531;1
+
+36749;2000-01-01 00:19:05;feedTamagoGood;122;266;printedmusicintranet;;531;1
+
+36779;2000-01-01 00:20:00;addToFridge;122;266;videoassessments;;225
