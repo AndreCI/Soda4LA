@@ -6,7 +6,7 @@ import numpy as np
 from pandas import DataFrame
 
 from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
-from Models.data_model import Data
+import Models.data_model as data_model
 import Models.note_model as note
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
@@ -39,7 +39,7 @@ class ParameterEncoding:
         self.initialized = False
 
         # Others Models
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
         self.filter.column = self.data.get_variables()[0] if default_col == "" else default_col
 
         # Ctrl
@@ -57,7 +57,7 @@ class ParameterEncoding:
         self.__dict__.update(state)
         self.ctrl = ParameterEncodingCtrl(self)
         self.peView = None
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
     def get_parameter(self, row:DataFrame) -> int:
         """
@@ -82,6 +82,10 @@ class ParameterEncoding:
             logging.log(logging.ERROR,"Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
+    def get_parameter_from_variable(self, variable:str)->int:
+        if (variable not in self.handpickEncoding):
+            return self.defaultValue
+        return int(self.handpickEncoding[variable])
     def evaluate_with_fonction(self, value:str)->int:
         return_value = self.defaultValue
         if (self.functionEncoding["function"] == "linear"):

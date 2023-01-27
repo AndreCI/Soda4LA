@@ -232,10 +232,7 @@ class TrackView(object):
         self.filterButton.setMinimumSize(QSize(30, 30))
         self.filterButton.setMaximumSize(QSize(16777215, 16777215))
         self.filterButton.setStyleSheet(buttonStyle)
-        icon = QIcon()
-        icon.addFile(u"data/img/icons/filter.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.filterButton.setIcon(icon)
-        self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 0, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 1, 1, 1)
 
         self.valueButton = QPushButton(self.TrackSettings_2)
         self.valueButton.setObjectName(u"ValueButton")
@@ -249,7 +246,7 @@ class TrackView(object):
                                       "value": self.valueButton,
                                       "duration": self.durationButton,
                                       "velocity": self.velocityButton}
-        self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 1, 1, 1)
+        self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 0, 1, 1)
 
         self.TrackSettings.addLayout(self.AdvancedTrackSettings)
         # self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -371,10 +368,6 @@ class TrackView(object):
         self.connect_ui()
 
         self.TrackSettings_2.show()
-        self.track.advancedView.filterFrame.show()
-        self.track.advancedView.SettingsFrame.show()
-
-        # self.SoundfontComboBox.set
 
     def add_track(self, track):
         g_track_frame = QFrame()
@@ -405,6 +398,16 @@ class TrackView(object):
         g_track_delete_button.setStyleSheet(buttonStyle3)
         horizontal_layout.addWidget(g_track_delete_button)
 
+        g_track_duplicate_button = QPushButton(g_track_frame)
+        g_track_duplicate_button.setObjectName(u"g_track_duplicate_button")
+        g_track_duplicate_button.setSizePolicy(size_policy1)
+        g_track_duplicate_button.setMinimumSize(QSize(20, 20))
+        icon = QIcon()
+        icon.addFile(u"data/img/icons/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
+        g_track_duplicate_button.setIcon(icon)
+        g_track_duplicate_button.setStyleSheet(buttonStyle3)
+        horizontal_layout.addWidget(g_track_duplicate_button)
+
         g_track_select_button = QPushButton(g_track_frame)
         g_track_select_button.setObjectName(u"gTrackSelectButton")
         size_policy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -415,7 +418,7 @@ class TrackView(object):
         g_track_select_button.setStyleSheet(selectTrackButtonStyle)
         horizontal_layout.addWidget(g_track_select_button)
 
-        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button,
+        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button, duplicateButton=g_track_duplicate_button,
                                 selectButton=g_track_select_button, hLayout=horizontal_layout)
 
         self.gTrackList.append(g_track_view)
@@ -425,6 +428,9 @@ class TrackView(object):
         g_track_view.selectButton.setText(track.name)
         g_track_view.selectButton.clicked.connect(lambda: track.ctrl.select())
         g_track_view.deleteButton.clicked.connect(lambda: track.remove())
+        g_track_view.deleteButton.setToolTip("Delete this track")
+        g_track_view.duplicateButton.clicked.connect(lambda: track.duplicate())
+        g_track_view.duplicateButton.setToolTip("Create a duplicate of this track")
 
         self.verticalLayout_4.insertWidget(len(self.gTrackList) - 1, g_track_frame)
         if (len(self.gTrackList) == 1):

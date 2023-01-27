@@ -8,7 +8,7 @@ from pandas import DataFrame
 import Models.music_model
 
 from Ctrls.track_controller import TrackCtrl
-from Models.data_model import Data
+import Models.data_model as data_model
 
 from Utils.constants import ENCODING_OPTIONS
 
@@ -35,7 +35,7 @@ class Track:
 
         self.name = "Track # {}".format(self.id)
         self.filter = FilterModule()  # Filter module linked to the column, dictating which row in data is used to generate notes
-        self.data = Data().getInstance()
+        self.data = data_model.Data.getInstance()
         self.filter.column = self.data.get_variables()[0]
         self.gain = 100  # Volume of the current track, between 0 and 100
         self.muted = False
@@ -67,7 +67,7 @@ class Track:
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
         self.music = Models.music_model.Music.getInstance()
         self.ctrl = TrackCtrl(self)
 
@@ -98,7 +98,7 @@ class Track:
         return notes
 
     def build_note(self, row):
-        return note.TNote(tfactor=self.music.timeSettings.get_temporal_position(row, self.offset),
+        return note.TNote(tfactor=self.music.settings.get_temporal_position(row, self.offset),
                           channel=self.id,
                           value=self.pencodings["value"].get_parameter(row),
                           velocity=self.pencodings["velocity"].get_parameter(row),
@@ -107,7 +107,7 @@ class Track:
                           id=row['internal_id'])
 
     def build_note2(self, row):
-        return pd.Series({'tfactor':self.music.timeSettings.get_temporal_position(row, self.offset),
+        return pd.Series({'tfactor':self.music.settings.get_temporal_position(row, self.offset),
                           'channel':self.id,
                           'value':self.pencodings["value"].get_parameter(row),
                           'velocity':self.pencodings["velocity"].get_parameter(row),
@@ -125,6 +125,9 @@ class Track:
 
     def set_soundfont(self, soundfont: str) -> None:
         self.soundfont = soundfont
+
+    def duplicate(self)->None:
+        self.music.ctrl.duplicate_track(track=self)
 
     def remove(self) -> None:
         self.music.ctrl.remove_track(track=self)

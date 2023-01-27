@@ -28,7 +28,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='soda4la',
+    name='soda',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

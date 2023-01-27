@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from PyQt5.QtGui import QIcon
+
 import ViewsPyQT5.sonification_view as sv
 from collections import namedtuple
 
@@ -7,10 +10,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, 
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
     QSpinBox, QPlainTextEdit, QCheckBox
 
-from Models.note_model import int_to_note
+from Models.note_model import int_to_note, TNote, note_to_int, is_valid_note
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectedButtonStyle
 
-EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'valueLine', 'dlabel'])
+EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'testButton', 'valueLine'])
 
 
 class AdvancedTrackView(object):
@@ -44,14 +47,6 @@ class AdvancedTrackView(object):
             self.track.generalView.advancedOptionButtons[self.key].setStyleSheet(buttonStyle)
             self.track.generalView.advancedOptionButtons[key].setStyleSheet(selectedButtonStyle)
             self.key = key
-        if (self.key == "filter"):
-            self.detailsScrollArea.hide()
-            self.octaveSpinBox.hide()
-            self.octaveLabel.hide()
-            self.nameLabel.hide()
-            self.changeModeButton.hide()
-            self.select_variable(self.track.filter.column)
-            return
         self.detailsScrollArea.show()
         self.model = track.pencodings[self.key]
         self.select_variable(self.model.filter.column)
@@ -77,7 +72,6 @@ class AdvancedTrackView(object):
                 if (self.key == "value"):
                     value = int_to_note(value)
                 eb.valueLine.setText(str(value))
-                eb.dlabel.show()
 
     def apply_random_to_all(self):
         variables = []
@@ -89,14 +83,12 @@ class AdvancedTrackView(object):
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.set_value(eb)
             #self.model.ctrl.set_value(eb.checkbox.text(), str(value))
-            #eb.dlabel.hide()
 
     def apply_default_to_all(self):
         for eb in self.encoding_boxs:
             value = self.model.defaultValue
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.model.ctrl.reset_value(eb.checkbox.text())
-            eb.dlabel.show()
 
     def inverse_all_check(self):
         bools = [eb.checkbox.isChecked() for eb in self.encoding_boxs]
@@ -123,9 +115,11 @@ class AdvancedTrackView(object):
             self.detailsQModeLayout.removeWidget(var.frame)
             var.valueLine.textEdited.disconnect()
             var.checkbox.clicked.disconnect()
+            var.testButton.clicked.disconnect()
             var.frame.destroy()
             var.checkbox.destroy()
             var.valueLine.destroy()
+            var.testButton.destroy()
         self.encoding_boxs = []
         # Create and setup object linked to new variable
         for i, variable in enumerate(self.model.get_variables_instances()):
@@ -135,7 +129,6 @@ class AdvancedTrackView(object):
             ebox.checkbox.setText(str(variable))
             ebox.checkbox.setChecked(self.model.filter.evaluate(variable))
             if str(variable) in self.model.handpickEncoding:
-                ebox.dlabel.hide()
                 value = self.model.handpickEncoding[str(variable)]
             else:
                 value = self.model.defaultValue
@@ -144,21 +137,31 @@ class AdvancedTrackView(object):
             ebox.valueLine.setText(str(value))
             ebox.valueLine.textEdited.connect(lambda ch, ebx=ebox: self.set_value(ebox=ebx))
             ebox.checkbox.clicked.connect(lambda ch2, ebx=ebox: self.set_qualitative_filter(ebox=ebx))
+            ebox.testButton.clicked.connect(lambda ch3, ebx=ebox: self.play_test_sound(ebox=ebx))
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
-        self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
+        #self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
 
     def set_octave(self):
         self.track.pencodings[self.key].ctrl.change_octave(self.octaveSpinBox.text())
 
     def set_value(self, ebox):
         self.model.ctrl.set_value(value=ebox.valueLine.text(), variable=ebox.checkbox.text())
-        ebox.dlabel.hide()
 
     def set_qualitative_filter(self, ebox):
         self.model.filter.assign_quali_value(ebox.checkbox.text(), not ebox.checkbox.isChecked())
 
+    def play_test_sound(self, ebox):
+        value = self.track.pencodings["value"].get_parameter_from_variable(ebox.checkbox.text())
+        duration = self.track.pencodings["duration"].get_parameter_from_variable(ebox.checkbox.text())
+        velocity = self.track.pencodings["velocity"].get_parameter_from_variable(ebox.checkbox.text())
+        self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=self.track.id, id=0, duration=duration, velocity=velocity, value=value, void=False))
+
     def add_encoding_box(self):
+        """
+        Create an encoding box, with these elements: checkbox, name, spacer, sound button, lineedit
+        :return: a QFrame with all elements to customize the encoding of a value
+        """
         encoding_box = QFrame()
         encoding_box.setObjectName(u"encoding_box")
         encoding_box.setGeometry(QRect(64, 80, 251, 41))
@@ -177,114 +180,43 @@ class AdvancedTrackView(object):
 
         encoding_spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        encoding_h_layout.addItem(encoding_spacer)
+        #encoding_h_layout.addItem(encoding_spacer)
 
-        encoding_value_line_edit = QLineEdit(encoding_box)
-        encoding_value_line_edit.setObjectName(u"encoding_value_line_edit")
-        # encoding_value_line_edit.setMinimumSize(10, encoding_value_line_edit.minimumHeight())
+
         size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
+
+        soundButton = QPushButton(encoding_box)
+        soundButton.setObjectName(u"soundButton")
+        soundButton.setSizePolicy(size_policy)
+        soundButton.setMinimumSize(QSize(0, 0))
+        soundButton.setMaximumSize(QSize(36, 16777215))
+        soundButton.setStyleSheet(buttonStyle)
+        soundIcon = QIcon()
+        soundIcon.addFile(u"data/img/icons/volume-up.svg", QSize(), QIcon.Normal, QIcon.Off)
+        soundButton.setIcon(soundIcon)
+        soundButton.setToolTip("Test this sound")
+
+        encoding_value_line_edit = QLineEdit(encoding_box)
+        encoding_value_line_edit.setObjectName(u"encoding_value_line_edit")
         size_policy.setHeightForWidth(encoding_value_line_edit.sizePolicy().hasHeightForWidth())
+        # encoding_value_line_edit.setMinimumSize(10, encoding_value_line_edit.minimumHeight())
         encoding_value_line_edit.setSizePolicy(size_policy)
         encoding_value_line_edit.setToolTip(
             "Assign this encoding to this value.\n"
             "Each non filtered row containing this value will use this encoding for the {} of the note".format(
                 self.key))
 
-        default_label = QLabel(encoding_box)
-        default_label.setText("default")
-        default_label.setToolTip("This value will play the default encoding if not filtered.")
-
+        encoding_h_layout.addWidget(soundButton)
         encoding_h_layout.addWidget(encoding_value_line_edit)
-        encoding_h_layout.addWidget(default_label)
 
         return EncodingBox(frame=encoding_box, checkbox=encoding_check_box, valueLine=encoding_value_line_edit,
-                           dlabel=default_label)
+                           testButton=soundButton)
 
     def setup_ui(self):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.SettingsFrame = QFrame()
-        self.SettingsFrame.setObjectName(u"SettingsFrame")
-        self.SettingsFrame.setFrameShape(QFrame.Panel)
-        self.SettingsFrame.setFrameShadow(QFrame.Raised)
-        self.gridLayout_2 = QGridLayout(self.SettingsFrame)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.octaveLabel = QLabel(self.SettingsFrame)
-        self.octaveLabel.setObjectName(u"octaveLabel")
-
-        self.gridLayout_2.addWidget(self.octaveLabel, 2, 0, 1, 1)
-
-        self.variableLabel = QLabel(self.SettingsFrame)
-        self.variableLabel.setObjectName(u"variableLabel")
-
-        self.gridLayout_2.addWidget(self.variableLabel, 0, 0, 1, 1)
-
-        self.nameLabel = QLabel()#self.SettingsFrame)
-        self.nameLabel.setObjectName(u"nameLabel")
-        self.nameLabel.setAlignment(Qt.AlignCenter)
-
-        #self.gridLayout_2.addWidget(self.nameLabel, 1, 0, 1, 1)
-
-        self.octaveSpinBox = QSpinBox(self.SettingsFrame)
-        self.octaveSpinBox.setObjectName(u"octaveSpinBox")
-        self.octaveSpinBox.setBaseSize(QSize(0, 0))
-        self.octaveSpinBox.setWrapping(True)
-        self.octaveSpinBox.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-        self.octaveSpinBox.setMaximum(9)
-        self.octaveSpinBox.setValue(4)
-        self.octaveSpinBox.setToolTip(
-            "Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
-
-        self.gridLayout_2.addWidget(self.octaveSpinBox, 2, 1, 1, 1)
-
-        self.changeModeButton = QPushButton()#self.SettingsFrame)
-        self.changeModeButton.setObjectName(u"changeModeButton")
-
-        #self.gridLayout_2.addWidget(self.changeModeButton, 1, 1, 1, 1)
-
-        self.variableComboBox = QComboBox(self.SettingsFrame)
-        size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        size_policy.setHorizontalStretch(0)
-        size_policy.setVerticalStretch(0)
-        size_policy.setHeightForWidth(self.variableComboBox.sizePolicy().hasHeightForWidth())
-        self.variableComboBox.setObjectName(u"variableComboBox")
-        self.variableComboBox.setSizePolicy(size_policy)
-        self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
-
-        self.gridLayout_2.addWidget(self.variableComboBox, 0, 1, 1, 2)
-
-        self.horizontalSpacerName = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.horizontalSpacerVariable = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(self.horizontalSpacerVariable, 1, 2, 1, 1)
-
-        self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
-
-        self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
-
-        self.filterFrame = QFrame()
-        self.filterFrame.setObjectName(u"filterFrame")
-        self.filterFrame.setFrameShape(QFrame.Panel)
-        self.filterFrame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.filterFrame)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.filterLabel = QLabel(self.filterFrame)
-        self.filterLabel.setObjectName(u"filterLabel")
-
-        self.verticalLayout.addWidget(self.filterLabel)
-
-        self.filterPlainTextEdit = QPlainTextEdit(self.filterFrame)
-        self.filterPlainTextEdit.setObjectName(u"filterPlainTextEdit")
-        self.filterPlainTextEdit.setReadOnly(True) #TODO filter is disabled for now, unsure if it will be kept
-        self.filterPlainTextEdit.setToolTip(
-            "Filter for this track or encoding. Rows which contains a variable found in this filter will not be encoded"
-            " into notes. Function is disabled for now.")
-
-        self.verticalLayout.addWidget(self.filterPlainTextEdit)
-
-        self.gridLayout.addWidget(self.filterFrame, 1, 0, 1, 1)
 
         self.detailsScrollArea = QScrollArea()
         self.detailsScrollArea.setObjectName(u"detailsScrollArea")
@@ -345,11 +277,61 @@ class AdvancedTrackView(object):
         self.applyToAllButton.setStyleSheet(buttonStyle)
         self.applyToAllButton.setToolTip("Apply the default value to all the encoding below.")
 
-        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 0, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 1, 1, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 2, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 1, 0, 1, 1)
-        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 0, 0, 1, 1)
+
+        self.variableGridLayout = QGridLayout()#self.controlFrame)
+        self.variableGridLayout.setObjectName(u"variableGridLayout")
+
+        self.variableLabel = QLabel(self.controlFrame)
+        self.variableLabel.setObjectName(u"variableLabel")
+
+        self.variableGridLayout.addWidget(self.variableLabel, 0, 0, 1, 1)
+
+        self.variableComboBox = QComboBox(self.controlFrame)
+        size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.variableComboBox.sizePolicy().hasHeightForWidth())
+        self.variableComboBox.setObjectName(u"variableComboBox")
+        self.variableComboBox.setSizePolicy(size_policy)
+        self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
+
+        self.variableGridLayout.addWidget(self.variableComboBox, 0, 1, 1, 1)
+
+
+        # self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        # self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
+
+        self.octaveLayout = QHBoxLayout()
+        self.octaveLayout.setObjectName(u"octaveLayout")
+
+        self.octaveLabel = QLabel(self.controlFrame)
+        self.octaveLabel.setObjectName(u"octaveLabel")
+        self.octaveSpinBox = QSpinBox(self.controlFrame)
+        self.octaveSpinBox.setObjectName(u"octaveSpinBox")
+        self.octaveSpinBox.setBaseSize(QSize(0, 0))
+        self.octaveSpinBox.setWrapping(True)
+        self.octaveSpinBox.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.octaveSpinBox.setMaximum(9)
+        self.octaveSpinBox.setValue(4)
+        self.octaveSpinBox.setToolTip(
+            "Select an octave between 1 and 9.\nThe octave is set for each track and influence the value of all notes.")
+        self.octaveLayout.addWidget(self.octaveLabel)
+        self.octaveLayout.addWidget(self.octaveSpinBox)
+
+        self.horizontalSpacerTop = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacerBottom = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.qualitiveModeOptionsLayout.addLayout(self.defaultValueLayout, 1, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.variableGridLayout, 0, 0, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerTop, 0, 1, 1, 1)
+        self.qualitiveModeOptionsLayout.addItem(self.horizontalSpacerBottom, 1, 2, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.applyToAllButton, 0, 3, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.randomToAllButton, 1, 3, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 0, 4, 1, 1)
+        self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 1, 4, 1, 1)
+        self.qualitiveModeOptionsLayout.addLayout(self.octaveLayout, 1, 1, 1, 1)
+        #self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
+
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -375,17 +357,12 @@ class AdvancedTrackView(object):
         self.retranslate_ui()
         self.connect_ui()
         self.detailsScrollArea.hide()
-        self.filterFrame.hide()
-        self.SettingsFrame.hide()
 
     def retranslate_ui(self):
         self.octaveLabel.setText(QCoreApplication.translate("Form", u"Select Octave", None))
         self.variableLabel.setText(QCoreApplication.translate("Form", u"Select Variable", None))
-        self.nameLabel.setText(QCoreApplication.translate("Form", u"Track Name", None))
-        self.changeModeButton.setText(QCoreApplication.translate("Form", u"Change Mode", None))
-        self.filterLabel.setText(QCoreApplication.translate("Form", u"Filter", None))
         self.defaultValueLabel.setText(QCoreApplication.translate("Form", u"Default:", None))
         self.checkAllButton.setText(QCoreApplication.translate("Form", u"Check all", None))
         self.switchAllCheckButton.setText(QCoreApplication.translate("Form", u"Switch all", None))
-        self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply to all", None))
+        self.applyToAllButton.setText(QCoreApplication.translate("Form", u"Apply default to all", None))
         self.randomToAllButton.setText(QCoreApplication.translate("Form", u"Randomize all", None))

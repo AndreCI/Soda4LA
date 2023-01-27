@@ -7,11 +7,9 @@ from midiutil.MidiFile import MIDIFile
 
 from Ctrls.music_controller import MusicCtrl
 from Models import note_model
-from Models.data_model import Data
-from Models.time_settings_model import TimeSettings
+import Models.data_model as data_model
+from Models.settings_model import GeneralSettings
 from Models.track_model import Track
-from Utils.constants import BATCH_NBR_PLANNED
-
 
 class Music:
     """
@@ -21,6 +19,11 @@ class Music:
     _instance = None
     track_newid = itertools.count()
 
+    def generate_track_id(self):
+        id = next(self.track_newid)
+        while(str(id) in self.tracks.keys()):
+            id = next(self.track_newid)
+        return id
 
     @staticmethod
     def getInstance():
@@ -43,9 +46,9 @@ class Music:
             self.tracks = {}  # List of track model created by user
             self.tracks_note = {}
 
-            self.timeSettings = TimeSettings(self)
-            self.data = Data.getInstance()
-            self.queue_capacity = self.timeSettings.batchPlanned * self.timeSettings.batchSize
+            self.settings = GeneralSettings(self)
+            self.data = data_model.Data.getInstance()
+            self.queue_capacity = self.settings.batchPlanned * self.settings.batchSize
             self.notes = PriorityQueue()  # Priority queue ordered by tfactor
 
             # Ctrl
@@ -67,7 +70,7 @@ class Music:
         self.__dict__.update(state)
         self.notes = PriorityQueue()
         self.sonification_view = None
-        self.data = Data.getInstance()
+        self.data = data_model.Data.getInstance()
 
     def generate_midi(self, filename="output"):
 
@@ -77,7 +80,7 @@ class Music:
         :return:
         """
         # setup
-        bpm = self.timeSettings.get_bpm()
+        bpm = self.settings.get_bpm()
         self.data.reset_playing_index()
         self.ctrl.setup_general_attribute()
         self.ctrl.load_soundfonts()
@@ -116,9 +119,10 @@ class Music:
 
     def generate_dataframe(self):
         """Pre compute all notes into a dataframe"""
+        raise NotImplementedError()
         t1 = time.perf_counter()
         for track in self.tracks.values():
-            evaluated_data = track.filter_batch(self.data.df, False)
+            evaluated_data = track.filter_batch(self.data.current_dataset, False)
             notes = evaluated_data.apply(lambda x: track.build_note2(x), axis=1)
             self.tracks_note[str(track.id)] = notes
         print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
@@ -162,14 +166,14 @@ class Music:
             else:  # If we have no more data, we are at the end of the music
                 print("sleeping...")
                 self.ctrl.finished = True
-                time.sleep(0.5)
+                time.sleep(2.0)
 
     def get_absolute_note_timing(self, tfactor):
         """
         Compute and return the absolute timing in sec of a tfactor, depending on music duration.
         :param tfactor: a value between 0 and 1
         """
-        return int(tfactor * self.timeSettings.get_music_duration() * 1000)
+        return int(tfactor * self.settings.get_music_duration() * 1000)
 
     def add_track(self, track, generate_view=False):
         # with self.ctrl.trackSemaphore:

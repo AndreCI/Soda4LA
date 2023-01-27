@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from pathlib import Path
+
 import ViewsPyQT5.sonification_view as sv
 import time
 from collections import deque
@@ -7,16 +10,19 @@ import pandas as pd
 from PyQt5.QtCore import QSize, Qt, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
     QModelIndex
 from PyQt5.QtWidgets import QSizePolicy, QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
-    QTableView, QFileDialog
+    QTableView, QFileDialog, QMessageBox, QTabWidget
 
 from Models.data_model import Data
+from Utils.error_manager import ErrorManager
 
 
 class TableView(object):
 
     def __init__(self, parent:sv.SonificationView):
         self.parent = parent
-        self.data_model = None
+        self.data_model = []
+        self.currentDataModel = None
+        self.currentTableView = None
 
     def setupUi(self):
         self.data = Data.getInstance()
@@ -29,12 +35,15 @@ class TableView(object):
         self.verticalLayout = QGridLayout(self.tableFrame)
         self.verticalLayout.setObjectName(u"verticalLayout")
 
-        self.tableView = QTableView()
+        self.tabWidget = QTabWidget()
+        self.tableViews = [QTableView()]
+        self.currentTableView = self.tableViews[0]
+        self.tabWidget.addTab(self.tableViews[0], "")
 
         self.generate_ui()
 
         self.verticalLayout.addWidget(self.dataViewFrame, 0, 0, 1, 2)
-        self.verticalLayout.addWidget(self.tableView, 1, 0, 1, 5)
+        self.verticalLayout.addWidget(self.tabWidget, 1, 0, 1, 5)
         self.dataViewFrame.hide()
 
         self.retranslate_ui()
@@ -46,7 +55,7 @@ class TableView(object):
         self.dataColumnComboBox.setToolTip("Select a column as a master timestamp, that will be used to order notes.\n"
                                            "It must be sequential.")
         self.validateDataButton.setToolTip("Validate data selection, starting the sonification process.")
-        self.timestampFormatLineEdit.setToolTip("Informs Soda4LA about the format of the timestamp in the file\n"
+        self.timestampFormatLineEdit.setToolTip("Informs Soda about the format of the timestamp in the file\n"
                                                 "If the format is invalid or not informed, default formats will be tried.\n"
                                                 "Exemple of format: \"%d/%m/%Y %H:%M:%S\" for day/month/year hours/minutes/seconds.")
 
@@ -54,26 +63,62 @@ class TableView(object):
         self.browseDataButton.clicked.connect(self.load_data)
         self.dataColumnComboBox.currentIndexChanged.connect(self.column_select)
         self.validateDataButton.clicked.connect(self.validate_data)
+        self.tabWidget.currentChanged.connect(self.change_tab)
+
+    def change_tab(self):
+        self.parent.topBarView.press_stop_button()
+        self.data.set_data_index(self.tabWidget.currentIndex())
+        self.currentTableView = self.tableViews[self.tabWidget.currentIndex()]
+        self.currentDataModel = self.data_model[self.tabWidget.currentIndex()]
+        self.currentDataModel.reset(self.data.sample_size, self.data.get_first(), self.data.get_second())
 
     def column_select(self):
         if self.dataColumnComboBox.currentText() != "":
-            self.tableView.selectColumn(
-                self.data_model._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
+            self.tableViews[0].selectColumn(
+                self.data_model[0]._dataframe.columns.get_loc(self.dataColumnComboBox.currentText()))
 
     def load_data(self):
         file, check = QFileDialog.getOpenFileName(None, "Load data file",
                                                   "", "CSV (*.csv)")
         if check:
-            self.data.read_data(file)
+            self.data.read_primary_data(file)
             self.dataPathLineEdit.setText(file)
             self.setup_data_model()
             self.dataColumnComboBox.setEnabled(True)
-            self.dataColumnComboBox.addItems(self.data.get_candidates_timestamp_columns())
+            candidates = self.data.get_candidates_timestamp_columns()
+            if(len(candidates)==0):
+                candidates = self.data.header
+                ErrorManager.getInstance().timestamp_warning()
+            self.dataColumnComboBox.addItems(candidates)
             self.validateDataButton.setEnabled(True)
+            self.tabWidget.setTabText(0, Path(file).stem)
+
+    def load_additional_data(self):
+        file, check = QFileDialog.getOpenFileName(None, "Load data file",
+                                                  "", "CSV (*.csv)")
+        if check:
+            header = self.data.current_dataset.columns
+            self.data.read_additional_data(file)
+            if(not ErrorManager.compare_headers(self.data.header, list(self.data.current_dataset.columns))):
+                self.data.set_data_index(self.data.data_index - 1)
+                del self.data.df[-1]
+                ErrorManager.getInstance().wrong_data_error()
+                return
+            self.data.assign_timestamps(self.timestampFormatLineEdit.text())
+            self.tableViews.append(QTableView())
+
+            self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self,
+                                             size=self.data.sample_size))
+            self.tableViews[self.data.data_index].setModel(self.data_model[self.data.data_index])
+            self.tabWidget.addTab(self.tableViews[self.data.data_index], Path(file).stem)
+            self.tabWidget.setCurrentIndex(len(self.tableViews) - 1)
 
     def setup_data_model(self):
-        self.data_model = DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self)
-        self.tableView.setModel(self.data_model)
+        self.data_model = []
+        self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
+        self.tableViews[0].setModel(self.data_model[0])
+        self.currentDataModel = self.data_model[0]
+        self.currentTableView = self.tableViews[0]
 
     def validate_data(self):
         self.data.date_column = self.data.get_candidates_timestamp_columns()[self.dataColumnComboBox.currentIndex()]
@@ -161,15 +206,18 @@ class DataFrameModel(QAbstractTableModel):
     DtypeRole = Qt.UserRole + 1000
     ValueRole = Qt.UserRole + 1001
 
-    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), parent=None, mom=None):
+    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), size = 20, parent=None, mom=None):
         super(DataFrameModel, self).__init__(parent)
         self._dataframe = df
+        self.size = size
         self.buffer = deque()
         self.mom = mom
         for d in dfb.itertuples():
             self.buffer.append(d)
 
-    def reset(self, df=pd.DataFrame(), dfb=pd.DataFrame()):
+    def reset(self, size=None, df=pd.DataFrame(), dfb=pd.DataFrame()):
+        if size is not None:
+            self.size = size
         self.buffer.clear()
         for d in dfb.itertuples():
             self.buffer.append(d)
@@ -178,7 +226,7 @@ class DataFrameModel(QAbstractTableModel):
         self.endResetModel()
 
     def load_row(self, row):
-        if(self._dataframe.shape[0] <= 9):
+        if(self._dataframe.shape[0] <= self.size - 1):
             self.beginResetModel()
             self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
                                         ignore_index=True)
@@ -196,7 +244,7 @@ class DataFrameModel(QAbstractTableModel):
         self.beginResetModel()
         if (len(self.buffer) > 0):
             row = [self.buffer.popleft()]
-            if (self._dataframe.shape[0] <= 9 and len(self.buffer) > 0):
+            if (self._dataframe.shape[0] <= self.size - 1 and len(self.buffer) > 0):
                 row.append(self.buffer.popleft())
             self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
                                     ignore_index=True)

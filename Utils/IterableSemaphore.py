@@ -1,11 +1,12 @@
-
+import logging
 from threading import BoundedSemaphore, Semaphore
 
 
 class ISemaphore(Semaphore):
 
-    def __init__(self, value=1):
+    def __init__(self, value=1, name="default"):
         super().__init__(value=value)
+        self.name = name
 
     def acquire(self, n: int = 1, blocking: bool = True, timeout: float = None) -> bool:
         r = True
@@ -20,8 +21,9 @@ class ISemaphore(Semaphore):
 
 class IBoundedSemaphore(BoundedSemaphore):
 
-    def __init__(self, value=1):
+    def __init__(self, value=1, name="default"):
         super().__init__(value=value)
+        self.name = name
 
     def update_size(self, size:int=2, update_value:bool=False)->None:
         if size<1:
@@ -40,5 +42,8 @@ class IBoundedSemaphore(BoundedSemaphore):
         return r
 
     def release(self, n: int = 1) -> None:
-        for i in range(n):
-            super().release()
+        try:
+            for i in range(n):
+                super().release()
+        except ValueError:
+            logging.log(logging.WARN, "Value Error: Semaphore {} released too many times ({}/{})".format(self.name, n, self._initial_value))

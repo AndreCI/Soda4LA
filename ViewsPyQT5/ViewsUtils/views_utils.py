@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from PyQt5.QtWidgets import QSlider, QStyle
 
-GTrackView = namedtuple('gTrack', ["frame", "deleteButton", "selectButton", "hLayout"])
+GTrackView = namedtuple('gTrack', ["frame", "deleteButton", "duplicateButton","selectButton", "hLayout"])
 
 
 sliderGainStyle = (u"QSlider::groove:horizontal {\n"
@@ -184,13 +184,12 @@ selectedTrackStyle = (u"QPushButton{\n"
                       "}")
 
 playButtonReadyStyle = (u"QPushButton{\n"
-                        "    background-color: #05B8CC;\n"
+                        "    background-color: rgb(5, 184, 204);\n"
                         "    border-style: outset;\n"
                         "    border-width: 2px;\n"
                         "    border-radius: 10px;\n"
-                        # "    border-color: black;\n"
                         "    padding: 6px;\n"
-                        "}\n"
+                        "}"
                         "QPushButton:hover {\n"
                         "    background-color: rgb(100, 100, 100);\n"
                         "    border-style: outset;\n"

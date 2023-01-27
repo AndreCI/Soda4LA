@@ -1,6 +1,7 @@
 .sf2
 *.sf2
 *.soda4la
+*.soda
 *.config
 *.mid
 *.wav
@@ -163,3 +164,4 @@ settings.ini
 *.mid
 settings.ini
 *.ini
+*.xml

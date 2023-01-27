@@ -60,7 +60,6 @@ class ParameterEncodingCtrl:
             self.model.handpickEncoding[variable] = int(value)
 
     def change_octave(self, octave:str)->None:
-        #TODO Change octave location on view
         self.model.octave = octave
         for key in self.model.handpickEncoding:
             self.set_value(Models.note_model.int_to_note(self.model.handpickEncoding[key]), key)

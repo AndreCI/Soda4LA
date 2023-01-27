@@ -2,6 +2,7 @@ import logging
 import threading
 from collections import deque
 
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QFileDialog
 
 from Models.music_model import Music
@@ -17,7 +18,7 @@ class SonificationView(QWidget):
     """
     Main view for the sonification process, handling both configuration and representation of the loaded data.
     """
-
+    messageChanged = pyqtSignal(str)
     # TODO: Add fast forward and backward +x/-x seconds
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
@@ -57,12 +58,16 @@ class SonificationView(QWidget):
         self.graphLayout.addWidget(self.tableView.tableFrame)
         self.visualisationView.GraphFrame.hide()
 
+        self.messageChanged.connect(self.show_message)
+
+    def show_message(self, msg):
+        self.parent.statusbar.showMessage(msg, 5000)
 
     def set_status_text(self, line, timing=5000):
-        self.parent.statusbar.showMessage(line, timing)
+        self.messageChanged.emit(line)
 
     def open_settings(self):
-        self.model.timeSettings.ctrl.open_time_settings(self.settingsView)
+        self.model.settings.ctrl.open_settings(self.settingsView)
 
     def export_music(self):
         file, check = QFileDialog.getSaveFileName(None, "Export music",
@@ -74,11 +79,11 @@ class SonificationView(QWidget):
     def export_all_tracks(self):
         file, check = QFileDialog.getSaveFileName(None, "Save project",
                                                   "project with {} tracks".format(len(self.model.tracks)),
-                                                  "Soda4LA Project file (*.soda4la)")
+                                                  "Soda Project file (*.soda)")
         if check:
             self.model.ctrl.export_all_tracks(file)
 
     def import_all_tracks(self):
-        file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda4LA Project file (*.soda4la)")
+        file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda Project file (*.soda)")
         if check:
             self.model.ctrl.import_all_tracks(file)
