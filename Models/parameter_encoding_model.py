@@ -71,8 +71,6 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-        print(self.handpickEncoding)
-        print(row[self.filter.column])
         try:
             if (row[self.filter.column] == None):
                 return self.defaultValue

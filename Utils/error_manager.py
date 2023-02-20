@@ -48,6 +48,15 @@ class ErrorManager:
                                    'column.')
             msg.setWindowTitle("Warning")
             msg.exec_()
+
+    def loadproject_error(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Error: Problem when loading project!")
+        msg.setInformativeText('An error occured while loading a previous project.\n'
+                               'This is probably due to loadind a project made with another datafile.')
+        msg.setWindowTitle("Error")
+        msg.exec_()
     def timeformat_error(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)

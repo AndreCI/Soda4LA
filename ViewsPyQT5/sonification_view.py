@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QFileDialog
 
 from Models.music_model import Music
+from Utils.error_manager import ErrorManager
 from ViewsPyQT5.ViewsUtils.advanced_track_view import AdvancedTrackView
 from ViewsPyQT5.ViewsUtils.graphical_view import GraphView
 from ViewsPyQT5.ViewsUtils.table_view import TableView
@@ -86,4 +87,7 @@ class SonificationView(QWidget):
     def import_all_tracks(self):
         file, check = QFileDialog.getOpenFileName(None, "Open project", "", "Soda Project file (*.soda)")
         if check:
-            self.model.ctrl.import_all_tracks(file)
+            try:
+                self.model.ctrl.import_all_tracks(file)
+            except:
+                ErrorManager.getInstance().loadproject_error()

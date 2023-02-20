@@ -117,7 +117,6 @@ class Data:
         """
         find and return all columns that looks like a timestamp
         """
-        print(self.header)
         candidates = []
         for c in self.header:
             if(self.current_dataset[c].first_valid_index() is not None and
