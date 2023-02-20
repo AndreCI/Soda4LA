@@ -150,34 +150,22 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 15640;2000-01-01 00:53:21;addToFridge;52;94;imageassessments;;414
 15642;2000-01-01 00:53:31;showItemFRIDGE;52;94;printedmusicassessments;;500
 15645;2000-01-01 00:53:44;showItemFRIDGE;52;94;printedmusicphotocopy;;526
-15647;2000-01-01 00:53:55;showItemCupboard;52;94;printedmusic;;533;1
-
 15650;2000-01-01 00:54:45;showItemFRIDGE;52;94;printedmusicassessments;;500
 15664;2000-01-01 00:57:10;chat;52;94;;;
 15669;2000-01-01 00:57:53;showItemFRIDGE;52;94;journalprintedCopies;;15
 15672;2000-01-01 00:58:07;chat;52;94;;;
 15678;2000-01-01 00:58:24;feedTamagoGood;52;94;imageassessments;;414
-15689;2000-01-01 00:59:19;addToFridge;52;94;printedmusicassessments;;533;1
-
 15690;2000-01-01 00:59:33;showItemCupboard;52;94;journal;;113
 15693;2000-01-01 00:59:47;addToFridge;52;94;journalprintedCopies;;113
 15695;2000-01-01 00:59:54;showItemCupboard;52;94;book;;4
 15697;2000-01-01 01:00:01;showItemFRIDGE;52;94;printedmusicassessments;;500
 15698;2000-01-01 01:00:08;showItemFRIDGE;52;94;printedmusicassessments;;500
 15701;2000-01-01 01:00:18;chat;52;94;;;
-15702;2000-01-01 01:00:23;feedTamagoGood;52;94;printedmusicassessments;;533;1
-
 15704;2000-01-01 01:00:47;chat;52;94;;;
 15707;2000-01-01 01:01:03;showItemCupboard;52;94;image;;401
 15709;2000-01-01 01:01:16;showItemCupboard;52;94;image;;412
-15711;2000-01-01 01:01:25;showItemCupboard;52;94;printedmusic;;522;0
-
 15713;2000-01-01 01:01:33;showItemCupboard;52;94;journal;;106
 15716;2000-01-01 01:01:55;showItemCupboard;52;94;journal;;106
-15719;2000-01-01 01:02:04;showItemCupboard;52;94;printedmusic;;534;0
-
-15720;2000-01-01 01:02:17;addToFridge;52;94;printedmusicintranet;;534;0
-
 15723;2000-01-01 01:02:25;showItemCupboard;52;94;journal;;13
 15726;2000-01-01 01:02:32;showItemCupboard;52;94;journal;;13
 15727;2000-01-01 01:02:43;showItemCupboard;52;94;video;;202
@@ -188,8 +176,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 15735;2000-01-01 01:03:39;chat;52;94;;;
 15739;2000-01-01 01:03:58;chat;52;94;;;
 15744;2000-01-01 01:04:33;chat;52;94;;;
-15746;2000-01-01 01:04:38;feedTamagoGood;52;94;printedmusicintranet;;534;0
-
 15748;2000-01-01 01:04:41;feedTamagoGood;52;94;videoassessments;;202
 15750;2000-01-01 01:04:45;feedTamagoBad;52;94;bookassessments;;5
 15753;2000-01-01 01:05:05;chat;52;94;;;

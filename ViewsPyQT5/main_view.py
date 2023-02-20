@@ -112,7 +112,6 @@ class MainWindow(QMainWindow):
 
     def load_data(self):
         # TODO add other filetypes
-        # TODO load multiples datafiles in tab and assign files to tracks?
         m = Music.getInstance()
         if (m.settings.autoload):
             self.db.read_primary_data(m.settings.autoloadDataPath)

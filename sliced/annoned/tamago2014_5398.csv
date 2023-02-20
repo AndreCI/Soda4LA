@@ -89,12 +89,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 16364;2000-01-01 00:15:44;feedTamagoGood;53;98;journalassessments;;113
 16383;2000-01-01 00:16:22;chat;53;98;;;
 16389;2000-01-01 00:16:32;help;53;98;;Acces aide en ligne;
-16392;2000-01-01 00:16:39;showItemCupboard;53;98;printedmusic;;532;0
-
-16402;2000-01-01 00:16:53;addToFridge;53;98;printedmusicprojection;;532;0
-
-16407;2000-01-01 00:16:55;feedTamagoGood;53;98;printedmusicprojection;;532;0
-
 16408;2000-01-01 00:16:58;showItemCupboard;53;98;image;;404
 16413;2000-01-01 00:17:10;addToFridge;53;98;imageintranet;;404
 16417;2000-01-01 00:17:12;feedTamagoGood;53;98;imageintranet;;404
@@ -141,8 +135,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 16663;2000-01-01 00:26:03;showItemCupboard;53;98;printedmusic;;519
 16666;2000-01-01 00:26:09;showItemCupboard;53;98;journal;;12
 16672;2000-01-01 00:26:25;showItemCupboard;53;98;image;;404
-16682;2000-01-01 00:26:52;showItemCupboard;53;98;printedmusic;;532;1
-
 16686;2000-01-01 00:27:08;showItemCupboard;53;98;printedmusic;;525
 16703;2000-01-01 00:28:10;showItemCupboard;53;98;sound;;303
 16705;2000-01-01 00:28:31;chat;53;98;;;
@@ -156,14 +148,10 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 16733;2000-01-01 00:29:32;showItemFRIDGE;53;98;soundprojection;;315
 16737;2000-01-01 00:29:48;chat;53;98;;;
 16740;2000-01-01 00:29:51;showItemFRIDGE;53;98;soundprojection;;315
-16746;2000-01-01 00:30:11;chat;53;98;;"H_Joe on peut mettre les chansons comme c'est toi qui les as faites ;)";3;1
-
 16748;2000-01-01 00:30:18;showItemCupboard;53;98;journal;;113
 16756;2000-01-01 00:30:31;addToFridge;53;98;journalintranet;;113
 16757;2000-01-01 00:30:34;showItemFRIDGE;53;98;journalprojection;;117
 16776;2000-01-01 00:30:59;showItemCupboard;53;98;image;;401
-16779;2000-01-01 00:31:03;showItemCupboard;53;98;printedmusic;;532;1
-
 16783;2000-01-01 00:31:11;showItemCupboard;53;98;sound;;301
 16788;2000-01-01 00:31:18;showItemCupboard;53;98;journal;;12
 16791;2000-01-01 00:31:28;showItemCupboard;53;98;journal;;117
@@ -178,16 +166,10 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 16821;2000-01-01 00:32:34;showItemFRIDGE;53;98;journalassessments;;113
 16824;2000-01-01 00:32:39;chat;53;98;;;
 16828;2000-01-01 00:32:44;showItemCupboard;53;98;sound;;303
-16831;2000-01-01 00:32:49;showItemCupboard;53;98;printedmusic;;532;1
-
 16837;2000-01-01 00:32:59;showItemCupboard;53;98;printedmusic;;519
 16842;2000-01-01 00:33:11;showItemCupboard;53;98;image;;415
 16855;2000-01-01 00:33:45;chat;53;98;;;
 16858;2000-01-01 00:33:52;showItemCupboard;53;98;sound;;303
-16861;2000-01-01 00:34:01;showItemCupboard;53;98;printedmusic;;532;1
-
-16863;2000-01-01 00:34:06;showItemCupboard;53;98;printedmusic;;532;1
-
 16868;2000-01-01 00:34:18;help;53;98;;Acces aide en ligne;
 16869;2000-01-01 00:34:21;helpLink;53;98;;Synthese exception pedagogique - Enregistrements a;
 16882;2000-01-01 00:35:02;showItemFRIDGE;53;98;journalassessments;;113

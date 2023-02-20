@@ -101,8 +101,8 @@ class Track:
         return note.TNote(tfactor=self.music.settings.get_temporal_position(row, self.offset),
                           channel=self.id,
                           value=self.pencodings["value"].get_parameter(row),
-                          velocity=self.pencodings["velocity"].get_parameter(row),
-                          duration=self.pencodings["duration"].get_parameter(row),
+                          velocity=int(self.pencodings["velocity"].get_parameter(row)* 1.27),
+                          duration=int(self.pencodings["duration"].get_parameter(row)),
                           void=not row['internal_filter'],
                           id=row['internal_id'])
 

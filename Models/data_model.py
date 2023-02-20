@@ -118,8 +118,14 @@ class Data:
         find and return all columns that looks like a timestamp
         """
         print(self.header)
-        candidates = [c for c in self.header if
-                      self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
+        candidates = []
+        for c in self.header:
+            if(self.current_dataset[c].first_valid_index() is not None and
+            self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])):
+                candidates.append(c)
+            #print(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])
+        #candidates = [c for c in self.header if
+          #            self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
         return candidates
 
     def get_best_guess_variable(self) -> str:
@@ -227,10 +233,16 @@ class Data:
                 return date
             except ValueError:
                 pass
+            except TypeError:
+                logging.log(logging.FATAL, "No format found for this timestamp: {}".format(d))
+                ErrorManager.getInstance().timeformat_error()
+                raise ValueError("No format found for this timestamp: {}".format(d))
         try:
             yourdate = dateutil.parser.parse(d)
             return yourdate
         except ParserError:
+            logging.log(logging.FATAL, "No format found for this timestamp: {}".format(d))
+            ErrorManager.getInstance().timeformat_error()
             raise ValueError("No format found for this timestamp: {}".format(d))
 
     def assign_timestamps(self, additional_format="") -> None:

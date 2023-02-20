@@ -32,8 +32,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 33837;2000-01-01 00:08:33;addToFridge;114;251;journalprintedCopies;;117
 33839;2000-01-01 00:08:36;feedTamagoBad;114;251;journalprintedCopies;;117
 33855;2000-01-01 00:09:01;chat;114;251;;;
-33871;2000-01-01 00:09:22;showItemCupboard;114;251;printedmusic;;532;1
-
 33877;2000-01-01 00:09:37;showItemCupboard;114;251;image;;401
 33892;2000-01-01 00:10:05;showItemCupboard;114;251;sound;;310
 33901;2000-01-01 00:10:20;addToFridge;114;251;soundintranet;;310

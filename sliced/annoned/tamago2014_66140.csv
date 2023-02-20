@@ -42,12 +42,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 20737;2000-01-01 00:08:21;feedTamagoGood;66;140;soundprojection;;337
 20741;2000-01-01 00:08:44;addToFridge;66;140;journalphotocopy;;13
 20743;2000-01-01 00:08:48;showItemCupboard;66;140;image;;403
-20745;2000-01-01 00:08:57;showItemCupboard;66;140;printedmusic;;534;1
-
-20747;2000-01-01 00:09:07;addToFridge;66;140;printedmusicprintedCopies;;534;1
-
-20749;2000-01-01 00:09:09;feedTamagoGood;66;140;printedmusicprintedCopies;;534;1
-
 20752;2000-01-01 00:09:27;feedTamagoGood;66;140;journalphotocopy;;13
 20756;2000-01-01 00:09:37;showItemCupboard;66;140;image;;415
 20758;2000-01-01 00:09:45;showItemCupboard;66;140;image;;415

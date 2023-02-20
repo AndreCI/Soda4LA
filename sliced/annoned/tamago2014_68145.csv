@@ -43,12 +43,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 21223;2000-01-01 00:08:33;showItemCupboard;68;145;sound;;300
 21229;2000-01-01 00:08:43;showItemCupboard;68;145;journal;;124
 21233;2000-01-01 00:08:47;showItemCupboard;68;145;journal;;110
-21236;2000-01-01 00:08:50;showItemCupboard;68;145;printedmusic;;534;1
-
-21242;2000-01-01 00:09:00;addToFridge;68;145;printedmusicprintedCopies;;534;1
-
-21244;2000-01-01 00:09:01;feedTamagoGood;68;145;printedmusicprintedCopies;;534;1
-
 21246;2000-01-01 00:09:03;showItemCupboard;68;145;journal;;13
 21256;2000-01-01 00:09:16;addToFridge;68;145;journalassessments;;13
 21257;2000-01-01 00:09:18;feedTamagoGood;68;145;journalassessments;;13
@@ -75,12 +69,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 21360;2000-01-01 00:11:27;addToFridge;68;145;bookassessments;;10
 21362;2000-01-01 00:11:29;feedTamagoBad;68;145;bookassessments;;10
 21365;2000-01-01 00:11:33;showItemCupboard;68;145;book;;9
-21371;2000-01-01 00:11:41;showItemCupboard;68;145;printedmusic;;531;0
-
-21377;2000-01-01 00:11:52;addToFridge;68;145;printedmusicintranet;;531;0
-
-21379;2000-01-01 00:11:54;feedTamagoGood;68;145;printedmusicintranet;;531;0
-
 21383;2000-01-01 00:11:58;showItemCupboard;68;145;printedmusic;;529
 21385;2000-01-01 00:12:02;showItemCupboard;68;145;printedmusic;;529
 21386;2000-01-01 00:12:04;showItemCupboard;68;145;printedmusic;;521

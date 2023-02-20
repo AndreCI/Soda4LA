@@ -48,7 +48,16 @@ class ErrorManager:
                                    'column.')
             msg.setWindowTitle("Warning")
             msg.exec_()
-
+    def timeformat_error(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Error: No format found for this timestamp!")
+        msg.setInformativeText('No valid format have been found for this timestamp. You will need to manually '
+                               'set the timestamp format while loading your data. The format should follow '
+                               'python formatting found here: \n'
+                               'https://docs.python.org/3.10/library/datetime.html#strftime-and-strptime-format-codes')
+        msg.setWindowTitle("Error")
+        msg.exec_()
     def wrong_data_error(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)

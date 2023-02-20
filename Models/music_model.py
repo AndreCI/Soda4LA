@@ -103,7 +103,6 @@ class Music:
             mf.writeFile(outf)
 
     def write_fluidsynth_config(self, filename):
-        # TODO add more options
         """
         Automatically write a config file for fluidsynth, containg info about soundfonts, gain, etc.
         """
@@ -125,7 +124,7 @@ class Music:
             evaluated_data = track.filter_batch(self.data.current_dataset, False)
             notes = evaluated_data.apply(lambda x: track.build_note2(x), axis=1)
             self.tracks_note[str(track.id)] = notes
-        print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
+        #print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
 
     def generate(self): 
         """
@@ -164,7 +163,6 @@ class Music:
                         n=max_note_nbr - note_nbr)  # If not all rows become note, release empty accordingly
                     self.ctrl.fullSemaphore.release(n=note_nbr)  # Inform consumer that queue is not empty
             else:  # If we have no more data, we are at the end of the music
-                print("sleeping...")
                 self.ctrl.finished = True
                 time.sleep(2.0)
 

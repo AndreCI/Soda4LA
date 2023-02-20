@@ -3,7 +3,7 @@ import math
 import threading
 
 import Models.settings_model as ts
-from Utils.utils import is_int
+from Utils.utils import is_int, is_float
 import ViewsPyQT5.settings_view as sv
 
 
@@ -12,10 +12,10 @@ class SettingsCtrl():
     Ctrl for the time settings model
     """
 
-    def __init__(self, model:ts.GeneralSettings):
+    def __init__(self, model: ts.GeneralSettings):
         self.model = model  # TimeSettings Model
 
-    def change_batch_size(self, batch_size:int, batch_planned:int)->None:
+    def change_batch_size(self, batch_size: int, batch_planned: int) -> None:
         if self.model.music.ctrl.playing:
             self.model.music.ctrl.stoppedEvent.wait()
         self.model.batchSize = batch_size
@@ -23,26 +23,27 @@ class SettingsCtrl():
         self.model.data.batch_size = batch_size
         self.model.music.ctrl.change_queue_size(batch_size * batch_planned)
 
-    def validate(self, batch_size:int, batch_planned:int, song_length:int, note_timing:int, sample_size:int, tempo_idx:int,
-                 tempo_N:int, tempo_dur:int, tempo_offset:int,
-                 autoload:bool, graphical_length:int, graphical_precentage:int)->None:
+    def validate(self, batch_size: int, batch_planned: int, song_length: int, note_timing: int, sample_size: int,
+                 tempo_idx: int,
+                 tempo_N: int, tempo_dur: int, tempo_offset: int,
+                 autoload: bool, graphical_length: int, graphical_precentage: int) -> None:
         """
         Validate time settings entered by user and update models accordingly
         """
-
-        if not (is_int(batch_size) and int(batch_size) >0 and
-                is_int(batch_planned) and int(batch_planned)>0 and
-                is_int(song_length) and int(song_length) >0 and
-                is_int(note_timing) and int(note_timing) >0 and
-                is_int(sample_size) and int(sample_size) >0 and
-                is_int(graphical_length) and int(graphical_length)  >0 and
-                is_int(tempo_N) and 0<int(tempo_N) and
-                is_int(tempo_dur) and 0<=int(tempo_dur)<=100 and
-                is_int(tempo_offset) and 0<=int(tempo_offset)<int(tempo_N) and
-                is_int(graphical_precentage) and 100>=int(graphical_precentage) >=0):
+        if not (is_int(batch_size) and int(batch_size) > 0 and
+                is_int(batch_planned) and int(batch_planned) > 0 and
+                is_float(song_length) and float(song_length) > 0 and
+                is_int(note_timing) and int(note_timing) > 0 and
+                is_int(sample_size) and int(sample_size) > 0 and
+                is_int(graphical_length) and int(graphical_length) > 0 and
+                is_int(tempo_N) and 0 < int(tempo_N) and
+                is_int(tempo_dur) and 0 <= int(tempo_dur) <= 100 and
+                is_int(tempo_offset) and 0 <= int(tempo_offset) < int(tempo_N) and
+                is_int(graphical_precentage) and 100 >= int(graphical_precentage) >= 0):
             return
-        threading.Thread(target=self.change_batch_size, args=[int(batch_size), int(batch_planned)], daemon=True, name="change_batch_size").start()
-        self.model.musicDuration = int(song_length)
+        threading.Thread(target=self.change_batch_size, args=[int(batch_size), int(batch_planned)], daemon=True,
+                         name="change_batch_size").start()
+        self.model.musicDuration = float(song_length)
         self.model.timeBuffer = int(note_timing)
         self.model.sampleSize = int(sample_size)
         self.model.set_type(self.model.possible_types[tempo_idx])
@@ -56,7 +57,7 @@ class SettingsCtrl():
 
         self.write_to_ini()
 
-    def write_to_ini(self)->None:
+    def write_to_ini(self) -> None:
         with open("settings.ini", "w") as settingsFile:
             line = "autoload=" + str(self.model.autoload) + "\n"
             settingsFile.write(line)
@@ -79,8 +80,9 @@ class SettingsCtrl():
             line = "sampleSize=" + str(self.model.sampleSize) + "\n"
             settingsFile.write(line)
 
-    def open_settings(self, view:sv.SettingsView):
+    def open_settings(self, view: sv.SettingsView):
         self.model.tsView = view
         view.model = self.model
         view.update_ui()
         view.show()
+        view.location_on_the_screen()

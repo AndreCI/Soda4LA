@@ -255,13 +255,12 @@ class MusicCtrl:
         self.playingEvent.set()  # Release threads
         self.pausedEvent.set()  # Release threads
         self.stoppedEvent.clear()  # Send signal that we started
-        print("play!")
 
     def pause(self)->None:
         self.view.save_pause_time()
         self._pausedTimed = time.perf_counter()
         self.paused = True
-        self.playingEvent.clear()  # Block threads TODO: Necessary?
+        self.playingEvent.clear()  # Block threads
         self.pausedEvent.clear()  # Block threads
 
     def stop(self)->None:
@@ -298,6 +297,7 @@ class MusicCtrl:
             self.trackSemaphore = threading.Lock()  # Could be seomething else ig
             self.fullSemaphore = IBoundedSemaphore(self.model.queue_capacity, "full")
             self.fullSemaphore.acquire(n=self.model.queue_capacity)  # Set semaphore to 0
+            logging.log(logging.WARNING, "ValueError while releasing semaphores, resetting now")
         self.emptySemaphore = IBoundedSemaphore(self.model.queue_capacity, "empty") # reset it anyway because it tends to not reset correctly at the end of song
 
         time.sleep(0.1)  # needed for semaphore values display
@@ -365,6 +365,7 @@ class MusicCtrl:
             self.view.synth.midi_to_audio(name.stem + ".mid", filename, name.stem + "-fluidsynth_midi_to_wav.config")
             self.model.sonification_view.set_status_text("Music {} saved!".format(name), 4000)
         except:
+            logging.log(logging.ERROR, "Error while saving {}!".format(name), 10000)
             self.model.sonification_view.set_status_text("Error while saving {}!".format(name), 10000)
 
     def push_data_to_table(self, datas: DataFrame)->None:

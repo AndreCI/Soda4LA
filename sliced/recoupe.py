@@ -37,44 +37,85 @@ def get_datetime(d, additional_format: str="") -> datetime:
 
 path = "sliced"
 
-def anon_date(d1, dif):
-    t1 = get_datetime(d1.split(";")[1]).timestamp() - dif
+def anon_date(d1, dif, datenum = 1, splitc=";"):
+    t1 = get_datetime(d1.split(splitc)[datenum]).timestamp() - dif
     return str(datetime.fromtimestamp(t1))
 
-headeroff = "id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetypemou;code;message;codage_chat_message;help;resource_id;item_id;resourcetype;mode_of_use;resource_title;creationdate;rightsagreements;resource_size;item_size;reason;game_id;level_id;iswon"
+headeroff_2015 = "Codage;_id;actionType;creationDate;date;game_id;group_id;grpus_id;help;id;isWon;item_id;item_size;level_id;logType;message;mode_of_use;reason;resourceType;resourceTypeMoU;resource_id;resource_size;resource_title;rightsAgreements;user_id"
+print(headeroff_2015)
+headeroff = headeroff_2015#"id;date;logtype;actiontype;groupid;user_id;grpusid;parangon;paranon;resourcetypemou;code;message;codage_chat_message;help;resource_id;item_id;resourcetype;mode_of_use;resource_title;creationdate;rightsagreements;resource_size;item_size;reason;game_id;level_id;iswon"
 i=0
 for h in headeroff.split(";"):
     print("{} to {}".format(i, h))
     i+=1
-delheaders = [2, 6, 7, 8, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+
+#keepheadername= id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
+keepheader2015 = 1, 4, 2, 6, 24, 19, 8, 20
+delheaders2015 = [0, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23]
+delheaders = delheaders2015#[2, 6, 7, 8, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 delheaders.sort(reverse=True)
 print(delheaders)
 
+'''0 to id
+1 to date
+2 to logtype
+3 to actiontype
+4 to groupid
+5 to user_id
+6 to grpusid
+7 to parangon
+8 to paranon
+9 to resourcetypemou
+10 to code
+11 to message
+12 to codage_chat_message
+13 to help
+14 to resource_id
+15 to item_id
+16 to resourcetype
+17 to mode_of_use
+18 to resource_title
+19 to creationdate
+20 to rightsagreements
+21 to resource_size
+22 to item_size
+23 to reason
+24 to game_id
+25 to level_id
+26 to iswon'''
+
 def anon(path, f):
+    datecol = 4#1
     newf = f.split("_")
     print(newf)
     del newf[1]
     newf = ("_".join(newf))
     with open(os.path.join(path, f), "r") as f1:
         d1 = f1.readlines()
-        f1_timestamp = get_datetime(d1[1].split(";")[1]).timestamp()
-        f2_timestamp = get_datetime("01/01/2000 00:00:00").timestamp()
+        print(d1[datecol])
+        f1_timestamp = get_datetime(d1[datecol].split(",")[datecol]).timestamp()
+        f2_timestamp = get_datetime("01/01/2000 00:02:00").timestamp()
         dif = abs(f1_timestamp - f2_timestamp)
 
-        pname = d1[1].split(";")[7]
-        with open(os.path.join(path + "/annoned", newf), 'w') as f:
-            header = d1[0].split(";")
+        #pname = d1[1].split(";")[7]
+        with open(os.path.join(path + "/annoned", f), 'w') as f:
+            header = d1[0].split(",")
             for h in delheaders:
                 del header[h]
-            nheader = ";".join(header)+ "\n"
+            nheader = ";".join(['id', 'date', 'actiontype', 'groupid', 'user_id', 'resourcetypemou', 'help', 'resource_id\n'])
             f.write(nheader)
             for i in range(1, len(d1) - 1):
-                line = d1[i].split(";")
-                line[1] = anon_date(d1[i], dif)
+                line = d1[i].strip("\n").split(",")
+                line[datecol] = anon_date(d1[i], dif, datecol, splitc=",")
                 for h in delheaders:
                     del line[h]
-                nline = ";".join(line) + "\n"
-                f.write(nline)
+                if(len(line) == len(header)):
+                    line = [str(i), line[2], line[1], line[3], line[7], line[5], line[4], line[6]]
+                    nline = ";".join(line) + "\n"
+                    f.write(nline)
+
+anon(path, "tamago_group20.csv")
+exit()
 
 for f in os.listdir(path):
     if os.path.isfile(os.path.join(path, f)):

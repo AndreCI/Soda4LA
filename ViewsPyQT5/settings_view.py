@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QRect, QCoreApplication
-from PyQt5.QtWidgets import QMainWindow, QCheckBox, QTextEdit
+from PyQt5.QtWidgets import QMainWindow, QCheckBox, QTextEdit, QDesktopWidget
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel
 
 from Utils.constants import TIME_SETTINGS_OPTIONS, TIME_SETTINGS_OPTIONS_TOOLTIP
@@ -208,6 +208,13 @@ class SettingsView(QMainWindow):
         self.set_tools_tips()
 
         # setupUi
+    def location_on_the_screen(self):
+
+        screen = QDesktopWidget().screenGeometry()
+        widget = self.geometry()
+        x = int(screen.width()/2 - int(widget.width()/2))
+        y = int(screen.height()/2 - int(widget.height()/2))
+        self.move(x, y)
 
     def retranslate_ui(self):
         self.songLengthLabel.setText(QCoreApplication.translate("Form", u"Song length, in seconds", None))

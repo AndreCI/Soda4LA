@@ -1,0 +1,397 @@
+Codage,_id,actionType,creationDate,date,game_id,group_id,grpus_id,help,id,isWon,item_id,item_size,level_id,logType,message,mode_of_use,reason,resourceType,resourceTypeMoU,resource_id,resource_size,resource_title,rightsAgreements,user_id
+,6267a0cf98c0f1a79ae3d85d,fillCupboard,,31/03/2015 09:05:50,62,8,8,,2981,true,,,1,fillCupboard,,,,,,,/,,,
+,6267a0cf98c0f1a79ae3d85e,showItemCUPBOARD,1898,31/03/2015 09:06:12,62,8,8,,2985,true,517,intégrale,1,showItemCUPBOARD,,,,journal,journal,111,/,Journal de,Domaine public,27
+,6267a0cf98c0f1a79ae3d85f,showItemCUPBOARD,1964,31/03/2015 09:06:33,62,8,8,,2986,true,552,10 articles,1,showItemCUPBOARD,,,,journal,journal,119,/,Le Nouvel,"Droits d'auteur CFC",26
+OJ,6267a0cf98c0f1a79ae3d860,chat,,31/03/2015 09:06:37,62,8,8,,2988,true,,,1,chat,"Bonjour. Le frigo a l'air bien rempli.",,,,,,/,,,27
+NC,6267a0cf98c0f1a79ae3d861,chat,,31/03/2015 09:06:52,62,8,8,,2991,true,,,1,chat,Bonjour...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d862,showItemCUPBOARD,1898,31/03/2015 09:06:52,62,8,8,,2992,true,521,6 articles,1,showItemCUPBOARD,,,,journal,journal,111,/,Journal de,Domaine public,27
+,6267a0cf98c0f1a79ae3d863,addToFridge,1898,31/03/2015 09:07:15,62,8,8,,2994,true,521,6 articles,1,addToFridge,,printedCopies,,journal,journalprintedCopies,111,/,Journal de,Domaine public,27
+,6267a0cf98c0f1a79ae3d866,addToFridge,1983,31/03/2015 09:07:34,62,8,8,,2997,true,506,1 article,1,addToFridge,,printedCopies,"Sous droits d'auteur",journal,journalprintedCopies,108,/,The Washin,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d868,chat,,31/03/2015 09:07:55,62,8,8,,3000,true,,,1,chat,"J'ai placé une ressource textuelle : le Journal de l'enseignement avec une diffusion en copie imprimée",,,,,,/,,,27
+OJ,6267a0cf98c0f1a79ae3d869,chat,,31/03/2015 09:08:02,62,8,8,,3001,true,,,1,chat,"J'ai vu...",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d86a,tuto,,31/03/2015 09:08:12,62,8,8,,3002,true,,,1,tuto,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d86b,helpLink,,31/03/2015 09:08:17,62,8,8,Accès aide en ligne,3003,true,,,1,helpLink,,,,,,,/,,,26
+Q,6267a0cf98c0f1a79ae3d86c,chat,,31/03/2015 09:08:19,62,8,8,,3004,true,,,1,chat,Je vais essayer de le nourrir avec cela. Cela te va?,,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d86d,chat,,31/03/2015 09:08:32,62,8,8,,3006,true,,,1,chat,Fais donc...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d86e,feedTamagoGood,1898,31/03/2015 09:08:37,62,8,8,,3007,true,521,6 articles,1,feedTamago,,printedCopies,,journal,journalprintedCopies,111,/,Journal de,Domaine public,27
+OJ,6267a0cf98c0f1a79ae3d86f,chat,,31/03/2015 09:08:45,62,8,8,,3008,true,,,1,chat,apparemment on est obligé de tester les effets,,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3d870,chat,,31/03/2015 09:08:52,62,8,8,,3009,true,,,1,chat,"Il a l'air d'avoir apprécié...",,,,,,/,,,27
+OJ,6267a0cf98c0f1a79ae3d871,chat,,31/03/2015 09:09:08,62,8,8,,3010,true,,,1,chat,tu le vois ou?,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d872,showItemCUPBOARD,1639,31/03/2015 09:09:11,62,8,8,,3011,true,149,4,1,showItemCUPBOARD,,,,book,book,3,/124 p.,"L'illusion",Domaine Public,27
+,6267a0cf98c0f1a79ae3d873,showItemCUPBOARD,2013,31/03/2015 09:09:21,62,8,8,,3013,true,325,25,1,showItemCUPBOARD,,,,book,book,41,/230,"A l'école","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d874,chat,,31/03/2015 09:09:29,62,8,8,,3014,true,,,1,chat,(ok le score a augmenté mais niveau couleur c est pareil non?),,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d876,showItemCUPBOARD,2013,31/03/2015 09:09:52,62,8,8,,3016,true,325,25,1,showItemCUPBOARD,,,,book,book,41,/230,"A l'école","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d878,chat,,31/03/2015 09:10:24,62,8,8,,3018,true,,,1,chat,"Je regarde A l'école des stéréotypes en bas du placard. Que pourrait-on faire avec cette ressource?",,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d879,chat,,31/03/2015 09:10:25,62,8,8,,3019,true,,,1,chat,bon je vais essayer avec le washington post en copie imprimée...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d87a,showItemCUPBOARD,2013,31/03/2015 09:10:28,62,8,8,,3020,true,325,25,1,showItemCUPBOARD,,,,book,book,41,/230,"A l'école","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d87b,showItemCUPBOARD,2013,31/03/2015 09:10:42,62,8,8,,3021,true,325,25,1,showItemCUPBOARD,,,,book,book,41,/230,"A l'école","Droits d'auteur CFC",26
+O,6267a0cf98c0f1a79ae3d87d,chat,,31/03/2015 09:10:58,62,8,8,,3023,true,,,1,chat,Très bien. Voyons.,,,,,,/,,,27
+Q,6267a0cf98c0f1a79ae3d87e,chat,,31/03/2015 09:11:02,62,8,8,,3024,true,,,1,chat,présentation orale?,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d87f,chat,,31/03/2015 09:11:12,62,8,8,,3025,true,,,1,chat,Pourquoi pas?,,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d880,chat,,31/03/2015 09:11:17,62,8,8,,3026,true,,,1,chat,"(ca a l'air d'etre le genre de trucs qu'un élève étudie puis présente)",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d881,feedTamagoBad,1983,31/03/2015 09:11:20,62,8,8,,3027,true,506,1 article,1,feedTamago,,printedCopies,"Sous droits d'auteur",journal,journalprintedCopies,108,/,The Washin,"Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d883,chat,,31/03/2015 09:11:36,62,8,8,,3029,true,,,1,chat,ok washington post il aime pas...,,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3d884,chat,,31/03/2015 09:11:36,62,8,8,,3030,true,,,1,chat,Il a un peu hoqueté.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d885,showItemCUPBOARD,2013,31/03/2015 09:11:44,62,8,8,,3031,true,322,25,1,showItemCUPBOARD,,,,book,book,41,/230,"A l'école","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d886,addToFridge,2013,31/03/2015 09:11:59,62,8,8,,3032,true,322,25,1,addToFridge,,assessments,,book,bookassessments,41,/230,"A l'école","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d887,showItemCUPBOARD,1913,31/03/2015 09:12:06,62,8,8,,3033,true,542,1 article,1,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d888,helpLink,,31/03/2015 09:12:19,62,8,8,Accès aide en ligne,3034,true,,,1,helpLink,,,,,,,/,,,26
+Q,6267a0cf98c0f1a79ae3d889,chat,,31/03/2015 09:12:20,62,8,8,,3035,true,,,1,chat,"Je mets ""à l'école des stéréotypes"" en sujet d'examen. Cela te va?",,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d88a,chat,,31/03/2015 09:12:29,62,8,8,,3036,true,,,1,chat,yep,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d88b,chat,,31/03/2015 09:12:31,62,8,8,,3037,true,,,1,chat,ca me va,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d88c,feedTamagoGood,2013,31/03/2015 09:12:33,62,8,8,,3038,true,322,25,1,feedTamago,,assessments,,book,bookassessments,41,/230,"A l'école","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d88d,chat,,31/03/2015 09:12:41,62,8,8,,3039,true,,,1,chat,Il apprécie.,,,,,,/,,,27
+OJ,6267a0cf98c0f1a79ae3d88e,chat,,31/03/2015 09:12:41,62,8,8,,3040,true,,,1,chat,ok ca il aime...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d88f,showItemCUPBOARD,1964,31/03/2015 09:12:50,62,8,8,,3041,true,547,1 article,1,showItemCUPBOARD,,,,journal,journal,119,/,Le Nouvel,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d890,showItemCUPBOARD,1913,31/03/2015 09:12:57,62,8,8,,3042,true,335,intégrale,1,showItemCUPBOARD,,,,book,book,43,/,Le Grand M,Domaine Public,26
+,6267a0cf98c0f1a79ae3d891,showItemCUPBOARD,1983,31/03/2015 09:13:03,62,8,8,,3043,true,508,5 articles,1,showItemCUPBOARD,,,,journal,journal,108,/,The Washin,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d892,chat,,31/03/2015 09:13:12,62,8,8,,3044,true,,,1,chat,Mettons le Nouvel observateur...,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d893,chat,,31/03/2015 09:13:15,62,8,8,,3045,true,,,1,chat,ok je crois avoir compris un truc,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d894,chat,,31/03/2015 09:13:27,62,8,8,,3046,true,,,1,chat,washington post n est pas dans le domaine public :,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d895,addToFridge,1964,31/03/2015 09:13:29,62,8,8,,3047,true,547,1 article,1,addToFridge,,assessments,,journal,journalassessments,119,/,Le Nouvel,"Droits d'auteur CFC",27
+H,6267a0cf98c0f1a79ae3d896,chat,,31/03/2015 09:13:33,62,8,8,,3048,true,,,1,chat,tu n ens fais pas des photocopies,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d897,showItemTAMAGO,2013,31/03/2015 09:13:40,62,8,8,,3049,true,322,25,1,showItem,,assessments,,book,bookassessments,41,/230,"A l'école","Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d898,helpLink,,31/03/2015 09:13:50,62,8,8,Accès aide en ligne,3050,true,,,1,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d89a,showItemTAMAGO,1898,31/03/2015 09:14:12,62,8,8,,3052,true,521,6 articles,1,showItem,,printedCopies,,journal,journalprintedCopies,111,/,Journal de,Domaine public,26
+Q,6267a0cf98c0f1a79ae3d89b,chat,,31/03/2015 09:14:21,62,8,8,,3053,true,,,1,chat,"Penses-tu qu'un article de journal peut etre photocopié?",,,,,,/,,,27
+F,6267a0cf98c0f1a79ae3d89d,chat,,31/03/2015 09:14:27,62,8,8,,3055,true,,,1,chat,par contre le journal de l information est domaine public,,,,,,/,,,26
+F,6267a0cf98c0f1a79ae3d89e,chat,,31/03/2015 09:14:29,62,8,8,,3056,true,,,1,chat,donc on peut,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d89f,chat,,31/03/2015 09:14:41,62,8,8,,3057,true,,,1,chat,"je pense pas si c'est pas domaine public...",,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d8a0,chat,,31/03/2015 09:14:48,62,8,8,,3058,true,,,1,chat,"Dans ce cas, essayons le Nouvel Observateur en copie d'examen.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8a1,showItemFRIDGE,1964,31/03/2015 09:14:50,62,8,8,,3059,true,547,1 article,1,showItemFRIDGE,,assessments,,journal,journalassessments,119,/,Le Nouvel,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8a2,feedTamagoGood,1964,31/03/2015 09:14:56,62,8,8,,3060,true,547,1 article,1,feedTamago,,assessments,,journal,journalassessments,119,/,Le Nouvel,"Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d8a3,chat,,31/03/2015 09:15:09,62,8,8,,3061,true,,,1,chat,Excellent.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8a4,showItemCUPBOARD,2005,31/03/2015 09:15:17,62,8,8,,3062,true,490,3 articles,1,showItemCUPBOARD,,,,journal,journal,105,/,20 minutes,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8a5,showItemCUPBOARD,1639,31/03/2015 09:15:24,62,8,8,,3063,true,144,intégrale,1,showItemCUPBOARD,,,,book,book,3,/124 p.,"L'illusion",Domaine Public,27
+,6267a0cf98c0f1a79ae3d8a6,showItemCUPBOARD,1913,31/03/2015 09:15:25,62,8,8,,3064,true,335,intégrale,1,showItemCUPBOARD,,,,book,book,43,/,Le Grand M,Domaine Public,26
+F,6267a0cf98c0f1a79ae3d8a7,chat,,31/03/2015 09:15:49,62,8,8,,3065,true,,,1,chat,"L'Illusion comique est dans le domaine public. Je vais donc la mettre en copie d'examen.",,,,,,/,,,27
+F,6267a0cf98c0f1a79ae3d8a8,chat,,31/03/2015 09:15:49,62,8,8,,3066,true,,,1,chat,par contre le grand meaulnes est domaine public : je vais essayer de donner des photocopies,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d8a9,chat,,31/03/2015 09:15:56,62,8,8,,3067,true,,,1,chat,ok vas y,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8aa,addToFridge,1639,31/03/2015 09:16:03,62,8,8,,3068,true,144,intégrale,1,addToFridge,,printedCopies,,book,bookprintedCopies,3,/124 p.,"L'illusion",Domaine Public,27
+,6267a0cf98c0f1a79ae3d8ac,feedTamagoGood,1639,31/03/2015 09:16:06,62,8,8,,3070,true,144,intégrale,1,feedTamago,,printedCopies,,book,bookprintedCopies,3,/124 p.,"L'illusion",Domaine Public,27
+,6267a0cf98c0f1a79ae3d8ad,addToFridge,1913,31/03/2015 09:16:08,62,8,8,,3071,true,335,intégrale,1,addToFridge,,printedCopies,,book,bookprintedCopies,43,/,Le Grand M,Domaine Public,26
+,6267a0cf98c0f1a79ae3d8ae,feedTamagoGood,1913,31/03/2015 09:16:10,62,8,8,,3072,true,335,intégrale,1,feedTamago,,printedCopies,,book,bookprintedCopies,43,/,Le Grand M,Domaine Public,26
+,6267a0cf98c0f1a79ae3d8af,fillCupboard,,31/03/2015 09:16:10,63,8,8,,3073,true,,,2,fillCupboard,,,,,,,/,,,
+OJ,6267a0cf98c0f1a79ae3d8b0,chat,,31/03/2015 09:16:31,63,8,8,,3074,true,,,2,chat,On a gagné le premier niveau. Voyons le niveau suivant.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8b1,tuto,,31/03/2015 09:16:36,63,8,8,,3075,true,,,2,tuto,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8b3,helpLink,,31/03/2015 09:16:39,63,8,8,Accès aide en ligne,3077,true,,,2,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8b5,showItemCUPBOARD,1944,31/03/2015 09:16:45,63,8,8,,3079,true,559,1 article,2,showItemCUPBOARD,,,,journal,journal,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8b8,showItemCUPBOARD,2013,31/03/2015 09:16:52,63,8,8,,3082,true,458,3 min,2,showItemCUPBOARD,,,,sound,sound,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8b9,showItemCUPBOARD,2007,31/03/2015 09:16:58,63,8,8,,3083,true,405,2 min,2,showItemCUPBOARD,,,,sound,sound,310,3 min/,"Life's Thi",Creative Commons,26
+,6267a0cf98c0f1a79ae3d8ba,showItemCUPBOARD,2013,31/03/2015 09:17:10,63,8,8,,3084,true,353,2,2,showItemCUPBOARD,,,,book,book,46,/1 vol. (64 p.),Silas Core,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8bb,showItemCUPBOARD,2013,31/03/2015 09:17:14,63,8,8,,3085,true,313,9,2,showItemCUPBOARD,,,,book,book,35,"/1 vol., (367 p.)","L'instrume","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8bd,showItemCUPBOARD,2013,31/03/2015 09:17:22,63,8,8,,3087,true,455,25 s,2,showItemCUPBOARD,,,,sound,sound,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8be,helpLink,,31/03/2015 09:17:28,63,8,8,Accès aide en ligne,3088,true,,,2,helpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8bf,showItemCUPBOARD,1944,31/03/2015 09:17:31,63,8,8,,3089,true,564,3 articles,2,showItemCUPBOARD,,,,journal,journal,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8c0,HelpLink,,31/03/2015 09:17:34,63,8,8,Synthèse exception pédagogique - Enregistrements a,3090,true,,,2,HelpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8c2,addToFridge,1944,31/03/2015 09:18:05,63,8,8,,3092,true,564,3 articles,2,addToFridge,,printedCopies,,journal,journalprintedCopies,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8c3,feedTamagoGood,1944,31/03/2015 09:18:07,63,8,8,,3093,true,564,3 articles,2,feedTamago,,printedCopies,,journal,journalprintedCopies,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8c4,addToFridge,2013,31/03/2015 09:18:08,63,8,8,,3094,true,455,25 s,2,addToFridge,,projection,,sound,soundprojection,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8c5,feedTamagoGood,2013,31/03/2015 09:18:13,63,8,8,,3095,true,455,25 s,2,feedTamago,,projection,,sound,soundprojection,337,/,"People, he","Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d8c6,chat,,31/03/2015 09:18:25,63,8,8,,3096,true,,,2,chat,ok pou les musiques je pense qu on peut les faire écouter en classe,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d8c7,chat,,31/03/2015 09:18:34,63,8,8,,3097,true,,,2,chat,mais pour les mettre sur l itnranet,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d8c8,chat,,31/03/2015 09:18:35,63,8,8,,3098,true,,,2,chat,Entendu.,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d8c9,chat,,31/03/2015 09:18:46,63,8,8,,3099,true,,,2,chat,elles doivent être de petites tailles,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8ca,showItemCUPBOARD,2013,31/03/2015 09:18:48,63,8,8,,3100,true,383,15 s,2,showItemCUPBOARD,,,,sound,sound,303,120 m/,"Chefs d'oe","Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d8cb,showItemCUPBOARD,2011,31/03/2015 09:18:49,63,8,8,,3101,true,412,Intégrale,2,showItemCUPBOARD,,,,sound,sound,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8cc,showItemCUPBOARD,2013,31/03/2015 09:18:53,63,8,8,,3102,true,383,15 s,2,showItemCUPBOARD,,,,sound,sound,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8cd,addToFridge,2013,31/03/2015 09:19:04,63,8,8,,3103,true,383,15 s,2,addToFridge,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8ce,showItemFRIDGE,2013,31/03/2015 09:19:05,63,8,8,,3104,true,383,15 s,2,showItemFRIDGE,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,303,120 m/,"Chefs d'oe","Droits d'auteur",27
+H,6267a0cf98c0f1a79ae3d8cf,chat,,31/03/2015 09:19:12,63,8,8,,3105,true,,,2,chat,je teste avec diffusion numérique,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d8d0,chat,,31/03/2015 09:19:20,63,8,8,,3106,true,,,2,chat,Très bien.,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d8d1,chat,,31/03/2015 09:19:22,63,8,8,,3107,true,,,2,chat,surchefs d oeuvres et découverts,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8d2,feedTamagoBad,2013,31/03/2015 09:19:25,63,8,8,,3108,true,383,15 s,2,feedTamago,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d8d3,chat,,31/03/2015 09:19:32,63,8,8,,3109,true,,,2,chat,bon ca lui plait pas,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8d4,showItemCUPBOARD,2013,31/03/2015 09:19:43,63,8,8,,3110,true,384,35 min,2,showItemCUPBOARD,,,,sound,sound,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d8d5,chat,,31/03/2015 09:19:45,63,8,8,,3111,true,,,2,chat,Sans doute une petite erreur mais cela ne me paraît pas grave.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8d6,showItemCUPBOARD,2013,31/03/2015 09:19:57,63,8,8,,3112,true,310,9,2,showItemCUPBOARD,,,,book,book,35,"/1 vol., (367 p.)","L'instrume","Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d8d7,chat,,31/03/2015 09:20:00,63,8,8,,3113,true,,,2,chat,Essayons ce qui marche : le Monde...,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8d8,showItemCUPBOARD,2013,31/03/2015 09:20:10,63,8,8,,3114,true,384,35 min,2,showItemCUPBOARD,,,,sound,sound,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8d9,addToFridge,1944,31/03/2015 09:20:15,63,8,8,,3115,true,559,1 article,2,addToFridge,,photocopy,,journal,journalphotocopy,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8da,feedTamagoGood,1944,31/03/2015 09:20:17,63,8,8,,3116,true,559,1 article,2,feedTamago,,photocopy,,journal,journalphotocopy,121,/,Le Monde,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8db,showItemCUPBOARD,2013,31/03/2015 09:20:30,63,8,8,,3117,true,310,9,2,showItemCUPBOARD,,,,book,book,35,"/1 vol., (367 p.)","L'instrume","Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d8dd,chat,,31/03/2015 09:20:48,63,8,8,,3119,true,,,2,chat,"Pas de problème avec les photocopies pour les journaux d'information.",,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d8df,chat,,31/03/2015 09:20:55,63,8,8,,3121,true,,,2,chat,"ca a l'air...",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8e0,addToFridge,1890,31/03/2015 09:21:07,63,8,8,,3122,true,524,intégrale,2,addToFridge,,assessments,,journal,journalassessments,112,/,Éducation,Domaine public,27
+,6267a0cf98c0f1a79ae3d8e1,showItemTAMAGO,2013,31/03/2015 09:21:08,63,8,8,,3123,true,383,15 s,2,showItem,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8e2,showItemCUPBOARD,2011,31/03/2015 09:21:14,63,8,8,,3124,true,412,Intégrale,2,showItemCUPBOARD,,,,sound,sound,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8e3,showItemTAMAGO,2013,31/03/2015 09:21:31,63,8,8,,3125,true,383,15 s,2,showItem,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8e4,showItemCUPBOARD,2006,31/03/2015 09:21:39,63,8,8,,3126,true,402,3 min,2,showItemCUPBOARD,,,,sound,sound,309,3 min/,"J'attends",Creative Commons,26
+H,6267a0cf98c0f1a79ae3d8e5,chat,,31/03/2015 09:21:40,63,8,8,,3127,true,,,2,chat,"Essayons le Journal de l'enseignement primaire en sujets d'examen. Cela pourrait convenir pour ce type de diffusion. Qu'en penses-tu?",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8e6,showItemCUPBOARD,2006,31/03/2015 09:21:43,63,8,8,,3128,true,403,Intégrale,2,showItemCUPBOARD,,,,sound,sound,309,3 min/,"J'attends",Creative Commons,26
+,6267a0cf98c0f1a79ae3d8e7,showItemCUPBOARD,2006,31/03/2015 09:21:48,63,8,8,,3129,true,402,3 min,2,showItemCUPBOARD,,,,sound,sound,309,3 min/,"J'attends",Creative Commons,26
+,6267a0cf98c0f1a79ae3d8e8,helpLink,,31/03/2015 09:21:51,63,8,8,Accès aide en ligne,3130,true,,,2,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8e9,HelpLink,,31/03/2015 09:21:54,63,8,8,"Synthèse exception pédagogique - Livres, Périodiqu",3131,true,,,2,HelpLink,,,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d8ea,chat,,31/03/2015 09:21:59,63,8,8,,3132,true,,,2,chat,je pense que oui...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8eb,showItemCUPBOARD,2011,31/03/2015 09:22:13,63,8,8,,3133,true,411,25 s,2,showItemCUPBOARD,,,,sound,sound,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8ec,showItemCUPBOARD,2011,31/03/2015 09:22:18,63,8,8,,3134,true,412,Intégrale,2,showItemCUPBOARD,,,,sound,sound,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8ed,feedTamagoGood,1890,31/03/2015 09:22:20,63,8,8,,3135,true,524,intégrale,2,feedTamago,,assessments,,journal,journalassessments,112,/,Éducation,Domaine public,27
+,6267a0cf98c0f1a79ae3d8ee,addToFridge,2011,31/03/2015 09:22:29,63,8,8,,3136,true,411,25 s,2,addToFridge,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d8ef,showItemFRIDGE,2011,31/03/2015 09:22:30,63,8,8,,3137,true,411,25 s,2,showItemFRIDGE,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,313,3 min/,Rolling in,"Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d8f0,chat,,31/03/2015 09:22:31,63,8,8,,3138,true,,,2,chat,"Je crois qu'il m'aime.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8f1,showItemCUPBOARD,2003,31/03/2015 09:22:45,63,8,8,,3139,true,127,intégrale,2,showItemCUPBOARD,,,,book,book,1,/1 vol. (206 p.),"L'illusion","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d8f2,chat,,31/03/2015 09:22:46,63,8,8,,3140,true,,,2,chat,"j'ai moins de succès on dirait...",,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d8f3,chat,,31/03/2015 09:22:53,63,8,8,,3141,true,,,2,chat,je vais reessayer avec du adel,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d8f4,chat,,31/03/2015 09:22:59,63,8,8,,3142,true,,,2,chat,extrait court (en dessous de 30 secondes),,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d8f5,chat,,31/03/2015 09:23:03,63,8,8,,3143,true,,,2,chat,Entendu Joe.,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d8f6,chat,,31/03/2015 09:23:07,63,8,8,,3144,true,,,2,chat,mis sur le réseau numérique,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d8f7,feedTamagoBad,2011,31/03/2015 09:23:10,63,8,8,,3145,true,411,25 s,2,feedTamago,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,313,3 min/,Rolling in,"Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d8f8,chat,,31/03/2015 09:23:22,63,8,8,,3146,true,,,2,chat,"bon mis sur le réseau c'est non",,,,,,/,,,26
+NC,6267a0cf98c0f1a79ae3d8f9,chat,,31/03/2015 09:23:24,63,8,8,,3147,true,,,2,chat,Il doit être insensible à la musique.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8fa,showItemCUPBOARD,2013,31/03/2015 09:23:40,63,8,8,,3148,true,310,9,2,showItemCUPBOARD,,,,book,book,35,"/1 vol., (367 p.)","L'instrume","Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d8fb,chat,,31/03/2015 09:23:45,63,8,8,,3149,true,,,2,chat,"L'Illusion comique est réapparue. Je vais le mettre en photocopie.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8fc,addToFridge,2003,31/03/2015 09:23:53,63,8,8,,3150,true,127,intégrale,2,addToFridge,,photocopy,Nombre de page / article non valide,book,bookphotocopy,1,/1 vol. (206 p.),"L'illusion","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d8fd,feedTamagoBad,2003,31/03/2015 09:23:57,63,8,8,,3151,true,127,intégrale,2,feedTamago,,photocopy,Nombre de page / article non valide,book,bookphotocopy,1,/1 vol. (206 p.),"L'illusion","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d8fe,chat,,31/03/2015 09:24:11,63,8,8,,3152,true,,,2,chat,"Cette fois-ci, cela n'a pas marché. Zut.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d8ff,showItemCUPBOARD,,31/03/2015 09:24:20,63,8,8,,3153,true,530,intégrale,2,showItemCUPBOARD,,,,journal,journal,113,/,Le Figaro,Domaine public,27
+,6267a0cf98c0f1a79ae3d900,addToFridge,2011,31/03/2015 09:24:21,63,8,8,,3154,true,412,Intégrale,2,addToFridge,,projection,"Non couvert par l'accord",sound,soundprojection,313,3 min/,Rolling in,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d902,showItemFRIDGE,2011,31/03/2015 09:24:37,63,8,8,,3156,true,412,Intégrale,2,showItemFRIDGE,,projection,"Non couvert par l'accord",sound,soundprojection,313,3 min/,Rolling in,"Droits d'auteur",26
+Q,6267a0cf98c0f1a79ae3d903,chat,,31/03/2015 09:24:49,63,8,8,,3157,true,,,2,chat,si je ressaye de la musique en projection collective?,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d904,feedTamagoBad,2011,31/03/2015 09:24:54,63,8,8,,3158,true,412,Intégrale,2,feedTamago,,projection,"Non couvert par l'accord",sound,soundprojection,313,3 min/,Rolling in,"Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d908,chat,,31/03/2015 09:25:04,63,8,8,,3162,true,,,2,chat,"Eh non. Il y a un vieux numéro du Figaro. Comme il est dans le domaine public, j'essaie en photocopie.",,,,,,/,,,27
+OJ,6267a0cf98c0f1a79ae3d909,chat,,31/03/2015 09:25:07,63,8,8,,3163,true,,,2,chat,ok je comprends pas le raisonnement derriere...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d90b,addToFridge,,31/03/2015 09:25:14,63,8,8,,3165,true,530,intégrale,2,addToFridge,,printedCopies,,journal,journalprintedCopies,113,/,Le Figaro,Domaine public,27
+O,6267a0cf98c0f1a79ae3d90c,chat,,31/03/2015 09:25:16,63,8,8,,3166,true,,,2,chat,vas y,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d90e,feedTamagoGood,,31/03/2015 09:25:21,63,8,8,,3168,true,530,intégrale,2,feedTamago,,printedCopies,,journal,journalprintedCopies,113,/,Le Figaro,Domaine public,27
+OJ,6267a0cf98c0f1a79ae3d910,chat,,31/03/2015 09:25:27,63,8,8,,3170,true,,,2,chat,ok ca il aime,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d911,showItemCUPBOARD,1944,31/03/2015 09:25:31,63,8,8,,3171,true,561,1 article,2,showItemCUPBOARD,,,,journal,journal,121,/,Le Monde,"Droits d'auteur CFC",26
+OJ,6267a0cf98c0f1a79ae3d912,chat,,31/03/2015 09:25:33,63,8,8,,3172,true,,,2,chat,Ouf. Il commençait à rougir...,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d913,showItemCUPBOARD,1890,31/03/2015 09:25:35,63,8,8,,3173,true,523,intégrale,2,showItemCUPBOARD,,,,journal,journal,112,/,Éducation,Domaine public,26
+,6267a0cf98c0f1a79ae3d914,showItemCUPBOARD,2012,31/03/2015 09:25:43,63,8,8,,3174,true,360,24,2,showItemCUPBOARD,,,,book,book,47,/25p,Exercices,Creative Commons,27
+,6267a0cf98c0f1a79ae3d915,showItemCUPBOARD,2005,31/03/2015 09:25:47,63,8,8,,3175,true,487,1 article,2,showItemCUPBOARD,,,,journal,journal,105,/,20 minutes,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d917,showItemCUPBOARD,2005,31/03/2015 09:25:51,63,8,8,,3177,true,487,1 article,2,showItemCUPBOARD,,,,journal,journal,105,/,20 minutes,"Droits d'auteur",26
+NC,6267a0cf98c0f1a79ae3d918,chat,,31/03/2015 09:25:59,63,8,8,,3178,true,,,2,chat,yep...,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d919,chat,,31/03/2015 09:26:03,63,8,8,,3179,true,,,2,chat,Des exos de maths. Essayons en copie.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d91a,showItemCUPBOARD,2013,31/03/2015 09:26:11,63,8,8,,3180,true,314,40,2,showItemCUPBOARD,,,,book,book,35,"/1 vol., (367 p.)","L'instrume","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d91b,addToFridge,2012,31/03/2015 09:26:14,63,8,8,,3181,true,360,24,2,addToFridge,,assessments,,book,bookassessments,47,/25p,Exercices,Creative Commons,27
+,6267a0cf98c0f1a79ae3d91c,feedTamagoGood,2012,31/03/2015 09:26:17,63,8,8,,3182,true,360,24,2,feedTamago,,assessments,,book,bookassessments,47,/25p,Exercices,Creative Commons,27
+O,6267a0cf98c0f1a79ae3d91d,chat,,31/03/2015 09:26:22,63,8,8,,3183,true,,,2,chat,OK.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d91e,showItemCUPBOARD,2013,31/03/2015 09:26:29,63,8,8,,3184,true,458,3 min,2,showItemCUPBOARD,,,,sound,sound,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d91f,showItemCUPBOARD,2013,31/03/2015 09:26:34,63,8,8,,3185,true,457,12 s,2,showItemCUPBOARD,,,,sound,sound,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d920,showItemCUPBOARD,2012,31/03/2015 09:26:36,63,8,8,,3186,true,365,1,2,showItemCUPBOARD,,,,book,book,47,/25p,Exercices,Creative Commons,27
+,6267a0cf98c0f1a79ae3d921,showItemCUPBOARD,2006,31/03/2015 09:26:38,63,8,8,,3187,true,403,Intégrale,2,showItemCUPBOARD,,,,sound,sound,309,3 min/,"J'attends",Creative Commons,26
+,6267a0cf98c0f1a79ae3d923,showItemCUPBOARD,2007,31/03/2015 09:26:43,63,8,8,,3189,true,405,2 min,2,showItemCUPBOARD,,,,sound,sound,310,3 min/,"Life's Thi",Creative Commons,26
+,6267a0cf98c0f1a79ae3d924,showItemTAMAGO,2013,31/03/2015 09:26:51,63,8,8,,3190,true,455,25 s,2,showItem,,projection,,sound,soundprojection,337,/,"People, he","Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d926,showItemCUPBOARD,2013,31/03/2015 09:27:00,63,8,8,,3192,true,384,35 min,2,showItemCUPBOARD,,,,sound,sound,303,120 m/,"Chefs d'oe","Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d927,chat,,31/03/2015 09:27:01,63,8,8,,3193,true,,,2,chat,"D'autres exos de maths. Essayons la même chose et terminons-en.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d928,showItemCUPBOARD,2006,31/03/2015 09:27:07,63,8,8,,3194,true,402,3 min,2,showItemCUPBOARD,,,,sound,sound,309,3 min/,"J'attends",Creative Commons,26
+,6267a0cf98c0f1a79ae3d92a,addToFridge,2012,31/03/2015 09:27:08,63,8,8,,3196,true,365,1,2,addToFridge,,assessments,,book,bookassessments,47,/25p,Exercices,Creative Commons,27
+,6267a0cf98c0f1a79ae3d92b,feedTamagoGood,2012,31/03/2015 09:27:10,63,8,8,,3197,true,365,1,2,feedTamago,,assessments,,book,bookassessments,47,/25p,Exercices,Creative Commons,27
+,6267a0cf98c0f1a79ae3d92c,fillCupboard,,31/03/2015 09:27:10,64,8,8,,3198,true,,,3,fillCupboard,,,,,,,/,,,
+OJ,6267a0cf98c0f1a79ae3d92d,chat,,31/03/2015 09:27:21,64,8,8,,3199,true,,,3,chat,bon...,,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3d92e,chat,,31/03/2015 09:27:30,64,8,8,,3200,true,,,3,chat,au moins il aime les maths,,,,,,/,,,26
+NC,6267a0cf98c0f1a79ae3d930,chat,,31/03/2015 09:27:32,64,8,8,,3202,true,,,3,chat,Il aimait donc les maths. Hip hip hourra.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d931,showItemCUPBOARD,1784-1785,31/03/2015 09:27:35,64,8,8,,3203,true,41,10 Images,3,showItemCUPBOARD,,,,image,image,404,/,Le serment,Domaine Public,26
+,6267a0cf98c0f1a79ae3d932,showItemCUPBOARD,,31/03/2015 09:27:42,64,8,8,,3204,true,530,intégrale,3,showItemCUPBOARD,,,,journal,journal,113,/,Le Figaro,Domaine public,27
+,6267a0cf98c0f1a79ae3d933,helpLink,,31/03/2015 09:27:44,64,8,8,Accès aide en ligne,3205,true,,,3,helpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d934,HelpLink,,31/03/2015 09:27:46,64,8,8,Synthèse exception pédagogique - Images,3206,true,,,3,HelpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d936,showItemCUPBOARD,1873,31/03/2015 09:28:09,64,8,8,,3208,true,971,2,3,showItemCUPBOARD,,,,printedmusic,printedmusic,532,/7 p. ; 35 cm,Les ruines,Domaine Public,26
+O,6267a0cf98c0f1a79ae3d937,chat,,31/03/2015 09:28:11,64,8,8,,3209,true,,,3,chat,Je vois encore un vieux numéro du Figaro. Je vais lui photocopier ce document tout à fait folichon.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d938,showItemCUPBOARD,1913,31/03/2015 09:28:22,64,8,8,,3210,true,546,8 articles,3,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d939,addToFridge,,31/03/2015 09:28:25,64,8,8,,3211,true,530,intégrale,3,addToFridge,,printedCopies,,journal,journalprintedCopies,113,/,Le Figaro,Domaine public,27
+,6267a0cf98c0f1a79ae3d93a,showItemCUPBOARD,1913,31/03/2015 09:28:25,64,8,8,,3212,true,541,1 article,3,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d93b,showItemCUPBOARD,1981,31/03/2015 09:28:28,64,8,8,,3213,true,587,intégrale,3,showItemCUPBOARD,,,,journal,journal,126,/,Phosphore,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d93c,feedTamagoGood,,31/03/2015 09:28:30,64,8,8,,3214,true,530,intégrale,3,feedTamago,,printedCopies,,journal,journalprintedCopies,113,/,Le Figaro,Domaine public,27
+NC,6267a0cf98c0f1a79ae3d93d,chat,,31/03/2015 09:28:39,64,8,8,,3215,true,,,3,chat,Est-il donc de droite?,,,,,,/,,,27
+NC,6267a0cf98c0f1a79ae3d93e,chat,,31/03/2015 09:28:44,64,8,8,,3216,true,,,3,chat,visiblement...,,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3d940,chat,,31/03/2015 09:29:02,64,8,8,,3218,true,,,3,chat,et assez chauvin puisque le washington post ne lui plaisait pas,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d941,showItemCUPBOARD,,31/03/2015 09:29:07,64,8,8,,3219,true,3,72 dpi,3,showItemCUPBOARD,,,,image,image,401,/,Plan de Pa,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d942,showItemCUPBOARD,2002,31/03/2015 09:29:12,64,8,8,,3220,true,108,3 Images,3,showItemCUPBOARD,,,,image,image,414,/,Paysage de,Creative Commons,26
+Q,6267a0cf98c0f1a79ae3d944,chat,,31/03/2015 09:29:18,64,8,8,,3222,true,,,3,chat,Dans ce cas il doit aimer la musique classique. Que penserais-tu du concert italien pour piano?,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d945,addToFridge,2002,31/03/2015 09:29:22,64,8,8,,3223,true,108,3 Images,3,addToFridge,,printedCopies,,image,imageprintedCopies,414,/,Paysage de,Creative Commons,26
+,6267a0cf98c0f1a79ae3d947,showItemFRIDGE,2002,31/03/2015 09:29:33,64,8,8,,3225,true,108,3 Images,3,showItemFRIDGE,,printedCopies,,image,imageprintedCopies,414,/,Paysage de,Creative Commons,27
+,6267a0cf98c0f1a79ae3d948,showItemCUPBOARD,1915,31/03/2015 09:29:35,64,8,8,,3226,true,876,12,3,showItemCUPBOARD,,,,printedmusic,printedmusic,519,/1 partition (12 p.),Concert it,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d949,showItemCUPBOARD,1915,31/03/2015 09:29:40,64,8,8,,3227,true,871,2,3,showItemCUPBOARD,,,,printedmusic,printedmusic,519,/1 partition (12 p.),Concert it,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d94a,showItemCUPBOARD,1915,31/03/2015 09:29:43,64,8,8,,3228,true,871,2,3,showItemCUPBOARD,,,,printedmusic,printedmusic,519,/1 partition (12 p.),Concert it,"Droits d'auteur",27
+O,6267a0cf98c0f1a79ae3d94e,chat,,31/03/2015 09:30:02,64,8,8,,3232,true,,,3,chat,on peut essayer (par contre il y a des droits d auteur dessus...),,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d950,showItemFRIDGE,2002,31/03/2015 09:30:09,64,8,8,,3234,true,108,3 Images,3,showItemFRIDGE,,printedCopies,,image,imageprintedCopies,414,/,Paysage de,Creative Commons,26
+H,6267a0cf98c0f1a79ae3d952,chat,,31/03/2015 09:30:18,64,8,8,,3236,true,,,3,chat,"Comme il y a des droits d'auteur, je vais le mettre en sujets d'examen.",,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d953,chat,,31/03/2015 09:30:24,64,8,8,,3237,true,,,3,chat,bonne idée,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d954,addToFridge,1915,31/03/2015 09:30:25,64,8,8,,3238,true,871,2,3,addToFridge,,assessments,"Sous droits d'auteur",printedmusic,printedmusicassessments,519,/1 partition (12 p.),Concert it,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d956,feedTamagoBad,1915,31/03/2015 09:30:28,64,8,8,,3240,true,871,2,3,feedTamago,,assessments,"Sous droits d'auteur",printedmusic,printedmusicassessments,519,/1 partition (12 p.),Concert it,"Droits d'auteur",27
+OJ,6267a0cf98c0f1a79ae3d957,chat,,31/03/2015 09:30:34,64,8,8,,3241,true,,,3,chat,Zut.,,,,,,/,,,27
+F,6267a0cf98c0f1a79ae3d958,chat,,31/03/2015 09:30:40,64,8,8,,3242,true,,,3,chat,pour paysage de montagnes il y a une licence creative commons,,,,,,/,,,26
+F,6267a0cf98c0f1a79ae3d95a,chat,,31/03/2015 09:30:47,64,8,8,,3244,true,,,3,chat,donc je pense que je peux photocopier,,,,,,/,,,26
+F,6267a0cf98c0f1a79ae3d95d,chat,,31/03/2015 09:31:05,64,8,8,,3247,true,,,3,chat,"OK. Pour ma part, je vais prendre le Serment des Horaces, domaine public à coup sûr.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d95f,feedTamagoGood,2002,31/03/2015 09:31:15,64,8,8,,3249,true,108,3 Images,3,feedTamago,,printedCopies,,image,imageprintedCopies,414,/,Paysage de,Creative Commons,26
+O,6267a0cf98c0f1a79ae3d960,chat,,31/03/2015 09:31:26,64,8,8,,3250,true,,,3,chat,"ca m'a l'air un bon choix",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d962,showItemCUPBOARD,1784-1785,31/03/2015 09:31:35,64,8,8,,3252,true,41,10 Images,3,showItemCUPBOARD,,,,image,image,404,/,Le serment,Domaine Public,27
+,6267a0cf98c0f1a79ae3d963,showItemCUPBOARD,2003,31/03/2015 09:31:37,64,8,8,,3253,true,413,15 s,3,showItemCUPBOARD,,,,sound,sound,314,3 min/,Is This Lo,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d964,showItemCUPBOARD,2013,31/03/2015 09:31:45,64,8,8,,3254,true,451,3 s,3,showItemCUPBOARD,,,,sound,sound,336,39 mi/,Comedown M,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d965,addToFridge,1784-1785,31/03/2015 09:31:48,64,8,8,,3255,true,41,10 Images,3,addToFridge,,intranet,,image,imageintranet,404,/,Le serment,Domaine Public,27
+F,6267a0cf98c0f1a79ae3d966,chat,,31/03/2015 09:31:59,64,8,8,,3256,true,,,3,chat,"Avec mise en ligne sur l'intranet. Ca te va?",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d967,addToFridge,2013,31/03/2015 09:32:03,64,8,8,,3257,true,451,3 s,3,addToFridge,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,336,39 mi/,Comedown M,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d968,helpLink,,31/03/2015 09:32:03,64,8,8,Accès aide en ligne,3258,true,,,3,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d969,removeFromFridge,2013,31/03/2015 09:32:06,64,8,8,,3259,true,451,3 s,3,removeFromFridge,,digitalMedia,"Sous droits d'auteur",sound,sounddigitalMedia,336,39 mi/,Comedown M,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d96a,HelpLink,,31/03/2015 09:32:11,64,8,8,Synthèse exception pédagogique - Images,3260,true,,,3,HelpLink,,,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d96c,chat,,31/03/2015 09:32:16,64,8,8,,3262,true,,,3,chat,"je pense que c'est ok",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d96d,showItemCUPBOARD,1981,31/03/2015 09:32:22,64,8,8,,3263,true,587,intégrale,3,showItemCUPBOARD,,,,journal,journal,126,/,Phosphore,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d96e,feedTamagoGood,1784-1785,31/03/2015 09:32:25,64,8,8,,3264,true,41,10 Images,3,feedTamago,,intranet,,image,imageintranet,404,/,Le serment,Domaine Public,27
+,6267a0cf98c0f1a79ae3d96f,showItemCUPBOARD,2013,31/03/2015 09:32:35,64,8,8,,3265,true,116,300 dpi,3,showItemCUPBOARD,,,,image,image,415,/,Fontaine B,Creative commons,26
+OJ,6267a0cf98c0f1a79ae3d970,chat,,31/03/2015 09:32:38,64,8,8,,3266,true,,,3,chat,Il a des goûts très convenables.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d972,addToFridge,2013,31/03/2015 09:32:46,64,8,8,,3268,true,116,300 dpi,3,addToFridge,,digitalMedia,,image,imagedigitalMedia,415,/,Fontaine B,Creative commons,26
+,6267a0cf98c0f1a79ae3d973,showItemCUPBOARD,1873,31/03/2015 09:32:48,64,8,8,,3269,true,974,5,3,showItemCUPBOARD,,,,printedmusic,printedmusic,532,/7 p. ; 35 cm,Les ruines,Domaine Public,27
+F,6267a0cf98c0f1a79ae3d975,chat,,31/03/2015 09:33:09,64,8,8,,3271,true,,,3,chat,"alors fontaine baroque, détenteur des droits ""moi même"" je pense que je peux en faire ce que je veux",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d977,showItemFRIDGE,2013,31/03/2015 09:33:15,64,8,8,,3273,true,116,300 dpi,3,showItemFRIDGE,,digitalMedia,,image,imagedigitalMedia,415,/,Fontaine B,Creative commons,26
+F,6267a0cf98c0f1a79ae3d978,chat,,31/03/2015 09:33:26,64,8,8,,3274,true,,,3,chat,"je l'essaye en diffusion numérique...",,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d979,chat,,31/03/2015 09:33:28,64,8,8,,3275,true,,,3,chat,"Entendu. J'observe la Musique d'Athènes datant de 1873. Je crois qu'on peut également le diffuser sans problème.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d97a,feedTamagoGood,2013,31/03/2015 09:33:29,64,8,8,,3276,true,116,300 dpi,3,feedTamago,,digitalMedia,,image,imagedigitalMedia,415,/,Fontaine B,Creative commons,26
+O,6267a0cf98c0f1a79ae3d97b,chat,,31/03/2015 09:33:40,64,8,8,,3277,true,,,3,chat,"oui c'est domaine public je pense",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d97c,addToFridge,1873,31/03/2015 09:33:45,64,8,8,,3278,true,974,5,3,addToFridge,,printedCopies,,printedmusic,printedmusicprintedCopies,532,/7 p. ; 35 cm,Les ruines,Domaine Public,27
+,6267a0cf98c0f1a79ae3d97d,feedTamagoGood,1873,31/03/2015 09:33:48,64,8,8,,3279,true,974,5,3,feedTamago,,printedCopies,,printedmusic,printedmusicprintedCopies,532,/7 p. ; 35 cm,Les ruines,Domaine Public,27
+,6267a0cf98c0f1a79ae3d97e,fillCupboard,,31/03/2015 09:33:48,65,8,8,,3280,false,,,4,fillCupboard,,,,,,,/,,,
+,6267a0cf98c0f1a79ae3d97f,showItemCUPBOARD,1966,31/03/2015 09:34:05,65,8,8,,3281,false,683,2 min,4,showItemCUPBOARD,,,,video,video,223,161 m/,Le bon la,"Droits d'auteur",26
+NC,6267a0cf98c0f1a79ae3d980,chat,,31/03/2015 09:34:09,65,8,8,,3282,false,,,4,chat,"Jusqu'ici, c'est du grand art...",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d981,showItemCUPBOARD,213,31/03/2015 09:34:11,65,8,8,,3283,false,673,4 min,4,showItemCUPBOARD,,,,video,video,220,180 m/,Madagascar,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d983,addToFridge,213,31/03/2015 09:34:24,65,8,8,,3285,false,673,4 min,4,addToFridge,,assessments,,video,videoassessments,220,180 m/,Madagascar,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d984,showItemCUPBOARD,2004,31/03/2015 09:34:32,65,8,8,,3286,false,416,10 min,4,showItemCUPBOARD,,,,sound,sound,315,12 mi/,Chansons p,Creative commons,27
+H,6267a0cf98c0f1a79ae3d985,chat,,31/03/2015 09:34:40,65,8,8,,3287,false,,,4,chat,"yep... j'essaye madagascar et le monde perdu en sujet d examen",,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d986,chat,,31/03/2015 09:34:43,65,8,8,,3288,false,,,4,chat,le support est sur dvd,,,,,,/,,,26
+H,6267a0cf98c0f1a79ae3d988,chat,,31/03/2015 09:34:49,65,8,8,,3290,false,,,4,chat,donc ca a l air d avoir été payé,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d989,chat,,31/03/2015 09:34:49,65,8,8,,3291,false,,,4,chat,OK,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d98a,chat,,31/03/2015 09:34:54,65,8,8,,3292,false,,,4,chat,et c est une courte durée,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d98b,feedTamagoGood,213,31/03/2015 09:34:57,65,8,8,,3293,false,673,4 min,4,feedTamago,,assessments,,video,videoassessments,220,180 m/,Madagascar,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d98c,showItemCUPBOARD,2013,31/03/2015 09:35:02,65,8,8,,3294,false,436,3 min,4,showItemCUPBOARD,,,,sound,sound,333,52 mi/,Momentum,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d98d,chat,,31/03/2015 09:35:16,65,8,8,,3295,false,,,4,chat,"""Chansons pour la classe""; détenteur des droits : ""moi-même"".",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d98e,showItemCUPBOARD,1949,31/03/2015 09:35:19,65,8,8,,3296,false,891,9,4,showItemCUPBOARD,,,,printedmusic,printedmusic,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d98f,addToFridge,1949,31/03/2015 09:35:28,65,8,8,,3297,false,891,9,4,addToFridge,,photocopy,Nombre de page / article non valide,printedmusic,printedmusicphotocopy,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d990,showItemFRIDGE,1949,31/03/2015 09:35:29,65,8,8,,3298,false,891,9,4,showItemFRIDGE,,photocopy,Nombre de page / article non valide,printedmusic,printedmusicphotocopy,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d991,addToFridge,2004,31/03/2015 09:35:32,65,8,8,,3299,false,416,10 min,4,addToFridge,,schoolWebsite,,sound,soundschoolWebsite,315,12 mi/,Chansons p,Creative commons,27
+,6267a0cf98c0f1a79ae3d992,showItemFRIDGE,1949,31/03/2015 09:35:37,65,8,8,,3300,false,891,9,4,showItemFRIDGE,,photocopy,Nombre de page / article non valide,printedmusic,printedmusicphotocopy,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d993,showItemFRIDGE,2004,31/03/2015 09:35:38,65,8,8,,3301,false,416,10 min,4,showItemFRIDGE,,schoolWebsite,,sound,soundschoolWebsite,315,12 mi/,Chansons p,Creative commons,27
+,6267a0cf98c0f1a79ae3d994,removeFromFridge,1949,31/03/2015 09:35:40,65,8,8,,3302,false,891,9,4,removeFromFridge,,photocopy,Nombre de page / article non valide,printedmusic,printedmusicphotocopy,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",26
+O,6267a0cf98c0f1a79ae3d995,chat,,31/03/2015 09:35:47,65,8,8,,3303,false,,,4,chat,oui c est bon ca,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d996,feedTamagoGood,2004,31/03/2015 09:35:49,65,8,8,,3304,false,416,10 min,4,feedTamago,,schoolWebsite,,sound,soundschoolWebsite,315,12 mi/,Chansons p,Creative commons,27
+,6267a0cf98c0f1a79ae3d997,showItemCUPBOARD,,31/03/2015 09:35:53,65,8,8,,3305,false,25,72 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d999,showItemCUPBOARD,208,31/03/2015 09:36:00,65,8,8,,3307,false,646,3 min,4,showItemCUPBOARD,,,,video,video,211,52 mI/,Simone Vei,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d99a,showItemCUPBOARD,1994,31/03/2015 09:36:12,65,8,8,,3308,false,706,4 min,4,showItemCUPBOARD,,,,video,video,231,154 m/,Pulp Ficti,"Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d99b,chat,,31/03/2015 09:36:14,65,8,8,,3309,false,,,4,chat,Le voilà retombé en enfance ; il est en très bonne santé,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d99d,showItemCUPBOARD,1949,31/03/2015 09:36:21,65,8,8,,3311,false,891,9,4,showItemCUPBOARD,,,,printedmusic,printedmusic,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",27
+OJ,6267a0cf98c0f1a79ae3d99e,chat,,31/03/2015 09:36:30,65,8,8,,3312,false,,,4,chat,on va le faire grandir un peu,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d99f,showItemCUPBOARD,208,31/03/2015 09:36:35,65,8,8,,3313,false,646,3 min,4,showItemCUPBOARD,,,,video,video,211,52 mI/,Simone Vei,"Droits d'auteur",27
+O,6267a0cf98c0f1a79ae3d9a0,chat,,31/03/2015 09:36:37,65,8,8,,3314,false,,,4,chat,pulp fiction avec une copie achetée ou louée,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d9a1,chat,,31/03/2015 09:36:49,65,8,8,,3315,false,,,4,chat,hum,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d9a2,chat,,31/03/2015 09:36:59,65,8,8,,3316,false,,,4,chat,ils me proposent de mettre n ligne sur le site de l établissement,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9a3,showItemCUPBOARD,208,31/03/2015 09:37:01,65,8,8,,3317,false,646,3 min,4,showItemCUPBOARD,,,,video,video,211,52 mI/,Simone Vei,"Droits d'auteur",27
+O,6267a0cf98c0f1a79ae3d9a4,chat,,31/03/2015 09:37:05,65,8,8,,3318,false,,,4,chat,je doute que ce soit un bon choix...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9a5,helpLink,,31/03/2015 09:37:06,65,8,8,Accès aide en ligne,3319,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9a7,showItemCUPBOARD,2003,31/03/2015 09:37:15,65,8,8,,3321,false,413,15 s,4,showItemCUPBOARD,,,,sound,sound,314,3 min/,Is This Lo,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9a8,showItemCUPBOARD,1994,31/03/2015 09:37:19,65,8,8,,3322,false,707,Intégrale,4,showItemCUPBOARD,,,,video,video,231,154 m/,Pulp Ficti,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9aa,showItemCUPBOARD,208,31/03/2015 09:37:21,65,8,8,,3324,false,646,3 min,4,showItemCUPBOARD,,,,video,video,211,52 mI/,Simone Vei,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d9ab,showItemCUPBOARD,1913,31/03/2015 09:37:23,65,8,8,,3325,false,541,1 article,4,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9ac,showItemCUPBOARD,,31/03/2015 09:37:29,65,8,8,,3326,false,514,2 articles,4,showItemCUPBOARD,,,,journal,journal,110,/,"L'Aurore :",Domaine public,26
+,6267a0cf98c0f1a79ae3d9ae,helpLink,,31/03/2015 09:37:30,65,8,8,Accès aide en ligne,3328,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9af,HelpLink,,31/03/2015 09:37:32,65,8,8,Synthèse exception pédagogique - Enregistrements v,3329,false,,,4,HelpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9b0,showItemCUPBOARD,1913,31/03/2015 09:37:52,65,8,8,,3330,false,334,intégrale,4,showItemCUPBOARD,,,,book,book,43,/,Le Grand M,Domaine Public,26
+,6267a0cf98c0f1a79ae3d9b1,showItemCUPBOARD,2000,31/03/2015 09:38:07,65,8,8,,3331,false,952,2,4,showItemCUPBOARD,,,,printedmusic,printedmusic,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9b2,showItemCUPBOARD,213,31/03/2015 09:38:40,65,8,8,,3332,false,677,10 min,4,showItemCUPBOARD,,,,video,video,221,180 m/,Madagascar,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d9b3,showItemCUPBOARD,1952,31/03/2015 09:38:48,65,8,8,,3333,false,49,72 dpi,4,showItemCUPBOARD,,,,image,image,406,/,Nu bleu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9b4,showItemCUPBOARD,2008,31/03/2015 09:38:56,65,8,8,,3334,false,464,2 articles,4,showItemCUPBOARD,,,,journal,journal,100,/,Mediapart,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9b5,showItemCUPBOARD,2000,31/03/2015 09:39:08,65,8,8,,3335,false,957,7,4,showItemCUPBOARD,,,,printedmusic,printedmusic,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d9b6,chat,,31/03/2015 09:39:20,65,8,8,,3336,false,,,4,chat,"Allons à Madagascar ; comme la date de création est après 2010, on peut peut-être le diffuser en sujet d'examen",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9b7,addToFridge,2000,31/03/2015 09:39:23,65,8,8,,3337,false,957,7,4,addToFridge,,printedCopies,"Sous droits d'auteur",printedmusic,printedmusicprintedCopies,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d9b8,chat,,31/03/2015 09:39:31,65,8,8,,3338,false,,,4,chat,on peut essayer,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9b9,addToFridge,213,31/03/2015 09:39:37,65,8,8,,3339,false,677,10 min,4,addToFridge,,assessments,"Sous droits d'auteur",video,videoassessments,221,180 m/,Madagascar,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d9ba,feedTamagoBad,213,31/03/2015 09:39:39,65,8,8,,3340,false,677,10 min,4,feedTamago,,assessments,"Sous droits d'auteur",video,videoassessments,221,180 m/,Madagascar,"Droits d'auteur",27
+H,6267a0cf98c0f1a79ae3d9bb,chat,,31/03/2015 09:39:48,65,8,8,,3341,false,,,4,chat,moi j essaye avec des partitions de woodstock achetées pour la classe,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9bc,feedTamagoBad,2000,31/03/2015 09:39:51,65,8,8,,3342,false,957,7,4,feedTamago,,printedCopies,"Sous droits d'auteur",printedmusic,printedmusicprintedCopies,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",26
+NC,6267a0cf98c0f1a79ae3d9bd,chat,,31/03/2015 09:39:58,65,8,8,,3343,false,,,4,chat,humpf...,,,,,,/,,,26
+NC,6267a0cf98c0f1a79ae3d9be,chat,,31/03/2015 09:40:04,65,8,8,,3344,false,,,4,chat,"Il n'aime pas voyager ni non plus les langues étrangères.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9bf,showItemCUPBOARD,1954,31/03/2015 09:40:05,65,8,8,,3345,false,571,1 article,4,showItemCUPBOARD,,,,journal,journal,124,/,Le Monde d,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d9c0,showItemCUPBOARD,1954,31/03/2015 09:40:12,65,8,8,,3346,false,573,1 article,4,showItemCUPBOARD,,,,journal,journal,124,/,Le Monde d,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d9c1,addToFridge,1954,31/03/2015 09:40:22,65,8,8,,3347,false,571,1 article,4,addToFridge,,assessments,,journal,journalassessments,124,/,Le Monde d,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3d9c2,feedTamagoGood,1954,31/03/2015 09:40:27,65,8,8,,3348,false,571,1 article,4,feedTamago,,assessments,,journal,journalassessments,124,/,Le Monde d,"Droits d'auteur CFC",26
+OJ,6267a0cf98c0f1a79ae3d9c3,chat,,31/03/2015 09:40:38,65,8,8,,3349,false,,,4,chat,mais le monde diplomatique en examen lui plaît...,,,,,,/,,,26
+NC,6267a0cf98c0f1a79ae3d9c4,chat,,31/03/2015 09:40:50,65,8,8,,3350,false,,,4,chat,Bravo. Tentons la musique religieuse pour développer sa vertu de patience à notre égard.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9c5,showItemCUPBOARD,1949,31/03/2015 09:41:06,65,8,8,,3351,false,891,9,4,showItemCUPBOARD,,,,printedmusic,printedmusic,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d9c6,showItemCUPBOARD,2010,31/03/2015 09:41:10,65,8,8,,3352,false,376,Intégrale,4,showItemCUPBOARD,,,,sound,sound,300,6 min/,What We Ar,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9c7,addToFridge,1949,31/03/2015 09:41:22,65,8,8,,3353,false,891,9,4,addToFridge,,assessments,"Non couvert par l'accord",printedmusic,printedmusicassessments,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d9c8,feedTamagoBad,1949,31/03/2015 09:41:25,65,8,8,,3354,false,891,9,4,feedTamago,,assessments,"Non couvert par l'accord",printedmusic,printedmusicassessments,521,/1 partition (32 p.),"Jésus, toi","Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d9c9,showItemCUPBOARD,1880,31/03/2015 09:41:33,65,8,8,,3355,false,103,72 dpi,4,showItemCUPBOARD,,,,image,image,412,/,Ambroise T,Domaine Public,26
+O,6267a0cf98c0f1a79ae3d9ca,chat,,31/03/2015 09:41:40,65,8,8,,3356,false,,,4,chat,Non plus. Il y avait un problème de droit sur les choses spirituelles.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9cb,showItemCUPBOARD,,31/03/2015 09:41:46,65,8,8,,3357,false,514,2 articles,4,showItemCUPBOARD,,,,journal,journal,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9cc,showItemCUPBOARD,,31/03/2015 09:41:52,65,8,8,,3358,false,514,2 articles,4,showItemCUPBOARD,,,,journal,journal,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9cd,showItemCUPBOARD,1913,31/03/2015 09:41:55,65,8,8,,3359,false,541,1 article,4,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9ce,showItemCUPBOARD,1994,31/03/2015 09:42:25,65,8,8,,3360,false,706,4 min,4,showItemCUPBOARD,,,,video,video,231,154 m/,Pulp Ficti,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9cf,addToFridge,1994,31/03/2015 09:42:44,65,8,8,,3361,false,706,4 min,4,addToFridge,,intranet,"Sous droits d'auteur",video,videointranet,231,154 m/,Pulp Ficti,"Droits d'auteur",26
+H,6267a0cf98c0f1a79ae3d9d0,chat,,31/03/2015 09:42:49,65,8,8,,3362,false,,,4,chat,"Essayons le journal l'Aurore. Les droits appartiennent au journal mais on peut normalement le mettre en sujet d'examen.",,,,,,/,,,27
+Q,6267a0cf98c0f1a79ae3d9d1,chat,,31/03/2015 09:42:55,65,8,8,,3363,false,,,4,chat,j essaye pulp fictionmis en ligne sur l intranet?,,,,,,/,,,26
+O,6267a0cf98c0f1a79ae3d9d2,chat,,31/03/2015 09:43:00,65,8,8,,3364,false,,,4,chat,normalement oui on peut...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9d3,addToFridge,,31/03/2015 09:43:01,65,8,8,,3365,false,514,2 articles,4,addToFridge,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9d4,helpLink,,31/03/2015 09:43:12,65,8,8,Accès aide en ligne,3366,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9d5,HelpLink,,31/03/2015 09:43:18,65,8,8,"Synthèse exception pédagogique - Livres, Périodiqu",3367,false,,,4,HelpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9d6,showItemCUPBOARD,2011,31/03/2015 09:43:25,65,8,8,,3368,false,202,intégrale,4,showItemCUPBOARD,,,,book,book,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9d7,showItemFRIDGE,,31/03/2015 09:43:31,65,8,8,,3369,false,514,2 articles,4,showItemFRIDGE,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9d8,removeFromFridge,,31/03/2015 09:43:35,65,8,8,,3370,false,514,2 articles,4,removeFromFridge,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9d9,showItemCUPBOARD,,31/03/2015 09:43:36,65,8,8,,3371,false,514,2 articles,4,showItemCUPBOARD,,,,journal,journal,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9da,showItemCUPBOARD,2000,31/03/2015 09:43:39,65,8,8,,3372,false,952,2,4,showItemCUPBOARD,,,,printedmusic,printedmusic,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9db,addToFridge,,31/03/2015 09:43:48,65,8,8,,3373,false,514,2 articles,4,addToFridge,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9dc,showItemCUPBOARD,1913,31/03/2015 09:43:53,65,8,8,,3374,false,541,1 article,4,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9dd,helpLink,,31/03/2015 09:43:59,65,8,8,Accès aide en ligne,3375,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9de,showItemCUPBOARD,,31/03/2015 09:43:59,65,8,8,,3376,false,26,100 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9df,showItemCUPBOARD,,31/03/2015 09:44:05,65,8,8,,3377,false,25,72 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9e0,HelpLink,,31/03/2015 09:44:06,65,8,8,Synthèse exception pédagogique - Enregistrements v,3378,false,,,4,HelpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9e1,showItemCUPBOARD,,31/03/2015 09:44:09,65,8,8,,3379,false,26,100 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9e2,showItemCUPBOARD,,31/03/2015 09:44:20,65,8,8,,3380,false,26,100 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9e3,showItemCUPBOARD,,31/03/2015 09:44:25,65,8,8,,3381,false,25,72 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d9e4,chat,,31/03/2015 09:44:32,65,8,8,,3382,false,,,4,chat,"Si tu es sûr de ton coup, Joe, on peut lancer la tambouille.",,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d9e5,chat,,31/03/2015 09:44:39,65,8,8,,3383,false,,,4,chat,allons y...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9e6,feedTamagoBad,1994,31/03/2015 09:44:42,65,8,8,,3384,false,706,4 min,4,feedTamago,,intranet,"Sous droits d'auteur",video,videointranet,231,154 m/,Pulp Ficti,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d9e7,chat,,31/03/2015 09:44:46,65,8,8,,3385,false,,,4,chat,ok...,,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3d9e8,chat,,31/03/2015 09:44:59,65,8,8,,3386,false,,,4,chat,"Attention, il est sûr le pojnt de mourir d'indigestion.",,,,,,/,,,27
+OJ,6267a0cf98c0f1a79ae3d9e9,chat,,31/03/2015 09:45:09,65,8,8,,3387,false,,,4,chat,yep...,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9ea,showItemFRIDGE,,31/03/2015 09:45:13,65,8,8,,3388,false,514,2 articles,4,showItemFRIDGE,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+OJ,6267a0cf98c0f1a79ae3d9eb,chat,,31/03/2015 09:45:16,65,8,8,,3389,false,,,4,chat,"mais la je vois pas quoi mettre d'autre...",,,,,,/,,,26
+,6267a0cf98c0f1a79ae3d9ec,showItemFRIDGE,,31/03/2015 09:45:16,65,8,8,,3390,false,514,2 articles,4,showItemFRIDGE,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+,6267a0cf98c0f1a79ae3d9ed,showItemCUPBOARD,1878,31/03/2015 09:45:21,65,8,8,,3391,false,965,3,4,showItemCUPBOARD,,,,printedmusic,printedmusic,531,/13 p. ; 36 cm,Sonate pou,Domaine Public,26
+,6267a0cf98c0f1a79ae3d9ee,feedTamagoGood,,31/03/2015 09:45:23,65,8,8,,3392,false,514,2 articles,4,feedTamago,,printedCopies,,journal,journalprintedCopies,110,/,"L'Aurore :",Domaine public,27
+OJ,6267a0cf98c0f1a79ae3d9ef,chat,,31/03/2015 09:45:41,65,8,8,,3393,false,,,4,chat,"L'Aurore l'a sauvé. Vive Zola, vive la République.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9f0,showItemCUPBOARD,2008,31/03/2015 09:45:52,65,8,8,,3394,false,464,2 articles,4,showItemCUPBOARD,,,,journal,journal,100,/,Mediapart,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9f1,showItemCUPBOARD,1954,31/03/2015 09:46:00,65,8,8,,3395,false,573,1 article,4,showItemCUPBOARD,,,,journal,journal,124,/,Le Monde d,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d9f2,showItemCUPBOARD,2012,31/03/2015 09:46:17,65,8,8,,3396,false,459,3 s,4,showItemCUPBOARD,,,,sound,sound,338,/,Carnet de,"Droits d'auteur",26
+O,6267a0cf98c0f1a79ae3d9f3,chat,,31/03/2015 09:46:30,65,8,8,,3397,false,,,4,chat,"Puisqu'il aime lire le journal, un vieux numéro du Monde diplomatique...",,,,,,/,,,27
+Q,6267a0cf98c0f1a79ae3d9f4,chat,,31/03/2015 09:46:52,65,8,8,,3398,false,,,4,chat,En copies imprimées? Il date de 1954.,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9f5,showItemCUPBOARD,2011,31/03/2015 09:46:54,65,8,8,,3399,false,198,5,4,showItemCUPBOARD,,,,book,book,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3d9f6,showItemCUPBOARD,1954,31/03/2015 09:46:55,65,8,8,,3400,false,573,1 article,4,showItemCUPBOARD,,,,journal,journal,124,/,Le Monde d,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3d9f7,addToFridge,2011,31/03/2015 09:47:07,65,8,8,,3401,false,198,5,4,addToFridge,,photocopy,"Sous droits d'auteur",book,bookphotocopy,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+OJ,6267a0cf98c0f1a79ae3d9f8,chat,,31/03/2015 09:47:14,65,8,8,,3402,false,,,4,chat,ca m a l air bon...,,,,,,/,,,26
+NC,6267a0cf98c0f1a79ae3d9f9,chat,,31/03/2015 09:47:21,65,8,8,,3403,false,,,4,chat,"je pense pas que quelqu'un se plaindra...",,,,,,/,,,26
+F,6267a0cf98c0f1a79ae3d9fa,chat,,31/03/2015 09:47:22,65,8,8,,3404,false,,,4,chat,"Aïe, non ! il est en CFC. Les droits sont soumis à autorisation. J'essaie autre chose.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9fb,showItemCUPBOARD,208,31/03/2015 09:47:29,65,8,8,,3405,false,646,3 min,4,showItemCUPBOARD,,,,video,video,211,52 mI/,Simone Vei,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3d9fc,helpLink,,31/03/2015 09:47:39,65,8,8,Accès aide en ligne,3406,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3d9fd,HelpLink,,31/03/2015 09:47:41,65,8,8,Synthèse exception pédagogique - Enregistrements v,3407,false,,,4,HelpLink,,,,,,,/,,,27
+H,6267a0cf98c0f1a79ae3d9fe,chat,,31/03/2015 09:48:12,65,8,8,,3408,false,,,4,chat,Essayons la vidéo de Simone Veil. Un extrait de diffusion en classe devrait être permis.,,,,,,/,,,27
+O,6267a0cf98c0f1a79ae3d9ff,chat,,31/03/2015 09:48:27,65,8,8,,3409,false,,,4,chat,normalement oui (j essaye de lire les texte pour comprendre...),,,,,,/,,,26
+OJ,6267a0cf98c0f1a79ae3da00,chat,,31/03/2015 09:48:54,65,8,8,,3410,false,,,4,chat,"J'essaie de le mettre en sujet d'examen, mais le Tamagocours ne veut pas ; il dit qu'il veut d'autres modes de diffusion.",,,,,,/,,,27
+,6267a0cf98c0f1a79ae3da01,showItemFRIDGE,2011,31/03/2015 09:49:02,65,8,8,,3411,false,198,5,4,showItemFRIDGE,,photocopy,"Sous droits d'auteur",book,bookphotocopy,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da02,showItemCUPBOARD,,31/03/2015 09:49:07,65,8,8,,3412,false,3,72 dpi,4,showItemCUPBOARD,,,,image,image,401,/,Plan de Pa,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3da03,helpLink,,31/03/2015 09:49:15,65,8,8,Accès aide en ligne,3413,false,,,4,helpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3da04,HelpLink,,31/03/2015 09:49:16,65,8,8,Synthèse exception pédagogique - Images,3414,false,,,4,HelpLink,,,,,,,/,,,27
+,6267a0cf98c0f1a79ae3da05,showItemCUPBOARD,,31/03/2015 09:49:50,65,8,8,,3415,false,25,72 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da06,showItemCUPBOARD,2012,31/03/2015 09:49:51,65,8,8,,3416,false,194,4,4,showItemCUPBOARD,,,,book,book,9,/792,Dictionnai,"Droits d'auteur CFC",27
+,6267a0cf98c0f1a79ae3da07,showItemCUPBOARD,,31/03/2015 09:49:55,65,8,8,,3417,false,26,100 dpi,4,showItemCUPBOARD,,,,image,image,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da08,showItemCUPBOARD,2000,31/03/2015 09:49:59,65,8,8,,3418,false,952,2,4,showItemCUPBOARD,,,,printedmusic,printedmusic,529,/1 partition (199 p.),Jimi Hendr,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3da09,showItemCUPBOARD,1913,31/03/2015 09:50:02,65,8,8,,3419,false,541,1 article,4,showItemCUPBOARD,,,,journal,journal,117,/,Science et,"Droits d'auteur",27
+,6267a0cf98c0f1a79ae3da0a,addToFridge,,31/03/2015 09:50:03,65,8,8,,3420,false,26,100 dpi,4,addToFridge,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+Q,6267a0cf98c0f1a79ae3da0b,chat,,31/03/2015 09:50:17,65,8,8,,3421,false,,,4,chat,un schéma interrupteur simple mis sur l itnranet?,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3da0c,helpLink,,31/03/2015 09:50:20,65,8,8,Accès aide en ligne,3422,false,,,4,helpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3da0d,HelpLink,,31/03/2015 09:50:29,65,8,8,Synthèse exception pédagogique - Images,3423,false,,,4,HelpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3da0e,showItemFRIDGE,,31/03/2015 09:51:20,65,8,8,,3425,false,26,100 dpi,4,showItemFRIDGE,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da0f,showItemFRIDGE,,31/03/2015 09:51:24,65,8,8,,3426,false,26,100 dpi,4,showItemFRIDGE,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da10,removeFromFridge,,31/03/2015 09:51:29,65,8,8,,3427,false,26,100 dpi,4,removeFromFridge,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da11,addToFridge,,31/03/2015 09:51:33,65,8,8,,3428,false,25,72 dpi,4,addToFridge,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da12,feedTamagoBad,,31/03/2015 09:51:41,65,8,8,,3429,false,25,72 dpi,4,feedTamago,,intranet,"Sous droits d'auteur",image,imageintranet,403,/,Schéma int,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da13,showItemFRIDGE,2011,31/03/2015 09:51:54,65,8,8,,3430,false,198,5,4,showItemFRIDGE,,photocopy,"Sous droits d'auteur",book,bookphotocopy,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da14,helpLink,,31/03/2015 09:52:05,65,8,8,Accès aide en ligne,3431,false,,,4,helpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3da15,HelpLink,,31/03/2015 09:52:07,65,8,8,"Synthèse exception pédagogique - Livres, Périodiqu",3432,false,,,4,HelpLink,,,,,,,/,,,26
+,6267a0cf98c0f1a79ae3da16,removeFromFridge,2011,31/03/2015 09:52:37,65,8,8,,3433,false,198,5,4,removeFromFridge,,photocopy,"Sous droits d'auteur",book,bookphotocopy,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3da17,showItemCUPBOARD,1913,31/03/2015 09:52:46,65,8,8,,3434,false,334,intégrale,4,showItemCUPBOARD,,,,book,book,43,/,Le Grand M,Domaine Public,26
+,6267a0cf98c0f1a79ae3da18,showItemCUPBOARD,2012,31/03/2015 09:53:06,65,8,8,,3435,false,194,4,4,showItemCUPBOARD,,,,book,book,9,/792,Dictionnai,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3da19,addToFridge,2012,31/03/2015 09:53:16,65,8,8,,3436,false,194,4,4,addToFridge,,photocopy,,book,bookphotocopy,9,/792,Dictionnai,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3da1a,feedTamagoGood,2012,31/03/2015 09:53:17,65,8,8,,3437,false,194,4,4,feedTamago,,photocopy,,book,bookphotocopy,9,/792,Dictionnai,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3da1b,showItemCUPBOARD,2013,31/03/2015 09:53:32,65,8,8,,3438,false,302,3,4,showItemCUPBOARD,,,,book,book,34,/192,La laicité,"Droits d'auteur CFC",26
+,6267a0cf98c0f1a79ae3da1c,showItemCUPBOARD,2011,31/03/2015 09:53:46,65,8,8,,3439,false,198,5,4,showItemCUPBOARD,,,,book,book,10,/1 vol. (380 p.),Les aventu,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3dab8,showItemCUPBOARD,2003,31/03/2015 10:59:43,65,8,8,,3598,false,413,15 s,4,showItemCUPBOARD,,,,sound,sound,314,3 min/,Is This Lo,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3dab9,addToFridge,2003,31/03/2015 10:59:56,65,8,8,,3599,false,413,15 s,4,addToFridge,,intranet,"Non couvert par l'accord",sound,soundintranet,314,3 min/,Is This Lo,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3daba,feedTamagoBad,2003,31/03/2015 10:59:57,65,8,8,,3600,false,413,15 s,4,feedTamago,,intranet,"Non couvert par l'accord",sound,soundintranet,314,3 min/,Is This Lo,"Droits d'auteur",26
+,6267a0cf98c0f1a79ae3dabb,fillCupboard,,31/03/2015 10:59:57,69,8,8,,3601,false,,,4,fillCupboard,,,,,,,/,,,

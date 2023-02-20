@@ -73,8 +73,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 27948;2000-01-01 00:09:18;addToFridge;88;130;imageprojection;;404
 27951;2000-01-01 00:09:19;showItemFRIDGE;88;130;imageprojection;;404
 27956;2000-01-01 00:09:21;removeFromFridge;88;130;imageprojection;;404
-27960;2000-01-01 00:09:23;showItemCupboard;88;130;printedmusic;;532;1
-
 27971;2000-01-01 00:09:37;showItemCupboard;88;130;book;;2
 27979;2000-01-01 00:09:44;addToFridge;88;130;bookassessments;;2
 27980;2000-01-01 00:09:46;showItemCupboard;88;130;book;;35

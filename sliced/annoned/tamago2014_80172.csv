@@ -97,12 +97,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 25383;2000-01-01 00:31:43;showItemCupboard;80;172;book;;45
 25386;2000-01-01 00:31:51;addToFridge;80;172;bookassessments;;45
 25390;2000-01-01 00:31:58;feedTamagoGood;80;172;bookassessments;;45
-25398;2000-01-01 00:32:21;showItemCupboard;80;172;printedmusic;;532;1
-
-25404;2000-01-01 00:32:39;showItemCupboard;80;172;printedmusic;;532;1
-
-25407;2000-01-01 00:32:47;showItemCupboard;80;172;printedmusic;;532;1
-
 25425;2000-01-01 00:33:34;showItemCupboard;80;172;sound;;315
 25431;2000-01-01 00:34:06;addToFridge;80;172;soundprojection;;315
 25435;2000-01-01 00:34:15;feedTamagoGood;80;172;soundprojection;;315
@@ -140,8 +134,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 25549;2000-01-01 00:43:06;showItemCupboard;80;172;image;;402
 25551;2000-01-01 00:43:13;showItemCupboard;80;172;image;;401
 25556;2000-01-01 00:43:33;showItemCupboard;80;172;printedmusic;;527
-25560;2000-01-01 00:43:53;showItemCupboard;80;172;printedmusic;;522;1
-
 25565;2000-01-01 00:44:06;showItemCupboard;80;172;sound;;300
 25567;2000-01-01 00:44:15;showItemCupboard;80;172;sound;;300
 25573;2000-01-01 00:44:48;showItemCupboard;80;172;image;;412

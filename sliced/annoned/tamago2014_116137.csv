@@ -40,8 +40,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 35138;2000-01-01 00:10:22;addToFridge;116;137;videoassessments;;200
 35142;2000-01-01 00:10:29;feedTamagoGood;116;137;videoassessments;;200
 35145;2000-01-01 00:10:36;showItemCupboard;116;137;video;;204
-35147;2000-01-01 00:10:41;showItemCupboard;116;137;printedmusic;;533;0
-
 35151;2000-01-01 00:10:46;showItemCupboard;116;137;printedmusic;;526
 35153;2000-01-01 00:10:54;showItemCupboard;116;137;book;;44
 35159;2000-01-01 00:11:02;showItemCupboard;116;137;book;;42

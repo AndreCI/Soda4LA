@@ -101,10 +101,4 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 28481;2000-01-01 00:15:58;feedTamagoGood;92;206;bookassessments;;7
 28483;2000-01-01 00:16:02;showItemCupboard;92;206;book;;46
 28490;2000-01-01 00:16:08;showItemCupboard;92;206;book;;7
-28494;2000-01-01 00:16:13;showItemCupboard;92;206;printedmusic;;530;1
-
-28507;2000-01-01 00:16:27;addToFridge;92;206;printedmusicintranet;;530;1
-
-28512;2000-01-01 00:16:30;feedTamagoGood;92;206;printedmusicintranet;;530;1
-
 28525;2000-01-01 00:16:45;showItemCupboard;92;206;image;;410

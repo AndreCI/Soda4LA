@@ -80,7 +80,6 @@ class GraphView():
         self.dynamic_canvas.setMinimumSize(QSize(720, 300))
 
     def draw_notes(self):
-        #TODO https://www.youtube.com/watch?v=CFRhGnuXG-4
         data = np.zeros((self.verticalRes, self.horizontalRes))
         past_notes = []
         self.parent.model.ctrl.graphSemaphore.acquire()

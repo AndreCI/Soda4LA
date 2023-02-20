@@ -12,7 +12,7 @@ import Models.music_model as music
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED, SAMPLE_SIZE
 
 
-class GeneralSettings:  # TODO rename this into general settings
+class GeneralSettings:
     """
     Model class for time settings. It informs track/music models about the way to compute temporal distance between 2 notes based on their
     respective data lignes.

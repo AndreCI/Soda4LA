@@ -24,12 +24,12 @@ class QJumpSlider(QSlider): #TODO: Change music value on click
     def mousePressEvent(self, event):
         # Jump to click position
         position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
-        self.setValue(position)
+        #self.setValue(position)
 
     def mouseMoveEvent(self, event):
         # Jump to pointer position while moving
         position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
-        self.setValue(position)
+        #self.setValue(position)
 
 class TopSettingsBar(QObject):
     progressBarSignal = pyqtSignal(int, name="ProgressBarSignal")

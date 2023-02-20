@@ -70,12 +70,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 18922;2000-01-01 00:18:55;showItemCupboard;61;122;book;;42
 18930;2000-01-01 00:19:12;addToFridge;61;122;bookassessments;;42
 18931;2000-01-01 00:19:14;feedTamagoBad;61;122;bookassessments;;42
-18935;2000-01-01 00:19:24;showItemCupboard;61;122;printedmusic;;533;1
-
-18937;2000-01-01 00:19:42;addToFridge;61;122;printedmusicprintedCopies;;533;1
-
-18938;2000-01-01 00:19:44;feedTamagoGood;61;122;printedmusicprintedCopies;;533;1
-
 18941;2000-01-01 00:19:56;showItemCupboard;61;122;printedmusic;;500
 18943;2000-01-01 00:20:09;showItemCupboard;61;122;video;;206
 18944;2000-01-01 00:20:16;showItemCupboard;61;122;image;;405
@@ -101,10 +95,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 18975;2000-01-01 00:23:15;addToFridge;61;122;soundintranet;;331
 18976;2000-01-01 00:23:18;showItemCupboard;61;122;journal;;111
 18977;2000-01-01 00:23:30;showItemCupboard;61;122;journal;;106
-18979;2000-01-01 00:23:45;showItemCupboard;61;122;printedmusic;;522;1
-
-18980;2000-01-01 00:24:05;showItemCupboard;61;122;printedmusic;;534;1
-
 18983;2000-01-01 00:24:33;showItemCupboard;61;122;video;;223
 18985;2000-01-01 00:24:46;showItemCupboard;61;122;journal;;13
 18987;2000-01-01 00:25:06;addToFridge;61;122;journalassessments;;13

@@ -59,6 +59,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\sequential_data\test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\data\sequential_data\Tamagocours.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\dist\main_pyqt5\data\sequential_data\Tamagocours.csv">
           <value>
             <Attribute>
@@ -94,7 +108,112 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\dist\soda\data\sequential_data\Tamagocours.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\data\sequential_data\sliced\combined\tamago2014_p3_66140-p5_5269.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\data\sequential_data\sliced\combined\tamago2014_p3_66140-p5_5294.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\data\sequential_data\sliced\combined\tamago2014_p3_66140-p5_5398.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\data\sequential_data\sliced\combined\tamago2014_p3_66140-p5_54100.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\soda\data\sequential_data\sliced\combined\tamago2014_p4_122266-p5_5269.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago2014_4984.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago2014_5269.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago2014_5294.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\sliced\annoned\tamago2014_63131.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago2014_92206.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago_group2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago_group20.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago_group5.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\annoned\tamago_group8.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
@@ -109,6 +228,13 @@
           </value>
         </entry>
         <entry key="\sliced\tamago2014_p1_56107.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\sliced\tamago2014_p2_4984.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />

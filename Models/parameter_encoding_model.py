@@ -28,13 +28,16 @@ class ParameterEncoding:
         self.handpicked = True  # if true, uses handpickedEncoding to compute a parameter for a note, if not it uses functionEncoding
         self.handpickEncoding = {}  # Dictionary containing information to transform a row into a parameter for a note
         self.functionEncoding = {"min": 0,
-                                 "max": 12 if self.encoded_var == "value" else 127}
+                                 "max": 12 if self.encoded_var == "value" else 100}
         # Dictionary containing information to transform a row into a parameter for a note
         self.defaultValue = 0
+        self.maxValue = 0
         if self.encoded_var == "duration":
-            self.defaultValue = 250
+            self.defaultValue = 400
+            self.maxValue = 1000
         elif self.encoded_var == "velocity":
-            self.defaultValue = 127
+            self.defaultValue = 100
+            self.maxValue = 100
         self.octave = "4" if self.encoded_var == "value" else "0"
         self.initialized = False
 
@@ -68,14 +71,15 @@ class ParameterEncoding:
         :return: int,
             a value between 0 and 128 used as a parameter for a note
         """
-
+        print(self.handpickEncoding)
+        print(row[self.filter.column])
         try:
             if (row[self.filter.column] == None):
                 return self.defaultValue
             if self.handpicked:
-                if (row[self.filter.column] not in self.handpickEncoding):
+                if (str(row[self.filter.column]) not in self.handpickEncoding):
                     return self.defaultValue
-                return int(self.handpickEncoding[row[self.filter.column]])
+                return int(self.handpickEncoding[str(row[self.filter.column])])
             else:
                 return int(self.evaluate_with_fonction(row[self.filter.column]))
         except KeyError:
@@ -127,7 +131,7 @@ class ParameterEncoding:
 
     def generate_preset(self, variable:[]) -> [int]:
         minimum_val = 0
-        maximum_val = 127
+        maximum_val = 100
         if self.encoded_var == "value":
             maximum_val = 12
         elif self.encoded_var == "duration":

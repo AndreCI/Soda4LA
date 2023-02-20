@@ -62,14 +62,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 21237;2000-01-01 00:08:56;showItemCupboard;68;144;sound;;333
 21239;2000-01-01 00:08:59;showItemCupboard;68;144;image;;403
 21240;2000-01-01 00:09:03;showItemCupboard;68;144;sound;;312
-21243;2000-01-01 00:09:05;showItemCupboard;68;144;printedmusic;;534;1
-
-21249;2000-01-01 00:09:12;addToFridge;68;144;printedmusicprojection;;534;1
-
-21250;2000-01-01 00:09:14;feedTamagoGood;68;144;printedmusicprojection;;534;1
-
-21255;2000-01-01 00:09:21;showItemCupboard;68;144;printedmusic;;530;1
-
 21262;2000-01-01 00:09:36;showItemCupboard;68;144;printedmusic;;529
 21265;2000-01-01 00:09:40;showItemCupboard;68;144;printedmusic;;529
 21268;2000-01-01 00:09:44;showItemCupboard;68;144;sound;;300
@@ -166,7 +158,3 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 21766;2000-01-01 00:21:01;addToFridge;68;144;imageinternet;;409
 21768;2000-01-01 00:21:03;feedTamagoGood;68;144;imageinternet;;409
 21770;2000-01-01 00:21:14;showItemCupboard;68;144;image;;403
-21776;2000-01-01 00:21:19;showItemCupboard;68;144;printedmusic;;530;1
-
-21782;2000-01-01 00:21:27;addToFridge;68;144;printedmusicschoolWebsite;;530;1
-

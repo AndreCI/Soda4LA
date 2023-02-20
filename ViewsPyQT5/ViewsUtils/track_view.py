@@ -232,6 +232,7 @@ class TrackView(object):
         self.filterButton.setMinimumSize(QSize(30, 30))
         self.filterButton.setMaximumSize(QSize(16777215, 16777215))
         self.filterButton.setStyleSheet(buttonStyle)
+        self.filterButton.setEnabled(False)
         self.AdvancedTrackSettings.addWidget(self.filterButton, 0, 1, 1, 1)
 
         self.valueButton = QPushButton(self.TrackSettings_2)
@@ -270,7 +271,7 @@ class TrackView(object):
     def set_tool_tips(self):
         self.valueButton.setToolTip("Change the pitch class encoding for this track. You can change the octave as well.")
         self.filterButton.setToolTip(
-            "Change the global filter for this track. Rows will be skipped if they contain a value found in this filter")
+            "Unused for now.")
         self.velocityButton.setToolTip(
             "Change the volume encoding for this track. Higher volume will result in louder notes")
         self.durationButton.setToolTip(

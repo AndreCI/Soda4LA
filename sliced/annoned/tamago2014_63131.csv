@@ -25,8 +25,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 20051;2000-01-01 00:12:55;showItemCupboard;63;131;sound;;334
 20058;2000-01-01 00:13:49;showItemSTOMACH;63;131;bookintranet;;44
 20060;2000-01-01 00:13:51;showItemSTOMACH;63;131;imageintranet;;405
-20061;2000-01-01 00:13:53;showItemSTOMACH;63;131;printedmusicintranet;;533;0
-
 20062;2000-01-01 00:13:55;showItemSTOMACH;63;131;journalintranet;;15
 20063;2000-01-01 00:13:58;showItemSTOMACH;63;131;journalprintedCopies;;100
 20068;2000-01-01 00:14:03;showItemSTOMACH;63;131;journalprintedCopies;;129
@@ -48,10 +46,6 @@ id;date;actiontype;groupid;user_id;resourcetypemou;help;resource_id
 20199;2000-01-01 00:22:43;feedTamagoGood;63;131;imageintranet;;411
 20201;2000-01-01 00:22:50;addToFridge;63;131;videoassessments;;231
 20202;2000-01-01 00:22:52;feedTamagoBad;63;131;videoassessments;;231
-20210;2000-01-01 00:23:04;addToFridge;63;131;printedmusicintranet;;531;1
-
-20212;2000-01-01 00:23:07;feedTamagoGood;63;131;printedmusicintranet;;531;1
-
 20215;2000-01-01 00:23:15;showItemCupboard;63;131;image;;406
 20218;2000-01-01 00:23:25;addToFridge;63;131;imageassessments;;406
 20220;2000-01-01 00:23:27;feedTamagoGood;63;131;imageassessments;;406

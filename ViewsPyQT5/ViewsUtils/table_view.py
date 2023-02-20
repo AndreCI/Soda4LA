@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import ViewsPyQT5.sonification_view as sv
@@ -99,7 +100,9 @@ class TableView(object):
         if check:
             header = self.data.current_dataset.columns
             self.data.read_additional_data(file)
-            if(not ErrorManager.compare_headers(self.data.header, list(self.data.current_dataset.columns))):
+            print(header)
+            print(list(self.data.current_dataset.columns))
+            if(not ErrorManager.compare_headers(list(header), list(self.data.current_dataset.columns))):
                 self.data.set_data_index(self.data.data_index - 1)
                 del self.data.df[-1]
                 ErrorManager.getInstance().wrong_data_error()
@@ -241,18 +244,22 @@ class DataFrameModel(QAbstractTableModel):
         if not self.mom.parent.model.ctrl.playing:
             return
         self.mom.parent.model.ctrl.pausedEvent.wait()  # wait if we are paused
-        self.beginResetModel()
-        if (len(self.buffer) > 0):
-            row = [self.buffer.popleft()]
-            if (self._dataframe.shape[0] <= self.size - 1 and len(self.buffer) > 0):
-                row.append(self.buffer.popleft())
-            self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
-                                    ignore_index=True)
-        else:
-            #print("reducing from {}".format(self._dataframe.shape))
-            self._dataframe = self._dataframe.iloc[1:]
-        self._dataframe.reset_index(inplace=True, drop=True)
-        self.endResetModel()
+        try:
+            self.beginResetModel()
+            if (len(self.buffer) > 0):
+                row = [self.buffer.popleft()]
+                if (self._dataframe.shape[0] <= self.size - 1 and len(self.buffer) > 0):
+                    row.append(self.buffer.popleft())
+                #row['internal_filter'] = row["internal_filter"].astype(bool)
+                self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
+                                        ignore_index=True)
+            else:
+                #print("reducing from {}".format(self._dataframe.shape))
+                self._dataframe = self._dataframe.iloc[1:]
+            self._dataframe.reset_index(inplace=True, drop=True)
+            self.endResetModel()
+        except Exception:
+            logging.log(logging.WARNING, "Exception while pushing rows to data table.")
 
 
     def set_data_frame(self, dataframe):

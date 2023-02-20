@@ -52,10 +52,8 @@ class NoteData:
         """Pre compute all notes into a dataframe"""
         raise NotImplementedError()
         notes = self.data.current_dataset.apply(lambda x: self.create_note(x), axis=1)
-        print(notes)
         for track in self.tracks:
             notes = self.data.current_dataset.apply(lambda x:self.create_note(x), axis=1)
-            print(notes)
             self.tracks_note.append(notes)
 
     def update(self, track_id: int, parmeter_encoding: ParameterEncoding):

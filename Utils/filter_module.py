@@ -10,7 +10,7 @@ class FilterType(Enum):
     MULTIPLE = 4
 
 
-class FilterModule:  # TODO complexify with other filter options, such as str filters.
+class FilterModule:
 
     """
     Module to use as a filter when needed, providing an interface between what users entered into the filter box and data
@@ -44,18 +44,6 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         # Create a new column and fill it with True or False value after eval
         df["internal_filter"] = df[self.column].apply(lambda y: self.evaluate(y))
         return df[df["internal_filter"]].drop("internal_filter", axis=1)
-
-    def get_filtered_data(self, header: [], data: [[]]):
-        """
-        Filter all of data based on the user selected filter
-        :param header: list of names of each column in data
-        :param data: all of data, as a list of list (row per row)
-        :return: an iterable with filtered data, using lazy eval
-        """
-        # TODO
-        raise NotImplementedError()
-        idx = header.index(self.variable)
-        return filter(self.evaluate, data)
 
     def evaluate(self, value:int)->bool:
         """
@@ -126,6 +114,7 @@ class FilterModule:  # TODO complexify with other filter options, such as str fi
         return True
 
     def get_current_filter(self)->str:
+        raise NotImplementedError()
         if (self.column in self.filter and self.filter[self.column] != None):
             try:
                 return "[" + ";".join([str(v) for v in self.filter[self.column]]) + "]"
