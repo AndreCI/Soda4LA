@@ -119,12 +119,9 @@ class Data:
         """
         candidates = []
         for c in self.header:
-            if(self.current_dataset[c].first_valid_index() is not None and
-            self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])):
+            if (self.current_dataset[c].first_valid_index() is not None and
+                    self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])):
                 candidates.append(c)
-            #print(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])
-        #candidates = [c for c in self.header if
-          #            self.is_date(self.current_dataset[c].loc[self.current_dataset[c].first_valid_index()])]
         return candidates
 
     def get_best_guess_variable(self) -> str:

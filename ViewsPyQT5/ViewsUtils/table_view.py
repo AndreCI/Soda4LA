@@ -1,25 +1,24 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
-
-import ViewsPyQT5.sonification_view as sv
 import time
 from collections import deque
+from pathlib import Path
 
 import pandas as pd
 from PyQt5.QtCore import QSize, Qt, QCoreApplication, QAbstractTableModel, pyqtProperty, pyqtSlot, QVariant, \
     QModelIndex
 from PyQt5.QtWidgets import QSizePolicy, QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
-    QTableView, QFileDialog, QMessageBox, QTabWidget
+    QTableView, QFileDialog, QTabWidget
 
+import ViewsPyQT5.sonification_view as sv
 from Models.data_model import Data
 from Utils.error_manager import ErrorManager
 
 
 class TableView(object):
 
-    def __init__(self, parent:sv.SonificationView):
+    def __init__(self, parent: sv.SonificationView):
         self.parent = parent
         self.data_model = []
         self.currentDataModel = None
@@ -87,7 +86,7 @@ class TableView(object):
             self.setup_data_model()
             self.dataColumnComboBox.setEnabled(True)
             candidates = self.data.get_candidates_timestamp_columns()
-            if(len(candidates)==0):
+            if (len(candidates) == 0):
                 candidates = self.data.header
                 ErrorManager.getInstance().timestamp_warning()
             self.dataColumnComboBox.addItems(candidates)
@@ -102,7 +101,7 @@ class TableView(object):
             self.data.read_additional_data(file)
             print(header)
             print(list(self.data.current_dataset.columns))
-            if(not ErrorManager.compare_headers(list(header), list(self.data.current_dataset.columns))):
+            if (not ErrorManager.compare_headers(list(header), list(self.data.current_dataset.columns))):
                 self.data.set_data_index(self.data.data_index - 1)
                 del self.data.df[-1]
                 ErrorManager.getInstance().wrong_data_error()
@@ -111,14 +110,15 @@ class TableView(object):
             self.tableViews.append(QTableView())
 
             self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self,
-                                             size=self.data.sample_size))
+                                                  size=self.data.sample_size))
             self.tableViews[self.data.data_index].setModel(self.data_model[self.data.data_index])
             self.tabWidget.addTab(self.tableViews[self.data.data_index], Path(file).stem)
             self.tabWidget.setCurrentIndex(len(self.tableViews) - 1)
 
     def setup_data_model(self):
         self.data_model = []
-        self.data_model.append(DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
+        self.data_model.append(
+            DataFrameModel(self.data.get_first(), self.data.get_second(), mom=self, size=self.data.sample_size))
         self.tableViews[0].setModel(self.data_model[0])
         self.currentDataModel = self.data_model[0]
         self.currentTableView = self.tableViews[0]
@@ -181,7 +181,6 @@ class TableView(object):
         self.gridLayout.addWidget(self.timestampFormatLabel, 2, 1, 1, 3)
         self.gridLayout.addWidget(self.timestampFormatLineEdit, 2, 2, 1, 3)
 
-
         self.validateDataButton = QPushButton(self.dataViewFrame)
         self.validateDataButton.setObjectName(u"validateDataButton")
         self.validateDataButton.setEnabled(False)
@@ -209,7 +208,7 @@ class DataFrameModel(QAbstractTableModel):
     DtypeRole = Qt.UserRole + 1000
     ValueRole = Qt.UserRole + 1001
 
-    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), size = 20, parent=None, mom=None):
+    def __init__(self, df=pd.DataFrame(), dfb=pd.DataFrame(), size=20, parent=None, mom=None):
         super(DataFrameModel, self).__init__(parent)
         self._dataframe = df
         self.size = size
@@ -229,7 +228,7 @@ class DataFrameModel(QAbstractTableModel):
         self.endResetModel()
 
     def load_row(self, row):
-        if(self._dataframe.shape[0] <= self.size - 1):
+        if (self._dataframe.shape[0] <= self.size - 1):
             self.beginResetModel()
             self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame([row], columns=row._fields)],
                                         ignore_index=True)
@@ -250,17 +249,16 @@ class DataFrameModel(QAbstractTableModel):
                 row = [self.buffer.popleft()]
                 if (self._dataframe.shape[0] <= self.size - 1 and len(self.buffer) > 0):
                     row.append(self.buffer.popleft())
-                #row['internal_filter'] = row["internal_filter"].astype(bool)
+                # row['internal_filter'] = row["internal_filter"].astype(bool)
                 self._dataframe = pd.concat([self._dataframe.iloc[1:], pd.DataFrame(row, columns=row[0]._fields)],
-                                        ignore_index=True)
+                                            ignore_index=True)
             else:
-                #print("reducing from {}".format(self._dataframe.shape))
+                # print("reducing from {}".format(self._dataframe.shape))
                 self._dataframe = self._dataframe.iloc[1:]
             self._dataframe.reset_index(inplace=True, drop=True)
             self.endResetModel()
         except Exception:
             logging.log(logging.WARNING, "Exception while pushing rows to data table.")
-
 
     def set_data_frame(self, dataframe):
         self.beginResetModel()
@@ -301,7 +299,7 @@ class DataFrameModel(QAbstractTableModel):
         col = self._dataframe.columns[index.column()]
         dt = self._dataframe[col].dtype
         try:
-            #val = self._dataframe.loc[index.row(), index.column()]
+            # val = self._dataframe.loc[index.row(), index.column()]
             val = self._dataframe.iloc[row][col]
         except IndexError:
             val = 0

@@ -1,11 +1,11 @@
 from __future__ import annotations
-import ViewsPyQT5.sonification_view as sv
 
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QAbstractScrollArea, QWidget, \
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QSlider, QGridLayout, QLayout, QLabel, QFileDialog
 
+import ViewsPyQT5.sonification_view as sv
 from Utils.soundfont_loader import SoundfontLoader
 from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTrackButtonStyle, sliderGainStyle, \
     sliderOffsetStyle, \
@@ -14,7 +14,7 @@ from ViewsPyQT5.ViewsUtils.views_utils import GTrackView, buttonStyle, selectTra
 
 class TrackView(object):
 
-    def __init__(self, parent:sv.SonificationView):
+    def __init__(self, parent: sv.SonificationView):
         self.parent = parent
         self.track = None
         self.gTrackList = []
@@ -250,8 +250,6 @@ class TrackView(object):
         self.AdvancedTrackSettings.addWidget(self.valueButton, 0, 0, 1, 1)
 
         self.TrackSettings.addLayout(self.AdvancedTrackSettings)
-        # self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # self.TrackSettings.addItem(self.verticalSpacer_2)
 
         self.GlobalTrackView.addWidget(self.TrackSettings_2)
 
@@ -264,19 +262,21 @@ class TrackView(object):
         self.connect_ui()
         self.set_tool_tips()
         self.AddTrackButton.clicked.connect(lambda: self.parent.model.ctrl.create_track())
-        #outside connect_ui to prevent future disconnects
+        # outside connect_ui to prevent future disconnects
 
         self.TrackSettings_2.hide()
 
     def set_tool_tips(self):
-        self.valueButton.setToolTip("Change the pitch class encoding for this track. You can change the octave as well.")
+        self.valueButton.setToolTip(
+            "Change the pitch class encoding for this track. You can change the octave as well.")
         self.filterButton.setToolTip(
             "Unused for now.")
         self.velocityButton.setToolTip(
             "Change the volume encoding for this track. Higher volume will result in louder notes")
         self.durationButton.setToolTip(
             "Change the duration encoding for this track. Smaller durations will result in shorter notes")
-        self.offsetLabel.setToolTip("The offset (in percentage of the beat per minute) for this track, adding delay to all its notes.")
+        self.offsetLabel.setToolTip(
+            "The offset (in percentage of the beat per minute) for this track, adding delay to all its notes.")
         self.offsetSlider.setToolTip("Change the offset for this track, adding delay to all its notes.")
         self.gainButton.setToolTip("Mute/Unmute this track")
         self.GainSlider.setToolTip("Change the volume for this track")
@@ -362,7 +362,7 @@ class TrackView(object):
         else:
             self.gainButton.setIcon(self.mutedIcon)
         self.offsetSlider.setValue(int(track.offset))
-        self.offsetLabel.setText(str(int(track.offset))+ " % of bpm")
+        self.offsetLabel.setText(str(int(track.offset)) + " % of bpm")
         self.soundfontComboBox.setCurrentIndex(self.soundfontUtil.get_idx_from_path(track.soundfont))
         self.track = track
         self.disconnect_ui()
@@ -419,8 +419,9 @@ class TrackView(object):
         g_track_select_button.setStyleSheet(selectTrackButtonStyle)
         horizontal_layout.addWidget(g_track_select_button)
 
-        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button, duplicateButton=g_track_duplicate_button,
-                                selectButton=g_track_select_button, hLayout=horizontal_layout)
+        g_track_view = GTrackView(frame=g_track_frame, deleteButton=g_track_delete_button,
+                                  duplicateButton=g_track_duplicate_button,
+                                  selectButton=g_track_select_button, hLayout=horizontal_layout)
 
         self.gTrackList.append(g_track_view)
         track.gTrackView = g_track_view

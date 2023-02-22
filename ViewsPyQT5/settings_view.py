@@ -144,7 +144,6 @@ class SettingsView(QMainWindow):
         self.gridLayout_3.addWidget(self.tempoOffsetLabel, 3, 0, 1, 1)
         self.gridLayout_3.addWidget(self.tempoOffsetLineedit, 3, 1, 1, 1)
 
-
         self.gridLayout.addWidget(self.tempoModeFrame, 0, 1, 1, 1)
 
         self.closeFrame = QFrame(self.settingsFrame)
@@ -208,12 +207,13 @@ class SettingsView(QMainWindow):
         self.set_tools_tips()
 
         # setupUi
+
     def location_on_the_screen(self):
 
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
-        x = int(screen.width()/2 - int(widget.width()/2))
-        y = int(screen.height()/2 - int(widget.height()/2))
+        x = int(screen.width() / 2 - int(widget.width() / 2))
+        y = int(screen.height() / 2 - int(widget.height() / 2))
         self.move(x, y)
 
     def retranslate_ui(self):
@@ -223,8 +223,10 @@ class SettingsView(QMainWindow):
         self.bpmLabel.setText(QCoreApplication.translate("Form", u"Beat/Row Per Minutes ", None))
         self.sampleSizeLabel.setText(QCoreApplication.translate("Form", u"#Rows displayed ", None))
 
-        self.graphicalLengthLabel.setText(QCoreApplication.translate("Form", u"#seconds displayed on the x axis of the graph", None))
-        self.graphicalPercentageLabel.setText(QCoreApplication.translate("Form", u"% of graph displayed in the past", None))
+        self.graphicalLengthLabel.setText(
+            QCoreApplication.translate("Form", u"#seconds displayed on the x axis of the graph", None))
+        self.graphicalPercentageLabel.setText(
+            QCoreApplication.translate("Form", u"% of graph displayed in the past", None))
 
         self.NoteTimingLabel.setText(QCoreApplication.translate("Form", u"Note Timing", None))
         self.previousDataCheckBox.setText(QCoreApplication.translate("Form", u"Load previous data on start", None))
@@ -248,11 +250,12 @@ class SettingsView(QMainWindow):
     # retranslateUi
     def set_tools_tips(self):
         self.songLengthLineEdit.setToolTip("Length of the music, in seconds. \nChanging this will change the bpm")
-        self.sampleSizeLabel.setToolTip("Number of rows displayed on the table below the graph.\n You will need to restart the program.")
+        self.sampleSizeLabel.setToolTip(
+            "Number of rows displayed on the table below the graph.\n You will need to restart the program.")
         self.batchPlannedLineEdit.setToolTip("Number of batches to process in advance.\n"
-                                          "A smaller value will make the program more responsive to changes to encoding "
-                                          "but it may results in rows being skipped if they are close too each others timing wise. "
-                                          "Less notes will be planned in advance, and the graph may not display all future notes.")
+                                             "A smaller value will make the program more responsive to changes to encoding "
+                                             "but it may results in rows being skipped if they are close too each others timing wise. "
+                                             "Less notes will be planned in advance, and the graph may not display all future notes.")
         self.batchSizeLineEdit.setToolTip("Number of rows to process as a batch.\n"
                                           "A smaller value will make the program more responsive to changes to encoding "
                                           "but it may results in rows being skipped if they are close too each others timing wise. "
@@ -266,8 +269,11 @@ class SettingsView(QMainWindow):
                                            "A shorter value will make the program more responsive to changes to encodings but "
                                            "it may results in rows being skipped if they are close too each others timing wise.")
         self.tempoNLabel.setToolTip("Group notes in cluster of N (only when using the tempo-N option)")
-        self.tempoDureeLabel.setToolTip("% of the bpm between each cluster of notes (only when using the tempo-N option)")
-        self.tempoOffsetLabel.setToolTip("Number of notes to skip in the first cluster, must be inferior to tempo-N value (only when using the tempo-N option)")
+        self.tempoDureeLabel.setToolTip(
+            "% of the bpm between each cluster of notes (only when using the tempo-N option)")
+        self.tempoOffsetLabel.setToolTip(
+            "Number of notes to skip in the first cluster, must be inferior to tempo-N value (only when using the tempo-N option)")
+
     def update_ui(self):
         if self.model is None:
             return
@@ -282,8 +288,8 @@ class SettingsView(QMainWindow):
         self.bpmLineEdit.setText(str(self.model.get_bpm()))
         self.noteTimingLineEdit.setText(str(self.model.timeBuffer))
         self.previousDataCheckBox.setChecked(self.model.autoload)
-        self.graphicalPercentageLineedit.setText(str(int(self.model.graphicalBarPercentage*100)))
-        self.graphicalLengthLineedit.setText(str(int(self.model.graphicalLength/1000)))
+        self.graphicalPercentageLineedit.setText(str(int(self.model.graphicalBarPercentage * 100)))
+        self.graphicalLengthLineedit.setText(str(int(self.model.graphicalLength / 1000)))
 
         self.connect_ui()
 
@@ -304,7 +310,8 @@ class SettingsView(QMainWindow):
             self.updatingLenght = False
         elif (is_float(self.bpmLineEdit.text()) and float(self.bpmLineEdit.text()) != 0):
             self.updatingBpm = True
-            self.songLengthLineEdit.setText(str(int(60 * float(self.model.data.get_size()) / float(self.bpmLineEdit.text()))))
+            self.songLengthLineEdit.setText(
+                str(int(60 * float(self.model.data.get_size()) / float(self.bpmLineEdit.text()))))
 
     def on_music_length_change(self):
         if (self.updatingBpm):
@@ -315,7 +322,8 @@ class SettingsView(QMainWindow):
                 str(round(60 * (float(self.model.data.get_size()) / float(self.songLengthLineEdit.text())), 2)))
 
     def validate(self):
-        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(), self.songLengthLineEdit.text(),
+        self.model.ctrl.validate(self.batchSizeLineEdit.text(), self.batchPlannedLineEdit.text(),
+                                 self.songLengthLineEdit.text(),
                                  self.noteTimingLineEdit.text(), self.sampleSizeLineEdit.text(),
                                  self.tempoModeComboBox.currentIndex(), self.tempoNLineedit.text(),
                                  self.tempoDureeLineedit.text(), self.tempoOffsetLineedit.text(),

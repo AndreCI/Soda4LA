@@ -1,22 +1,17 @@
 from __future__ import annotations
 
-import itertools
 import pickle
 
+import pandas as pd
 from pandas import DataFrame
 
-import Models.music_model
-
-from Ctrls.track_controller import TrackCtrl
 import Models.data_model as data_model
-
-from Utils.constants import ENCODING_OPTIONS
-
+import Models.music_model
 import Models.note_model as note
+from Ctrls.track_controller import TrackCtrl
 from Models.parameter_encoding_model import ParameterEncoding
+from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
-import pandas as pd
-
 from Utils.soundfont_loader import SoundfontLoader
 
 
@@ -101,19 +96,19 @@ class Track:
         return note.TNote(tfactor=self.music.settings.get_temporal_position(row, self.offset),
                           channel=self.id,
                           value=self.pencodings["value"].get_parameter(row),
-                          velocity=int(self.pencodings["velocity"].get_parameter(row)* 1.27),
+                          velocity=int(self.pencodings["velocity"].get_parameter(row) * 1.27),
                           duration=int(self.pencodings["duration"].get_parameter(row)),
                           void=not row['internal_filter'],
                           id=row['internal_id'])
 
     def build_note2(self, row):
-        return pd.Series({'tfactor':self.music.settings.get_temporal_position(row, self.offset),
-                          'channel':self.id,
-                          'value':self.pencodings["value"].get_parameter(row),
-                          'velocity':self.pencodings["velocity"].get_parameter(row),
-                          'duration':self.pencodings["duration"].get_parameter(row),
-                          'void':not row['internal_filter'],
-                          'id':row['internal_id']})
+        return pd.Series({'tfactor': self.music.settings.get_temporal_position(row, self.offset),
+                          'channel': self.id,
+                          'value': self.pencodings["value"].get_parameter(row),
+                          'velocity': self.pencodings["velocity"].get_parameter(row),
+                          'duration': self.pencodings["duration"].get_parameter(row),
+                          'void': not row['internal_filter'],
+                          'id': row['internal_id']})
 
     def filter_batch(self, batch: DataFrame, discard_filtered: bool) -> DataFrame:
         for encoding in self.pencodings.values():
@@ -126,7 +121,7 @@ class Track:
     def set_soundfont(self, soundfont: str) -> None:
         self.soundfont = soundfont
 
-    def duplicate(self)->None:
+    def duplicate(self) -> None:
         self.music.ctrl.duplicate_track(track=self)
 
     def remove(self) -> None:

@@ -1,13 +1,12 @@
 import logging
 import random
-from typing import Tuple, Any
 
 import numpy as np
 from pandas import DataFrame
 
-from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 import Models.data_model as data_model
 import Models.note_model as note
+from Ctrls.parameter_encoding_controller import ParameterEncodingCtrl
 from Utils.constants import ENCODING_OPTIONS
 from Utils.filter_module import FilterModule
 
@@ -47,7 +46,7 @@ class ParameterEncoding:
 
         # Ctrl
         self.ctrl = ParameterEncodingCtrl(self)
-        if(encoded_var == "value"):
+        if (encoded_var == "value"):
             self.ctrl.set_default_value("9")
 
     def __getstate__(self):
@@ -62,7 +61,7 @@ class ParameterEncoding:
         self.peView = None
         self.data = data_model.Data.getInstance()
 
-    def get_parameter(self, row:DataFrame) -> int:
+    def get_parameter(self, row: DataFrame) -> int:
         """
         Compute and return a value for the parameter selected for this model, based on the filter selected by the user
         and the encoding.
@@ -81,14 +80,15 @@ class ParameterEncoding:
             else:
                 return int(self.evaluate_with_fonction(row[self.filter.column]))
         except KeyError:
-            logging.log(logging.ERROR,"Error while getting a value with {}".format(self.encoded_var))
+            logging.log(logging.ERROR, "Error while getting a value with {}".format(self.encoded_var))
             return self.defaultValue
 
-    def get_parameter_from_variable(self, variable:str)->int:
+    def get_parameter_from_variable(self, variable: str) -> int:
         if (variable not in self.handpickEncoding):
             return self.defaultValue
         return int(self.handpickEncoding[variable])
-    def evaluate_with_fonction(self, value:str)->int:
+
+    def evaluate_with_fonction(self, value: str) -> int:
         return_value = self.defaultValue
         if (self.functionEncoding["function"] == "linear"):
             ratio = float((self.data.get_min(self.filter.column)) / self.data.get_max(self.filter.column))
@@ -97,7 +97,7 @@ class ParameterEncoding:
             raise NotImplementedError()
         return return_value if self.encoded_var != "value" else return_value + 12 * int(self.octave)
 
-    def assign_function_encoding(self, function: str, min_val: int, max_val: int)->None:
+    def assign_function_encoding(self, function: str, min_val: int, max_val: int) -> None:
         """
         Assign a function with parameter as encoding, according to user preference
         :param function: type of encoding to use, such as linear or log
@@ -108,7 +108,7 @@ class ParameterEncoding:
         self.functionEncoding["min"] = min_val
         self.functionEncoding["max"] = max_val
 
-    def assign_handpicked_encoding(self, variables: [], values: [], octave="4")->None:
+    def assign_handpicked_encoding(self, variables: [], values: [], octave="4") -> None:
         """
         Assign values to variable, accordingly to user preference.
         :param variables: list,
@@ -127,7 +127,7 @@ class ParameterEncoding:
     def get_variables_instances(self) -> [str]:
         return self.data.get_variables_instances(self.filter.column)
 
-    def generate_preset(self, variable:[]) -> [int]:
+    def generate_preset(self, variable: []) -> [int]:
         minimum_val = 0
         maximum_val = 100
         if self.encoded_var == "value":

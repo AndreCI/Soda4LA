@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-from PyQt5.QtGui import QIcon
-
-import ViewsPyQT5.sonification_view as sv
 from collections import namedtuple
 
 from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea, QSizePolicy, QWidget, \
     QPushButton, QSpacerItem, QFrame, QLineEdit, QComboBox, QGridLayout, QLabel, \
-    QSpinBox, QPlainTextEdit, QCheckBox
+    QSpinBox, QCheckBox
 
-from Models.note_model import int_to_note, TNote, note_to_int, is_valid_note
+import ViewsPyQT5.sonification_view as sv
+from Models.note_model import int_to_note, TNote
 from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, selectedButtonStyle
 
 EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'testButton', 'valueLine'])
@@ -18,7 +17,7 @@ EncodingBox = namedtuple('EncodingBox', ['frame', 'checkbox', 'testButton', 'val
 
 class AdvancedTrackView(object):
 
-    def __init__(self, parent:sv.SonificationView):
+    def __init__(self, parent: sv.SonificationView):
         self.parent = parent
         self.key = "value"
         self.track = None
@@ -33,7 +32,7 @@ class AdvancedTrackView(object):
         self.octaveSpinBox.valueChanged.disconnect()
 
     def connect_ui(self):
-        self.octaveSpinBox.valueChanged.connect(lambda : self.set_octave())
+        self.octaveSpinBox.valueChanged.connect(lambda: self.set_octave())
         self.variableComboBox.activated.connect(lambda: self.select_variable(self.variableComboBox.currentText()))
         self.checkAllButton.clicked.connect(lambda: self.set_all_check(True))
         self.switchAllCheckButton.released.connect(self.inverse_all_check)
@@ -52,8 +51,8 @@ class AdvancedTrackView(object):
         self.select_variable(self.model.filter.column)
         self.defaultValueLineEdit.setText(str(int_to_note(self.model.defaultValue) if self.key == "value"
                                               else self.model.defaultValue))
-        #self.nameLabel.show()
-        #self.changeModeButton.show()
+        # self.nameLabel.show()
+        # self.changeModeButton.show()
         if self.key == "value":
             self.octaveSpinBox.show()
             self.octaveLabel.show()
@@ -82,7 +81,7 @@ class AdvancedTrackView(object):
             value = int(values[i])
             eb.valueLine.setText(str(int_to_note(value) if self.key == "value" else value))
             self.set_value(eb)
-            #self.model.ctrl.set_value(eb.checkbox.text(), str(value))
+            # self.model.ctrl.set_value(eb.checkbox.text(), str(value))
 
     def apply_default_to_all(self):
         for eb in self.encoding_boxs:
@@ -140,7 +139,7 @@ class AdvancedTrackView(object):
             ebox.testButton.clicked.connect(lambda ch3, ebx=ebox: self.play_test_sound(ebox=ebx))
             self.detailsQModeLayout.insertWidget(len(self.encoding_boxs) + 1, ebox.frame)
             self.encoding_boxs.append(ebox)
-        #self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
+        # self.filterPlainTextEdit.setPlainText(self.model.filter.get_current_filter())
 
     def set_octave(self):
         self.track.pencodings[self.key].ctrl.change_octave(self.octaveSpinBox.text())
@@ -155,7 +154,9 @@ class AdvancedTrackView(object):
         value = self.track.pencodings["value"].get_parameter_from_variable(ebox.checkbox.text())
         duration = self.track.pencodings["duration"].get_parameter_from_variable(ebox.checkbox.text())
         velocity = self.track.pencodings["velocity"].get_parameter_from_variable(ebox.checkbox.text())
-        self.parent.model.ctrl.play_note(TNote(tfactor=0, channel=self.track.id, id=0, duration=duration, velocity=velocity, value=value, void=False))
+        self.parent.model.ctrl.play_note(
+            TNote(tfactor=0, channel=self.track.id, id=0, duration=duration, velocity=velocity, value=value,
+                  void=False))
 
     def add_encoding_box(self):
         """
@@ -180,8 +181,7 @@ class AdvancedTrackView(object):
 
         encoding_spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        #encoding_h_layout.addItem(encoding_spacer)
-
+        # encoding_h_layout.addItem(encoding_spacer)
 
         size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         size_policy.setHorizontalStretch(0)
@@ -277,8 +277,7 @@ class AdvancedTrackView(object):
         self.applyToAllButton.setStyleSheet(buttonStyle)
         self.applyToAllButton.setToolTip("Apply the default value to all the encoding below.")
 
-
-        self.variableGridLayout = QGridLayout()#self.controlFrame)
+        self.variableGridLayout = QGridLayout()  # self.controlFrame)
         self.variableGridLayout.setObjectName(u"variableGridLayout")
 
         self.variableLabel = QLabel(self.controlFrame)
@@ -296,7 +295,6 @@ class AdvancedTrackView(object):
         self.variableComboBox.setToolTip("Select a variable to filter and/or encode")
 
         self.variableGridLayout.addWidget(self.variableComboBox, 0, 1, 1, 1)
-
 
         # self.horizontalSpacerOctave = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         # self.gridLayout_2.addItem(self.horizontalSpacerOctave, 2, 2, 1, 1)
@@ -330,8 +328,7 @@ class AdvancedTrackView(object):
         self.qualitiveModeOptionsLayout.addWidget(self.checkAllButton, 0, 4, 1, 1)
         self.qualitiveModeOptionsLayout.addWidget(self.switchAllCheckButton, 1, 4, 1, 1)
         self.qualitiveModeOptionsLayout.addLayout(self.octaveLayout, 1, 1, 1, 1)
-        #self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
-
+        # self.gridLayout.addWidget(self.SettingsFrame, 0, 0, 1, 1)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 

@@ -1,10 +1,10 @@
 from __future__ import annotations
-import math
+
 import threading
 
 import Models.settings_model as ts
-from Utils.utils import is_int, is_float
 import ViewsPyQT5.settings_view as sv
+from Utils.utils import is_int, is_float
 
 
 class SettingsCtrl():

@@ -1,6 +1,4 @@
-import logging
 import threading
-from collections import deque
 
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QFileDialog
@@ -20,6 +18,7 @@ class SonificationView(QWidget):
     Main view for the sonification process, handling both configuration and representation of the loaded data.
     """
     messageChanged = pyqtSignal(str)
+
     # TODO: Add fast forward and backward +x/-x seconds
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
@@ -75,7 +74,8 @@ class SonificationView(QWidget):
                                                   "saved_music", "Wav file (*.wav)")
         if check:
             self.set_status_text("writing {}".format(file))
-            threading.Thread(target=self.model.ctrl.export_music, args=[file], daemon=True, name="export_music_thread").start()
+            threading.Thread(target=self.model.ctrl.export_music, args=[file], daemon=True,
+                             name="export_music_thread").start()
 
     def export_all_tracks(self):
         file, check = QFileDialog.getSaveFileName(None, "Save project",

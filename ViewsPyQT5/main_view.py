@@ -9,7 +9,7 @@ from Models.music_model import Music
 from ViewsPyQT5.sonification_view import SonificationView
 
 
-# Subclass QMainWindow to customize your application's main window
+# Subclass QMainWindow to customize the application's main window
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -30,11 +30,6 @@ class MainWindow(QMainWindow):
         self.menubar.setObjectName(u"menubar")
         self.menuFile = self.menubar.addMenu("File")
         self.menuFile.setObjectName(u"menuFile")
-        #self.menuEdit = self.menubar.addMenu("Edit")
-        #self.menuEdit.setObjectName(u"menuEdit")
-
-        #self.menuAbout = self.menubar.addAction("About")
-        #self.menuAbout.setObjectName(u"menuEdit")
 
         self.dataAction = QAction('Import data\tCtrl+D', self)
         self.dataActionShortcut = QShortcut(QKeySequence("Ctrl+D"), self)
@@ -63,7 +58,6 @@ class MainWindow(QMainWindow):
         self.exitAction = QAction('Exit', self)
         self.menuFile.addAction(self.exitAction)
 
-        #self.menuEdit.addAction(QAction('Undo', self))
         self.setMenuBar(self.menubar)
 
         self.exportAction.triggered.connect(self.sonification_main_widget.export_music)

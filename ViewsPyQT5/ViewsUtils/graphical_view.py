@@ -1,7 +1,5 @@
 from __future__ import annotations
-import ViewsPyQT5.sonification_view as sv
 
-import math
 import threading
 import time
 from collections import deque
@@ -14,12 +12,13 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.qt_compat import QtWidgets
 from matplotlib.figure import Figure
 
+import ViewsPyQT5.sonification_view as sv
 from Models.music_model import Music
 
 
 class GraphView():
 
-    def __init__(self, parent:sv.SonificationView):
+    def __init__(self, parent: sv.SonificationView):
         self.parent = parent
         self.music_model = Music().getInstance()
 
@@ -46,7 +45,8 @@ class GraphView():
         self.setup_canvas()
         self.layout.addWidget(self.dynamic_canvas)
 
-        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True, name="graphical_canvas_moving_thread")
+        self.movingGraphThread = threading.Thread(target=self.moving_canvas, daemon=True,
+                                                  name="graphical_canvas_moving_thread")
         self.movingGraphThread.start()
 
     def setup_canvas(self):
@@ -57,13 +57,13 @@ class GraphView():
         self.colorbar = self.figure.colorbar(self.line, ax=self.ax)
         self.ax.set_ylabel("Midi note (Midi Tuning Standard, Hz)")
         self.ax.set_xlabel("Time (seconds)")
-        self.startx = int(- self.lookBackward * self.timeWindow/1000)
-        self.endx = int(self.timeWindow/1000 + 1 + self.startx)
-        self.stepx = int(self.timeWindow/5000)
+        self.startx = int(- self.lookBackward * self.timeWindow / 1000)
+        self.endx = int(self.timeWindow / 1000 + 1 + self.startx)
+        self.stepx = int(self.timeWindow / 5000)
         xlabels = np.arange(self.startx, self.endx, self.stepx)
         xticks = np.arange(0, 1100, 200)
         self.ax.set_xticks(xticks, xlabels)
-        #self.ax.set_xticklabels(xlabels)
+        # self.ax.set_xticklabels(xlabels)
         self.movingBar = self.ax.axvline(x=self.movingBarPos, color="darkred")
         self.colorbar.ax.set_xlabel("Volume")
 

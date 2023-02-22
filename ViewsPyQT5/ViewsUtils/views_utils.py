@@ -1,7 +1,5 @@
 from collections import namedtuple
 
-from PyQt5.QtWidgets import QSlider, QStyle
-
 GTrackView = namedtuple('gTrack', ["frame", "deleteButton", "duplicateButton","selectButton", "hLayout"])
 
 

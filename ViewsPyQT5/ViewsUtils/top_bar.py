@@ -2,38 +2,36 @@ from __future__ import annotations
 
 import logging
 
-import ViewsPyQT5.sonification_view as sv
-
-import threading
-import time
-
 from PyQt5.QtCore import QSize, Qt, pyqtSignal, QObject, QThread
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QHBoxLayout, QSizePolicy, QPushButton, QSpacerItem, QFrame, QSlider, QGridLayout, \
-    QProgressBar, QLabel, QStyle
+    QLabel, QStyle
 
+import ViewsPyQT5.sonification_view as sv
 from Models.music_model import Music
-from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, progressBarStyle, sliderGainStyle, playButtonReadyStyle, \
-    sliderOffsetStyle, sliderProgressStyle
+from ViewsPyQT5.ViewsUtils.views_utils import buttonStyle, sliderGainStyle, playButtonReadyStyle, \
+    sliderProgressStyle
 
-class QJumpSlider(QSlider): #TODO: Change music value on click
+
+class QJumpSlider(QSlider):  # TODO: Change music value on click
     def __init__(self, parent=None):
         super(QJumpSlider, self).__init__(parent)
-
 
     def mousePressEvent(self, event):
         # Jump to click position
         position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
-        #self.setValue(position)
+        # self.setValue(position)
 
     def mouseMoveEvent(self, event):
         # Jump to pointer position while moving
         position = QStyle.sliderValueFromPosition(self.minimum(), self.maximum(), event.x(), self.width())
-        #self.setValue(position)
+        # self.setValue(position)
+
 
 class TopSettingsBar(QObject):
     progressBarSignal = pyqtSignal(int, name="ProgressBarSignal")
-    def __init__(self, parent:sv.SonificationView):
+
+    def __init__(self, parent: sv.SonificationView):
         super(TopSettingsBar, self).__init__()
         self.parent = parent
         self.progress_bar_thread = External(parent=self)
@@ -124,7 +122,7 @@ class TopSettingsBar(QObject):
         self.musicProgressBar.setObjectName(u"musicProgressBar")
         self.musicProgressBar.setValue(0)
         self.musicProgressBar.setSliderPosition(0)
-        #self.musicProgressBar.setTextVisible(False)
+        # self.musicProgressBar.setTextVisible(False)
         self.musicProgressBar.setStyleSheet(sliderProgressStyle)
         self.musicProgressBar.setMaximumSize(5000, 7)
         self.musicProgressBar.setContentsMargins(0, 0, 0, 10)
@@ -230,7 +228,7 @@ class TopSettingsBar(QObject):
         self.PPButton.clicked.connect(self.press_pp_button)
         self.StopButton.clicked.connect(self.press_stop_button)
         self.SettingsButton.clicked.connect(self.press_settings_button)
-        #self.progressBarSignal.connect(self.musicProgressBar.setValue)
+        # self.progressBarSignal.connect(self.musicProgressBar.setValue)
         self.progress_bar_thread.progressBarSignal.connect(self.musicProgressBar.setValue)
         self.progress_bar_thread.start()
         self.GainSlider.setValue(self.music_model.gain)
@@ -287,14 +285,13 @@ class TopSettingsBar(QObject):
         self.FfwButton.setText("")
 
 
-
 class External(QThread):
     """
     Runs a counter thread.
     """
     progressBarSignal = pyqtSignal(int)
 
-    def __init__(self, parent:TopSettingsBar):
+    def __init__(self, parent: TopSettingsBar):
         super(External, self).__init__()
         self.parent = parent
 
@@ -310,7 +307,8 @@ class External(QThread):
             try:
                 self.parent.musicEndLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(eh, em, es))
                 self.parent.musicStartLabel.setText("{:02.0f}:{:02.0f}:{:02.0f}".format(sh, sm, ss))
-                self.progressBarSignal.emit(min(99, int(100 * mtime / self.parent.parent.model.settings.get_music_duration())))
+                self.progressBarSignal.emit(
+                    min(99, int(100 * mtime / self.parent.parent.model.settings.get_music_duration())))
             except RuntimeError:
                 print("Runtime error on updating music start and end label.")
             QThread.msleep(int(1000 / 5))

@@ -1,26 +1,22 @@
 from __future__ import annotations
+
+import math
+from collections import namedtuple
+
+import Models.data_model as data_model
+import Models.track_model as track
+from Models.parameter_encoding_model import ParameterEncoding
+
 # from typing import TYPE_CHECKING
 # if TYPE_CHECKING:
 #     from Models.track_model import Track
 # Allows to use type hint while preventing cyclic imports
-
-import math
-
-import pandas as pd
-from pandas import DataFrame
-
-import Models.track_model as track
-from collections import namedtuple
-
-import Models.data_model as data_model
-from Models.parameter_encoding_model import ParameterEncoding
 
 _note_dict = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 NNote = namedtuple('NNote', 'tfactor channel value velocity duration void id')
 TNote = namedtuple('TNote', ['tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
 ANote = namedtuple('TNote', ['timing', 'tfactor', 'channel', 'value', 'velocity', 'duration', 'void', 'id'])
 CNote = namedtuple('CNote', ['channel', 'value', 'velocity', 'duration'])
-
 
 
 class NoteData:
@@ -35,7 +31,7 @@ class NoteData:
     def __init__(self):
         if NoteData._instance is None:
             self.df = None
-            self.data:data_model.Data = None
+            self.data: data_model.Data = None
             self.tracks = None
             self.tracks_note = None
             NoteData._instance = self
@@ -53,7 +49,7 @@ class NoteData:
         raise NotImplementedError()
         notes = self.data.current_dataset.apply(lambda x: self.create_note(x), axis=1)
         for track in self.tracks:
-            notes = self.data.current_dataset.apply(lambda x:self.create_note(x), axis=1)
+            notes = self.data.current_dataset.apply(lambda x: self.create_note(x), axis=1)
             self.tracks_note.append(notes)
 
     def update(self, track_id: int, parmeter_encoding: ParameterEncoding):
@@ -64,7 +60,6 @@ class NoteData:
 
     def find_index_from_time(self, tfactor: float) -> int:
         return self.df.indexof(tfactor)
-
 
 
 def is_valid_note(note):

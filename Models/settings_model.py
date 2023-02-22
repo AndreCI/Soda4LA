@@ -4,11 +4,10 @@ import os.path
 
 import numpy
 
-from Ctrls.settings_controller import SettingsCtrl
-
 # TODO add other time settings
 import Models.data_model as data_model
 import Models.music_model as music
+from Ctrls.settings_controller import SettingsCtrl
 from Utils.constants import TIME_SETTINGS_OPTIONS, BATCH_SIZE, TIME_BUFFER, BATCH_NBR_PLANNED, SAMPLE_SIZE
 
 
@@ -18,7 +17,7 @@ class GeneralSettings:
     respective data lignes.
     """
 
-    def __init__(self, music : music.Music):
+    def __init__(self, music: music.Music):
         # Other models
         self.music = music
         self.data = data_model.Data.getInstance()
@@ -77,7 +76,6 @@ class GeneralSettings:
         else:
             self.ctrl.write_to_ini()
 
-
     def __getstate__(self):
         state = self.__dict__.copy()
         del state["data"]
@@ -95,28 +93,31 @@ class GeneralSettings:
         self.type = self.possible_types[0]
 
     def get_music_duration(self) -> int:
-        md = int(float(self.data.get_size())/1.5) if self.musicDuration is None else self.musicDuration
-        if(self.type == self.possible_types[1]):
+        md = int(float(self.data.get_size()) / 1.5) if self.musicDuration is None else self.musicDuration
+        if (self.type == self.possible_types[1]):
             bpm = int(round(60 * float(self.data.get_size()) / md))
             aoffset = float(self.tempoDurValue) / (100 * bpm / 60)  # [0-100] to s
-            aoffset = numpy.trunc((self.data.get_size() + (self.tempoNValue-1 + self.tempoOffsetValue)) / self.tempoNValue) * float(aoffset)
+            aoffset = numpy.trunc(
+                (self.data.get_size() + (self.tempoNValue - 1 + self.tempoOffsetValue)) / self.tempoNValue) * float(
+                aoffset)
             md += aoffset
         return md
-    def reset_music_duration(self) -> None:
-        self.musicDuration = int(float(self.data.get_size())/1.5)
 
-    def get_bpm(self) ->float: #bpm = size/length
+    def reset_music_duration(self) -> None:
+        self.musicDuration = int(float(self.data.get_size()) / 1.5)
+
+    def get_bpm(self) -> float:  # bpm = size/length
         return int(round(60 * float(self.data.get_size()) / self.get_music_duration()))
 
-    def set_bpm(self, bpm): #length = size/bpm
-        self.musicDuration = int(round(60 * float(self.data.get_size())/float(bpm)))
+    def set_bpm(self, bpm):  # length = size/bpm
+        self.musicDuration = int(round(60 * float(self.data.get_size()) / float(bpm)))
 
-    def set_type(self, type: str)->None:
+    def set_type(self, type: str) -> None:
         if (type not in self.possible_types):
             raise NotImplementedError()
         self.type = type
 
-    def set_attribute(self, minVal:float, maxVal:float, idMax:int)->None:
+    def set_attribute(self, minVal: float, maxVal: float, idMax: int) -> None:
         """
         Setup attributes needed to compute later a temporal position
         :param minVal: float,
@@ -130,7 +131,7 @@ class GeneralSettings:
         self.maxVal = maxVal
         self.idMax = idMax
         if not self.musicDuration:
-            self.musicDuration = int(float(idMax)/1.5)
+            self.musicDuration = int(float(idMax) / 1.5)
 
     def get_temporal_position(self, current, offset=0) -> float:
         """
@@ -147,16 +148,18 @@ class GeneralSettings:
                                                                          self.maxVal))
         distance = self.maxVal - self.minVal
 
-        offset = float(offset)/(100*self.get_bpm()/60) #[0-100] to s
-        offset = float(offset) / float(self.get_music_duration()) #s to tfactor
+        offset = float(offset) / (100 * self.get_bpm() / 60)  # [0-100] to s
+        offset = float(offset) / float(self.get_music_duration())  # s to tfactor
 
         if self.type == self.possible_types[2]:
             return_value = offset + (current["internal_timestamp"] - self.minVal) / float(
                 distance)  # (ratio - min) * current
         elif self.type == self.possible_types[1]:
             aoffset = float(self.tempoDurValue) / (100 * self.get_bpm() / 60)  # [0-100] to s
-            aoffset = numpy.trunc((current["internal_id"] + (self.tempoNValue-1 + self.tempoOffsetValue)) / self.tempoNValue) * float(aoffset) / float(self.get_music_duration())  # s to tfactor
-            return_value =aoffset + offset + float(current["internal_id"]) / float(self.idMax)
+            aoffset = numpy.trunc(
+                (current["internal_id"] + (self.tempoNValue - 1 + self.tempoOffsetValue)) / self.tempoNValue) * float(
+                aoffset) / float(self.get_music_duration())  # s to tfactor
+            return_value = aoffset + offset + float(current["internal_id"]) / float(self.idMax)
         elif self.type == self.possible_types[0]:
             return_value = offset + float(current["internal_id"]) / float(self.idMax)
         else:

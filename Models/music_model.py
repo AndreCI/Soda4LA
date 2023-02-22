@@ -2,14 +2,14 @@ import itertools
 import time
 from queue import PriorityQueue
 
-import pandas as pd
 from midiutil.MidiFile import MIDIFile
 
+import Models.data_model as data_model
 from Ctrls.music_controller import MusicCtrl
 from Models import note_model
-import Models.data_model as data_model
 from Models.settings_model import GeneralSettings
 from Models.track_model import Track
+
 
 class Music:
     """
@@ -21,7 +21,7 @@ class Music:
 
     def generate_track_id(self):
         id = next(self.track_newid)
-        while(str(id) in self.tracks.keys()):
+        while (str(id) in self.tracks.keys()):
             id = next(self.track_newid)
         return id
 
@@ -124,9 +124,9 @@ class Music:
             evaluated_data = track.filter_batch(self.data.current_dataset, False)
             notes = evaluated_data.apply(lambda x: track.build_note2(x), axis=1)
             self.tracks_note[str(track.id)] = notes
-        #print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
+        # print("done in {} for {} lines".format(time.perf_counter() - t1, len(self.tracks_note["0"])))
 
-    def generate(self): 
+    def generate(self):
         """
         Threaded.
         Produce at regular intervals a note, based on data and tracks configuration and put it into self.notes
@@ -143,7 +143,7 @@ class Music:
             # Usually hang on this ^^^
             if not self.ctrl.playing:  # Check if semaphore was acquired while stop was pressed
                 self.ctrl.emptySemaphore.release(n=max_note_nbr)  # Release if so, and return to start of loop to wait
-            elif(not self.data.get_next().empty):
+            elif (not self.data.get_next().empty):
                 current_data = self.data.get_next(iterate=True)  # get the next batch
                 self.ctrl.push_data_to_table(current_data)  # display
                 self.ctrl.queueSemaphore.acquire()  # Check if the queue is unused - can hang here
@@ -179,7 +179,7 @@ class Music:
         if generate_view:
             self.sonification_view.trackView.add_track(track)
 
-    def remove_track(self, track : Track) -> None:
+    def remove_track(self, track: Track) -> None:
 
         # with self.ctrl.trackSemaphore:
         del self.tracks[str(track.id)]
